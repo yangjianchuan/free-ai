@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="bootstrap-5.3.0-alpha1-dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+  <title>冻死企鹅导航</title>
+  <style>
+    body {
+      font-family: 'Roboto', Arial, sans-serif;
+      background-color: #f9f9f9;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      padding: 20px;
+      flex-grow: 1;
+      align-items: center;
+    }
+
+    .card {
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+      width: 300px;
+      border-radius: 0.5rem;
+      margin-bottom: 20px;
+      background-color: #ffffff;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card:hover {
+      box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+      transform: translateY(-5px);
+    }
+
+    .card-img-top {
+      height: 200px;
+      object-fit: cover;
+      border-radius: 0.5rem 0.5rem 0 0;
+    }
+
+    .card-body {
+      padding: 1.5rem;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .card-title {
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      text-align: center;
+      color: #2c3e50;
+    }
+
+    .card-text {
+      font-size: 16px;
+      color: #34495e;
+      text-align: center;
+      height: 100px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      text-decoration: none;
+      color: #ffffff;
+      font-size: 18px;
+      padding: 10px 25px;
+      border-radius: 4px;
+      border: none;
+      background-color: #ff7f50;
+      margin-top: 1em;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      display: inline-block;
+      text-align: center;
+    }
+
+    .btn:hover {
+      background-color: #ff6347;
+      color: #fff;
+    }
+
+    .header {
+      background-color: #2980b9;
+      color: #f5f5f5;
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .header t {
+      font-size: 28px;
+      text-align: center;
+    }
+
+    .header d {
+      font-size: 16px;
+      text-align: center;
+    }
+
+    footer {
+      background-color: #2980b9;
+      color: #ffffff;
+      padding: 20px;
+      text-align: center;
+      font-size: 14px;
+      margin-top: auto;
+    }
+
+    p {
+      margin-bottom: 0.5em;
+      font-weight: 300;
+    }
+  </style>
+</head>
+
+<body>
+  <header class="header">
+    <t>冻死企鹅网站导航</t>
+    <d>这是一个公益网站，不会有任何的付费服务。</d>
+    <a href="https://b23.tv/pzA653J" style="color: white;">冻死企鹅b站首页</a>
+  </header>
+
+
+  <div class="container">
+
+    <div class="card">
+      <img src="chatgpt-logo.jpg" class="card-img-top" alt="ChimeraGPT">
+      <div class="card-body">
+        <h5 class="card-title">LibreChat</h5>
+        <p class="card-text">使用 ChimeraGPT 接口搭建的站点，也可以当pandora使用，也可以当bing镜像使用。</p>
+        <a href="https://gpt.dongsiqie.me" class="btn">开始聊天</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="bing.png" class="card-img-top" alt="ChimeraGPT">
+      <div class="card-body">
+        <h5 class="card-title">sydney</h5>
+        <p class="card-text">国内可访问的 New Bing 镜像sydney模式。<br>
+
+        </p>
+        <a href="http://sydney.dongsiqie.me" class="btn">开始聊天</a>
+
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="chatgpt-logo.jpg" class="card-img-top" alt="ChimeraGPT">
+      <div class="card-body">
+        <h5 class="card-title">ChatGPT Next Web</h5>
+        <p class="card-text">使用 ChimeraGPT 接口搭建的站点，使用 GPT-4 可能会出现 GPT-3.5 的回复。每个模型都有频率限制，一个被限速就切换别的模型。</p>
+        <a href="https://chat.dongsiqie.me" class="btn">开始聊天</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="bing.png" class="card-img-top" alt="ChimeraGPT">
+      <div class="card-body">
+        <h5 class="card-title">New Bing</h5>
+        <p class="card-text">国内可访问的 New Bing 镜像,但是绕过验证比较麻烦。<br>
+
+        </p>
+        <a href="http://bing.dongsiqie.me" class="btn">开始聊天</a>
+
+      </div>
+    </div>
+    <div class="card">
+      <img src="chatgpt-logo.jpg" class="card-img-top" alt="Magic">
+      <div class="card-body">
+        <h5 class="card-title">pandora</h5>
+        <p class="card-text">免魔法登陆ChatGPT，需要自己有账号和密码。
+        </p>
+        <a href="https://pandora.dongsiqie.me" class="btn">开始聊天</a>
+      </div>
+    </div>
+    <div class="card">
+      <img src="chatgpt-logo.jpg" class="card-img-top" alt="ChimeraGPT">
+      <div class="card-body">
+        <h5 class="card-title">MAGIC</h5>
+        <p class="card-text">免费使用GPT-4的公益网站，可以私信up申请自己单独的KEY。<br>
+          <a href="https://space.bilibili.com/1485535">@NINOMAE1001</a>
+        </p>
+        <a href="https://magic.ninomae.top/zh" class="btn">开始聊天</a>
+      </div>
+    </div>
+
+  </div>
+
+
+  <footer>
+    <p>保护好自己的隐私，不要发送重要的数据。</p>
+    <p>本站提供的 AI 服务仅供学习与研究使用，请勿用于非法用途。</p>
+  </footer>
+
+  <script src="bootstrap-5.3.0-alpha1-dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+</body>
+
+</html>
