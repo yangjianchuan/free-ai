@@ -26,9 +26,15 @@
     <label for="u-value">_U 的值，点击文本框可以复制：</label>
     <textarea id="u-value" rows="2" cols="150" readonly onclick="copyToClipboard(this)"></textarea>
     <br>
+    <label for="kiev-value">KievRPSSecAuth 的值，点击文本框可以复制：</label>
+    <textarea id="kiev-value" rows="2" cols="150" readonly onclick="copyToClipboard(this)"></textarea>
+    <br>
     <label for="rwb-value">_RwBf 的值，点击文本框可以复制：</label>
     <textarea id="rwb-value" rows="4" cols="150" readonly onclick="copyToClipboard(this)"></textarea>
     <br>
+    <!-- <label for="muid-value">MUID 的值，点击文本框可以复制：</label>
+    <textarea id="muid-value" rows="2" cols="150" readonly onclick="copyToClipboard(this)"></textarea>
+    <br> -->
 
     <script>
         function copyToClipboard(textarea) {
@@ -38,9 +44,15 @@
             const cookieInput = document.getElementById("cookie-input");
             const uValue = document.getElementById("u-value");
             const rwbValue = document.getElementById("rwb-value");
+            // 添加以下两个变量
+            const kievValue = document.getElementById("kiev-value");
+            const muidValue = document.getElementById("muid-value");
             const cookie = cookieInput.value;
             const uIndex = cookie.indexOf("_U=");
             const rwbIndex = cookie.indexOf("_RwBf=");
+            // 添加以下两个变量
+            const kievIndex = cookie.indexOf("KievRPSSecAuth=");
+            const muidIndex = cookie.indexOf("MUID=");
             if (uIndex !== -1) {
                 const uEndIndex = cookie.indexOf(";", uIndex);
                 uValue.value = cookie.substring(uIndex + 3, uEndIndex !== -1 ? uEndIndex : cookie.length);
@@ -48,6 +60,15 @@
             if (rwbIndex !== -1) {
                 const rwbEndIndex = cookie.indexOf(";", rwbIndex);
                 rwbValue.value = cookie.substring(rwbIndex + 6, rwbEndIndex !== -1 ? rwbEndIndex : cookie.length);
+            }
+            // 添加以下两段代码
+            if (kievIndex !== -1) {
+                const kievEndIndex = cookie.indexOf(";", kievIndex);
+                kievValue.value = cookie.substring(kievIndex + 15, kievEndIndex !== -1 ? kievEndIndex : cookie.length);
+            }
+            if (muidIndex !== -1) {
+                const muidEndIndex = cookie.indexOf(";", muidIndex);
+                muidValue.value = cookie.substring(muidIndex + 5, muidEndIndex !== -1 ? muidEndIndex : cookie.length);
             }
         }
     </script>
