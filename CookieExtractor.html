@@ -16,7 +16,9 @@
 
 <body>
     <h1>Cookie 参数提取器</h1>
-    <label for="cookie-input">请输入 Cookie：</label>
+    <p> 这是一个纯前端的工具，不会后台保存你的cookie。</p>
+    <p> KievRPSSecAuth 没有就不要填写，MUID不要用你自己cookie中的，不要改MUID。</p>
+    <label for="cookie-input">请输入 完整的Cookie：</label>
     <br>
     <textarea id="cookie-input" rows="5" cols="150" onchange="extractCookie()"></textarea>
     <div>   
@@ -32,9 +34,7 @@
     <label for="rwb-value">_RwBf 的值，点击文本框可以复制：</label>
     <textarea id="rwb-value" rows="4" cols="150" readonly onclick="copyToClipboard(this)"></textarea>
     <br>
-    <!-- <label for="muid-value">MUID 的值，点击文本框可以复制：</label>
-    <textarea id="muid-value" rows="2" cols="150" readonly onclick="copyToClipboard(this)"></textarea>
-    <br> -->
+
 
     <script>
         function copyToClipboard(textarea) {
