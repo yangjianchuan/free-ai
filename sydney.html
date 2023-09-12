@@ -205,6 +205,87 @@ mark .md-meta { color: rgb(0, 0, 0); }
 mjx-container { break-inside: avoid; }
 
 
+.CodeMirror { height: auto; }
+.CodeMirror.cm-s-inner { background: inherit; }
+.CodeMirror-scroll { overflow: auto hidden; z-index: 3; }
+.CodeMirror-gutter-filler, .CodeMirror-scrollbar-filler { background-color: rgb(255, 255, 255); }
+.CodeMirror-gutters { border-right: 1px solid rgb(221, 221, 221); background: inherit; white-space: nowrap; }
+.CodeMirror-linenumber { padding: 0px 3px 0px 5px; text-align: right; color: rgb(153, 153, 153); }
+.cm-s-inner .cm-keyword { color: rgb(119, 0, 136); }
+.cm-s-inner .cm-atom, .cm-s-inner.cm-atom { color: rgb(34, 17, 153); }
+.cm-s-inner .cm-number { color: rgb(17, 102, 68); }
+.cm-s-inner .cm-def { color: rgb(0, 0, 255); }
+.cm-s-inner .cm-variable { color: rgb(0, 0, 0); }
+.cm-s-inner .cm-variable-2 { color: rgb(0, 85, 170); }
+.cm-s-inner .cm-variable-3 { color: rgb(0, 136, 85); }
+.cm-s-inner .cm-string { color: rgb(170, 17, 17); }
+.cm-s-inner .cm-property { color: rgb(0, 0, 0); }
+.cm-s-inner .cm-operator { color: rgb(152, 26, 26); }
+.cm-s-inner .cm-comment, .cm-s-inner.cm-comment { color: rgb(170, 85, 0); }
+.cm-s-inner .cm-string-2 { color: rgb(255, 85, 0); }
+.cm-s-inner .cm-meta { color: rgb(85, 85, 85); }
+.cm-s-inner .cm-qualifier { color: rgb(85, 85, 85); }
+.cm-s-inner .cm-builtin { color: rgb(51, 0, 170); }
+.cm-s-inner .cm-bracket { color: rgb(153, 153, 119); }
+.cm-s-inner .cm-tag { color: rgb(17, 119, 0); }
+.cm-s-inner .cm-attribute { color: rgb(0, 0, 204); }
+.cm-s-inner .cm-header, .cm-s-inner.cm-header { color: rgb(0, 0, 255); }
+.cm-s-inner .cm-quote, .cm-s-inner.cm-quote { color: rgb(0, 153, 0); }
+.cm-s-inner .cm-hr, .cm-s-inner.cm-hr { color: rgb(153, 153, 153); }
+.cm-s-inner .cm-link, .cm-s-inner.cm-link { color: rgb(0, 0, 204); }
+.cm-negative { color: rgb(221, 68, 68); }
+.cm-positive { color: rgb(34, 153, 34); }
+.cm-header, .cm-strong { font-weight: 700; }
+.cm-del { text-decoration: line-through; }
+.cm-em { font-style: italic; }
+.cm-link { text-decoration: underline; }
+.cm-error { color: red; }
+.cm-invalidchar { color: red; }
+.cm-constant { color: rgb(38, 139, 210); }
+.cm-defined { color: rgb(181, 137, 0); }
+div.CodeMirror span.CodeMirror-matchingbracket { color: rgb(0, 255, 0); }
+div.CodeMirror span.CodeMirror-nonmatchingbracket { color: rgb(255, 34, 34); }
+.cm-s-inner .CodeMirror-activeline-background { background: inherit; }
+.CodeMirror { position: relative; overflow: hidden; }
+.CodeMirror-scroll { height: 100%; outline: 0px; position: relative; box-sizing: content-box; background: inherit; }
+.CodeMirror-sizer { position: relative; }
+.CodeMirror-gutter-filler, .CodeMirror-hscrollbar, .CodeMirror-scrollbar-filler, .CodeMirror-vscrollbar { position: absolute; z-index: 6; display: none; outline: 0px; }
+.CodeMirror-vscrollbar { right: 0px; top: 0px; overflow: hidden; }
+.CodeMirror-hscrollbar { bottom: 0px; left: 0px; overflow: auto hidden; }
+.CodeMirror-scrollbar-filler { right: 0px; bottom: 0px; }
+.CodeMirror-gutter-filler { left: 0px; bottom: 0px; }
+.CodeMirror-gutters { position: absolute; left: 0px; top: 0px; padding-bottom: 10px; z-index: 3; overflow-y: hidden; }
+.CodeMirror-gutter { white-space: normal; height: 100%; box-sizing: content-box; padding-bottom: 30px; margin-bottom: -32px; display: inline-block; }
+.CodeMirror-gutter-wrapper { position: absolute; z-index: 4; background: 0px 0px !important; border: none !important; }
+.CodeMirror-gutter-background { position: absolute; top: 0px; bottom: 0px; z-index: 4; }
+.CodeMirror-gutter-elt { position: absolute; cursor: default; z-index: 4; }
+.CodeMirror-lines { cursor: text; }
+.CodeMirror pre { border-radius: 0px; border-width: 0px; background: 0px 0px; font-family: inherit; font-size: inherit; margin: 0px; white-space: pre; overflow-wrap: normal; color: inherit; z-index: 2; position: relative; overflow: visible; }
+.CodeMirror-wrap pre { overflow-wrap: break-word; white-space: pre-wrap; word-break: normal; }
+.CodeMirror-code pre { border-right: 30px solid transparent; width: fit-content; }
+.CodeMirror-wrap .CodeMirror-code pre { border-right: none; width: auto; }
+.CodeMirror-linebackground { position: absolute; inset: 0px; z-index: 0; }
+.CodeMirror-linewidget { position: relative; z-index: 2; overflow: auto; }
+.CodeMirror-wrap .CodeMirror-scroll { overflow-x: hidden; }
+.CodeMirror-measure { position: absolute; width: 100%; height: 0px; overflow: hidden; visibility: hidden; }
+.CodeMirror-measure pre { position: static; }
+.CodeMirror div.CodeMirror-cursor { position: absolute; visibility: hidden; border-right: none; width: 0px; }
+.CodeMirror div.CodeMirror-cursor { visibility: hidden; }
+.CodeMirror-focused div.CodeMirror-cursor { visibility: inherit; }
+.cm-searching { background: rgba(255, 255, 0, 0.4); }
+span.cm-underlined { text-decoration: underline; }
+span.cm-strikethrough { text-decoration: line-through; }
+.cm-tw-syntaxerror { color: rgb(255, 255, 255); background-color: rgb(153, 0, 0); }
+.cm-tw-deleted { text-decoration: line-through; }
+.cm-tw-header5 { font-weight: 700; }
+.cm-tw-listitem:first-child { padding-left: 10px; }
+.cm-tw-box { border-style: solid; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-color: inherit; border-top-width: 0px !important; }
+.cm-tw-underline { text-decoration: underline; }
+@media print {
+  .CodeMirror div.CodeMirror-cursor { visibility: hidden; }
+}
+
+
 :root {
     --side-bar-bg-color: #fafafa;
     --control-text-color: #777;
@@ -591,9 +672,9 @@ header, .context-menu, .megamenu-content, footer{
 
 
 
-</style><title>bing</title>
+</style><title>sydney</title>
 </head>
 <body class='typora-export os-windows'><div class='typora-export-content'>
-<div id='write'  class=''><h1 id='go-proxy-bingai演示站'><span>go-proxy-bingai演示站</span></h1><h2 id='sokwith内置了账号的镜像'><span>SokWith内置了账号的镜像</span></h2><p><mark><span>注意共享账号别人会看到你的聊天记录</span></mark><span>，注意个人隐私和数据安全</span></p><p><a href='https://github.com/SokWith'><span>@SokWith</span></a><span> 提供</span></p><ul><li><p><span>Replit部署 (ID:cf0203sw01)</span></p></li></ul><p><a href='https://replit.nbing.eu.org/'><span>https://replit.nbing.eu.org</span></a></p><ul><li><p><span>Vercel部署 (ID:cf01)</span></p></li></ul><p><a href='https://vercel.nbing.eu.org/'><span>https://vercel.nbing.eu.org</span></a></p><ul><li><p><span>Cloudflare部署 (ID:cf00)</span></p></li></ul><p><a href='https://cfwk.nbing.eu.org/'><span>https://cfwk.nbing.eu.org</span></a></p><h2 id='作者的镜像'><span>作者的镜像</span></h2><p><span>注意只是有几率免登陆</span></p><ul><li><p><span>Azure + Docker</span></p></li></ul><p><span> </span><a href='https://bingai.zklcdc.xyz/'><span>https://bingai.zklcdc.xyz</span></a></p><h2 id='冻死企鹅的镜像'><span>冻死企鹅的镜像</span></h2><p><span>注意只是有几率免登陆</span></p><ul><li><p><span>最新版（有几率免登陆可以用）</span></p></li></ul><p><a href='https://dongsiqie-bingai.hf.space' target='_blank' class='url'>https://dongsiqie-bingai.hf.space</a></p><ul><li><p><span>V1.12旧版（有几率免登陆可以用）</span></p></li></ul><p><a href='https://dongsiqie-bing.hf.space' target='_blank' class='url'>https://dongsiqie-bing.hf.space</a></p><h2 id='github地址'><span>Github地址</span></h2><p><span>地址：</span><a href='https://github.com/Harry-zklcdc/go-proxy-bingai/wiki/%E6%BC%94%E7%A4%BA%E7%AB%99' target='_blank' class='url'>https://github.com/Harry-zklcdc/go-proxy-bingai/wiki/%E6%BC%94%E7%A4%BA%E7%AB%99</a></p></div></div>
+<div id='write'  class=''><h1 id='sydney官方演示站点'><span>sydney官方演示站点</span></h1><h2 id='官方render'><span>官方render</span></h2><p><span>第一次加载会很慢，稍等即可</span></p><p><a href='https://sd-zzna.onrender.com' target='_blank' class='url'>https://sd-zzna.onrender.com</a></p><p><a href='https://test1-8lsv.onrender.com' target='_blank' class='url'>https://test1-8lsv.onrender.com</a></p><h2 id='官方glitch'><span>官方glitch</span></h2><p><span>长时间没人访问会休眠，第一个访问的人需要多等一些时间</span></p><p><a href='https://abrupt-branched-screen.glitch.me' target='_blank' class='url'>https://abrupt-branched-screen.glitch.me</a></p><p><a href='https://cord-marred-badger.glitch.me' target='_blank' class='url'>https://cord-marred-badger.glitch.me</a></p><h2 id='官方hf'><span>官方hf</span></h2><p><span>有一定的几率不能免登陆，需要填写一个真实的</span><code>MUID</code><span>才能继续使用，比如下面这个值</span></p><pre class="md-fences md-end-block md-fences-with-lineno ty-contain-cm modeLoaded" spellcheck="false" lang=""><div class="CodeMirror cm-s-inner cm-s-null-scroll CodeMirror-wrap" lang=""><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 9.51875px; left: 36px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 28px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><span><span>​</span>x</span></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation"><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: -28px; width: 28px;"></div><div class="CodeMirror-gutter-wrapper CodeMirror-activeline-gutter" style="left: -28px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt CodeMirror-linenumber-show" style="left: 0px; width: 19px;">1</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">3397D5D8EA09658A0322C6A2EB1D646B</span></pre></div></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom: 0px solid transparent; top: 23px;"></div><div class="CodeMirror-gutters" style="height: 23px;"><div class="CodeMirror-gutter CodeMirror-linenumbers" style="width: 27px;"></div></div></div></div></pre><p><a href='https://rr1-test666.hf.space' target='_blank' class='url'>https://rr1-test666.hf.space</a></p><p><a href='https://rr1-test333.hf.space' target='_blank' class='url'>https://rr1-test333.hf.space</a></p><h2 id='冻死企鹅演示站'><span>冻死企鹅演示站</span></h2><p><a href='https://dongsiqie-sydney.hf.space' target='_blank' class='url'>https://dongsiqie-sydney.hf.space</a></p><p><a href='https://sydney.dongsiqie.me' target='_blank' class='url'>https://sydney.dongsiqie.me</a></p><h2 id='github地址'><span>Github地址</span></h2><p><span>来源1：</span><a href='https://github.com/SoraRoseous/ChatSydney-react' target='_blank' class='url'>https://github.com/SoraRoseous/ChatSydney-react</a></p><p><span>来源2：</span><a href='https://github.com/renqabs/img_test' target='_blank' class='url'>https://github.com/renqabs/img_test</a></p></div></div>
 </body>
 </html>

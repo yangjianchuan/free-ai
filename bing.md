@@ -1,10 +1,8 @@
 # go-proxy-bingai演示站
 
-原文地址：https://github.com/Harry-zklcdc/go-proxy-bingai/wiki/%E6%BC%94%E7%A4%BA%E7%AB%99
+## SokWith内置了账号的镜像
 
-## 内置了账号的镜像
-
-> 注意共享账号别人会看到你的聊天记录，注意个人隐私和数据安全
+==注意共享账号别人会看到你的聊天记录==，注意个人隐私和数据安全
 
 [@SokWith](https://github.com/SokWith) 提供
 
@@ -20,8 +18,26 @@
 
 [https://cfwk.nbing.eu.org](https://cfwk.nbing.eu.org/)
 
-## 作者免登陆的镜像
+## 作者的镜像
 
-- Azure + Docker（有几率免登陆可以用）
+注意只是有几率免登陆
+
+- Azure + Docker
 
  [https://bingai.zklcdc.xyz](https://bingai.zklcdc.xyz/)
+
+## 冻死企鹅的镜像
+
+注意只是有几率免登陆
+
+- 最新版（有几率免登陆可以用）
+
+https://dongsiqie-bingai.hf.space
+
+- V1.12旧版（有几率免登陆可以用）
+
+https://dongsiqie-bing.hf.space
+
+## Github地址
+
+地址：https://github.com/Harry-zklcdc/go-proxy-bingai/wiki/%E6%BC%94%E7%A4%BA%E7%AB%99
