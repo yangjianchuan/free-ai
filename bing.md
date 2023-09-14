@@ -38,6 +38,12 @@ https://dongsiqie-bingai.hf.space
 
 https://dongsiqie-bing.hf.space
 
+## 获取自己的cookie
+
+[通过微软虚拟机](wiki/bingcookie1.html)
+
+[通过Github Codespaces](wiki/bingcookie2.html)
+
 ## Github地址
 
 地址：https://github.com/Harry-zklcdc/go-proxy-bingai/wiki/%E6%BC%94%E7%A4%BA%E7%AB%99
