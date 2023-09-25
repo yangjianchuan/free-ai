@@ -28,6 +28,12 @@ https://dongsiqie-sydney.hf.space
 
 https://dongsiqie-chatsydney.hf.space
 
+## 获取自己的cookie
+
+[通过微软虚拟机](wiki/bingcookie1.html)
+
+[通过Github Codespaces](wiki/bingcookie2.html)
+
 ## Github地址
 
 来源1：https://github.com/SoraRoseous/ChatSydney-react

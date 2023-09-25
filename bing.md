@@ -1,3 +1,12 @@
+# bingo演示站
+- 作者V2.0免登陆演示站1
+
+[https://bing.github1s.tk/](https://bing.github1s.tk/)
+
+- 作者V2.0免登陆演示站2
+
+[https://bingo.weaigc.repl.co/](https://bingo.weaigc.repl.co/)
+
 # go-proxy-bingai演示站
 
 ## SokWith内置了账号的镜像
