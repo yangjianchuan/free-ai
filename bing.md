@@ -1,17 +1,15 @@
 # bingo演示站
 - 作者V2.0免登陆演示站1
 
-[https://bing.github1s.tk/](https://bing.github1s.tk/)
+  https://bing.github1s.tk
 
 - 作者V2.0免登陆演示站2
 
-[https://bingo.weaigc.repl.co/](https://bingo.weaigc.repl.co/)
+  https://bingo.weaigc.repl.co
 
 # go-proxy-bingai演示站
 
 ## SokWith内置了账号的镜像
-
-==注意共享账号别人会看到你的聊天记录==，注意个人隐私和数据安全
 
 [@SokWith](https://github.com/SokWith) 提供
 
@@ -46,6 +44,10 @@ https://dongsiqie-bingai.hf.space
 - V1.12旧版（有几率免登陆可以用）
 
 https://dongsiqie-bing.hf.space
+
+- 冻死企鹅V1.0演示站（有几率免登陆可以用）
+
+https://dongsiqie-bingo.hf.space
 
 ## 获取自己的cookie
 
