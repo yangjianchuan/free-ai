@@ -24,7 +24,7 @@ pk-this-is-a-real-free-pool-token-for-everyone
 
 ### 镜像站点ChatGPT Next Web
 
-官网演示站点 https://chatgpt2.nextweb.fun/
+官网演示站点 https://nb.nextweb.fun/
 
 将接口地址改成 `https://ai.fakeopen.com`
 
@@ -73,4 +73,10 @@ https://ai.fakeopen.com/token
 
 你会得到一个fk-开头的Share Token
 
-==这个Share Token就可以作为api来使用==
+【可选步骤】3.生成pool token
+
+如果你有多个Share Token，你可以生成一个key池
+
+https://ai.fakeopen.com/pool
+
+==这个Share Token和pool token就可以作为api来使用==
