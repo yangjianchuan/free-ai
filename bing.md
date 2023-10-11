@@ -6,6 +6,10 @@
 - 作者V2.0免登陆演示站2
 
   https://bingo.weaigc.repl.co
+  
+- 企鹅V1.0免登陆演示站
+
+  https://dongsiqie-bingov1.hf.space
 
 # go-proxy-bingai演示站
 
@@ -37,17 +41,13 @@
 
 注意只是有几率免登陆
 
-- 最新版（有几率免登陆可以用）
+- 冻死企鹅最新版（有几率免登陆可以用）
 
 https://dongsiqie-bingai.hf.space
 
 - V1.12旧版（有几率免登陆可以用）
 
 https://dongsiqie-bing.hf.space
-
-- 冻死企鹅V1.0演示站（有几率免登陆可以用）
-
-https://dongsiqie-bingo.hf.space
 
 ## 获取自己的cookie
 

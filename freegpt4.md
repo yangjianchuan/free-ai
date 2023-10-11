@@ -32,5 +32,12 @@
 
 申请方法查看视频：https://b23.tv/pMsdGhM
 
+# 免费的转发api
 
+## daifuku
 
+主要面向全国大学生，以及任何希望使用AI进行学习的人。
+
+登录后，将获得 **10美金** 的初始额度
+
+[https://api.daifuku.cloud](https://api.daifuku.cloud/)
