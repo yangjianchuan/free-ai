@@ -5,11 +5,13 @@
 
 - 作者V2.0免登陆演示站2
 
-  https://bingo.weaigc.repl.co
-  
-- 企鹅V1.0免登陆演示站
+  https://hf4all-bingo-api.hf.space/
 
-  https://dongsiqie-bingov1.hf.space
+- 企鹅V2.0免登陆演示站
+
+  https://bingo-cf.dongsiqie.me/
+
+  https://bingo.dongsiqie.repl.co/
 
 # go-proxy-bingai演示站
 
