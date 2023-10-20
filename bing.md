@@ -7,14 +7,6 @@
 
   https://hf4all-bingo-api.hf.space/
 
-- 企鹅免登陆演示站
-
-  https://bingo-cf.dongsiqie.me/
-
-  https://bingo.dongsiqie.repl.co/
-  
-  https://5fxq3x-3000.csb.app
-
 # go-proxy-bingai演示站
 
 ## SokWith内置了账号的镜像
