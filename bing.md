@@ -6,8 +6,6 @@ https://copilot.github1s.tk
 
 https://bing.github1s.tk
 
-https://bingapi.zeabur.app/
-
 https://bingai.zklcdc.xyz/
 
 https://dongsiqie-bingai.hf.space
