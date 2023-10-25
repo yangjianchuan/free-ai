@@ -1,11 +1,3 @@
-# 免费的gpt-4网站
-
-## magic
-
-禁止NSFW，建议用来学习
-
-申请地址：https://www.ninomae.top
-
 # 免费的转发api
 
 ## 水龙头
