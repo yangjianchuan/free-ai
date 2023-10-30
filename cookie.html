@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cookie展示</title>
+    <style>
+        table,
+        th,
+        td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+    <p>以下是通过验证的cookies</p>
+    <textarea id="inputText" rows="25" cols="150" onclick="copyToClipboard(this)"></textarea>
+    <script>
+        function copyToClipboard(textarea) {
+            navigator.clipboard.writeText(textarea.value);
+        }
+        function getUrlParameter(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            const regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            const results = regex.exec(location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        }
+        const inputText = decodeURIComponent(getUrlParameter('inputText'));
+        const inputTextBox = document.getElementById('inputText');
+        inputTextBox.value = inputText;
+        if (!inputTextBox.value) {
+            inputTextBox.value = "";
+        }
+    </script>
+</body>
+</html>
