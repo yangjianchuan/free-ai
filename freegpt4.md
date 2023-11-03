@@ -1,9 +1,13 @@
 # 免费的转发api
 
-## 水龙头
+## bingo
 
-每24小时可领取一个 $1.00 令牌用于开发测试 AI 产品.
-https://faucet.openkey.cloud
+bingo部署以后可以当做api使用
+[api使用方法](/wiki/bingo-api.html)
+
+## pandora
+自己的openai账号可以当做api使用
+[api使用方法](/wiki/fakeopentoken.html)
 
 ## 兔七
 
@@ -15,16 +19,6 @@ https://faucet.openkey.cloud
 
 ## nova
 
-可以申请gpt-4的api，禁止NSFW
+可以申请gpt-4的api
 
 申请方法查看视频：https://b23.tv/pMsdGhM
-
-## 【有墙】MyShell
-
-==网页版已经被墙==，ios客户端还可以使用
-
-https://app.myshell.ai/invite/d09999
-
-**MyShell无限试用方法**
-
-此方法可以无限试用==GPT-4以外==的模型。首先，打开浏览器的无痕窗口，然后进入 `https://app.myshell.ai/chat` 网址。无需登录，即可使用四次。使用完后，关闭浏览器，再次打开无痕窗口，就可以继续使用四次。
