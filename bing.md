@@ -8,10 +8,6 @@ https://bing.github1s.tk
 
 https://copilot.github1s.tk
 
-建议电脑端使用的站点，手机上显示有些问题
-
-https://hf.dongsiqie.me/spaces/rr1/bg
-
 **go-proxy-bingai**
 
 https://bingai.zklcdc.xyz/
