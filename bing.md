@@ -12,7 +12,13 @@ https://copilot.github1s.tk
 
 https://bingai.zklcdc.xyz/
 
+https://dongsiqie-bing.hf.space
+
 https://dongsiqie-bingai.hf.space
+
+国外改版
+
+https://ngoctuanai-gpt4en.hf.space
 
 **sydney**
 

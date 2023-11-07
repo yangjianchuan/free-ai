@@ -8,11 +8,15 @@
 
 ## 聊天相关
 
-### zephyr-chat
+国外的大语言模型，对中文支持不是很好
 
-能理解中文，但是回复英文
+https://h2oai-h2ogpt-chatbot.hf.space
 
 https://huggingfaceh4-zephyr-chat.hf.space
+
+https://ysharma-explore-llamav2-with-tgi.hf.space/
+
+https://deepseek-ai-deepseek-coder-33b-instruct.hf.space
 
 ## 绘图相关
 
