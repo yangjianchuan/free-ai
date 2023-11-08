@@ -8,6 +8,10 @@ https://bing.github1s.tk
 
 https://copilot.github1s.tk
 
+bingo的sydney分支，在右上角设置-高级设置中可以切换模式
+
+https://dongsiqie-bingo-sydney.hf.space
+
 **go-proxy-bingai**
 
 https://bingai.zklcdc.xyz/
