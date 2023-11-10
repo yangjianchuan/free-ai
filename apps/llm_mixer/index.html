@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <head>
+        <title>LLM Mixer</title>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+        />
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="./js/common/live.js"></script>
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css"
+        />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        />
+        <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+        <link rel="stylesheet" href="./js/default.css" />
+    </head>
+    <body>
+        <div id="main-container">
+            <div id="chat-session-container" class="container">
+                <div id="messagers-container" class="container m-3 py-2"></div>
+            </div>
+            <div id="user-interactions" class="container fixed-bottom mb-3">
+                <div class="row mt-2 no-gutters">
+                    <div class="col px-0">
+                            <input
+                                id="openai-endpoint"
+                                class="form-control"
+                                rows="1"
+                                placeholder="Input Endpoint URL, then click √"
+                            ></input>
+                    </div>
+                    <div class="col-auto px-0">
+                        <button id="openai-endpoint-button" class="btn">
+                            <i class="fa fa-check"></i>
+                        </button>
+                    </div>
+                    <div class="col px-0">
+                        <input
+                            id="openai-api-key"
+                            class="form-control"
+                            rows="1"
+                            placeholder="Input API Key, then click √"
+                        ></input>
+                    </div>
+                    <div class="col-auto px-0">
+                        <button id="openai-api-key-button" class="btn">
+                            <i class="fa fa-check"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="mt-2 row no-gutters">
+                    <div class="col-auto">
+                        <button id="show-endpoint-and-key-button" class="btn px-0">
+                            <i class="fa fa-key"></i>
+                        </button>
+                    </div>
+                    <div class="col px-0">
+                        <select
+                            class="form-select"
+                            id="available-models-select"
+                            title="Available Models"
+                        ></select>
+                    </div>
+                    <div class="col-auto pr-0">
+                        <select
+                            class="form-select"
+                            id="temperature-select"
+                            title="Temperature"
+                        ></select>
+                    </div>
+                    <div class="col-auto">
+                        <button id="screenshot-button" class="btn px-0">
+                            <i class="fa fa-camera"></i>
+                        </button>
+                    </div>
+                    <div class="col-auto">
+                        <button id="scroll-to-bottom-button" class="btn px-0">
+                            <i class="fa fa-angles-down"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="mt-2 row no-gutters">
+                    <div class="col-auto pl-3 pr-0">
+                        <button id="new-chat-session" class="btn px-0">
+                            <i class="fa fa-circle-plus"></i>
+                        </button>
+                    </div>
+                    <div class="col px-0">
+                        <textarea
+                            id="user-input"
+                            class="form-control"
+                            rows="1"
+                            placeholder="Typing your prompt here ..."
+                        ></textarea>
+                    </div>
+                    <div class="col-auto pr-3 pl-0">
+                        <button id="send-user-input" class="btn px-0">
+                            <i class="fa fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </body>
+    <script type="module" src="./js/main.js"></script>
+</html>
