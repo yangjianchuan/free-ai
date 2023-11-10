@@ -25,3 +25,9 @@ http://www.zaiwen.top
 免登陆可以使用3.5
 
 https://chatforai.store/
+
+**yuntian-deng**
+
+免登陆可以使用3.5，使用前注意看英文提示，他们会使用你的数据
+
+https://yuntian-deng-chatgpt.hf.space/

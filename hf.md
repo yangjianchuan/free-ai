@@ -18,6 +18,8 @@ https://ysharma-explore-llamav2-with-tgi.hf.space/
 
 https://deepseek-ai-deepseek-coder-33b-instruct.hf.space
 
+https://mosaicml-mpt-30b-chat.hf.space/
+
 ## 绘图相关
 
 ### fast-stable-diffusion
