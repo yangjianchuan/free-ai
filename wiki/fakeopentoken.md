@@ -2,7 +2,7 @@
 
 ## 公共的apikey
 
-你可以直接使用这个公共的api，这是一个有1000多个账号逆向的api
+你可以直接使用这个公共的api，这是一个有100多个账号逆向的api
 
 ```
 pk-this-is-a-real-free-pool-token-for-everyone

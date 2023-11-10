@@ -4,9 +4,11 @@
 
 bingo项目部署完以后可以当做OpenAI的接口使用
 
-下面已官方演示站点为例，说明如何使用。
+注意：下面这个演示站的域名只是举例，并不能真的作为api，==需要换成你自己部署的地址才可以==
 
 官方站点2(V1): https://copilot.github1s.tk
+
+如果是自己使用，可以在 [CodeSandbox](https://codesandbox.io/) 上部署一个bingo
 
 ## 接口地址API_BASE
 
