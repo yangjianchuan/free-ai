@@ -6,6 +6,24 @@
 
 自行部署bingo以后可以当做api使用
 
+```
+openai.api_base = "https://dongsiqie-bingo-api.hf.space/api/v1"
+openai.api_key = "sk-CGcDA4TGEdh9Qr5NNQcU2zxnhEDtlMq6s1wm64vmbfBttt58"
+```
+
+```
+openai.api_base = "https://dongsiqie-bingov1.hf.space/api/v1"
+openai.api_key = "sk-CGcDA4TGEdh9Qr5NNQcU2zxnhEDtlMq6s1wm64vmbfBttt58"
+```
+```
+openai.api_base = "https://dongsiqie-bingo-sydney.hf.space/api/v1"
+openai.api_key = "sk-CGcDA4TGEdh9Qr5NNQcU2zxnhEDtlMq6s1wm64vmbfBttt58"
+```
+```
+openai.api_base = "https://dongsiqie-bg.hf.space/api/v1"
+openai.api_key = "sk-CGcDA4TGEdh9Qr5NNQcU2zxnhEDtlMq6s1wm64vmbfBttt58"
+```
+
 [api使用方法](/wiki/bingo-api.html)
 
 **pandora**

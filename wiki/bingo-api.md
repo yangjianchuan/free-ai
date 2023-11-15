@@ -4,25 +4,32 @@
 
 bingo项目部署完以后可以当做OpenAI的接口使用
 
-注意：下面这个演示站的域名只是举例，并不能真的作为api，==需要换成你自己部署的地址才可以==
+## 共享的api地址
 
-官方站点2(V1): https://copilot.github1s.tk
+注意：hf.space上面部署的接口并不稳定，基本都是封一天然后再解封一天，如果要稳定使用，==需要换成你自己部署的地址才可以==
 
-如果是自己使用，可以在 [CodeSandbox](https://codesandbox.io/) 上部署一个bingo
+```
+https://dongsiqie-bingo-api.hf.space/api
+https://dongsiqie-bingov1.hf.space/api
+https://dongsiqie-bg.hf.space/api
+https://dongsiqie-bingo-sydney.hf.space/api
+```
+
+下面以我以其中一个为例，说明api的使用方法
 
 ## 接口地址API_BASE
 
 项目站点地址拼接一个 `/api`就可以作为接口地址。
 
-将接口地址`API_BASE`中的`api.openai.com`替换成`copilot.github1s.tk/api`
+将接口地址`API_BASE`中的`api.openai.com`替换成`dongsiqie-bingov1.hf.space/api`
 
 一般接口地址是以下三种格式
 
-如果是 `https://api.openai.com` 就替换成 `https://copilot.github1s.tk/api`
+如果是 `https://api.openai.com` 就替换成 `https://dongsiqie-bingov1.hf.space/api`
 
-如果是 `https://api.openai.com/v1` 就替换成 `https://copilot.github1s.tk/api/v1`
+如果是 `https://api.openai.com/v1` 就替换成 `https://dongsiqie-bingov1.hf.space/api/v1`
 
-如果是 `https://api.openai.com/v1/chat/completions` 就替换成 `https://copilot.github1s.tk/api/v1/chat/completions`
+如果是 `https://api.openai.com/v1/chat/completions` 就替换成 `https://dongsiqie-bingov1.hf.space/api/v1/chat/completions`
 
 ## API_KEY
 
@@ -56,7 +63,7 @@ gpt-3.5-turbo,gpt-3.5-turbo-0613,gpt-3.5-turbo-0301,gpt-3.5-turbo-16k,gpt-3.5-tu
 
 官网演示站点 https://ab.nextweb.fun/
 
-将接口地址改成 `https://copilot.github1s.tk/api`
+将接口地址改成 `https://dongsiqie-bingov1.hf.space/api`
 
 将API Key随便填一个，例如`dummy`
 
@@ -64,7 +71,7 @@ gpt-3.5-turbo,gpt-3.5-turbo-0613,gpt-3.5-turbo-0301,gpt-3.5-turbo-16k,gpt-3.5-tu
 
 ```
 import openai
-openai.api_base = "https://copilot.github1s.tk/api/v1"
+openai.api_base = "https://dongsiqie-bingov1.hf.space/api/v1"
 openai.api_key = "dummy"
 
 response = openai.ChatCompletion.create(
@@ -90,7 +97,7 @@ for chunk in response:
 
 ```
 API_KEY = "sk-CGcDA4TGEdh9Qr5NNQcU2zxnhEDtlMq6s1wm64vmbfBttt58" 
-API_URL_REDIRECT = {"https://api.openai.com/v1/chat/completions":"https://copilot.github1s.tk/api/v1/chat/completions"}
+API_URL_REDIRECT = {"https://api.openai.com/v1/chat/completions":"https://dongsiqie-bingov1.hf.space/api/v1/chat/completions"}
 ```
 
 ### **ChatBox(推荐使用)**
@@ -99,6 +106,6 @@ ChatGPT开源桌面应用，支持全部桌面平台。
 
 下载链接：https://github.com/Bin-Huang/chatbox/releases
 
-使用方法：如图在设置中填入购买的密钥，并将代理设置为`https://copilot.github1s.tk/api`即可
+使用方法：如图在设置中填入购买的密钥，并将代理设置为`https://dongsiqie-bingov1.hf.space/api`即可
 
 将API Key随便填一个，例如`sk-CGcDA4TGEdh9Qr5NNQcU2zxnhEDtlMq6s1wm64vmbfBttt58`
