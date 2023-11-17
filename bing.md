@@ -12,10 +12,6 @@ https://bing.github1s.tk
 
 https://copilot.github1s.tk
 
-https://dnwmf8-3000.csb.app
-
-https://5x222y-3000.csb.app
-
 https://dongsiqie-bingo-api.hf.space
 
 https://dongsiqie-bingov1.hf.space
