@@ -12,7 +12,15 @@ https://bing.github1s.tk
 
 https://copilot.github1s.tk
 
-**bingo的sydney分支**
+https://dnwmf8-3000.csb.app
+
+https://5x222y-3000.csb.app
+
+https://dongsiqie-bingo-api.hf.space
+
+https://dongsiqie-bingov1.hf.space
+
+https://dongsiqie-bg.hf.space
 
 https://dongsiqie-bingo-sydney.hf.space
 
@@ -23,10 +31,6 @@ https://harry-zklcdc-go-proxy-bingai.hf.space
 https://dongsiqie-bing.hf.space
 
 https://dongsiqie-bingai.hf.space
-
-国外改版
-
-https://ngoctuanai-gpt4.hf.space
 
 **chat-sydney**
 

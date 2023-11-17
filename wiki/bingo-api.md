@@ -9,6 +9,8 @@ bingo项目部署完以后可以当做OpenAI的接口使用
 注意：hf.space上面部署的接口并不稳定，基本都是封一天然后再解封一天，如果要稳定使用，==需要换成你自己部署的地址才可以==
 
 ```
+https://dnwmf8-3000.csb.app/api
+https://5x222y-3000.csb.app/api
 https://dongsiqie-bingo-api.hf.space/api
 https://dongsiqie-bingov1.hf.space/api
 https://dongsiqie-bg.hf.space/api

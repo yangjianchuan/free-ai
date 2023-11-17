@@ -24,7 +24,7 @@ pk-this-is-a-real-free-pool-token-for-everyone
 
 ### 镜像站点ChatGPT Next Web
 
-官网演示站点 https://nb.nextweb.fun/
+官网演示站点 https://dongsiqie-gptnb.hf.space/
 
 将接口地址改成 `https://ai.fakeopen.com`
 
