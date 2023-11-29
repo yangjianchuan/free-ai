@@ -4,24 +4,15 @@
 
 另外render对bing的封锁很严，==只要fork过==go-proxy-bingai，bingo，chat-sydney的很大几率会被封号，我已经被封了三个了。
 
-## 1.获取license.jwt文件
-
-在这里获取：https://dash.pandoranext.com
-
-记住圈出来这一部分，后续作为机密环境变量。
-
-![11094133791740919639](assets/11094133791740919639.jpg)
-
-## 2.fork项目pdrn
-
-项目地址 https://github.com/renqabs/pdrn
-
-点击下面的网址fork到自己的仓库
-
-https://github.com/renqabs/pdrn/fork
-
-2.1【可选步骤】修改config.json
-
+目前拉取的是固定版本v0.3.1
+## 1.获取license_id
+license_url获取方法，复制红色框内的字符串（两个斜杠之间，不包含斜杠）
+![image](https://github.com/renqabs/pdrn1/assets/130155002/2bfd795b-47f3-41a8-a913-d5b722b6eaaf)
+![image](https://github.com/renqabs/pdrn/assets/130155002/7eec537b-bbc2-4a9d-bd65-472da5dc52fb)
+## 2.fork本项目
+https://github.com/renqabs/pdrn1/fork
+然后准备好自己的tokens.json以及config.json，详细配置详见[pandora-next](https://github.com/pandora-next/deploy)
+### 2.1【可选步骤】修改config.json
 如果不想其他人使用你部署的镜像，可以给网站添加一个密码，需要修改 site_password 的值
 
 ```
@@ -34,78 +25,60 @@ https://github.com/renqabs/pdrn/fork
   "whitelist": null
 }
 ```
-
 ### 3.登陆render
 
 https://render.com/
 
-在Environment 中 新建一个Secret Files
+点击右上角的 New+，然后下拉框中选择 Web Service
 
-Filename填写 `LICENSE_URL`
+选择默认的`Build and deploy from a Git repository`点击 Next
 
-Contents的内容填写第1步中的内容
+在`Connect a repository`中找到 pdrn，点击Connext
 
-![3343805648437747339](assets/3343805648437747339.jpg)
+Name填写一个唯一的名字，例如 `pandora-next`
 
-## 4.部署完成
+Region选择一个，比如`Singapore`
 
-部署完成以后会自动分批一个域名给你
+然后拉到最下方，展开`Advanced`
 
-## 5.备注-核心代码
+点击Add Secret File
 
-Dockerfile
+Filename填写 `CONFIG_JSON `
 
-```
-# 使用基础镜像
-FROM golang:alpine AS builder
-
-# 安装必要的工具
-RUN apk update && apk add --no-cache \
-    curl \
-    tar
-
-# 创建新的工作目录
-WORKDIR /app
-
-# 下载并解压文件，并给予所有用户读写和执行权限
-RUN curl -LO https://github.com/pandora-next/deploy/releases/download/v0.2.0/PandoraNext-v0.2.0-linux-amd64-f1585a2.tar.gz \
-    && tar -xzf PandoraNext-v0.2.0-linux-amd64-f1585a2.tar.gz --strip-components=1 \
-    && rm PandoraNext-v0.2.0-linux-amd64-f1585a2.tar.gz \
-    && chmod 777 -R .
-    
-# 等待3分钟，获取授权
-# RUN sleep 1m\
-RUN --mount=type=secret,id=LICENSE_URL,dst=/etc/secrets/LICENSE_URL \
-    curl -fLO https://dash.pandoranext.com/data/$(cat /etc/secrets/LICENSE_URL)/license.jwt
-RUN chmod 777 license.jwt
-
-# 下载config.json文件，并给予所有用户读写和执行权限
-COPY config.json .
-RUN chmod 777 config.json
-
-# 修改PandoraNext的执行权限
-RUN chmod 777 ./PandoraNext
-
-# 创建全局缓存目录并提供最宽松的权限
-RUN mkdir /.cache && chmod 777 /.cache
-
-# 开放端口
-EXPOSE 8080
-
-# 启动命令
-CMD ["./PandoraNext"]
-```
-
-config.json
+File Contents填写示例如下，注意替换掉`license_id`,`site_password`,`setup_password`等敏感配置信息
 
 ```
 {
   "bind": "0.0.0.0:8080",
   "timeout": 600,
   "proxy_url": "",
+  "license_id": "Replace it",
   "public_share": false,
-  "site_password": "",
+  "site_password": "Replace it",
+  "setup_password": "Replace it",
+  "server_tokens": true,
+  "server_mode": "web",
+  "captcha": {
+    "provider": "",
+    "site_key": "",
+    "site_secret": "",
+    "site_login": true,
+    "setup_login": true,
+    "oai_username": true,
+    "oai_password": true
+  },
   "whitelist": null
 }
 ```
 
+滑动到最下面，点击 Create Web Service
+
+
+
+## 4.部署完成
+
+部署完成以后会自动分批一个域名给你，左上方可以看到类似这样的域名
+
+```
+https://pandora-next-xxx.onrender.com
+```
