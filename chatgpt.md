@@ -8,6 +8,16 @@
 
 https://baipiao.io/chatgpt
 
+**xyhelper**
+
+免登陆可以使用3.5
+
+https://chat.xyhelper.com.cn
+
+https://dongsiqie-free-gpt35.hf.space
+
+https://xy-xgb6.onrender.com
+
 **chatnio**
 
 免登陆可以使用3.5，登陆可以申请使用api
