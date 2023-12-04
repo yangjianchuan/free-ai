@@ -30,11 +30,13 @@ https://xy-xgb6.onrender.com
 
 **我的gpt-3.5账号**
 
-我的gpt-3.5账号，聊天记录不隔离，请注意个人隐私
+我的gpt-3.5账号， UserToken 请输入（自行编写任意可见字符，长度在6~18之间）。 您的会话将与其他用户隔离。
 
-https://dongsiqie-mygpt.hf.space/logintoken?access_token=dongsiqie.me
+https://dongsiqie-mygpt.hf.space
 
-https://dongsiqie-mygpt2.hf.space/logintoken?access_token=dongsiqie.me
+https://dongsiqie-mygpt2.hf.space
+
+https://dongsiqie-mygpt3.hf.space
 
 **chatnio**
 
