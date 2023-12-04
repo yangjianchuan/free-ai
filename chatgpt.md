@@ -1,14 +1,24 @@
 # chatgpt镜像网站
 
-这些网站是从互联网上收集而来的，它们相对来说可以被视为公益网站，或者广告比较少。我并不认识这些网站的站长。 
+部分网站是从互联网上收集而来的，它们相对来说可以被视为公益网站，或者广告比较少。我并不认识这些网站的站长。 
 
-**Pandora的共享账号**
+**zhile的共享账号**
 
-其中金色边框的是gpt plus会员账号
+大约2000多个共享账号，其中金色边框的是gpt plus会员账号
 
 https://baipiao.io/chatgpt
 
 **xyhelper**
+
+以下车队为免费车队,用户可自由选择车号登陆。 UserToken 请输入（自行编写任意可见字符，长度在6~18之间）。 您的会话将与其他用户隔离。
+提示:为避免滥用,免费车队使用 4.0 模型时==每次提问都会==要求进行人机验证。
+https://free-1.xyhelper.cn/
+
+https://free-2.xyhelper.cn/
+
+https://free-3.xyhelper.cn/
+
+https://free-4.xyhelper.cn/
 
 免登陆可以使用3.5
 
@@ -17,6 +27,14 @@ https://chat.xyhelper.com.cn
 https://dongsiqie-free-gpt35.hf.space
 
 https://xy-xgb6.onrender.com
+
+**我的gpt-3.5账号**
+
+我的gpt-3.5账号，聊天记录不隔离，请注意个人隐私
+
+https://dongsiqie-mygpt.hf.space/logintoken?access_token=dongsiqie.me
+
+https://dongsiqie-mygpt2.hf.space/logintoken?access_token=dongsiqie.me
 
 **chatnio**
 
@@ -41,3 +59,6 @@ https://chatforai.store/
 免登陆可以使用3.5，使用前注意看英文提示，他们会使用你的数据
 
 https://yuntian-deng-chatgpt.hf.space/
+
+
+
