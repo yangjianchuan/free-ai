@@ -56,11 +56,11 @@ http://www.zaiwen.top
 
 https://chatforai.store/
 
-**yuntian-deng**
+**xf233**
 
-免登陆可以使用3.5，使用前注意看英文提示，他们会使用你的数据
+qq登陆以后可以随机一个3.5的共享账号
 
-https://yuntian-deng-chatgpt.hf.space/
+https://api.xf233.net/login/GetUrl?type=qq
 
 
 
