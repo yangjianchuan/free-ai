@@ -30,6 +30,10 @@ https://dongsiqie-lobe-chat.hf.space
 
 https://dongsiqie-gpt-academic.hf.space
 
+
+
+==↓↓↓请注意：下面的网站有付费内容或者需要登陆↓↓==
+
 **xyhelper-web**
 
 免登陆可以使用3.5。xyhelper提供的免费api。
