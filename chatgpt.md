@@ -1,4 +1,4 @@
-# chatgpt镜像网站
+## chatgpt镜像网站
 
 部分网站是从互联网上收集而来的，它们相对来说可以被视为公益网站，或者广告比较少。我并不认识这些网站的站长。 
 
@@ -30,19 +30,35 @@ https://dongsiqie-lobe-chat.hf.space
 
 https://dongsiqie-gpt-academic.hf.space
 
+## 国内免费模型
 
+**Sensenova UI**
+
+免登陆，Sensenova UI是基于chatbot-ui和商汤大模型开发的智能聊天机器人
+
+https://chat.yangyanqing.cn/
 
 ==↓↓↓请注意：下面的网站有付费内容或者需要登陆↓↓==
 
-**xyhelper-web**
+## 免费gpt-4
 
-免登陆可以使用3.5。xyhelper提供的免费api。
+**gptscopilot**
 
-https://chat.xyhelper.com.cn
+目前只能使用==谷歌账号登陆==，每天15次GPTs。每天15个金币，每次提问消耗1金币。
 
-https://dongsiqie-free-gpt35.hf.space
+https://gptscopilot.ai/
 
-https://xy-xgb6.onrender.com
+**chatlulu**
+
+==比较麻烦==的使用gpt-4的网站。有金币和每次使用频率双重限制。
+
+注册后送800金币，邀请注册送100至200金币
+
+3.5提问消耗1金币，4.0提问消耗10金币同时限制4.0每天只能提问5次。
+
+有精力的可以使用临时邮箱多注册几个轮换使用。
+
+[https://chat.chatlulu.com](https://chat.chatlulu.com/#/login?broker_no=467566)
 
 **xyhelper-车队**
 
@@ -56,20 +72,21 @@ https://free-3.xyhelper.cn/
 
 https://free-4.xyhelper.cn/
 
+## 免费gpt-3.5
+
+**xyhelper-web**
+
+免登陆可以使用3.5。xyhelper提供的免费api。
+
+https://chat.xyhelper.com.cn
+
+https://dongsiqie-free-gpt35.hf.space
+
+https://xy-xgb6.onrender.com
+
 **xf233**
 
 UI与原版一样，==qq登陆==以后可以随机一个3.5的共享账号。
 
 https://api.xf233.net/login/GetUrl?type=qq
 
-**chatlulu**
-
-==比较麻烦==的使用gpt-4的网站。有金币和每次使用频率双重限制。
-
-注册后送800金币，邀请注册送100至200金币
-
-3.5提问消耗1金币，4.0提问消耗10金币同时限制4.0每天只能提问5次。
-
-有精力的可以使用临时邮箱多注册几个轮换使用。
-
-[https://chat.chatlulu.com](https://chat.chatlulu.com/#/login?broker_no=467566)
