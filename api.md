@@ -2,9 +2,11 @@
 
 ## aivvm
 
-注册送100美元，有gpt-4。
+VV佬的网站，使用cocopilot to chatgpt4。注册送100美元。
 
 https://oneapi.aivvm.com/
+
+开源地址：https://github.com/CaoYunzhou/cocopilot-gpt
 
 ```
 import openai
