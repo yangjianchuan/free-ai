@@ -1,6 +1,6 @@
 # 免费api
 
-**aivvm**
+## aivvm
 
 注册送100美元，有gpt-4。
 
@@ -22,11 +22,13 @@ for chunk in response:
     print(chunk.choices[0].delta.get("content", ""), end="", flush=True)
 ```
 
-**chat2api**
+## chat2api
 
 chat2api，将OPENAI官网接口转换为API格式
 
 开源地址：https://github.com/xyhelper/chat2api
+
+或者：https://github.com/xyhelper/chatgpt-api-server-deploy/
 
 ```
 import openai
@@ -44,9 +46,11 @@ for chunk in response:
     print(chunk.choices[0].delta.get("content", ""), end="", flush=True)
 ```
 
-**bingo**
+## bingo
 
 自行部署bingo以后可以当做api使用，以下是我搭建的4个免费API。可能不稳定，随时可能失效。
+
+开源地址：https://github.com/weaigc/bingo
 
 ```
 import openai
@@ -78,7 +82,7 @@ openai.api_base = "https://dongsiqie-bingo-sydney.hf.space/api/v1"
 openai.api_base = "https://dongsiqie-bg.hf.space/api/v1"
 ```
 
-**ninja**
+## ninja
 
 ninja，将OPENAI官网接口转换为API格式，接口调用没有次数限制
 
@@ -86,13 +90,21 @@ ninja，将OPENAI官网接口转换为API格式，接口调用没有次数限制
 
 备注：
 
-先拿到自己的Access Token，可以去官网或者借助fakeopen提供的地址
+**1.api_key**
 
-https://ai.fakeopen.com/auth1
+Access Token可以作为api_key，可以使用下面两种方式获取。
 
-如果是自己在render部署，直接fork这个项目即可 https://github.com/renqabs/nja/fork
+可以借助fakeopen提供的地址：https://ai.fakeopen.com/auth1
 
-api_base可以自己在render部署一个，也可以使用我部署好的 https://nja-i0tc.onrender.com
+也可以使用xyhelper提供的地址：https://free-1.xyhelper.cn/getsession
+
+**2.api_base**
+
+api_base可以使用我部署好的 https://nja-i0tc.onrender.com
+
+也可以在render部署一个自己的，直接fork这个项目即可 https://github.com/renqabs/nja/fork
+
+**3.调用示例**
 
 ```
 import openai
