@@ -1,5 +1,7 @@
 # 免费api
 
+以下是免费的API以及调用示例
+
 ## aivvm
 
 VV佬的网站，使用cocopilot to chatgpt4。注册送100美元。
@@ -22,6 +24,54 @@ response = openai.ChatCompletion.create(
 )
 for chunk in response:
     print(chunk.choices[0].delta.get("content", ""), end="", flush=True)
+```
+
+## 水龙头
+
+每24小时可领取一个 $1.00 令牌用于开发测试 AI 产品，有效期为3天，每24小时可以从水龙头领取一次。
+
+https://faucet.openkey.cloud/
+
+文本转语音在线使用地址：https://dongsiqie-openai-tts-new.hf.space/
+
+```
+import openai
+openai.api_base = "https://faucet.openkey.cloud/v1"
+openai.api_key = "你自己的api"
+response = openai.ChatCompletion.create(
+    model='gpt-3.5-turbo',
+    messages=[
+        {'role': 'user', 'content': "1+3=?"},
+    ],
+    temperature=0,
+    stream=True
+)
+for chunk in response:
+    print(chunk.choices[0].delta.get("content", ""), end="", flush=True)
+```
+
+文本转语音调用示例
+
+```
+import requests
+import json
+headers = {
+    'Authorization': f'Bearer 你自己的api', 
+    'Content-Type':'application/json'
+}
+url = "https://openkey.cloud/v1/audio/speech"
+input_text = "我爱冻死企鹅。"
+query = {
+            "model":"tts-1-hd",# "tts-1","tts-1-hd"
+            "input":input_text,
+            "voice":"nova",# 'alloy', 'echo', 'fable', 'onyx', 'nova', 'shimmer'
+            "response_format":"mp3",
+            "speed":1,
+        }
+response = requests.post(url=url, data=json.dumps(query), headers=headers)
+f = open("./src/tts-1-hd-nova.mp3", "wb")
+f.write(response.content)
+f.close()
 ```
 
 ## chat2api

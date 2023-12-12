@@ -6,12 +6,6 @@
 
 国内镜像：https://hf.dongsiqie.me/spaces
 
-## 语音相关
-
-主要有赛马娘，原神中文，原神日语，崩坏3的音色
-
-https://zomehwh-vits-uma-genshin-honkai.hf.space
-
 ## 聊天相关
 
 国外的大语言模型，对中文支持不是很好
