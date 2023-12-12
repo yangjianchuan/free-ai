@@ -174,3 +174,6 @@ for chunk in response:
     print(chunk.choices[0].delta.get("content", ""), end="", flush=True)
 ```
 
+## Openai的session key
+
+具体方法请查看此文章：[点击查看](sess.html)
