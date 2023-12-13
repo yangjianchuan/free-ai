@@ -1,11 +1,5 @@
 # 免费gpt-4
 
-## gptscopilot免费GPTs
-
-==限时免费==，每天300次GPTs。每天300个金币，每次提问消耗1金币。
-
-https://gptscopilot.ai/
-
 ## chatlulu
 
 ==比较麻烦==的使用gpt-4的网站。有金币和每次使用频率双重限制。
@@ -37,3 +31,9 @@ https://free-4.xyhelper.cn/
 加qq频道获取api后，在指定网站可以免费使用。群主还会不定期提供4.0。
 
 https://www.ninomae.top/
+
+## gptscopilot免费GPTs
+
+==限时免费==，每天300次GPTs。每天300个金币，每次提问消耗1金币。
+
+https://gptscopilot.ai/
