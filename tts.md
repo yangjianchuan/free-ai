@@ -10,7 +10,7 @@ https://zomehwh-vits-uma-genshin-honkai.hf.space
 
 OpenAI文本转语音，只能使用OpenAI原版的API
 
-https://ysharma-openai-tts-new.hf.space
+https://dongsiqie-openai-tts.hf.space
 
 免费OpenAI原版的API获取方法如下：
 
