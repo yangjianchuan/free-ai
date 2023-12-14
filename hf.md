@@ -20,27 +20,7 @@ https://deepseek-ai-deepseek-coder-33b-instruct.hf.space
 
 https://mosaicml-mpt-30b-chat.hf.space/
 
-## 绘图相关
 
-### fast-stable-diffusion
-
-https://prodia-fast-stable-diffusion.hf.space
-
-### VideoRetalking
-
-https://fffiloni-videoretalking.hf.space
-
-### 照片转手绘
-
-https://dongsiqie-image-to-line-drawings.hf.space
-
-### Wonder3D-demo
-
-https://flamehaze1115-wonder3d-demo.hf.space
-
-### Face Swap
-
-https://tonyassi-face-swap.hf.space
 
 
 
