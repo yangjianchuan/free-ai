@@ -68,7 +68,7 @@ https://api.xf233.net/login/GetUrl?type=qq
 
 注册后登陆使用地址：https://chat.oaifree.com
 
-## qq好友分享的chatgpt账号
+## free-chatgpt-account
 
 登陆使用地址：https://chat.oaifree.com
 
