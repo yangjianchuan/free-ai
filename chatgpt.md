@@ -6,16 +6,6 @@ UI与原版一样，大约2000多个共享账号，其中少量金色边框的�
 
 https://baipiao.io/chatgpt
 
-## 我的gpt-3.5账号
-
-UI与原版一样，我的gpt-3.5账号， UserToken 请输入（自行编写任意可见字符，长度在6~18之间）。 您的会话将与其他用户隔离。
-
-https://dongsiqie-mygpt.hf.space
-
-https://dongsiqie-mygpt2.hf.space
-
-https://dongsiqie-mygpt3.hf.space
-
 ## 我搭建的镜像
 
 gpt-3.5使用的是30个账号的逆向，gpt-4使用的是bing的逆向。
