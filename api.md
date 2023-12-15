@@ -176,4 +176,4 @@ for chunk in response:
 
 ## Openai的session key
 
-具体方法请查看此文章：[点击查看](sess.html)
+点击获取免费API：[点击查看](sess.html#free-api)
