@@ -32,7 +32,7 @@ session key可以在 https://platform.openai.com/account/usage 网页的请求�
 
 ## free-api
 
-我自己生成的30个API
+我自己生成的API
 
 可以使用这个网站查询剩余额度：https://dongsiqie-openai-credit-grants.hf.space
 
