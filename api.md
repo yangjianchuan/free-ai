@@ -2,29 +2,11 @@
 
 以下是免费的API以及调用示例
 
-## aivvm
+## Openai的session key
 
-VV佬的网站，使用cocopilot to chatgpt4。注册送100美元。
+免魔法，但是需要你搭建了pandora-next
 
-https://oneapi.aivvm.com/
-
-开源地址：https://github.com/CaoYunzhou/cocopilot-gpt
-
-```
-import openai
-openai.api_base = "https://oneapi.aivvm.com/v1"
-openai.api_key = "你自己的api"
-response = openai.ChatCompletion.create(
-    model='gpt-3.5-turbo',
-    messages=[
-        {'role': 'user', 'content': "1+3=?"},
-    ],
-    temperature=0,
-    stream=True
-)
-for chunk in response:
-    print(chunk.choices[0].delta.get("content", ""), end="", flush=True)
-```
+获取你的 OpenAI API key: https://dongsiqie-get-openai-sess-api.hf.space
 
 ## 水龙头
 
@@ -174,6 +156,3 @@ for chunk in response:
     print(chunk.choices[0].delta.get("content", ""), end="", flush=True)
 ```
 
-## Openai的session key
-
-点击获取免费API：[点击查看](sess.html#free-api)
