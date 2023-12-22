@@ -56,6 +56,12 @@ f.write(response.content)
 f.close()
 ```
 
+## chatanywhere
+
+免费版支持gpt-3.5-turbo, embedding, gpt-4。**免费API Key仅可用于个人非商业用途，教育，非营利性科研工作中。**
+
+https://github.com/chatanywhere/GPT_API_free
+
 ## chat2api
 
 chat2api，将OPENAI官网接口转换为API格式

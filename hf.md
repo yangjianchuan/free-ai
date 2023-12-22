@@ -16,12 +16,6 @@ https://h2oai-h2ogpt-chatbot.hf.space
 
 https://huggingfaceh4-zephyr-chat.hf.space
 
-https://ysharma-explore-llamav2-with-tgi.hf.space/
-
-https://deepseek-ai-deepseek-coder-33b-instruct.hf.space
-
-https://mosaicml-mpt-30b-chat.hf.space/
-
 
 
 

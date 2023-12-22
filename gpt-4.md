@@ -1,5 +1,15 @@
 # 免费gpt-4
 
+### magic
+
+频道主赞助了gpt-3.5的接口用于公益网站
+
+加qq频道获取api后，在指定网站可以免费使用。群主还会不定期提供4.0。
+
+如果滥用被站长发现后会被封号。
+
+https://www.ninomae.top/
+
 ## chatlulu
 
 ==比较麻烦==的使用gpt-4的网站。有金币和每次使用频率双重限制。
@@ -11,6 +21,20 @@
 有精力的可以使用临时邮箱多注册几个轮换使用。
 
 [https://chat.chatlulu.com](https://chat.chatlulu.com/#/login?broker_no=467566)
+
+## gptscopilot免费GPTs
+
+每天5个金币，每次提问消耗1金币。
+
+https://gptscopilot.ai/
+
+## 3211000
+
+网友通过pandora-next共享的plus会员，当GPT-4模型限额时，可选择 "Alpha Models -> GPT-4 Mobile" 模型，其等价于GPT-4模型。
+
+pandora-next本身有使用上限，不要滥用。
+
+https://shared.3211000.xyz
 
 ## xyhelper-小强车队
 
@@ -31,26 +55,5 @@ https://free-3.xyhelper.cn/
 
 https://free-4.xyhelper.cn/
 
-## 3211000
 
-网友通过pandora-next共享的plus会员，当GPT-4模型限额时，可选择 "Alpha Models -> GPT-4 Mobile" 模型，其等价于GPT-4模型。
 
-pandora-next本身有使用上限，不要滥用。
-
-https://shared.3211000.xyz
-
-### magic
-
-频道主赞助了gpt-3.5的接口用于公益网站
-
-加qq频道获取api后，在指定网站可以免费使用。群主还会不定期提供4.0。
-
-如果滥用被站长发现后会被封号。
-
-https://www.ninomae.top/
-
-## gptscopilot免费GPTs
-
-==限时免费==，每天300次GPTs。每天300个金币，每次提问消耗1金币。
-
-https://gptscopilot.ai/

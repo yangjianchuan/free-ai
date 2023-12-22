@@ -20,3 +20,8 @@ plus共享账号
 
 https://b23.tv/exVZB2u
 
+### 兔七
+
+低价API，3毛1额度购买。费率与官网一致。
+
+[https://api.兔七.com/](https://api.兔七.com/)
