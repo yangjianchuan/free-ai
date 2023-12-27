@@ -6,23 +6,25 @@ UI与原版一样，大约2000多个共享账号，其中少量金色边框的�
 
 https://baipiao.io/chatgpt
 
-## 我搭建的镜像
+## free-chatgpt-account
 
-gpt-3.5使用的是30个账号的逆向，gpt-4使用的是bing的逆向。
+登陆使用地址：https://chat.oaifree.com
 
-https://dongsiqie-lobe-chat.hf.space
+共享账号信息如下
 
-https://dongsiqie-gptnb.hf.space
-
-https://dongsiqie-tu7.hf.space
-
-https://dongsiqie-gpt-academic.hf.space
-
-## 国内免费模型Sensenova UI
-
-免登陆，Sensenova UI是基于chatbot-ui和商汤大模型开发的智能聊天机器人
-
-https://chat.yangyanqing.cn/
+| 账号                                                         | 密码          |
+| ------------------------------------------------------------ | ------------- |
+| [poljakova8226@vjuum.com](poljakova8226@vjuum.com) | a7rmZUNBgFxs8 |
+| [green6900@vjuum.com](green6900@vjuum.com)     | b2CjWimrtZ3hN |
+| [qelokijoyupexu@ezztt.com](qelokijoyupexu@ezztt.com) | XwgKRnNWFq2z0 |
+| [soloveva2698@ezztt.com](soloveva2698@ezztt.com) | B42pO18Zwf5fM |
+| [vinogradov5362u@txcct.com](vinogradov5362u@txcct.com) | wy1719RDmEdHC |
+| [duxecokoga5c5j4k6@vjuum.com](duxecokoga5c5j4k6@vjuum.com) | U4uMZwo11XWFK |
+| [mironova8de1v@ezztt.com](mironova8de1v@ezztt.com) | hT2ObvgNrnJ2z |
+| [xkbexbhkrg19@outlook.com](xkbexbhkrg19@outlook.com) | xskrshpxye73  |
+| [tmhkmaeetx33@outlook.com](tmhkmaeetx33@outlook.com) | stnfphsffh98  |
+| [wwcytgcnwd34@outlook.com](wwcytgcnwd34@outlook.com) | wjpxkxntwr94  |
+| [turner7146@ezztt.com](turner7146@ezztt.com)   | llK613K1Wu5L1 |
 
 ## xyhelper-web 免费gpt-3.5
 
@@ -58,23 +60,8 @@ https://api.xf233.net/login/GetUrl?type=qq
 
 注册后登陆使用地址：https://chat.oaifree.com
 
-## free-chatgpt-account
+## 国内免费模型Sensenova UI
 
-登陆使用地址：https://chat.oaifree.com
+免登陆，Sensenova UI是基于chatbot-ui和商汤大模型开发的智能聊天机器人
 
-共享账号信息如下
-
-| 账号                                                         | 密码          |
-| ------------------------------------------------------------ | ------------- |
-| [poljakova8226@vjuum.com](poljakova8226@vjuum.com) | a7rmZUNBgFxs8 |
-| [green6900@vjuum.com](green6900@vjuum.com)     | b2CjWimrtZ3hN |
-| [qelokijoyupexu@ezztt.com](qelokijoyupexu@ezztt.com) | XwgKRnNWFq2z0 |
-| [soloveva2698@ezztt.com](soloveva2698@ezztt.com) | B42pO18Zwf5fM |
-| [vinogradov5362u@txcct.com](vinogradov5362u@txcct.com) | wy1719RDmEdHC |
-| [duxecokoga5c5j4k6@vjuum.com](duxecokoga5c5j4k6@vjuum.com) | U4uMZwo11XWFK |
-| [mironova8de1v@ezztt.com](mironova8de1v@ezztt.com) | hT2ObvgNrnJ2z |
-| [xkbexbhkrg19@outlook.com](xkbexbhkrg19@outlook.com) | xskrshpxye73  |
-| [tmhkmaeetx33@outlook.com](tmhkmaeetx33@outlook.com) | stnfphsffh98  |
-| [wwcytgcnwd34@outlook.com](wwcytgcnwd34@outlook.com) | wjpxkxntwr94  |
-| [turner7146@ezztt.com](turner7146@ezztt.com)   | llK613K1Wu5L1 |
-
+https://chat.yangyanqing.cn/

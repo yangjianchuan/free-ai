@@ -4,7 +4,7 @@
 
 ## Openai的session key
 
-免魔法，但是需要你搭建了pandora-next
+免魔法，==但是需要你搭建了pandora-next==
 
 获取你的 OpenAI API key: https://dongsiqie-get-openai-sess-api.hf.space
 

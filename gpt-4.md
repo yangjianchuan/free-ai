@@ -1,14 +1,40 @@
 # 免费gpt-4
 
+## 学术优化
+
+一位学生站长提供的可以使用gpt-4模型的学术优化。无需登陆，无需API，可以直接使用。
+
+https://academic.daifuku.asia/
+
+### 字节海外Coze平台
+
+建议电脑上使用，网页没有适配移动端。建议直接谷歌账号登陆使用。
+
+Coze是一个应用编辑平台，它可以帮助你创建和部署先进的AI聊天机器人。Coze适合不同编程水平的用户，让你可以快速地构建和部署各种聊天机器人。当然，你也可以随便创建一个机器人，然后在网页上当做gpt-4来使用。
+
+https://www.coze.com/
+
+使用文档
+
+https://www.coze.com/docs/welcome.html
+
+视频教程：B站搜索 神烦老狗，然后自己去找他的视频。
+
 ### magic
 
 频道主赞助了gpt-3.5的接口用于公益网站
 
-加qq频道获取api后，在指定网站可以免费使用。群主还会不定期提供4.0。
+使用手机qq加qq频道获取api后，在指定网站可以免费使用。群主还会不定期提供4.0。
 
 如果滥用被站长发现后会被封号。
 
 https://www.ninomae.top/
+
+## chatgot
+
+只能谷歌账号登陆，可以使用GPT-3.5，GPT-4, Claude，Claude v2, Midjourney 等模型
+
+https://www.chatgot.io/
 
 ## chatlulu
 
