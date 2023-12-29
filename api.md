@@ -8,6 +8,12 @@
 
 获取你的 OpenAI API key: https://dongsiqie-get-openai-sess-api.hf.space
 
+## ngedlktfticp
+
+注册送20美元额度
+
+https://ngedlktfticp.cloud.sealos.io/
+
 ## 水龙头
 
 每24小时可领取一个 $1.00 令牌用于开发测试 AI 产品，有效期为3天，每24小时可以从水龙头领取一次。

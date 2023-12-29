@@ -1,11 +1,5 @@
 # 免费gpt-4
 
-## 学术优化
-
-一位学生站长提供的可以使用gpt-4模型的学术优化。无需登陆，无需API，可以直接使用。
-
-https://academic.daifuku.asia/
-
 ### 字节海外Coze平台
 
 建议电脑上使用，网页没有适配移动端。建议直接谷歌账号登陆使用。
@@ -36,6 +30,33 @@ https://www.ninomae.top/
 
 https://www.chatgot.io/
 
+## 3211000
+
+【免登陆】网友通过pandora-next共享的plus会员，当GPT-4模型限额时，可选择 "Alpha Models -> GPT-4 Mobile" 模型，其等价于GPT-4模型。
+
+pandora-next本身有使用上限，不要滥用。
+
+https://shared.3211000.xyz
+
+## xyhelper-小强车队
+
+【免登陆】UI与原版一样，以下车队为免费车队,用户可自由选择车号登陆。 UserToken 请输入（自行编写任意可见字符，长度在6~18之间）。 您的会话将与其他用户隔离。
+提示:为避免滥用,免费车队使用 4.0 模型时==每次提问都会==要求进行人机验证。
+
+小强车队首页，可以查看免费车队的繁忙状态
+
+https://www.xyhelper.com.cn/xq
+
+也可以使用下面的链接直接上免费车
+
+https://free-1.xyhelper.cn/
+
+https://free-2.xyhelper.cn/
+
+https://free-3.xyhelper.cn/
+
+https://free-4.xyhelper.cn/
+
 ## chatlulu
 
 ==比较麻烦==的使用gpt-4的网站。有金币和每次使用频率双重限制。
@@ -54,32 +75,9 @@ https://www.chatgot.io/
 
 https://gptscopilot.ai/
 
-## 3211000
+### 学术优化
 
-网友通过pandora-next共享的plus会员，当GPT-4模型限额时，可选择 "Alpha Models -> GPT-4 Mobile" 模型，其等价于GPT-4模型。
+【免登陆】一位学生站长提供的可以使用gpt-4模型的学术优化。无需登陆，无需API，可以直接使用。
 
-pandora-next本身有使用上限，不要滥用。
-
-https://shared.3211000.xyz
-
-## xyhelper-小强车队
-
-UI与原版一样，以下车队为免费车队,用户可自由选择车号登陆。 UserToken 请输入（自行编写任意可见字符，长度在6~18之间）。 您的会话将与其他用户隔离。
-提示:为避免滥用,免费车队使用 4.0 模型时==每次提问都会==要求进行人机验证。
-
-小强车队首页，可以查看免费车队的繁忙状态
-
-https://www.xyhelper.com.cn/xq
-
-也可以使用下面的链接直接上免费车
-
-https://free-1.xyhelper.cn/
-
-https://free-2.xyhelper.cn/
-
-https://free-3.xyhelper.cn/
-
-https://free-4.xyhelper.cn/
-
-
+https://academic.daifuku.asia/
 
