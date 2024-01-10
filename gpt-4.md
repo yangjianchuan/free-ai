@@ -47,16 +47,6 @@ https://shared.3211000.xyz
 
 https://www.xyhelper.com.cn/xq
 
-也可以使用下面的链接直接上免费车
-
-https://free-1.xyhelper.cn/
-
-https://free-2.xyhelper.cn/
-
-https://free-3.xyhelper.cn/
-
-https://free-4.xyhelper.cn/
-
 ## chatlulu
 
 ==比较麻烦==的使用gpt-4的网站。有金币和每次使用频率双重限制。
@@ -74,10 +64,4 @@ https://free-4.xyhelper.cn/
 每天5个金币，每次提问消耗1金币。
 
 https://gptscopilot.ai/
-
-### 学术优化
-
-【免登陆】一位学生站长提供的可以使用gpt-4模型的学术优化。无需登陆，无需API，可以直接使用。
-
-https://academic.daifuku.asia/
 
