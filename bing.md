@@ -6,9 +6,15 @@
 
 hf.space域名访问流量大了就会被封，不再允许免登陆使用，被封后一般第二天会自动解封。
 
-**bingo**
+**go-proxy-bingai**
 
-https://bing.github1s.tk
+https://bingai.zklcdc.xyz/
+
+https://dongsiqie-bing.hf.space
+
+https://dongsiqie-bingai.hf.space
+
+**bingo**
 
 https://copilot.github1s.tk
 
@@ -19,14 +25,6 @@ https://dongsiqie-bingov1.hf.space
 https://dongsiqie-bg.hf.space
 
 https://dongsiqie-bingo-sydney.hf.space
-
-**go-proxy-bingai**
-
-https://harry-zklcdc-go-proxy-bingai.hf.space
-
-https://dongsiqie-bing.hf.space
-
-https://dongsiqie-bingai.hf.space
 
 **chat-sydney**
 
