@@ -1,5 +1,11 @@
 # 免费gpt-4
 
+## aivvm
+
+vv佬提供的免登陆使用的gpt-4，前端使用的是lobe chat
+
+https://chat.aivvm.com/
+
 ### 字节海外Coze平台
 
 建议电脑上使用，网页没有适配移动端。建议直接谷歌账号登陆使用。

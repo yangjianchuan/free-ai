@@ -2,6 +2,12 @@
 
 以下是免费的API以及调用示例
 
+## aivvm
+
+https://oneapi.aivvm.com/
+
+注册新用户免费送100刀，只能通过GITHUB进行授权注册登录
+
 ## Openai的session key
 
 免魔法，==但是需要你搭建了pandora-next==

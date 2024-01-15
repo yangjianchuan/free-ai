@@ -16,7 +16,8 @@ https://h2oai-h2ogpt-chatbot.hf.space
 
 https://huggingfaceh4-zephyr-chat.hf.space
 
+## 其他文档
 
+ [注册教程](huggingface-sign-up.html) 
 
-
-
+ [创建docker教程](huggingface-space-docker.html) 
