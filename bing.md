@@ -28,6 +28,12 @@ https://bingai.zklcdc.xyz/
 
 [通过Github Codespaces](wiki/bingcookie2.html)
 
+【实验性】**go-proxy-bingai的API**
+
+使用go-proxy-bingai的API，前端使用chatgpt-next-web。有一定的几率拒绝回答问题。
+
+https://harry-zklcdc-chatgpt-next-web.hf.space
+
 **g4f**
 
 使用g4f项目逆向的接口，默认模型以及所有的gpt-4模型都是bing
