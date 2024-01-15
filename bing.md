@@ -1,14 +1,14 @@
 # bing和sydney镜像站
 
-大家好，我是[冻死企鹅](https://space.bilibili.com/23375741)。以下站点中找一个能用的，我也不确定哪个可以免登陆使用。
+大家好，我是B站UP主[冻死企鹅](https://space.bilibili.com/23375741)。以下站点中找一个能用的，推荐使用go-proxy-bingai。
 
-**go-proxy-bingai**
+【推荐】**go-proxy-bingai**
 
-以下都是可以免登陆使用的，如果不能免登陆了，请设置一下cookie，随便填写一个`KievRPSSecAuth`的值
+==稳定，免登陆，免魔法==
 
-如果需要画图，请使用cookie登录go-proxy-bingai。
+如果不能免登陆了，需要设置一下cookie，随便填写一个`KievRPSSecAuth`的值才能免登陆使用
 
-https://bingai.zklcdc.xyz/
+以下都是可以免登陆使用的
 
 https://harry-zklcdc-go-proxy-bingai.hf.space
 
@@ -16,9 +16,13 @@ https://dongsiqie-bing.hf.space
 
 https://dongsiqie-bingai.hf.space
 
-**获取自己的cookie的教程**
+https://bingai.zklcdc.xyz/
 
-如果不能免登陆使用，可以获取自己的cookie然后填写到`go-proxy-bingai`镜像中
+**bing画图**
+
+如果需要画图或者使用插件，必须使用cookie登陆才可以，以下链接可以获取自己的cookie然后填写到`go-proxy-bingai`镜像中
+
+[【推荐】国内免魔法获取cookie](wiki/bingcookie3.html)
 
 [通过微软虚拟机](wiki/bingcookie1.html)
 
@@ -70,5 +74,8 @@ https://dongsiqie-bingo-sydney.hf.space
 
 https://dongsiqie-sydney.hf.space
 
+**相关项目**
 
+获取免登陆的cookie或者验证自己的cookie
 
+https://dongsiqie-get-bing-cookies.hf.space/
