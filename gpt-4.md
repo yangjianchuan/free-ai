@@ -14,6 +14,8 @@ https://www.coze.com/docs/welcome.html
 
 视频教程：B站搜索 神烦老狗，然后自己去找他的视频。
 
+![image-20240115145316102](assets/image-20240115145316102.png)
+
 ### magic
 
 频道主赞助了gpt-3.5的接口用于公益网站
@@ -26,9 +28,11 @@ https://www.ninomae.top/
 
 ## chatgot
 
-只能谷歌账号登陆，可以使用GPT-3.5，GPT-4, Claude，Claude v2, Midjourney 等模型
+只能谷歌账号登陆，可以使用GPT-3.5，GPT-4, Claude，Claude v2, Midjourney 等模型，有次数限制
 
 https://www.chatgot.io/
+
+![image-20240115145640023](assets/image-20240115145640023.png)
 
 ## 3211000
 
@@ -46,6 +50,8 @@ https://shared.3211000.xyz
 小强车队首页，可以查看免费车队的繁忙状态
 
 https://www.xyhelper.com.cn/xq
+
+![webwxgetmsgimg](assets/webwxgetmsgimg.jpg)
 
 ## chatlulu
 
