@@ -24,57 +24,15 @@ https://bingai.zklcdc.xyz/
 
 [【推荐】国内免魔法获取cookie](wiki/bingcookie3.html)
 
-[通过微软虚拟机](wiki/bingcookie1.html)
-
-[通过Github Codespaces](wiki/bingcookie2.html)
-
-【实验性】**go-proxy-bingai的API**
-
-使用go-proxy-bingai的API，前端使用chatgpt-next-web。有一定的几率拒绝回答问题。
-
-https://harry-zklcdc-chatgpt-next-web.hf.space
-
-**g4f**
-
-使用g4f项目逆向的接口，默认模型以及所有的gpt-4模型都是bing
-
-https://qieqies-g4f.hf.space
-
-https://qieqies-g4f-nb.hf.space
-
-https://qieqies-g4f-tu7.hf.space
-
-https://qieqies-g4f-lobe.hf.space
-
-**g4f的api**
-
-以下三个镜像中使用的是g4f逆向的API，gpt-4模型都是bing
-
-ChatGPT-Next-Web-LangChain
-
-https://dongsiqie-tu7.hf.space/
-
-lobe
-
-https://dongsiqie-lobe-chat.hf.space
-
-学术优化
-
-https://dongsiqie-gpt-academic.hf.space/
-
 **bingo**
 
 hf.space域名部署的bingo项目，访问流量大了就会被封，不再允许免登陆使用，被封后一般第二天会自动解封。
 
 https://copilot.github1s.tk
 
-https://dongsiqie-bingo-api.hf.space
-
-https://dongsiqie-bingov1.hf.space
+https://dongsiqie-bingo.hf.space
 
 https://dongsiqie-bg.hf.space
-
-https://dongsiqie-bingo-sydney.hf.space
 
 **chat-sydney**
 

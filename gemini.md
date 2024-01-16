@@ -18,14 +18,6 @@ https://geminiprochat.com/
 
 ## 如果你有api
 
-### Gemini Playground 
-
-支持多轮对话，上传图片。需要使用自己的API。
-
-https://dongsiqie-gemini.hf.space/
-
-### 国内代理
-
 https://zhile.io/2023/12/24/gemini-pro-proxy.html
 
 curl示例

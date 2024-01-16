@@ -1,5 +1,11 @@
 # 免费gpt-4
 
+## zhile的共享账号
+
+UI与原版一样，大约2000多个共享账号，其中400多个金色边框的是gpt plus会员账号。
+
+https://baipiao.io/chatgpt
+
 ## aivvm
 
 vv佬提供的免登陆使用的gpt-4，前端使用的是lobe chat
