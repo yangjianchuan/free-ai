@@ -62,12 +62,6 @@ https://rr1-bg.hf.space
 
 https://rr1-bg1.hf.space
 
-**g4f**
-
-g4f逆向的接口，有gpt-3.5和bing
-
-https://rr1-g4f.hf.space
-
 **相关项目**
 
 获取免登陆的cookie或者验证自己的cookie
