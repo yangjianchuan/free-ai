@@ -4,11 +4,9 @@
 
 【推荐】**go-proxy-bingai**
 
-==稳定，免登陆，免魔法==
+如果发现不能免登陆使用了，可以点击右上角的齿轮，点【一键重置】
 
-如果不能免登陆了，需要设置一下cookie，随便填写一个`KievRPSSecAuth`的值才能免登陆使用
-
-以下都是可以免登陆使用的
+清除缓存以后程序会自动获取新的免登陆cookie
 
 https://harry-zklcdc-go-proxy-bingai.hf.space
 
