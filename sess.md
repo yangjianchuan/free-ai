@@ -2,19 +2,19 @@
 
 ## 注册Openai账号
 
-首先注册一个Openai的账号，参考文章：https://zhile.io/2023/12/09/pandoranext-introduction.html
+首先注册一个Openai的账号
 
-神烦老狗视频演示教程：https://b23.tv/vBSfjlm
+[参考文章](https://zhile.io/2023/12/09/pandoranext-introduction.html)
 
-冻死企鹅视频演示教程：https://b23.tv/S5hyiNT
+[神烦老狗视频演示教程](https://www.bilibili.com/video/BV1CG411Y7Wd/?buvid=Y9469C9638DD8C1E4987B742EB6016B0B5D5)
 
-注册地址：https://chat.oaifree.com/auth/signup
+[冻死企鹅视频演示教程](https://www.bilibili.com/video/BV1vC4y1R7U6/?buvid=Y9469C9638DD8C1E4987B742EB6016B0B5D5)
+
+[注册地址](https://chat.oaifree.com/auth/signup)
 
 ## session key 如何免魔法获取？
 
-免魔法，但是需要你搭建了pandora-next
-
-获取你的 OpenAI API key: https://dongsiqie-get-openai-sess-api.hf.space
+免魔法，但是需要你搭建了pandora-next，[获取你的 OpenAI API key](https://dongsiqie-get-openai-sess-api.hf.space)
 
 ##  session key 如何获取？
 
@@ -32,21 +32,11 @@ session key可以在 https://platform.openai.com/account/usage 网页的请求�
 
 ## free-api
 
-我自己生成的API
-
-可以使用这个网站查询剩余额度：https://dongsiqie-openai-credit-grants.hf.space
+共享的API，可能很快就会失效，可以使用[这个网站](https://dongsiqie-openai-credit-grants.hf.space)查询剩余额度
 
 ```
-sess-o2qn39PEUzCgZ6BPBKa0WW4j7LwjUUcttUXPewBm
-sess-SewUYCRwPaXmNS5c8DKSwIJEad0ck5TK2zvlIYfA
-sess-CkCNgukpi7xqxvyjriz8fwLslbQfQgiGtGec9UqZ
-sess-0r95qkbZ5lUdqEzyKlsVW67VZ528vrD8ILhvjFBd
-sess-1Gx33IBgZc9Qsi9BCjBTTN6Ov0vFLFz6Q4ACQvjq
-sess-gaa1KJjcyiAiXSXdNhEOUkfXSSbASnzBpxJn3HWl
-sess-bdgsMIC46paqiHC4KL2r9H5a3QHC4qV0tbhFG8Av
-sess-dtR2l3CZFbDj304Aj2RUmcnnIyZS25Dvmu4Hxe3n
-sess-X7f3evUPc7dZnIx7k4WaBithfcnnTKF1p7nKODDM
-sess-itclzPerMYLdzt4xI2IuZNKuBEAJL047ZfAST45T
-sess-N2yiwvuaue2zzharE7bp3unO2qVyom4QIedvbPac
+2024-01-17可用
+sess-H9apflhBTAYumAgqxKw5XwikB0KObwCoEOvesZWx
+sess-NhKZmKtZb9xfaJIjigxVBrEoiu4ftQCOnb8EWeEI
 ```
 

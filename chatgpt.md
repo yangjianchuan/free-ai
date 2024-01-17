@@ -33,18 +33,15 @@ https://chat.yangyanqing.cn/
 
 登陆使用地址：https://chat.oaifree.com
 
-共享账号信息如下
+进去后点击`Continue with Access Token`，填写下面其中一个Token即可
 
-| 账号                                                         | 密码          |
-| ------------------------------------------------------------ | ------------- |
-| [poljakova8226@vjuum.com](poljakova8226@vjuum.com) | a7rmZUNBgFxs8 |
-| [green6900@vjuum.com](green6900@vjuum.com)     | b2CjWimrtZ3hN |
-| [qelokijoyupexu@ezztt.com](qelokijoyupexu@ezztt.com) | XwgKRnNWFq2z0 |
-| [soloveva2698@ezztt.com](soloveva2698@ezztt.com) | B42pO18Zwf5fM |
-| [vinogradov5362u@txcct.com](vinogradov5362u@txcct.com) | wy1719RDmEdHC |
-| [duxecokoga5c5j4k6@vjuum.com](duxecokoga5c5j4k6@vjuum.com) | U4uMZwo11XWFK |
-| [mironova8de1v@ezztt.com](mironova8de1v@ezztt.com) | hT2ObvgNrnJ2z |
-| [xkbexbhkrg19@outlook.com](xkbexbhkrg19@outlook.com) | xskrshpxye73  |
-| [tmhkmaeetx33@outlook.com](tmhkmaeetx33@outlook.com) | stnfphsffh98  |
-| [wwcytgcnwd34@outlook.com](wwcytgcnwd34@outlook.com) | wjpxkxntwr94  |
-| [turner7146@ezztt.com](turner7146@ezztt.com)   | llK613K1Wu5L1 |
+```
+1JjBS3WKtsCBDAj48v3m3-7DTSQKUnpaHqF4zvpnzj7Li
+R_slrDnOUzasAx_qtISbYcn2FhfRL6Fn1FzaGWN-9FJ-C
+8W8rJhmUPqVublQvkoIow4_VZZ_UDMG3YcpfrzKv-gwfr
+PrlygzsolUyzOZMiUOhZ6sQr_XOStQMVWqg5v5LT1Nopq
+LWm2JKLSzX2LshuLlaCTVMqCFZrf9bI5n3j0QTLKGWjo3
+0wFAaEgaMGvSNYqWvQPf_u-Ki-Tyl9C0uxhjVBHKL0JtW
+G7e9k8RQXHwfk_KkjUFgfV5s21wL7F1v18b1f44FWdcV6
+```
+

@@ -2,11 +2,9 @@
 
 大家好，我是B站UP主[冻死企鹅](https://space.bilibili.com/23375741)。以下站点中找一个能用的
 
-## openai-dall-e-3
+[openai-dall-e-3](https://dongsiqie-dall-e.hf.space/)
 
-OpenA dall-e-3 ，只能使用OpenAI原版的API
-
-https://dongsiqie-dall-e.hf.space/
+使用OpenAI原版的API进行绘图
 
 免费OpenAI原版的API获取方法如下：
 
@@ -20,22 +18,14 @@ https://dongsiqie-dall-e.hf.space/
 
 方法三：关注我B站，点赞任意视频后私信我，我会发给你一个。
 
-### fast-stable-diffusion
 
-https://prodia-fast-stable-diffusion.hf.space
 
-### VideoRetalking
+[fast-stable-diffusion](https://prodia-fast-stable-diffusion.hf.space)
 
-https://fffiloni-videoretalking.hf.space
+免费的开源绘图
 
-### 照片转手绘
 
-https://dongsiqie-image-to-line-drawings.hf.space
 
-### Wonder3D-demo
+[face-swap](https://tonyassi-face-swap.hf.space/)
 
-https://flamehaze1115-wonder3d-demo.hf.space
-
-### Face Swap
-
-https://tonyassi-face-swap.hf.space
+AI换脸，速度很慢

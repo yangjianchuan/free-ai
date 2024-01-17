@@ -205,6 +205,87 @@ mark .md-meta { color: rgb(0, 0, 0); }
 mjx-container { break-inside: avoid; }
 
 
+.CodeMirror { height: auto; }
+.CodeMirror.cm-s-inner { background: inherit; }
+.CodeMirror-scroll { overflow: auto hidden; z-index: 3; }
+.CodeMirror-gutter-filler, .CodeMirror-scrollbar-filler { background-color: rgb(255, 255, 255); }
+.CodeMirror-gutters { border-right: 1px solid rgb(221, 221, 221); background: inherit; white-space: nowrap; }
+.CodeMirror-linenumber { padding: 0px 3px 0px 5px; text-align: right; color: rgb(153, 153, 153); }
+.cm-s-inner .cm-keyword { color: rgb(119, 0, 136); }
+.cm-s-inner .cm-atom, .cm-s-inner.cm-atom { color: rgb(34, 17, 153); }
+.cm-s-inner .cm-number { color: rgb(17, 102, 68); }
+.cm-s-inner .cm-def { color: rgb(0, 0, 255); }
+.cm-s-inner .cm-variable { color: rgb(0, 0, 0); }
+.cm-s-inner .cm-variable-2 { color: rgb(0, 85, 170); }
+.cm-s-inner .cm-variable-3 { color: rgb(0, 136, 85); }
+.cm-s-inner .cm-string { color: rgb(170, 17, 17); }
+.cm-s-inner .cm-property { color: rgb(0, 0, 0); }
+.cm-s-inner .cm-operator { color: rgb(152, 26, 26); }
+.cm-s-inner .cm-comment, .cm-s-inner.cm-comment { color: rgb(170, 85, 0); }
+.cm-s-inner .cm-string-2 { color: rgb(255, 85, 0); }
+.cm-s-inner .cm-meta { color: rgb(85, 85, 85); }
+.cm-s-inner .cm-qualifier { color: rgb(85, 85, 85); }
+.cm-s-inner .cm-builtin { color: rgb(51, 0, 170); }
+.cm-s-inner .cm-bracket { color: rgb(153, 153, 119); }
+.cm-s-inner .cm-tag { color: rgb(17, 119, 0); }
+.cm-s-inner .cm-attribute { color: rgb(0, 0, 204); }
+.cm-s-inner .cm-header, .cm-s-inner.cm-header { color: rgb(0, 0, 255); }
+.cm-s-inner .cm-quote, .cm-s-inner.cm-quote { color: rgb(0, 153, 0); }
+.cm-s-inner .cm-hr, .cm-s-inner.cm-hr { color: rgb(153, 153, 153); }
+.cm-s-inner .cm-link, .cm-s-inner.cm-link { color: rgb(0, 0, 204); }
+.cm-negative { color: rgb(221, 68, 68); }
+.cm-positive { color: rgb(34, 153, 34); }
+.cm-header, .cm-strong { font-weight: 700; }
+.cm-del { text-decoration: line-through; }
+.cm-em { font-style: italic; }
+.cm-link { text-decoration: underline; }
+.cm-error { color: red; }
+.cm-invalidchar { color: red; }
+.cm-constant { color: rgb(38, 139, 210); }
+.cm-defined { color: rgb(181, 137, 0); }
+div.CodeMirror span.CodeMirror-matchingbracket { color: rgb(0, 255, 0); }
+div.CodeMirror span.CodeMirror-nonmatchingbracket { color: rgb(255, 34, 34); }
+.cm-s-inner .CodeMirror-activeline-background { background: inherit; }
+.CodeMirror { position: relative; overflow: hidden; }
+.CodeMirror-scroll { height: 100%; outline: 0px; position: relative; box-sizing: content-box; background: inherit; }
+.CodeMirror-sizer { position: relative; }
+.CodeMirror-gutter-filler, .CodeMirror-hscrollbar, .CodeMirror-scrollbar-filler, .CodeMirror-vscrollbar { position: absolute; z-index: 6; display: none; outline: 0px; }
+.CodeMirror-vscrollbar { right: 0px; top: 0px; overflow: hidden; }
+.CodeMirror-hscrollbar { bottom: 0px; left: 0px; overflow: auto hidden; }
+.CodeMirror-scrollbar-filler { right: 0px; bottom: 0px; }
+.CodeMirror-gutter-filler { left: 0px; bottom: 0px; }
+.CodeMirror-gutters { position: absolute; left: 0px; top: 0px; padding-bottom: 10px; z-index: 3; overflow-y: hidden; }
+.CodeMirror-gutter { white-space: normal; height: 100%; box-sizing: content-box; padding-bottom: 30px; margin-bottom: -32px; display: inline-block; }
+.CodeMirror-gutter-wrapper { position: absolute; z-index: 4; background: 0px 0px !important; border: none !important; }
+.CodeMirror-gutter-background { position: absolute; top: 0px; bottom: 0px; z-index: 4; }
+.CodeMirror-gutter-elt { position: absolute; cursor: default; z-index: 4; }
+.CodeMirror-lines { cursor: text; }
+.CodeMirror pre { border-radius: 0px; border-width: 0px; background: 0px 0px; font-family: inherit; font-size: inherit; margin: 0px; white-space: pre; overflow-wrap: normal; color: inherit; z-index: 2; position: relative; overflow: visible; }
+.CodeMirror-wrap pre { overflow-wrap: break-word; white-space: pre-wrap; word-break: normal; }
+.CodeMirror-code pre { border-right: 30px solid transparent; width: fit-content; }
+.CodeMirror-wrap .CodeMirror-code pre { border-right: none; width: auto; }
+.CodeMirror-linebackground { position: absolute; inset: 0px; z-index: 0; }
+.CodeMirror-linewidget { position: relative; z-index: 2; overflow: auto; }
+.CodeMirror-wrap .CodeMirror-scroll { overflow-x: hidden; }
+.CodeMirror-measure { position: absolute; width: 100%; height: 0px; overflow: hidden; visibility: hidden; }
+.CodeMirror-measure pre { position: static; }
+.CodeMirror div.CodeMirror-cursor { position: absolute; visibility: hidden; border-right: none; width: 0px; }
+.CodeMirror div.CodeMirror-cursor { visibility: hidden; }
+.CodeMirror-focused div.CodeMirror-cursor { visibility: inherit; }
+.cm-searching { background: rgba(255, 255, 0, 0.4); }
+span.cm-underlined { text-decoration: underline; }
+span.cm-strikethrough { text-decoration: line-through; }
+.cm-tw-syntaxerror { color: rgb(255, 255, 255); background-color: rgb(153, 0, 0); }
+.cm-tw-deleted { text-decoration: line-through; }
+.cm-tw-header5 { font-weight: 700; }
+.cm-tw-listitem:first-child { padding-left: 10px; }
+.cm-tw-box { border-style: solid; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-color: inherit; border-top-width: 0px !important; }
+.cm-tw-underline { text-decoration: underline; }
+@media print {
+  .CodeMirror div.CodeMirror-cursor { visibility: hidden; }
+}
+
+
 :root {
     --side-bar-bg-color: #fafafa;
     --control-text-color: #777;
@@ -594,6 +675,6 @@ header, .context-menu, .megamenu-content, footer{
 </style><title>chatgpt</title>
 </head>
 <body class='typora-export os-windows'><div class='typora-export-content'>
-<div id='write'  class=''><h1 id='chatgpt镜像网站'><span>chatgpt镜像网站</span></h1><p><span>大家好，我是B站UP主</span><a href='https://space.bilibili.com/23375741'><span>冻死企鹅</span></a><span>。以下站点中找一个能用的</span></p><h2 id='zhile的共享账号'><span>zhile的共享账号</span></h2><p><span>UI与原版一样，大约2000多个共享账号，其中400多个金色边框的是gpt plus会员账号。</span></p><p><a href='https://baipiao.io/chatgpt' target='_blank' class='url'>https://baipiao.io/chatgpt</a></p><h2 id='xyhelper-web-免费gpt-35'><span>xyhelper-web 免费gpt-3.5</span></h2><p><span>免登陆可以使用3.5。xyhelper提供的免费api。</span></p><p><a href='https://chat.xyhelper.com.cn' target='_blank' class='url'>https://chat.xyhelper.com.cn</a></p><h2 id='xf233'><span>xf233</span></h2><p><span>k少的网站，UI与原版一样，</span><mark><span>qq登陆</span></mark><span>以后可以随机一个3.5的共享账号。</span></p><p><a href='https://api.xf233.net/login/GetUrl?type=qq' target='_blank' class='url'>https://api.xf233.net/login/GetUrl?type=qq</a></p><h2 id='注册自己的chatgpt账号'><span>注册自己的chatgpt账号</span></h2><p><span> </span><a href='chatgpt-sign-up.html'><span>参考文档</span></a><span> 自己去注册一个</span></p><h2 id='国内免费模型sensenova-ui'><span>国内免费模型Sensenova UI</span></h2><p><span>免登陆，Sensenova UI是基于chatbot-ui和商汤大模型开发的智能聊天机器人</span></p><p><a href='https://chat.yangyanqing.cn/' target='_blank' class='url'>https://chat.yangyanqing.cn/</a></p><h2 id='free-chatgpt-account'><span>free-chatgpt-account</span></h2><p><span>登陆使用地址：</span><a href='https://chat.oaifree.com' target='_blank' class='url'>https://chat.oaifree.com</a></p><p><span>共享账号信息如下</span></p><figure class='table-figure'><table><thead><tr><th><span>账号</span></th><th><span>密码</span></th></tr></thead><tbody><tr><td><a href='poljakova8226@vjuum.com'><span>poljakova8226@vjuum.com</span></a></td><td><span>a7rmZUNBgFxs8</span></td></tr><tr><td><a href='green6900@vjuum.com'><span>green6900@vjuum.com</span></a></td><td><span>b2CjWimrtZ3hN</span></td></tr><tr><td><a href='qelokijoyupexu@ezztt.com'><span>qelokijoyupexu@ezztt.com</span></a></td><td><span>XwgKRnNWFq2z0</span></td></tr><tr><td><a href='soloveva2698@ezztt.com'><span>soloveva2698@ezztt.com</span></a></td><td><span>B42pO18Zwf5fM</span></td></tr><tr><td><a href='vinogradov5362u@txcct.com'><span>vinogradov5362u@txcct.com</span></a></td><td><span>wy1719RDmEdHC</span></td></tr><tr><td><a href='duxecokoga5c5j4k6@vjuum.com'><span>duxecokoga5c5j4k6@vjuum.com</span></a></td><td><span>U4uMZwo11XWFK</span></td></tr><tr><td><a href='mironova8de1v@ezztt.com'><span>mironova8de1v@ezztt.com</span></a></td><td><span>hT2ObvgNrnJ2z</span></td></tr><tr><td><a href='xkbexbhkrg19@outlook.com'><span>xkbexbhkrg19@outlook.com</span></a></td><td><span>xskrshpxye73</span></td></tr><tr><td><a href='tmhkmaeetx33@outlook.com'><span>tmhkmaeetx33@outlook.com</span></a></td><td><span>stnfphsffh98</span></td></tr><tr><td><a href='wwcytgcnwd34@outlook.com'><span>wwcytgcnwd34@outlook.com</span></a></td><td><span>wjpxkxntwr94</span></td></tr><tr><td><a href='turner7146@ezztt.com'><span>turner7146@ezztt.com</span></a></td><td><span>llK613K1Wu5L1</span></td></tr></tbody></table></figure></div></div>
+<div id='write'  class=''><h1 id='chatgpt镜像网站'><span>chatgpt镜像网站</span></h1><p><span>大家好，我是B站UP主</span><a href='https://space.bilibili.com/23375741'><span>冻死企鹅</span></a><span>。以下站点中找一个能用的</span></p><h2 id='zhile的共享账号'><span>zhile的共享账号</span></h2><p><span>UI与原版一样，大约2000多个共享账号，其中400多个金色边框的是gpt plus会员账号。</span></p><p><a href='https://baipiao.io/chatgpt' target='_blank' class='url'>https://baipiao.io/chatgpt</a></p><h2 id='xyhelper-web-免费gpt-35'><span>xyhelper-web 免费gpt-3.5</span></h2><p><span>免登陆可以使用3.5。xyhelper提供的免费api。</span></p><p><a href='https://chat.xyhelper.com.cn' target='_blank' class='url'>https://chat.xyhelper.com.cn</a></p><h2 id='xf233'><span>xf233</span></h2><p><span>k少的网站，UI与原版一样，</span><mark><span>qq登陆</span></mark><span>以后可以随机一个3.5的共享账号。</span></p><p><a href='https://api.xf233.net/login/GetUrl?type=qq' target='_blank' class='url'>https://api.xf233.net/login/GetUrl?type=qq</a></p><h2 id='注册自己的chatgpt账号'><span>注册自己的chatgpt账号</span></h2><p><span> </span><a href='chatgpt-sign-up.html'><span>参考文档</span></a><span> 自己去注册一个</span></p><h2 id='国内免费模型sensenova-ui'><span>国内免费模型Sensenova UI</span></h2><p><span>免登陆，Sensenova UI是基于chatbot-ui和商汤大模型开发的智能聊天机器人</span></p><p><a href='https://chat.yangyanqing.cn/' target='_blank' class='url'>https://chat.yangyanqing.cn/</a></p><h2 id='free-chatgpt-account'><span>free-chatgpt-account</span></h2><p><span>登陆使用地址：</span><a href='https://chat.oaifree.com' target='_blank' class='url'>https://chat.oaifree.com</a></p><p><span>进去后点击</span><code>Continue with Access Token</code><span>，填写下面其中一个Token即可</span></p><pre class="md-fences md-end-block md-fences-with-lineno ty-contain-cm modeLoaded md-focus" spellcheck="false" lang=""><div class="CodeMirror cm-s-inner cm-s-null-scroll CodeMirror-wrap CodeMirror-focused" lang=""><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 147.744px; left: 426.45px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 28px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><span><span>​</span>x</span></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation" style=""><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -28px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt CodeMirror-linenumber-show" style="left: 0px; width: 19px;">1</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">1JjBS3WKtsCBDAj48v3m3-7DTSQKUnpaHqF4zvpnzj7Li</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -28px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 19px;">2</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">R_slrDnOUzasAx_qtISbYcn2FhfRL6Fn1FzaGWN-9FJ-C</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -28px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 19px;">3</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">8W8rJhmUPqVublQvkoIow4_VZZ_UDMG3YcpfrzKv-gwfr</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -28px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 19px;">4</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">PrlygzsolUyzOZMiUOhZ6sQr_XOStQMVWqg5v5LT1Nopq</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -28px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 19px;">5</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">LWm2JKLSzX2LshuLlaCTVMqCFZrf9bI5n3j0QTLKGWjo3</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -28px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 19px;">6</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">0wFAaEgaMGvSNYqWvQPf_u-Ki-Tyl9C0uxhjVBHKL0JtW</span></pre></div><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: -28px; width: 28px;"></div><div class="CodeMirror-gutter-wrapper CodeMirror-activeline-gutter" style="left: -28px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt CodeMirror-linenumber-show" style="left: 0px; width: 19px;">7</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">G7e9k8RQXHwfk_KkjUFgfV5s21wL7F1v18b1f44FWdcV6</span></pre></div></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom: 0px solid transparent; top: 161px;"></div><div class="CodeMirror-gutters" style="height: 161px;"><div class="CodeMirror-gutter CodeMirror-linenumbers" style="width: 27px;"></div></div></div></div></pre><p>&nbsp;</p></div></div>
 </body>
 </html>
