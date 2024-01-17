@@ -1,5 +1,7 @@
 # 谷歌Gemini Pro
 
+大家好，我是B站UP主[冻死企鹅](https://space.bilibili.com/23375741)。以下站点中找一个能用的
+
 Gemini Pro的api key获取地址，目前是免费的，每分钟限速60次地址二选一
 
 https://ai.google.dev/

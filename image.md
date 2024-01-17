@@ -1,5 +1,7 @@
 # AI绘画
 
+大家好，我是B站UP主[冻死企鹅](https://space.bilibili.com/23375741)。以下站点中找一个能用的
+
 ## openai-dall-e-3
 
 OpenA dall-e-3 ，只能使用OpenAI原版的API
@@ -15,6 +17,8 @@ https://dongsiqie-dall-e.hf.space/
 方法二：使用我的API进行测试，每个API额度有限，支撑不了多久。
 
 点击获取免费API：[点击查看](sess.html#free-api)
+
+方法三：关注我B站，点赞任意视频后私信我，我会发给你一个。
 
 ### fast-stable-diffusion
 

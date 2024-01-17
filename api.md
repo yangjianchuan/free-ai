@@ -1,6 +1,6 @@
 # 免费api
 
-以下是免费的API以及调用示例
+大家好，我是B站UP主[冻死企鹅](https://space.bilibili.com/23375741)。以下站点中找一个能用的
 
 ## aivvm
 
