@@ -8,11 +8,14 @@ UI与原版一样，大约2000多个共享账号，其中400多个金色边框�
 
 https://baipiao.io/chatgpt
 
-## aivvm
+## xyhelper-小强车队
 
-vv佬提供的免登陆使用的gpt-4，前端使用的是lobe chat
+【免登陆】UI与原版一样，以下车队为免费车队,用户可自由选择车号登陆。 UserToken 请输入（自行编写任意可见字符，长度在6~18之间）。 您的会话将与其他用户隔离。
+提示:为避免滥用,免费车队使用 4.0 模型时==每次提问都会==要求进行人机验证。
 
-https://chat.aivvm.com/
+https://free.xyhelper.com.cn/
+
+![webwxgetmsgimg](assets/webwxgetmsgimg.jpg)
 
 ### 字节海外Coze平台
 
@@ -56,17 +59,6 @@ pandora-next本身有使用上限，不要滥用。
 
 https://shared.3211000.xyz
 
-## xyhelper-小强车队
-
-【免登陆】UI与原版一样，以下车队为免费车队,用户可自由选择车号登陆。 UserToken 请输入（自行编写任意可见字符，长度在6~18之间）。 您的会话将与其他用户隔离。
-提示:为避免滥用,免费车队使用 4.0 模型时==每次提问都会==要求进行人机验证。
-
-小强车队首页，可以查看免费车队的繁忙状态
-
-https://www.xyhelper.com.cn/xq
-
-![webwxgetmsgimg](assets/webwxgetmsgimg.jpg)
-
 ## chatlulu
 
 ==比较麻烦==的使用gpt-4的网站。有金币和每次使用频率双重限制。
@@ -85,3 +77,8 @@ https://www.xyhelper.com.cn/xq
 
 https://gptscopilot.ai/
 
+## aivvm
+
+vv佬提供的免登陆使用的gpt-4，前端使用的是lobe chat
+
+https://chat.aivvm.com/
