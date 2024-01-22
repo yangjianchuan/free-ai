@@ -4,20 +4,7 @@
 
 主要有赛马娘，原神中文，原神日语，崩坏3的音色
 
-
-
 [openai-tts](https://dongsiqie-openai-tts.hf.space)
 
 OpenAI文本转语音，只能使用OpenAI原版的API
 
-免费OpenAI原版的API获取方法如下：
-
-方法一：使用session key
-
-具体方法请查看此文章：[点击查看](sess.html)
-
-方法二：使用我的API进行测试，每个API额度有限，支撑不了多久。
-
-点击获取免费API：[点击查看](sess.html#free-api)
-
-方法三：关注我B站，点赞任意视频后私信我，我会发给你一个。

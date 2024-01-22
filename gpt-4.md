@@ -2,12 +2,6 @@
 
 大家好，我是B站UP主[冻死企鹅](https://space.bilibili.com/23375741)。以下站点中找一个能用的
 
-## zhile的共享账号
-
-UI与原版一样，大约2000多个共享账号，其中400多个金色边框的是gpt plus会员账号。
-
-https://baipiao.io/chatgpt
-
 ## xyhelper-小强车队
 
 【免登陆】UI与原版一样，以下车队为免费车队,用户可自由选择车号登陆。 UserToken 请输入（自行编写任意可见字符，长度在6~18之间）。 您的会话将与其他用户隔离。
@@ -50,14 +44,6 @@ https://www.ninomae.top/
 https://www.chatgot.io/
 
 ![image-20240115145640023](assets/image-20240115145640023.png)
-
-## 3211000
-
-【免登陆】网友通过pandora-next共享的plus会员，当GPT-4模型限额时，可选择 "Alpha Models -> GPT-4 Mobile" 模型，其等价于GPT-4模型。
-
-pandora-next本身有使用上限，不要滥用。
-
-https://shared.3211000.xyz
 
 ## chatlulu
 

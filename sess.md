@@ -2,19 +2,7 @@
 
 ## 注册Openai账号
 
-首先注册一个Openai的账号
-
-[参考文章](https://zhile.io/2023/12/09/pandoranext-introduction.html)
-
-[神烦老狗视频演示教程](https://www.bilibili.com/video/BV1CG411Y7Wd/?buvid=Y9469C9638DD8C1E4987B742EB6016B0B5D5)
-
-[冻死企鹅视频演示教程](https://www.bilibili.com/video/BV1vC4y1R7U6/?buvid=Y9469C9638DD8C1E4987B742EB6016B0B5D5)
-
-[注册地址](https://chat.oaifree.com/auth/signup)
-
-## session key 如何免魔法获取？
-
-免魔法，但是需要你搭建了pandora-next，[获取你的 OpenAI API key](https://dongsiqie-get-openai-sess-api.hf.space)
+首先注册一个Openai的账号，注册不了就随便找个号商买一个。
 
 ##  session key 如何获取？
 

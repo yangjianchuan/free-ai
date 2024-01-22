@@ -6,12 +6,6 @@
 
 [注册](https://oneapi.aivvm.com/)新用户免费送100刀，只能通过GITHUB进行授权注册登录
 
-## Openai的session key
-
-免魔法，==但是需要你搭建了pandora-next==
-
-[获取你的 OpenAI API key](https://dongsiqie-get-openai-sess-api.hf.space)
-
 ## ngedlktfticp
 
 [注册](https://ngedlktfticp.cloud.sealos.io/)送20美元额度
