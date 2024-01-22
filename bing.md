@@ -12,11 +12,11 @@
 
 [冻死企鹅网站2](https://dongsiqie-bingai.hf.space)
 
+冻死企鹅临时网站，速度很慢：https://k5g89n-8080.csb.app
+
 [作者演示站](https://bingai.zklcdc.xyz/)
 
 [rr1演示站](https://rr1-gpb2.hf.space)
-
-~~[作者抱脸网站](https://harry-zklcdc-go-proxy-bingai.hf.space)~~
 
 **bing画图**
 
