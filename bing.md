@@ -8,8 +8,6 @@
 
 清除缓存以后程序会自动获取新的免登陆cookie
 
-[作者抱脸网站](https://harry-zklcdc-go-proxy-bingai.hf.space)
-
 [冻死企鹅网站1](https://dongsiqie-bing.hf.space)
 
 [冻死企鹅网站2](https://dongsiqie-bingai.hf.space)
@@ -18,23 +16,13 @@
 
 [rr1演示站](https://rr1-gpb2.hf.space)
 
+~~[作者抱脸网站](https://harry-zklcdc-go-proxy-bingai.hf.space)~~
+
 **bing画图**
 
 如果需要画图或者使用插件，必须使用cookie登陆才可以，以下链接可以获取自己的cookie然后填写到`go-proxy-bingai`镜像中
 
 [国内免魔法获取cookie](wiki/bingcookie3.html)
-
-**go-proxy-bingai作为api**
-
-下面两个是把go-proxy-bingai作为api，前端使用chatgpt-next-web，支持的模型如下
-
-```
-Balanced,Balanced-offline,Creative,Creative-offline,Precise,Precise-offline,Balanced-g4t,Balanced-g4t-offline,Creative-g4t,Creative-g4t-offline,Precise-g4t,Precise-g4t-offline
-```
-
-[作者抱脸chatgpt-next-web网站](https://harry-zklcdc-chatgpt-next-web.hf.space)
-
-[冻死企鹅chatgpt-next-web网站](https://dongsiqie-chatgpt-next-web.hf.space)
 
 **chat-sydney**
 
