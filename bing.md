@@ -8,15 +8,23 @@
 
 清除缓存以后程序会自动获取新的免登陆cookie
 
+[作者Azure演示站](https://bingai.zklcdc.xyz/)
+
+[作者HuggingFace演示站](https://harry-zklcdc-go-proxy-bingai.hf.space)
+
+[作者vercel演示站](https://bingai-vercel.zklcdc.xyz)
+
+[作者Cloudflare Worker演示站](https://bingai-cfwk.zklcdc.xyz)
+
+[作者CodeSandbox演示站](https://k5g89n-8080.csb.app)
+
 [冻死企鹅网站1](https://dongsiqie-bing.hf.space)
 
 [冻死企鹅网站2](https://dongsiqie-bingai.hf.space)
 
-冻死企鹅临时网站，速度很慢：https://k5g89n-8080.csb.app
-
-[作者演示站](https://bingai.zklcdc.xyz/)
-
 [rr1演示站](https://rr1-gpb2.hf.space)
+
+[冻死企鹅CodeSandbox网站](https://k5g89n-8080.csb.app)
 
 **bing画图**
 
