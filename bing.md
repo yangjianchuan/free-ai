@@ -18,13 +18,7 @@
 
 [作者CodeSandbox演示站](https://k5g89n-8080.csb.app)
 
-[冻死企鹅网站1](https://dongsiqie-bing.hf.space)
-
-[冻死企鹅网站2](https://dongsiqie-bingai.hf.space)
-
 [rr1演示站](https://rr1-gpb2.hf.space)
-
-[冻死企鹅CodeSandbox网站](https://k5g89n-8080.csb.app)
 
 **bing画图**
 
@@ -42,17 +36,11 @@
 
 [rr1sydney网站4](https://rr1-test666.hf.space)
 
-[冻死企鹅sydney网站](https://dongsiqie-sydney.hf.space)
-
 **bingo**
 
 hf.space域名部署的bingo项目，访问流量大了就会被封，不再允许免登陆使用，被封后一般第二天会自动解封。
 
 [作者演示站](https://copilot.github1s.tk)
-
-[冻死企鹅网站](https://dongsiqie-bingo.hf.space)
-
-[冻死企鹅网站2](https://dongsiqie-bg.hf.space)
 
 [rr1网站1](https://rr1-bg.hf.space)
 

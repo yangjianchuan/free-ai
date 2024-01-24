@@ -3,8 +3,8 @@
 <head>
 <meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
 
-<link href='https://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,700,400&subset=latin,latin-ext' rel='stylesheet' type='text/css' /><style type='text/css'>html {overflow-x: initial !important;}:root { --bg-color:#ffffff; --text-color:#333333; --select-text-bg-color:#B5D6FC; --select-text-font-color:auto; --monospace:"Lucida Console",Consolas,"Courier",monospace; --title-bar-height:20px; }
-.mac-os-11 { --title-bar-height:28px; }
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,700,400&subset=latin,latin-ext' rel='stylesheet' type='text/css' /><style type='text/css'>html {overflow-x: initial !important;}:root { --bg-color: #ffffff; --text-color: #333333; --select-text-bg-color: #B5D6FC; --select-text-font-color: auto; --monospace: "Lucida Console",Consolas,"Courier",monospace; --title-bar-height: 20px; }
+.mac-os-11 { --title-bar-height: 28px; }
 html { font-size: 14px; background-color: var(--bg-color); color: var(--text-color); font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
 h1, h2, h3, h4, h5 { white-space: pre-wrap; }
 body { margin: 0px; padding: 0px; height: auto; inset: 0px; font-size: 1rem; line-height: 1.42857; overflow-x: hidden; background: inherit; }
@@ -163,7 +163,7 @@ mark .md-meta { color: rgb(0, 0, 0); }
 .md-fences-advanced:not(.md-focus) { background: inherit; }
 .typora-export-show-outline .typora-export-content { max-width: 1440px; margin: auto; display: flex; flex-direction: row; }
 .typora-export-sidebar { width: 300px; font-size: 0.8rem; margin-top: 80px; margin-right: 18px; }
-.typora-export-show-outline #write { --webkit-flex:2; flex: 2 1 0%; }
+.typora-export-show-outline #write { --webkit-flex: 2; flex: 2 1 0%; }
 .typora-export-sidebar .outline-content { position: fixed; top: 0px; max-height: 100%; overflow: hidden auto; padding-bottom: 30px; padding-top: 60px; width: 300px; }
 @media screen and (max-width: 1024px) {
   .typora-export-sidebar, .typora-export-sidebar .outline-content { width: 240px; }
@@ -203,6 +203,20 @@ mark .md-meta { color: rgb(0, 0, 0); }
 .typora-export-show-outline .outline-item-active > .outline-item .outline-label { font-weight: 700; }
 .md-inline-math-container mjx-container { zoom: 0.95; }
 mjx-container { break-inside: avoid; }
+.md-alert.md-alert-note { border-left-color: rgb(9, 105, 218); }
+.md-alert.md-alert-important { border-left-color: rgb(130, 80, 223); }
+.md-alert.md-alert-warning { border-left-color: rgb(154, 103, 0); }
+.md-alert.md-alert-tip { border-left-color: rgb(31, 136, 61); }
+.md-alert.md-alert-caution { border-left-color: rgb(207, 34, 46); }
+.md-alert { padding: 0px 1em; margin-bottom: 16px; color: inherit; border-left: 0.25em solid rgb(0, 0, 0); }
+.md-alert-text-note { color: rgb(9, 105, 218); }
+.md-alert-text-important { color: rgb(130, 80, 223); }
+.md-alert-text-warning { color: rgb(154, 103, 0); }
+.md-alert-text-tip { color: rgb(31, 136, 61); }
+.md-alert-text-caution { color: rgb(207, 34, 46); }
+.md-alert-text { font-size: 0.9rem; font-weight: 700; }
+.md-alert-text svg { fill: currentcolor; position: relative; top: 0.125em; margin-right: 1ch; overflow: visible; }
+.md-alert-text-container::after { content: attr(data-text); text-transform: capitalize; pointer-events: none; margin-right: 1ch; }
 
 
 :root {
@@ -558,6 +572,10 @@ header, .context-menu, .megamenu-content, footer{
     background-color: var(--side-bar-bg-color);
 }
 
+.mac-os #write{
+    caret-color: AccentColor;
+}
+
 .md-lang {
     color: #b4654d;
 }
@@ -594,6 +612,6 @@ header, .context-menu, .megamenu-content, footer{
 </style><title>bing</title>
 </head>
 <body class='typora-export os-windows'><div class='typora-export-content'>
-<div id='write'  class=''><h1 id='bing和sydney镜像站'><span>bing和sydney镜像站</span></h1><p><span>大家好，我是B站UP主</span><a href='https://space.bilibili.com/23375741'><span>冻死企鹅</span></a><span>。以下站点中找一个能用的，推荐使用go-proxy-bingai。</span></p><p><span>【推荐】</span><strong><span>go-proxy-bingai</span></strong></p><p><span>如果发现不能免登陆使用了，可以点击右上角的齿轮，点【一键重置】</span></p><p><span>清除缓存以后程序会自动获取新的免登陆cookie</span></p><p><a href='https://bingai.zklcdc.xyz/'><span>作者Azure演示站</span></a></p><p><a href='https://harry-zklcdc-go-proxy-bingai.hf.space'><span>作者HuggingFace演示站</span></a></p><p><a href='https://bingai-vercel.zklcdc.xyz'><span>作者vercel演示站</span></a></p><p><a href='https://bingai-cfwk.zklcdc.xyz'><span>作者Cloudflare Worker演示站</span></a></p><p><a href='https://k5g89n-8080.csb.app'><span>作者CodeSandbox演示站</span></a></p><p><a href='https://dongsiqie-bing.hf.space'><span>冻死企鹅网站1</span></a></p><p><a href='https://dongsiqie-bingai.hf.space'><span>冻死企鹅网站2</span></a></p><p><a href='https://rr1-gpb2.hf.space'><span>rr1演示站</span></a></p><p><a href='https://k5g89n-8080.csb.app'><span>冻死企鹅CodeSandbox网站</span></a></p><p><strong><span>bing画图</span></strong></p><p><span>如果需要画图或者使用插件，必须使用cookie登陆才可以，以下链接可以获取自己的cookie然后填写到</span><code>go-proxy-bingai</code><span>镜像中</span></p><p><a href='wiki/bingcookie3.html'><span>国内免魔法获取cookie</span></a></p><p><strong><span>chat-sydney</span></strong></p><p><a href='https://rr1-test9.hf.space'><span>rr1sydney网站1</span></a></p><p><a href='https://rr1-test8.hf.space'><span>rr1sydney网站2</span></a></p><p><a href='https://rr1-test333.hf.space'><span>rr1sydney网站3</span></a></p><p><a href='https://rr1-test666.hf.space'><span>rr1sydney网站4</span></a></p><p><a href='https://dongsiqie-sydney.hf.space'><span>冻死企鹅sydney网站</span></a></p><p><strong><span>bingo</span></strong></p><p><span>hf.space域名部署的bingo项目，访问流量大了就会被封，不再允许免登陆使用，被封后一般第二天会自动解封。</span></p><p><a href='https://copilot.github1s.tk'><span>作者演示站</span></a></p><p><a href='https://dongsiqie-bingo.hf.space'><span>冻死企鹅网站</span></a></p><p><a href='https://dongsiqie-bg.hf.space'><span>冻死企鹅网站2</span></a></p><p><a href='https://rr1-bg.hf.space'><span>rr1网站1</span></a></p><p><a href='https://rr1-bg1.hf.space'><span>rr1网站2</span></a></p><p><strong><span>相关项目</span></strong></p><p><a href='https://dongsiqie-get-bing-cookies.hf.space/'><span>获取免登陆的cookie</span></a><span>或者验证自己的cookie</span></p><p>&nbsp;</p></div></div>
+<div id='write'  class=''><h1 id='bing和sydney镜像站'><span>bing和sydney镜像站</span></h1><p><span>大家好，我是B站UP主</span><a href='https://space.bilibili.com/23375741'><span>冻死企鹅</span></a><span>。以下站点中找一个能用的，推荐使用go-proxy-bingai。</span></p><p><span>【推荐】</span><strong><span>go-proxy-bingai</span></strong></p><p><span>如果发现不能免登陆使用了，可以点击右上角的齿轮，点【一键重置】</span></p><p><span>清除缓存以后程序会自动获取新的免登陆cookie</span></p><p><a href='https://bingai.zklcdc.xyz/'><span>作者Azure演示站</span></a></p><p><a href='https://harry-zklcdc-go-proxy-bingai.hf.space'><span>作者HuggingFace演示站</span></a></p><p><a href='https://bingai-vercel.zklcdc.xyz'><span>作者vercel演示站</span></a></p><p><a href='https://bingai-cfwk.zklcdc.xyz'><span>作者Cloudflare Worker演示站</span></a></p><p><a href='https://k5g89n-8080.csb.app'><span>作者CodeSandbox演示站</span></a></p><p><a href='https://rr1-gpb2.hf.space'><span>rr1演示站</span></a></p><p><strong><span>bing画图</span></strong></p><p><span>如果需要画图或者使用插件，必须使用cookie登陆才可以，以下链接可以获取自己的cookie然后填写到</span><code>go-proxy-bingai</code><span>镜像中</span></p><p><a href='wiki/bingcookie3.html'><span>国内免魔法获取cookie</span></a></p><p><strong><span>chat-sydney</span></strong></p><p><a href='https://rr1-test9.hf.space'><span>rr1sydney网站1</span></a></p><p><a href='https://rr1-test8.hf.space'><span>rr1sydney网站2</span></a></p><p><a href='https://rr1-test333.hf.space'><span>rr1sydney网站3</span></a></p><p><a href='https://rr1-test666.hf.space'><span>rr1sydney网站4</span></a></p><p><strong><span>bingo</span></strong></p><p><span>hf.space域名部署的bingo项目，访问流量大了就会被封，不再允许免登陆使用，被封后一般第二天会自动解封。</span></p><p><a href='https://copilot.github1s.tk'><span>作者演示站</span></a></p><p><a href='https://rr1-bg.hf.space'><span>rr1网站1</span></a></p><p><a href='https://rr1-bg1.hf.space'><span>rr1网站2</span></a></p><p><strong><span>相关项目</span></strong></p><p><a href='https://dongsiqie-get-bing-cookies.hf.space/'><span>获取免登陆的cookie</span></a><span>或者验证自己的cookie</span></p><p>&nbsp;</p></div></div>
 </body>
 </html>

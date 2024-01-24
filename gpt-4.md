@@ -74,5 +74,3 @@ https://lobe.caifree.com
 如果你有自己的账号，可以使用以下镜像
 
 https://chat.freegpts.org/
-
-https://demo.xyhelper.cn/
