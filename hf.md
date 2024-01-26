@@ -10,6 +10,8 @@
 
 国外的大语言模型，对中文支持不是很好
 
+https://hf.dongsiqie.me/chat
+
 https://dongsiqie-mixtral-chat.hf.space
 
 https://h2oai-h2ogpt-chatbot.hf.space
