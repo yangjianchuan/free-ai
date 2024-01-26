@@ -6,9 +6,9 @@
 
 如果发现不能免登陆使用了，可以点击右上角的齿轮，点【一键重置】
 
-清除缓存以后程序会自动获取新的免登陆cookie
+清除缓存以后程序会自动获取新的免登陆cookie，演示站使用量大的时候可能需要一键重置好几次
 
-如果自己部署的验证一直不通过，可以点击[这里](https://dongsiqie-get-bing-cookies.hf.space/)获取一个cookie
+如果验证一直不通过，点击[这里](https://dongsiqie-get-bing-cookies.hf.space/)获取一个cookie
 
 [作者主演示站](https://bingai.zklcdc.xyz/)
 
