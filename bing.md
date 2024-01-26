@@ -8,6 +8,8 @@
 
 清除缓存以后程序会自动获取新的免登陆cookie
 
+如果自己部署的验证一直不通过，可以点击[这里](https://dongsiqie-get-bing-cookies.hf.space/)获取一个cookie
+
 [作者主演示站](https://bingai.zklcdc.xyz/)
 
 [作者HuggingFace演示站](https://harry-zklcdc-go-proxy-bingai.hf.space)
