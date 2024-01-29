@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Translation Page</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <h1>Translation Page</h1>
+    <textarea id="textToTranslate" rows="10" cols="200">
+    </textarea>
+    <br/>
+    <select id="targetLang">
+        <option value="zh">Chinese</option>
+        <option value="en">English</option>
+    </select>
+    <button onclick="translateText()">Translate</button>
+    <p id="translatedText"></p>
+
+    <script>
+        function translateText() {
+            var textToTranslate = $('#textToTranslate').val();
+            var targetLang = $('#targetLang').val();
+
+            $.ajax({
+                url: "https://api.deeplx.org/translate",
+                type: "POST",
+                data: JSON.stringify({
+                    "text": textToTranslate,
+                    "source_lang": "auto",
+                    "target_lang": targetLang
+                }),
+                contentType: "application/json",
+                success: function (response) {
+                    if (response.code == 200) {
+                        $('#translatedText').html(response.data);
+                    } else {
+                        $('#translatedText').html("Error: " + response.message);
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    $('#translatedText').html("Unable to translate at this moment.");
+                }
+            });
+        }
+    </script>
+</body>
+</html>
