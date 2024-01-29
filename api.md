@@ -2,11 +2,15 @@
 
 大家好，我是B站UP主[冻死企鹅](https://space.bilibili.com/23375741)。以下站点中找一个能用的
 
+## caifree
+
+[注册](https://one.caifree.com)新用户免费送200刀，只能通过GITHUB进行授权注册登录
+
 ## aivvm
 
 [注册](https://oneapi.aivvm.com/)新用户免费送100刀，只能通过GITHUB进行授权注册登录
 
-## ngedlktfticp
+## 逆向大佬
 
 [注册](https://ngedlktfticp.cloud.sealos.io/)送20美元额度
 
