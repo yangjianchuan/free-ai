@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Translation Page</title>
+    <style>
+        /* Add CSS styles for responsiveness */
+        body {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column; 
+            align-items: center;
+            justify-content: flex-start;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        textarea, select, button {
+            width: 100%;
+            max-width: 600px;
+            margin: 10px 0;
+        }
+        textarea {
+            min-height: 150px;
+        }
+
+        @media (max-width: 768px) {
+            textarea {
+                height: 140px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            textarea {
+                height: 120px;
+            }
+        }
+        #copyIndicator {
+            color: green;
+            display: none;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <h1>Translation Page</h1>
+    <textarea id="textToTranslate" rows="10" cols="50"></textarea>
+    <br/>
+    <button onclick="translateText('zh')">翻译成中文</button>
+    <button onclick="translateText('en')">翻译成英文</button>
+    <textarea id="translatedText" readonly onclick="copyToClipboard()"></textarea> <!-- Added onclick event for copy -->
+    <span id="copyIndicator">Text Copied!</span> <!-- Indicator for copy action -->
+    
+    <script>
+        function copyToClipboard() {
+            var copyText = document.getElementById("translatedText");
+            copyText.select(); // Select the text
+            document.execCommand("copy"); // Copy selected text
+            // Show indicator that text is copied.
+            var indicator = document.getElementById("copyIndicator");
+            indicator.style.display = "block";
+            setTimeout(function(){ indicator.style.display = "none"; }, 2000); // Hide after 2 sec
+        }
+
+        function translateText(targetLang) {
+            var textToTranslate = $('#textToTranslate').val();
+
+            $.ajax({
+                url: "https://api.deeplx.org/translate", // Assumed URL - check proper one
+                type: "POST",
+                data: JSON.stringify({
+                    "text": textToTranslate,
+                    "source_lang": "auto",
+                    "target_lang": targetLang
+                }),
+                contentType: "application/json",
+                success: function (response) {
+                    if (response.code == 200) {
+                        $('#translatedText').val(response.data); // Changed from .html() to .val()
+                    } else {
+                        $('#translatedText').val("Error: " + response.message); // Changed from .html() to .val()
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    $('#translatedText').val("Unable to translate at this moment."); // Changed from .html() to .val()
+                }
+            });
+        }
+    </script>
+</body>
+</html>
