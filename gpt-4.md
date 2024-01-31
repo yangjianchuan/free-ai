@@ -1,3 +1,5 @@
+[首页](https://dongsiqie.me/)
+
 # 免费gpt-4
 
 大家好，我是B站UP主[冻死企鹅](https://space.bilibili.com/23375741)。以下站点中找一个能用的

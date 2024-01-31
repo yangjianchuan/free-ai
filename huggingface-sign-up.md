@@ -1,3 +1,5 @@
+[首页](https://dongsiqie.me/)
+
 # huggingface注册
 
 > 原文：https://github.com/Harry-zklcdc/go-proxy-bingai/wiki/HuggingFace-%E9%83%A8%E7%BD%B2

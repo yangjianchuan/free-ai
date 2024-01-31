@@ -1,3 +1,5 @@
+[首页](https://dongsiqie.me/)
+
 # 友情链接
 
 [magic](https://www.ninomae.top/)

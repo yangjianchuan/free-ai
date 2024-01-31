@@ -1,3 +1,5 @@
+[首页](https://dongsiqie.me/)
+
 # Openai新 API 用法
 
 ## 注册Openai账号

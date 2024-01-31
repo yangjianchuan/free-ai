@@ -1,6 +1,12 @@
+[首页](https://dongsiqie.me/)
+
 # bing和sydney镜像站
 
-大家好，我是B站UP主[冻死企鹅](https://space.bilibili.com/23375741)。以下站点中找一个能用的，推荐使用go-proxy-bingai。
+大家好，我是B站UP主[冻死企鹅](https://space.bilibili.com/23375741)。
+
+如果你是付费或者其他up主要求你三连后进来的，那么恭喜你，你被骗了。
+
+以下站点中找一个能用的，推荐使用go-proxy-bingai。
 
 【推荐】**go-proxy-bingai**
 
@@ -8,7 +14,7 @@
 
 清除缓存以后程序会自动获取新的免登陆cookie，演示站使用量大的时候可能需要一键重置好几次
 
-如果验证一直不通过，点击[这里](https://dongsiqie-get-bing-cookies.hf.space/)获取一个cookie
+==如果验证一直不通过，点击[这里](https://dongsiqie-get-bing-cookies.hf.space/)获取一个cookie==
 
 [作者主演示站](https://bingai.zklcdc.xyz/)
 
@@ -23,6 +29,8 @@
 [rr1演示站](https://rr1-gpb2.hf.space)
 
 [冻死企鹅演示站bing](https://dongsiqie-bing.hf.space)
+
+↓下面这个网址缓存了几个通过验证的cookie，其他网址用不了的话就选择它
 
 [冻死企鹅演示站bingai](https://dongsiqie-bingai.hf.space)
 
