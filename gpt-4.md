@@ -15,7 +15,7 @@ https://free.xyhelper.com.cn/
 
 ### 字节海外Coze平台
 
-建议电脑上使用，网页没有适配移动端。建议直接谷歌账号登陆使用。
+建议电脑上使用，网页没有适配移动端。建议直接谷歌账号登陆使用也可以使用+86的手机号登陆。
 
 Coze是一个应用编辑平台，它可以帮助你创建和部署先进的AI聊天机器人。Coze适合不同编程水平的用户，让你可以快速地构建和部署各种聊天机器人。当然，你也可以随便创建一个机器人，然后在网页上当做gpt-4来使用。
 
@@ -28,6 +28,10 @@ https://www.coze.com/docs/welcome.html
 视频教程：B站搜索 神烦老狗，然后自己去找他的视频。
 
 ![image-20240115145316102](assets/image-20240115145316102.png)
+
+字节也提供了国内版的，叫做扣子，模型用的是语雀
+
+https://www.coze.cn
 
 ### magic
 
@@ -64,12 +68,6 @@ https://www.chatgot.io/
 每天5个金币，每次提问消耗1金币。
 
 https://gptscopilot.ai/
-
-## aivvm
-
-vv佬提供的免登陆使用的gpt-4，前端使用的是lobe chat
-
-https://lobe.caifree.com
 
 ## 官网镜像
 
