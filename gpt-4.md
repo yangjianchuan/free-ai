@@ -27,11 +27,9 @@ https://www.coze.com/docs/welcome.html
 
 视频教程：B站搜索 神烦老狗，然后自己去找他的视频。
 
+注意：字节也提供了国内版的，叫做扣子https://www.coze.cn，模型用的是语雀。
+
 ![image-20240115145316102](assets/image-20240115145316102.png)
-
-字节也提供了国内版的，叫做扣子，模型用的是语雀
-
-https://www.coze.cn
 
 ### magic
 

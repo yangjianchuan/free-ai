@@ -10,10 +10,6 @@
 
 作者主演示站：https://bingai.zklcdc.xyz/
 
-冻死企鹅演示站bing：https://dongsiqie-bing.hf.space
-
-冻死企鹅演示站bingai：https://dongsiqie-bingai.hf.space
-
 作者HuggingFace演示站：https://harry-zklcdc-go-proxy-bingai.hf.space
 
 作者vercel演示站：https://bingai-vercel.zklcdc.xyz
@@ -21,6 +17,10 @@
 作者Cloudflare Worker演示站：https://bingai-cfwk.zklcdc.xyz
 
 作者CodeSandbox演示站：https://k5g89n-8080.csb.app
+
+冻死企鹅演示站bing：https://dongsiqie-bing.hf.space
+
+冻死企鹅演示站bingai：https://dongsiqie-bingai.hf.space
 
 rr1演示站：https://rr1-gpb2.hf.space
 
