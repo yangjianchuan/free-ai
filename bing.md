@@ -16,19 +16,15 @@
 
 作者Cloudflare Worker演示站：https://bingai-cfwk.zklcdc.xyz
 
-作者CodeSandbox演示站：https://k5g89n-8080.csb.app
-
 冻死企鹅演示站bing：https://dongsiqie-bing.hf.space
 
 冻死企鹅演示站bingai：https://dongsiqie-bingai.hf.space
-
-rr1演示站：https://rr1-gpb2.hf.space
 
 如果发现不能免登陆使用了。
 
 方案1：可以点击右上角的齿轮，点【一键重置】，清除缓存以后程序会自动获取新的免登陆cookie，演示站使用量大的时候可能需要一键重置好几次
 
-方案2：点击[这里](https://dongsiqie-get-bing-cookies.hf.space/)获取一个cookie
+方案2：点击 https://dongsiqie-get-bing-cookies.hf.space 获取一个cookie
 
 **bing画图**
 
@@ -37,6 +33,7 @@ rr1演示站：https://rr1-gpb2.hf.space
 [国内免魔法获取cookie](wiki/bingcookie3.html)
 
 **chat-sydney**
+
 
 rr1sydney网站1：https://rr1-test9.hf.space
 
@@ -47,6 +44,12 @@ rr1sydney网站3：https://rr1-test333.hf.space
 rr1sydney网站4：https://rr1-test666.hf.space
 
 冻死企鹅演示站：https://dongsiqie-sydney.hf.space
+
+右下角的`VerifyServer`可以按照填写一下，可以自动过机器人验证，需要填写的值为
+
+```
+https://bing-pass.dongsiqie.me
+```
 
 **bingo**
 
