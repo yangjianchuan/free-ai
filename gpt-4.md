@@ -13,6 +13,12 @@ https://free.xyhelper.com.cn/
 
 ![webwxgetmsgimg](assets/webwxgetmsgimg.jpg)
 
+## rawchat
+
+完全免费的GPT4站点，gpts也可以用
+
+https://sharedchat.cn/shared.html
+
 ### 字节海外Coze平台
 
 建议电脑上使用，网页没有适配移动端。建议直接谷歌账号登陆使用也可以使用+86的手机号登陆。
@@ -27,7 +33,7 @@ https://www.coze.com/docs/welcome.html
 
 视频教程：B站搜索 神烦老狗，然后自己去找他的视频。
 
-注意：字节也提供了国内版的，叫做扣子https://www.coze.cn，模型用的是语雀。
+注意：字节也提供了国内版的，叫做扣子https://www.coze.cn，模型用的是云雀。
 
 ![image-20240115145316102](assets/image-20240115145316102.png)
 
@@ -67,8 +73,14 @@ https://www.chatgot.io/
 
 https://gptscopilot.ai/
 
+
+
+
+
 ## 官网镜像
 
 如果你有自己的账号，可以使用以下镜像
 
 https://chat.freegpts.org/
+
+https://chat.rawchat.cc/

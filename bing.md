@@ -20,6 +20,8 @@
 
 冻死企鹅演示站bingai：https://dongsiqie-bingai.hf.space
 
+老狗演示站：https://xxx.laogou666.com
+
 如果发现不能免登陆使用了。
 
 方案1：可以点击右上角的齿轮，点【一键重置】，清除缓存以后程序会自动获取新的免登陆cookie，演示站使用量大的时候可能需要一键重置好几次
