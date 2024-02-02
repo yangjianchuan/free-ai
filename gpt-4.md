@@ -9,7 +9,7 @@
 【免登陆】UI与原版一样，以下车队为免费车队,用户可自由选择车号登陆。 UserToken 请输入（自行编写任意可见字符，长度在6~18之间）。 您的会话将与其他用户隔离。
 提示:为避免滥用,免费车队使用 4.0 模型时==每次提问都会==要求进行人机验证。
 
-https://free.xyhelper.com.cn/
+https://free.xyhelper.com.cn/list
 
 ![webwxgetmsgimg](assets/webwxgetmsgimg.jpg)
 
@@ -73,10 +73,6 @@ https://www.chatgot.io/
 
 https://gptscopilot.ai/
 
-
-
-
-
 ## 官网镜像
 
 如果你有自己的账号，可以使用以下镜像
@@ -84,3 +80,13 @@ https://gptscopilot.ai/
 https://chat.freegpts.org/
 
 https://chat.rawchat.cc/
+
+## 应急3.5账号
+
+如果以上都不能用了，可以用这两个免费的gpt-3.5账号
+
+输入任意6位数以上密码即可
+
+https://dongsiqie-mygpt.hf.space
+
+https://dongsiqie-mygpt2.hf.space
