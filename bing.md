@@ -20,6 +20,8 @@
 
 冻死企鹅演示站bingai：https://dongsiqie-bingai.hf.space
 
+冻死企鹅vercel演示站：https://bingai.dongsiqie.me
+
 老狗演示站：https://xxx.laogou666.com
 
 如果发现不能免登陆使用了，比如提示【你已达到今天的对话限制】，可以点击右上角的齿轮，点【一键重置】
