@@ -6,23 +6,27 @@
 
 以下站点中找一个能用的。
 
+2024-02-05：抱脸的分享域名`hf.space`被墙了
+
 【推荐】**go-proxy-bingai**
 
 作者主演示站：https://bingai.zklcdc.xyz/
-
-作者HuggingFace演示站：https://harry-zklcdc-go-proxy-bingai.hf.space
 
 作者vercel演示站：https://bingai-vercel.zklcdc.xyz
 
 作者Cloudflare Worker演示站：https://bingai-cfwk.zklcdc.xyz
 
-冻死企鹅演示站bing：https://dongsiqie-bing.hf.space
-
-冻死企鹅演示站bingai：https://dongsiqie-bingai.hf.space
-
 冻死企鹅vercel演示站：https://bingai.dongsiqie.me
 
 老狗演示站：https://xxx.laogou666.com
+
+
+
+【被墙】作者HuggingFace演示站：https://harry-zklcdc-go-proxy-bingai.hf.space
+
+【被墙】冻死企鹅演示站bing：https://dongsiqie-bing.hf.space
+
+【被墙】冻死企鹅演示站bingai：https://dongsiqie-bingai.hf.space
 
 如果发现不能免登陆使用了，比如提示【你已达到今天的对话限制】，可以点击右上角的齿轮，点【一键重置】
 
@@ -37,15 +41,15 @@
 **chat-sydney**
 
 
-rr1sydney网站1：https://rr1-test9.hf.space
+【被墙】rr1sydney网站1：https://rr1-test9.hf.space
 
-rr1sydney网站2：https://rr1-test8.hf.space
+【被墙】rr1sydney网站2：https://rr1-test8.hf.space
 
-rr1sydney网站3：https://rr1-test333.hf.space
+【被墙】rr1sydney网站3：https://rr1-test333.hf.space
 
-rr1sydney网站4：https://rr1-test666.hf.space
+【被墙】rr1sydney网站4：https://rr1-test666.hf.space
 
-冻死企鹅演示站：https://dongsiqie-sydney.hf.space
+【被墙】冻死企鹅演示站：https://dongsiqie-sydney.hf.space
 
 右下角的`VerifyServer`可以按照填写一下，可以自动过机器人验证，需要填写的值为
 
@@ -57,15 +61,15 @@ https://bing-pass.dongsiqie.me
 
 hf.space域名部署的bingo项目，访问流量大了就会被封，不再允许免登陆使用，被封后一般第二天会自动解封。
 
-作者演示站：https://copilot.github1s.tk
+【被墙】作者演示站：https://copilot.github1s.tk
 
-rr1网站1：https://rr1-bg.hf.space
+【被墙】rr1网站1：https://rr1-bg.hf.space
 
-rr1网站2：https://rr1-bg1.hf.space
+【被墙】rr1网站2：https://rr1-bg1.hf.space
 
-冻死企鹅演示站bingo：https://dongsiqie-bingo.hf.space
+【被墙】冻死企鹅演示站bingo：https://dongsiqie-bingo.hf.space
 
-冻死企鹅演示站bg：https://dongsiqie-bg.hf.space
+【被墙】冻死企鹅演示站bg：https://dongsiqie-bg.hf.space
 
 **相关项目**
 
