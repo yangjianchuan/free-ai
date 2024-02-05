@@ -12,11 +12,15 @@
 
 作者主演示站：https://bingai.zklcdc.xyz/
 
+作者HuggingFace演示站：https://bingai-hf.zklcdc.xyz/
+
 作者vercel演示站：https://bingai-vercel.zklcdc.xyz
 
 作者Cloudflare Worker演示站：https://bingai-cfwk.zklcdc.xyz
 
 冻死企鹅vercel演示站：https://bingai.dongsiqie.me
+
+冻死企鹅HuggingFace演示站：https://bingai-hf.dongsiqie.me
 
 老狗演示站：https://xxx.laogou666.com
 
