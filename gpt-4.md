@@ -80,13 +80,3 @@ https://gptscopilot.ai/
 https://chat.freegpts.org/
 
 https://chat.rawchat.cc/
-
-## 应急3.5账号
-
-如果以上都不能用了，可以用这两个免费的gpt-3.5账号
-
-输入任意6位数以上密码即可
-
-https://dongsiqie-mygpt.hf.space
-
-https://dongsiqie-mygpt2.hf.space
