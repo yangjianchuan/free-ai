@@ -12,8 +12,6 @@
 
 作者主演示站：https://bingai.zklcdc.xyz/
 
-作者HuggingFace演示站：https://bingai-hf.zklcdc.xyz/
-
 作者vercel演示站：https://bingai-vercel.zklcdc.xyz
 
 作者Cloudflare Worker演示站：https://bingai-cfwk.zklcdc.xyz
