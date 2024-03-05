@@ -12,17 +12,17 @@
 
 然后找到`Application`在Cookies中找到`_U`的值，复制它
 
-![image-20240115143007888](assets/image-20240115143007888.png)
+![image-20240115143007888](https://pic.dongsiqie.me/assets/image-20240115143007888.png)
 
 
 
 在go-proxy-bingai项目中，点击右上角的齿轮，点【设置】，将刚刚复制的`_U`的值填写到`Token`中，然后保存
 
-![image-20240115143433222](assets/image-20240115143433222.png)
+![image-20240115143433222](https://pic.dongsiqie.me/assets/image-20240115143433222.png)
 
 ==手工刷新一下==网页，你就登陆成功了，登陆后可以画图和使用插件。
 
-![image-20240115143932479](assets/image-20240115143932479.png)
+![image-20240115143932479](https://pic.dongsiqie.me/assets/image-20240115143932479.png)
 
 
 

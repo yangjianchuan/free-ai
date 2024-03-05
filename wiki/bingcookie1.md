@@ -10,7 +10,7 @@
 
 - 选择**启动 VM 模式**。
 - 在实验侧边栏上的**Resources**选项卡中，在 **MININT** 框中选择**密码**旁边的 **T** 图标，以便为您输入虚拟机的管理员密码。
-![image](assets/260921898-342e9c88-0f5f-497b-8933-e9f5812e46df.png)
+![image](https://pic.dongsiqie.me/assets/260921898-342e9c88-0f5f-497b-8933-e9f5812e46df.png)
 
 - 打开新版Edge浏览器。
 

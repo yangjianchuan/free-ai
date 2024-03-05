@@ -18,7 +18,7 @@ session key可以在 https://platform.openai.com/account/usage 网页的请求�
 
 然后在【标头】里找到 authorization ，后面的 Bearer sess-xxxx 就是 session key 了
 
-![image](assets\2023-04-05-openai_update_check_balance_api-01.png)
+![image](https://pic.dongsiqie.me/assets/2023-04-05-openai_update_check_balance_api-01.png)
 
 ## free-api
 

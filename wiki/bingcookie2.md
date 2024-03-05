@@ -8,7 +8,7 @@
 
 点击 https://github.com/codespaces 并创建空白codespaces
 
-![1](assets/261897065-cb3c9286-fbd4-4fbd-b02e-7d993c111f94.png)
+![1](https://pic.dongsiqie.me/assets/261897065-cb3c9286-fbd4-4fbd-b02e-7d993c111f94.png)
 
 ### 2.运行命令
 
@@ -18,19 +18,19 @@
 docker run -p 8080:80 dorowu/ubuntu-desktop-lxde-vnc
 ```
 
-![2](assets/261897147-fdae2ece-62df-4931-866d-ab761fbf1dda.png)
+![2](https://pic.dongsiqie.me/assets/261897147-fdae2ece-62df-4931-866d-ab761fbf1dda.png)
 
 ### 3.打开远程服务器桌面
 
 首次使用会加载一两分钟，加载完后在页面右下角弹窗点击“在浏览器中打开”，会进入一个远程服务器桌面
 
-![3](assets/261897154-7fb4536f-fc04-40a8-9fb4-b6fa04728a1b.png)
+![3](https://pic.dongsiqie.me/assets/261897154-7fb4536f-fc04-40a8-9fb4-b6fa04728a1b.png)
 
 ### 4.配置FireFox
 
 在左下角启动菜单处打开FireFox火狐浏览器
 
-![5](assets/261897196-c8d3108a-cfc3-416f-b4dc-c1696ad04ce8.png)
+![5](https://pic.dongsiqie.me/assets/261897196-c8d3108a-cfc3-416f-b4dc-c1696ad04ce8.png)
 
 > 注意：这里只能使用自带的火狐浏览器，Edge和Chrome安装不上，可以通过插件让FireFox支持BingAI。
 
@@ -40,17 +40,17 @@ docker run -p 8080:80 dorowu/ubuntu-desktop-lxde-vnc
 https://addons.mozilla.org/en-US/firefox/addon/enable-bing-chat/?utm_source=addons.mozilla.org&utm_medium=referral&utm_content=search
 ```
 
-![6](assets/261897337-64e6603e-ee16-463f-92db-04c5afd66045.png)
+![6](https://pic.dongsiqie.me/assets/261897337-64e6603e-ee16-463f-92db-04c5afd66045.png)
 
 粘贴到地址栏并访问
 
-![7](assets/261897344-2ab35970-4c30-465b-b623-45414e343f13.png)
+![7](https://pic.dongsiqie.me/assets/261897344-2ab35970-4c30-465b-b623-45414e343f13.png)
 
 安装Bing插件
 
-![8](assets/261897359-7424f81b-30a1-4166-8c9b-6e1601cee624.png)
+![8](https://pic.dongsiqie.me/assets/261897359-7424f81b-30a1-4166-8c9b-6e1601cee624.png)
 
-![9](assets/261897376-58cc32a2-5726-407b-90f6-b6bd30281cb8.png)
+![9](https://pic.dongsiqie.me/assets/261897376-58cc32a2-5726-407b-90f6-b6bd30281cb8.png)
 
 ### 5.进入首页网址点击 CHAT。
 
@@ -70,9 +70,9 @@ https://www.bing.com/search?q=Bing+AI&showconv=1&FORM=hpcodx
 
 ### 7.按F12打开开发者工具，如果F12呼出了外部浏览器的开发者工具，则从菜单栏打开。
 
-![12](assets/261897412-22c9942e-532b-4f7a-9708-87a74a51f8d5.png)
+![12](https://pic.dongsiqie.me/assets/261897412-22c9942e-532b-4f7a-9708-87a74a51f8d5.png)
 
-![13](assets/261897418-fa073553-ed9a-47cb-978d-d7dd87ec0e22.png)
+![13](https://pic.dongsiqie.me/assets/261897418-fa073553-ed9a-47cb-978d-d7dd87ec0e22.png)
 
 ### 8.获取cookie。
 
