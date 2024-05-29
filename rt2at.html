@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RT to AT</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            background: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+        .center {
+            width: 400px; /* Make the container wider */
+            padding: 50px;
+            background: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            border-radius: 8px; /* Make the whole container rounded */
+        }
+        h2 {
+            font-size: 24px; /* Larger title */
+        }
+        .input-wrapper {
+            position: relative;
+            margin-bottom: 25px;
+            width: 100%; /* Make sure wrapper takes full width */
+        }
+        .input-wrapper input {
+            width: 100%; /* Ensure full width of input */
+            height: 50px;
+            padding: 15px;
+            border-radius: 8px; /* Rounded corners */
+            border: 1px solid #ccc;
+            outline: none;
+            font-size: 16px; /* Larger font size */
+            background-color: #f9f9f9; /* Light gray background */
+            box-sizing: border-box; /* Include padding and border in width */
+        }
+        .input-wrapper label {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            transition: all 0.3s;
+            pointer-events: none;
+            color: #aaa;
+        }
+        .input-wrapper input:focus + label,
+        .input-wrapper input:not(:placeholder-shown) + label {
+            top: -8px;
+            left: 15px;
+            font-size: 14px; /* Smaller label when active */
+            color: #0f9977;
+        }
+        button {
+            width: 100%; /* Match input width */
+            padding: 15px 20px;
+            border: none;
+            border-radius: 8px; /* Rounded corners */
+            background-color: #0f9977;
+            color: white;
+            cursor: pointer;
+            font-size: 18px; /* Larger font size */
+            font-weight: bold;
+            box-sizing: border-box; /* Ensure full width with padding/border */
+        }
+        button:hover {
+            background-color: #0c7b61; /* Slightly darker on hover */
+        }
+        #access_token {
+            margin-top: 25px;
+            padding: 15px;
+            border-radius: 8px; /* Rounded corners */
+            border: 1px solid #ccc; /* Matching style with input */
+            background-color: #f9f9f9;
+            word-wrap: break-word;
+            overflow-y: auto;
+            height: 80px; /* Increased height */
+            font-size: 16px; /* Larger font size */
+            box-sizing: border-box; /* Include padding and border in width */
+        }
+    </style>
+</head>
+<body>
+    <div class="center">
+        <h2>Login to Access</h2>
+        <form id="tokenForm">
+            <div class="input-wrapper">
+                <input type="text" id="refresh_token" name="refresh_token" placeholder=" " required>
+                <label for="refresh_token">Refresh Token</label>
+            </div>
+            <button type="button" onclick="getToken()">Get Access Token</button>
+        </form>
+        <div id="access_token"></div>
+    </div>
+    <script>
+        async function getToken() {
+            const refreshToken = document.getElementById('refresh_token').value;
+            const response = await fetch('https://token.oaifree.com/api/auth/refresh', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+                },
+                body: `refresh_token=${encodeURIComponent(refreshToken)}`
+            });
+            const result = await response.json();
+            document.getElementById('access_token').innerText = 'Access Token: ' + result.access_token;
+        }
+    </script>
+</body>
+</html>
