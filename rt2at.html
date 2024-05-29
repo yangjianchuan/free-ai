@@ -108,7 +108,7 @@
                 body: `refresh_token=${encodeURIComponent(refreshToken)}`
             });
             const result = await response.json();
-            document.getElementById('access_token').innerText = 'Access Token: ' + result.access_token;
+            document.getElementById('access_token').innerText = result.access_token;
         }
     </script>
 </body>
