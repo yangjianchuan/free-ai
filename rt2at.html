@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,33 +15,47 @@
             background: #f0f0f0;
             font-family: Arial, sans-serif;
         }
+
         .center {
-            width: 400px; /* Make the container wider */
+            width: 400px;
+            /* Make the container wider */
             padding: 50px;
             background: white;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             text-align: center;
-            border-radius: 8px; /* Make the whole container rounded */
+            border-radius: 8px;
+            /* Make the whole container rounded */
         }
+
         h2 {
-            font-size: 24px; /* Larger title */
+            font-size: 24px;
+            /* Larger title */
         }
+
         .input-wrapper {
             position: relative;
             margin-bottom: 25px;
-            width: 100%; /* Make sure wrapper takes full width */
+            width: 100%;
+            /* Make sure wrapper takes full width */
         }
+
         .input-wrapper input {
-            width: 100%; /* Ensure full width of input */
+            width: 100%;
+            /* Ensure full width of input */
             height: 50px;
             padding: 15px;
-            border-radius: 8px; /* Rounded corners */
+            border-radius: 8px;
+            /* Rounded corners */
             border: 1px solid #ccc;
             outline: none;
-            font-size: 16px; /* Larger font size */
-            background-color: #f9f9f9; /* Light gray background */
-            box-sizing: border-box; /* Include padding and border in width */
+            font-size: 16px;
+            /* Larger font size */
+            background-color: #f9f9f9;
+            /* Light gray background */
+            box-sizing: border-box;
+            /* Include padding and border in width */
         }
+
         .input-wrapper label {
             position: absolute;
             top: 15px;
@@ -49,45 +64,61 @@
             pointer-events: none;
             color: #aaa;
         }
-        .input-wrapper input:focus + label,
-        .input-wrapper input:not(:placeholder-shown) + label {
+
+        .input-wrapper input:focus+label,
+        .input-wrapper input:not(:placeholder-shown)+label {
             top: -8px;
             left: 15px;
-            font-size: 14px; /* Smaller label when active */
+            font-size: 14px;
+            /* Smaller label when active */
             color: #0f9977;
         }
+
         button {
-            width: 100%; /* Match input width */
+            width: 100%;
+            /* Match input width */
             padding: 15px 20px;
             border: none;
-            border-radius: 8px; /* Rounded corners */
+            border-radius: 8px;
+            /* Rounded corners */
             background-color: #0f9977;
             color: white;
             cursor: pointer;
-            font-size: 18px; /* Larger font size */
+            font-size: 18px;
+            /* Larger font size */
             font-weight: bold;
-            box-sizing: border-box; /* Ensure full width with padding/border */
+            box-sizing: border-box;
+            /* Ensure full width with padding/border */
         }
+
         button:hover {
-            background-color: #0c7b61; /* Slightly darker on hover */
+            background-color: #0c7b61;
+            /* Slightly darker on hover */
         }
+
         #access_token {
             margin-top: 25px;
             padding: 15px;
-            border-radius: 8px; /* Rounded corners */
-            border: 1px solid #ccc; /* Matching style with input */
+            border-radius: 8px;
+            /* Rounded corners */
+            border: 1px solid #ccc;
+            /* Matching style with input */
             background-color: #f9f9f9;
             word-wrap: break-word;
             overflow-y: auto;
-            height: 80px; /* Increased height */
-            font-size: 16px; /* Larger font size */
-            box-sizing: border-box; /* Include padding and border in width */
+            height: 80px;
+            /* Increased height */
+            font-size: 16px;
+            /* Larger font size */
+            box-sizing: border-box;
+            /* Include padding and border in width */
         }
     </style>
 </head>
+
 <body>
     <div class="center">
-        <h2>Login to Access</h2>
+        <h2>根据refresh_token获取access_token</h2>
         <form id="tokenForm">
             <div class="input-wrapper">
                 <input type="text" id="refresh_token" name="refresh_token" placeholder=" " required>
@@ -96,6 +127,7 @@
             <button type="button" onclick="getToken()">Get Access Token</button>
         </form>
         <div id="access_token"></div>
+        <button type="button" onclick="copyToClipboard()">复制access_token</button>
     </div>
     <script>
         async function getToken() {
@@ -110,6 +142,19 @@
             const result = await response.json();
             document.getElementById('access_token').innerText = result.access_token;
         }
+
+        function copyToClipboard() {
+            const text = document.getElementById('access_token').innerText;
+            navigator.clipboard.writeText(text)
+                .then(() => {
+                    console.log('Text copied to clipboard');
+                })
+                .catch((error) => {
+                    console.error('Failed to copy text: ', error);
+                });
+        }
+
     </script>
 </body>
+
 </html>
