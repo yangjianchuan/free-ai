@@ -54,10 +54,21 @@
     <h1>FLUX.1-schnell Image Generator</h1>
     <form id="promptForm">
         <label for="prompt">Prompt:</label>
-        <textarea id="prompt" name="prompt" required></textarea>
+        <textarea id="prompt" name="prompt" required placeholder="仅支持英文提示词"></textarea>
         <br>
         <label for="apiKey">siliconflow API Key:</label>
-        <textarea id="apiKey" name="apiKey" required>sk-coqkdazlqjsfzokpbfobhhbfblxlmxxufbdwfdbfjrwjxkmq</textarea>
+        <select id="apiKey" name="apiKey" required>
+            <option value="sk-coqkdazlqjsfzokpbfobhhbfblxlmxxufbdwfdbfjrwjxkmq">sk-coqkdazlqjsfzokpbfobhhbfblxlmxxufbdwfdbfjrwjxkmq</option>
+            <option value="sk-vqfmwdzfgmbpxyqyqjtpnmocljhlzbprrxcmlovlnpniqjqq">sk-vqfmwdzfgmbpxyqyqjtpnmocljhlzbprrxcmlovlnpniqjqq</option>
+            <option value="sk-acieregippwkdgevlfntrrzabeetelavqcddqxktmdfobnbc">sk-acieregippwkdgevlfntrrzabeetelavqcddqxktmdfobnbc</option>
+            <option value="sk-ezghjpnatezijekeddxkfqeparatshmbmekhtagimcuzizgi">sk-ezghjpnatezijekeddxkfqeparatshmbmekhtagimcuzizgi</option>
+            <option value="sk-yrktayascnmgwvqomqtitqkozhljhltbqjqlbeasozgxnvmt">sk-yrktayascnmgwvqomqtitqkozhljhltbqjqlbeasozgxnvmt</option>
+            <option value="sk-uqlmaoodtijnddkdewjiwvjzwaxmyofrxumxrveljtpibvur">sk-uqlmaoodtijnddkdewjiwvjzwaxmyofrxumxrveljtpibvur</option>
+            <option value="sk-rqbjxavuyyeohgkwcaweidinfjbiwejzdzxvryvexfdwobsb">sk-rqbjxavuyyeohgkwcaweidinfjbiwejzdzxvryvexfdwobsb</option>
+            <option value="sk-kjrugaipysxgmuisbncylofuwurhtuciutelbcpqppwjtbbb">sk-kjrugaipysxgmuisbncylofuwurhtuciutelbcpqppwjtbbb</option>
+            <option value="sk-pvmvjfjhnaujmfxhdoxhzwphyavtcncgabvcrabtnmaljuvf">sk-pvmvjfjhnaujmfxhdoxhzwphyavtcncgabvcrabtnmaljuvf</option>
+            <option value="sk-roitgazuuavbusxyrezcjxsamzgtxptantdtaatukycmkyax">sk-roitgazuuavbusxyrezcjxsamzgtxptantdtaatukycmkyax</option>
+        </select>
         <br>
         <label for="seed">Seed:</label>
         <input type="number" id="seed" name="seed" required>
@@ -86,6 +97,20 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('seed').value = Math.floor(Math.random() * 10000000000);
+            const apiKeys = [
+                "sk-coqkdazlqjsfzokpbfobhhbfblxlmxxufbdwfdbfjrwjxkmq",
+                "sk-vqfmwdzfgmbpxyqyqjtpnmocljhlzbprrxcmlovlnpniqjqq",
+                "sk-acieregippwkdgevlfntrrzabeetelavqcddqxktmdfobnbc",
+                "sk-ezghjpnatezijekeddxkfqeparatshmbmekhtagimcuzizgi",
+                "sk-yrktayascnmgwvqomqtitqkozhljhltbqjqlbeasozgxnvmt",
+                "sk-uqlmaoodtijnddkdewjiwvjzwaxmyofrxumxrveljtpibvur",
+                "sk-rqbjxavuyyeohgkwcaweidinfjbiwejzdzxvryvexfdwobsb",
+                "sk-kjrugaipysxgmuisbncylofuwurhtuciutelbcpqppwjtbbb",
+                "sk-pvmvjfjhnaujmfxhdoxhzwphyavtcncgabvcrabtnmaljuvf",
+                "sk-roitgazuuavbusxyrezcjxsamzgtxptantdtaatukycmkyax"
+            ];
+            const randomApiKey = apiKeys[Math.floor(Math.random() * apiKeys.length)];
+            document.getElementById('apiKey').value = randomApiKey;
         });
 
         document.getElementById('promptForm').addEventListener('submit', function(event) {
