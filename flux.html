@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FLUX.1-schnell Image Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        form {
+            max-width: 100%;
+            margin-bottom: 20px;
+        }
+        label, textarea, input, select, button {
+            display: block;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        textarea, input, select {
+            padding: 10px;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #result {
+            text-align: center;
+        }
+        #generatedImage {
+            max-width: 100%;
+            height: auto;
+        }
+        #loading {
+            display: none;
+            text-align: center;
+            font-size: 18px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>FLUX.1-schnell Image Generator</h1>
+    <form id="promptForm">
+        <label for="prompt">Prompt:</label>
+        <textarea id="prompt" name="prompt" required></textarea>
+        <br>
+        <label for="apiKey">siliconflow API Key:</label>
+        <textarea id="apiKey" name="apiKey" required>sk-coqkdazlqjsfzokpbfobhhbfblxlmxxufbdwfdbfjrwjxkmq</textarea>
+        <br>
+        <label for="seed">Seed:</label>
+        <input type="number" id="seed" name="seed" required>
+        <br>
+        <label for="image_size">Image Size:</label>
+        <select id="image_size" name="image_size" required>
+            <option value="1024x1024">1024x1024</option>
+            <option value="512x1024">512x1024</option>
+            <option value="1024x576">1024x576</option>
+            <option value="768x512">768x512</option>
+            <option value="768x1024">768x1024</option>
+            <option value="576x1024">576x1024</option>
+        </select>
+        <br>
+        <label for="num_inference_steps">Number of Inference Steps:</label>
+        <input type="number" id="num_inference_steps" name="num_inference_steps" min="1" max="100" value="20" required>
+        <br>
+        <button type="submit">Generate Image</button>
+    </form>
+    <div id="loading">Loading...</div>
+    <div id="result">
+        <h2>Generated Image:</h2>
+        <img id="generatedImage" src="" alt="Generated Image" style="display:none;">
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('seed').value = Math.floor(Math.random() * 10000000000);
+        });
+
+        document.getElementById('promptForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('generatedImage').style.display = 'none';
+
+            const prompt = document.getElementById('prompt').value;
+            const apiKey = document.getElementById('apiKey').value;
+            const seed = document.getElementById('seed').value;
+            const imageSize = document.getElementById('image_size').value;
+            const numInferenceSteps = document.getElementById('num_inference_steps').value;
+            const payload = {
+                "prompt": prompt,
+                "image_size": imageSize,
+                "num_inference_steps": numInferenceSteps,
+                "seed": seed
+            };
+            fetch('https://api.siliconflow.cn/v1/black-forest-labs/FLUX.1-schnell/text-to-image', {
+                method: 'POST',
+                headers: {
+                    'accept': 'application/json',
+                    'content-type': 'application/json',
+                    'authorization': `Bearer ${apiKey}`
+                },
+                body: JSON.stringify(payload)
+            })
+            .then(response => response.json())
+            .then(data => {
+                const imageUrl = data.images[0].url;
+                const imgElement = document.getElementById('generatedImage');
+                imgElement.src = imageUrl;
+                imgElement.style.display = 'block';
+                document.getElementById('loading').style.display = 'none';
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('loading').style.display = 'none';
+            });
+        });
+    </script>
+</body>
+</html>
