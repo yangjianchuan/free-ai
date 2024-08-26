@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>免费flux画图</title>
+    <title>智绘之泉 - 激发你的创意灵感</title>
     <style>
         :root {
             --primary-color: #00acc1;
@@ -162,41 +162,16 @@
             font-size: 12px;
             display: none;
         }
-    
-        @media (max-width: 768px) {
+        @media (max-width: 600px) {
             .container {
                 padding: 20px;
-                width: 95%;
             }
             .input-group {
                 flex-direction: column;
             }
-            input[type="text"], select, button {
+            input[type="text"], select {
                 width: 100%;
-                margin-right: 0;
                 margin-bottom: 10px;
-            }
-            h1 {
-                font-size: 24px;
-            }
-            p {
-                font-size: 14px;
-            }
-            .history img {
-                width: 80px;
-                height: 80px;
-            }
-        }
-    
-        @media (min-width: 769px) and (max-width: 1024px) {
-            .container {
-                max-width: 80%;
-            }
-        }
-    
-        @media (min-width: 1025px) {
-            .container {
-                max-width: 800px;
             }
         }
     </style>
@@ -206,14 +181,14 @@
         <div class="water-effect"></div>
         <button class="theme-toggle" onclick="toggleTheme()">🌓</button>
         <div id="devModeIndicator">开发模式</div>
-        <h1>免费flux画图</h1>
-        <p>每个ip每天限制10次。请使用英文提示词进行绘画。</p>
+        <h1>智绘之泉</h1>
+        <p>让你的想象力如泉水般喷涌而出，创造出令人惊叹的视觉艺术。</p>
         <div class="input-group">
-            <input type="text" id="promptInput" placeholder="请填写英文提示词">
+            <input type="text" id="promptInput" placeholder="描述你的创意灵感...">
             <select id="aspectRatio">
-                <option value="1:1">600*600</option>
-                <option value="4:3">800*600</option>
-                <option value="3:4">600*800</option>
+                <option value="1:1">正方形</option>
+                <option value="4:3">横向</option>
+                <option value="3:4">纵向</option>
             </select>
             <select id="style">
                 <option value="">默认风格</option>
@@ -223,7 +198,7 @@
                 <option value="动漫">动漫</option>
             </select>
         </div>
-        <button onclick="generateImage()">点击画图</button>
+        <button onclick="generateImage()">激发创意</button>
         <div id="result"></div>
         <div class="history" id="history"></div>
     </div>
@@ -379,12 +354,6 @@
         function toggleTheme() {
             document.body.classList.toggle('dark-mode');
         }
-
-        document.getElementById('promptInput').addEventListener('keypress', function(event) {
-        if (event.key === 'Enter') {
-            generateImage();
-        }
-    });
     </script>
 </body>
 </html>
