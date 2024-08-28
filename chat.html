@@ -379,6 +379,20 @@
             }
         });
 
+        // 获取 URL 参数
+        function getUrlParameter(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            const regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            const results = regex.exec(location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        }
+
+        // 从 URL 参数中获取 token 的值并赋值给 token-input
+        const urlToken = getUrlParameter('token');
+        if (urlToken) {
+            tokenInput.value = urlToken;
+        }
+
         // Initial check for token input
         if (tokenInput.value === '' || tokenInput.value === 'free') {
             modelSelect.value = 'gpt-4o-mini';
