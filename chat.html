@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -20,7 +21,7 @@
 
         .chat-container {
             width: 100%;
-            max-width: 400px;
+            max-width: 1000px;
             background-color: #fff;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -94,6 +95,7 @@
             background-color: #f9f9f9;
             border-bottom-left-radius: 8px;
             border-bottom-right-radius: 8px;
+            flex-direction: column; /* Changed to column to accommodate new token input */
         }
 
         .chat-input {
@@ -103,6 +105,16 @@
             border-radius: 20px;
             outline: none;
             font-size: 16px;
+            margin-bottom: 10px; /* Added margin for spacing */
+        }
+
+        .token-input {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            outline: none;
+            font-size: 16px;
+            margin-bottom: 10px; /* Added margin for spacing */
         }
 
         .chat-send-btn {
@@ -111,7 +123,6 @@
             color: white;
             border: none;
             border-radius: 20px;
-            margin-left: 10px;
             cursor: pointer;
             font-size: 16px;
         }
@@ -152,6 +163,21 @@
             background-color: #c82333;
         }
 
+        .info-text {
+            text-align: center;
+            margin: 10px 0;
+            font-size: 14px;
+        }
+
+        .info-text a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .info-text a:hover {
+            text-decoration: underline;
+        }
+
         @media (max-width: 768px) {
             .chat-container {
                 height: 90vh;
@@ -173,157 +199,179 @@
         }
     </style>
 </head>
+
 <body>
 
-<div class="chat-container">
-    <div class="chat-header">
-        聊天窗口
-        <button id="clear-chat-btn" class="clear-chat-btn">清空聊天</button>
+    <div class="chat-container">
+        <div class="chat-header">
+            聊天窗口
+            <button id="clear-chat-btn" class="clear-chat-btn">清空聊天</button>
+        </div>
+        <div class="model-select-container">
+            <select id="model-select" class="model-select">
+                <option value="gpt-4o" selected>gpt-4o</option>
+                <option value="gpt-4o-mini">gpt-4o-mini</option>
+                <option value="gpt-4-turbo">gpt-4-turbo</option>
+                <option value="gpt-4">gpt-4</option>
+            </select>
+        </div>
+        <div class="chat-messages" id="chat-messages">
+            <!-- 消息将显示在这里 -->
+        </div>
+        <div class="chat-input-container">
+            <input type="text" id="token-input" class="token-input" placeholder="填写自己的token解锁更多模型" required />
+            <input type="text" id="chat-input" class="chat-input" placeholder="输入你的消息..." />
+            <button id="chat-send-btn" class="chat-send-btn">发送</button>
+        </div>
+        <div class="info-text">
+            <a href="https://i-i.win/login" target="_blank">linux.do 用户点击此处获取token</a>
+        </div>
     </div>
-    <div class="model-select-container">
-        <select id="model-select" class="model-select">
-            <option value="gpt-4o" selected>gpt-4o</option>
-            <option value="gpt-4o-mini">gpt-4o-mini</option>
-            <option value="gpt-4-turbo">gpt-4-turbo</option>
-            <option value="gpt-4">gpt-4</option>
-        </select>
-    </div>
-    <div class="chat-messages" id="chat-messages">
-        <!-- 消息将显示在这里 -->
-    </div>
-    <div class="chat-input-container">
-        <input type="text" id="chat-input" class="chat-input" placeholder="输入你的消息..."/>
-        <button id="chat-send-btn" class="chat-send-btn">发送</button>
-    </div>
-</div>
 
-<script>
-    const chatMessages = document.getElementById('chat-messages');
-    const chatInput = document.getElementById('chat-input');
-    const chatSendBtn = document.getElementById('chat-send-btn');
-    const modelSelect = document.getElementById('model-select');
-    const clearChatBtn = document.getElementById('clear-chat-btn');
-    const chatHistory = [];
+    <script>
+        const chatMessages = document.getElementById('chat-messages');
+        const chatInput = document.getElementById('chat-input');
+        const chatSendBtn = document.getElementById('chat-send-btn');
+        const modelSelect = document.getElementById('model-select');
+        const clearChatBtn = document.getElementById('clear-chat-btn');
+        const tokenInput = document.getElementById('token-input');
+        const chatHistory = [];
 
-    let userScrolled = false;
+        let userScrolled = false;
 
-    function appendMessage(content, sender) {
-        const message = document.createElement('div');
-        message.classList.add('message', sender);
-        message.innerHTML = `<p>${content}</p>`;
-        chatMessages.appendChild(message);
+        function appendMessage(content, sender) {
+            const message = document.createElement('div');
+            message.classList.add('message', sender);
+            message.innerHTML = `<p>${content}</p>`;
+            chatMessages.appendChild(message);
 
-        if (!userScrolled) {
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
-
-        return message;
-    }
-
-    chatMessages.addEventListener('scroll', () => {
-        const isAtBottom = chatMessages.scrollTop + chatMessages.clientHeight >= chatMessages.scrollHeight - 10;
-        userScrolled = !isAtBottom;
-    });
-
-    async function getBotResponse(userMessage) {
-        try {
-            const botMessageElement = appendMessage("", 'bot');
-
-            chatHistory.push({
-                "role": "user",
-                "content": userMessage
-            });
-
-            const response = await fetch('https://i-i.win/v1/v1/chat/completions', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'ziVlzU6PCgoteQDuekxaVpkC1fH8hXH0YPLHSDW5hno',
-                },
-                body: JSON.stringify({
-                    "messages": chatHistory,
-                    "stream": "true",
-                    "model": modelSelect.value
-                })
-            });
-
-            const reader = response.body.getReader();
-            const decoder = new TextDecoder('utf-8');
-            let partialContent = "";
-
-            while (true) {
-                const {done, value} = await reader.read();
-                if (done) break;
-
-                const chunk = decoder.decode(value, {stream: true});
-                partialContent += chunk;
-
-                const lines = partialContent.split('\n');
-
-                for (let line of lines) {
-                    if (line.trim().startsWith("data:")) {
-                        const jsonStr = line.replace("data:", "").trim();
-
-                        if (jsonStr === "[DONE]" || jsonStr === "") continue;
-
-                        try {
-                            const jsonData = JSON.parse(jsonStr);
-                            const content = jsonData.choices[0].delta.content;
-
-                            if (content) {
-                                for (let i = 0; i < content.length; i++) {
-                                    botMessageElement.querySelector('p').textContent += content[i];
-
-                                    if (!userScrolled) {
-                                        chatMessages.scrollTop = chatMessages.scrollHeight;
-                                    }
-                                }
-                            }
-                        } catch (error) {
-                            console.error("解析JSON时出错: ", error);
-                        }
-                    }
-                }
-
-                partialContent = lines[lines.length - 1];
+            if (!userScrolled) {
+                chatMessages.scrollTop = chatMessages.scrollHeight;
             }
 
-            const botResponse = botMessageElement.querySelector('p').textContent;
-            chatHistory.push({
-                "role": "assistant",
-                "content": botResponse
-            });
-
-            return botResponse;
-        } catch (error) {
-            console.error('获取机器人响应时出错:', error);
-            return "抱歉，连接服务器时出现错误。";
+            return message;
         }
-    }
 
-    chatSendBtn.addEventListener('click', async () => {
-        const userMessage = chatInput.value.trim();
-        if (userMessage !== "") {
-            appendMessage(userMessage, 'user');
-            chatInput.value = '';
+        chatMessages.addEventListener('scroll', () => {
+            const isAtBottom = chatMessages.scrollTop + chatMessages.clientHeight >= chatMessages.scrollHeight - 10;
+            userScrolled = !isAtBottom;
+        });
 
-            await getBotResponse(userMessage);
+        async function getBotResponse(userMessage) {
+            try {
+                const botMessageElement = appendMessage("", 'bot');
+
+                chatHistory.push({
+                    "role": "user",
+                    "content": userMessage
+                });
+
+                const response = await fetch('https://i-i.win/v1/v1/chat/completions', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': tokenInput.value ? tokenInput.value : 'free'
+                    },
+                    body: JSON.stringify({
+                        "messages": chatHistory,
+                        "stream": "true",
+                        "model": modelSelect.value
+                    })
+                });
+
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder('utf-8');
+                let partialContent = "";
+
+                while (true) {
+                    const { done, value } = await reader.read();
+                    if (done) break;
+
+                    const chunk = decoder.decode(value, { stream: true });
+                    partialContent += chunk;
+
+                    const lines = partialContent.split('\n');
+
+                    for (let line of lines) {
+                        if (line.trim().startsWith("data:")) {
+                            const jsonStr = line.replace("data:", "").trim();
+
+                            if (jsonStr === "[DONE]" || jsonStr === "") continue;
+
+                            try {
+                                const jsonData = JSON.parse(jsonStr);
+                                const content = jsonData.choices[0].delta.content;
+
+                                if (content) {
+                                    for (let i = 0; i < content.length; i++) {
+                                        botMessageElement.querySelector('p').textContent += content[i];
+
+                                        if (!userScrolled) {
+                                            chatMessages.scrollTop = chatMessages.scrollHeight;
+                                        }
+                                    }
+                                }
+                            } catch (error) {
+                                console.error("解析JSON时出错: ", error);
+                            }
+                        }
+                    }
+
+                    partialContent = lines[lines.length - 1];
+                }
+
+                const botResponse = botMessageElement.querySelector('p').textContent;
+                chatHistory.push({
+                    "role": "assistant",
+                    "content": botResponse
+                });
+
+                return botResponse;
+            } catch (error) {
+                console.error('获取机器人响应时出错:', error);
+                return "抱歉，连接服务器时出现错误。";
+            }
         }
-    });
 
-    chatInput.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') {
-            chatSendBtn.click();
+        chatSendBtn.addEventListener('click', async () => {
+            const userMessage = chatInput.value.trim();
+            if (userMessage !== "") {
+                appendMessage(userMessage, 'user');
+                chatInput.value = '';
+
+                await getBotResponse(userMessage);
+            }
+        });
+
+        chatInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                chatSendBtn.click();
+            }
+        });
+
+        function clearChat() {
+            chatMessages.innerHTML = '';
+            chatHistory.length = 0;
+            userScrolled = false;
         }
-    });
 
-    function clearChat() {
-        chatMessages.innerHTML = '';
-        chatHistory.length = 0;
-        userScrolled = false;
-    }
+        clearChatBtn.addEventListener('click', clearChat);
 
-    clearChatBtn.addEventListener('click', clearChat);
-</script>
+        tokenInput.addEventListener('input', () => {
+            if (tokenInput.value === '' || tokenInput.value === 'free') {
+                modelSelect.value = 'gpt-4o-mini';
+                modelSelect.disabled = true;
+            } else {
+                modelSelect.disabled = false;
+            }
+        });
+
+        // Initial check for token input
+        if (tokenInput.value === '' || tokenInput.value === 'free') {
+            modelSelect.value = 'gpt-4o-mini';
+            modelSelect.disabled = true;
+        }
+    </script>
 </body>
+
 </html>
