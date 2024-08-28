@@ -86,7 +86,7 @@
         }
         .button-row {
             display: flex;
-            justify-content: space-between;
+            flex-wrap: wrap;
             gap: 10px;
             margin-top: 10px;
         }
@@ -103,50 +103,34 @@
         .button-row button:hover {
             background-color: #45a049;
         }
+        @media (max-width: 768px) {
+            .form-group {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .form-group label, .form-group input, .form-group select {
+                width: 100%;
+                margin-left: 0;
+                max-width: 100%; /* Add this to ensure input fields don't overflow */
+                box-sizing: border-box; /* Ensure padding and border are included in the width */
+            }
+            .button-row {
+                flex-direction: column;
+            }
+        }
     </style>
 </head>
 <body>
     <!-- <h1 style="text-align: center;">FLUX.1-schnell Image Generator</h1> -->
     <form id="promptForm">
-        <label for="prompt">Prompt:</label>
+        <!-- <label for="prompt">Prompt:</label> -->
         <textarea id="prompt" name="prompt" required placeholder="仅支持英文提示词"></textarea>
         
         <div class="form-row">
             <div class="form-group">
-                <label for="apiKey">siliconflow API Key:</label>
+                <label for="apiKey">Key:</label>
                 <select id="apiKey" name="apiKey" required>
-                    <option value="sk-coqkdazlqjsfzokpbfobhhbfblxlmxxufbdwfdbfjrwjxkmq">sk-01</option>
-                    <option value="sk-vqfmwdzfgmbpxyqyqjtpnmocljhlzbprrxcmlovlnpniqjqq">sk-02</option>
-                    <option value="sk-acieregippwkdgevlfntrrzabeetelavqcddqxktmdfobnbc">sk-03</option>
-                    <option value="sk-ezghjpnatezijekeddxkfqeparatshmbmekhtagimcuzizgi">sk-04</option>
-                    <option value="sk-yrktayascnmgwvqomqtitqkozhljhltbqjqlbeasozgxnvmt">sk-05</option>
-                    <option value="sk-uqlmaoodtijnddkdewjiwvjzwaxmyofrxumxrveljtpibvur">sk-06</option>
-                    <option value="sk-rqbjxavuyyeohgkwcaweidinfjbiwejzdzxvryvexfdwobsb">sk-07</option>
-                    <option value="sk-kjrugaipysxgmuisbncylofuwurhtuciutelbcpqppwjtbbb">sk-08</option>
-                    <option value="sk-pvmvjfjhnaujmfxhdoxhzwphyavtcncgabvcrabtnmaljuvf">sk-09</option>
-                    <option value="sk-roitgazuuavbusxyrezcjxsamzgtxptantdtaatukycmkyax">sk-10</option>
-                    <option value="sk-jodzcwmvvmmtwtbdaaltahpxdtbnxxqurwazvijbxtrixfou">sk-11</option>
-                    <option value="sk-tmytdfbqfrzggydmbonhmypkiqdgohbcrfouxaczlhimhbqt">sk-12</option>
-                    <option value="sk-oteufmiwjdiksmqxmnootbanckzynohbllvuzfbqvrqwixae">sk-13</option>
-                    <option value="sk-luulcazbqleaovlkdmdkodbtwntodkxirkaprmncmecvhcom">sk-14</option>
-                    <option value="sk-lbkhjqowofmjkyjcbkptcfkgnzwjqjfvtyvciovxjfnoculq">sk-15</option>
-                    <option value="sk-aelluftkowufvwgvrthmfiajxidsfgliaqakpajggptmqcqw">sk-16</option>
-                    <option value="sk-ijbzqvpplqwlvuftugculkzhzrejlaoctinmemsrurhxdpvg">sk-17</option>
-                    <option value="sk-fzblvbuourfiwmejgxsozmxritnbpmcndjyindeqaepkpysi">sk-18</option>
-                    <option value="sk-qsexlzoqdxyawlysjzajsdccolqhlctpdajczgyhpapspokc">sk-19</option>
-                    <option value="sk-pwwtiqreirxorytktffzfaoanosohmjkrtvcxwlhenbmfyny">sk-20</option>
-                    <option value="sk-jpkvnydolcqiscrwlzqryubkexgneluulbbdtqzlfqxxrrnf">sk-21</option>
-                    <option value="sk-pjkwpywulazxguzfujrbyyvynfdcqwmkuedicenjhacacppc">sk-22</option>
-                    <option value="sk-mrnjywiqrjsjjftuvmcsbyfxqvtjqinpagrdpdyxhxcldnho">sk-23</option>
-                    <option value="sk-whpqcqfzgwtittnmvjhmqajliuzvinpnibmscholakqevlin">sk-24</option>
-                    <option value="sk-duuzzmjrfvfflnsstcppigntjuqjdzhujybjkgaxhshnbanc">sk-25</option>
-                    <option value="sk-uvlmsypljkrwlwuizogsnngxucguxpcfgbkjhecvymurxwpl">sk-26</option>
-                    <option value="sk-eaclaeqtbvoqcfclsjmuwnltobpmzacdtzbgzesskqufkwld">sk-27</option>
-                    <option value="sk-gxzjerbeqwgqirwhfpbxdkzealmzbyfiupnxwgsblgvisyvn">sk-28</option>
-                    <option value="sk-ombosthqmaszzcbbrglredoevswahlevzmeavhkzaxmvuboa">sk-29</option>
-                    <option value="sk-kptelsdbrgkiuldzfcvaulvxabzinfnsyomvktanqzivfbyz">sk-30</option>
-                    <option value="sk-tzmkzadgkypztburpuhnjttwdzluaujxyvnendxfbbhioxpm">sk-31</option>
-                    <option value="sk-xhrnurpmatnwudxtwwwhxbtjrxrvsulwleidudlxoeqhwqrj">sk-32</option>
+                    <!-- Options will be dynamically generated here -->
                 </select>
             </div>
             
@@ -156,7 +140,7 @@
             </div>
             
             <div class="form-group">
-                <label for="image_size">Image Size:</label>
+                <label for="image_size">Size:</label>
                 <select id="image_size" name="image_size" required>
                     <option value="1024x1024">1024x1024</option>
                     <option value="512x1024">512x1024</option>
@@ -168,7 +152,7 @@
             </div>
             
             <div class="form-group">
-                <label for="num_inference_steps">Number of Inference Steps:</label>
+                <label for="num_inference_steps">Steps:</label>
                 <input type="number" id="num_inference_steps" name="num_inference_steps" min="1" max="100" value="20" required>
             </div>
         </div>
@@ -188,7 +172,6 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('seed').value = Math.floor(Math.random() * 10000000000);
             const apiKeys = [
                 "sk-coqkdazlqjsfzokpbfobhhbfblxlmxxufbdwfdbfjrwjxkmq",
                 "sk-vqfmwdzfgmbpxyqyqjtpnmocljhlzbprrxcmlovlnpniqjqq",
@@ -223,8 +206,19 @@
                 "sk-tzmkzadgkypztburpuhnjttwdzluaujxyvnendxfbbhioxpm",
                 "sk-xhrnurpmatnwudxtwwwhxbtjrxrvsulwleidudlxoeqhwqrj"
             ];
+
+            const apiKeySelect = document.getElementById('apiKey');
+            apiKeys.forEach((key, index) => {
+                const option = document.createElement('option');
+                option.value = key;
+                option.text = `sk-${index + 1}`;
+                apiKeySelect.appendChild(option);
+            });
+
             const randomApiKey = apiKeys[Math.floor(Math.random() * apiKeys.length)];
-            document.getElementById('apiKey').value = randomApiKey;
+            apiKeySelect.value = randomApiKey;
+
+            document.getElementById('seed').value = Math.floor(Math.random() * 10000000000);
         });
 
         document.getElementById('promptForm').addEventListener('submit', function(event) {
