@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>下午茶时间生成器</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f5e5d3;
+            color: #4a4a4a;
+        }
+        .container {
+            text-align: center;
+            background-color: #fff9f0;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+        h1 {
+            color: #8b4513;
+            margin-bottom: 20px;
+        }
+        .input-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="time"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #d4a76a;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            margin-top: 20px;
+            padding: 12px 24px;
+            font-size: 18px;
+            cursor: pointer;
+            background-color: #d4a76a;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s, transform 0.1s;
+        }
+        button:hover {
+            background-color: #c39355;
+        }
+        button:active {
+            transform: scale(0.98);
+        }
+        #result {
+            margin-top: 25px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #8b4513;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>下午茶时间生成器</h1>
+        <div class="input-group">
+            <label for="startTime">开始时间：</label>
+            <input type="time" id="startTime" value="15:00">
+        </div>
+        <div class="input-group">
+            <label for="endTime">结束时间：</label>
+            <input type="time" id="endTime" value="16:00">
+        </div>
+        <button onclick="generateTime()">生成下午茶时间</button>
+        <div id="result"></div>
+    </div>
+    <script>
+        function generateTime() {
+            const startTime = document.getElementById('startTime').value;
+            const endTime = document.getElementById('endTime').value;
+            
+            const start = new Date(`2000-01-01T${startTime}`);
+            const end = new Date(`2000-01-01T${endTime}`);
+            
+            const timeDiff = end - start;
+            const randomTime = new Date(start.getTime() + Math.random() * timeDiff);
+            
+            const result = document.getElementById('result');
+            
+            // 显示结果
+            const formattedTime = randomTime.toTimeString().slice(0, 5);
+            result.textContent = `下午茶时间：${formattedTime}`;
+        }
+    </script>
+</body>
+</html>
