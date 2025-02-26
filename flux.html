@@ -172,46 +172,59 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-              const apiKeys = [
-              "sk-jodzcwmvvmmtwtbdaaltahpxdtbnxxqurwazvijbxtrixfou",
-              "sk-tmytdfbqfrzggydmbonhmypkiqdgohbcrfouxaczlhimhbqt",
-              "sk-oteufmiwjdiksmqxmnootbanckzynohbllvuzfbqvrqwixae",
-              "sk-lbkhjqowofmjkyjcbkptcfkgnzwjqjfvtyvciovxjfnoculq",
-              "sk-aelluftkowufvwgvrthmfiajxidsfgliaqakpajggptmqcqw",
-              "sk-ijbzqvpplqwlvuftugculkzhzrejlaoctinmemsrurhxdpvg",
-              "sk-fzblvbuourfiwmejgxsozmxritnbpmcndjyindeqaepkpysi",
-              "sk-qsexlzoqdxyawlysjzajsdccolqhlctpdajczgyhpapspokc",
-              "sk-pwwtiqreirxorytktffzfaoanosohmjkrtvcxwlhenbmfyny",
-              "sk-jpkvnydolcqiscrwlzqryubkexgneluulbbdtqzlfqxxrrnf",
-              "sk-mrnjywiqrjsjjftuvmcsbyfxqvtjqinpagrdpdyxhxcldnho",
-              "sk-whpqcqfzgwtittnmvjhmqajliuzvinpnibmscholakqevlin",
-              "sk-duuzzmjrfvfflnsstcppigntjuqjdzhujybjkgaxhshnbanc",
-              "sk-eaclaeqtbvoqcfclsjmuwnltobpmzacdtzbgzesskqufkwld",
-              "sk-gxzjerbeqwgqirwhfpbxdkzealmzbyfiupnxwgsblgvisyvn",
-              "sk-ombosthqmaszzcbbrglredoevswahlevzmeavhkzaxmvuboa",
-              "sk-kptelsdbrgkiuldzfcvaulvxabzinfnsyomvktanqzivfbyz",
-              "sk-tzmkzadgkypztburpuhnjttwdzluaujxyvnendxfbbhioxpm",
-              "sk-xhrnurpmatnwudxtwwwhxbtjrxrvsulwleidudlxoeqhwqrj"
+            // 修复解码函数
+            function decodeApiKey(encodedKey) {
+                try {
+                    // 直接返回 Base64 解码结果，不进行额外的字符移位
+                    return atob(encodedKey);
+                } catch (error) {
+                    console.error("解码失败:", error);
+                    return "";
+                }
+            }
+              
+            // 编码后的 API 密钥 - 这些是正确的 Base64 编码密钥
+            const encodedApiKeys = [
+                "c2stdG15dGRmYnFmcnpnZ3lkbWJvbmhteXBraXFkZ29oYmNyZm91eGFjemxoaW1oYnF0",
+                "c2stb3RldWZtaXdqZGlrc21xeG1ub290YmFuY2t6eW5vaGJsbHZ1emZicXZycXdpeGFl",               
+                "c2stcHd3dGlxcmVpcnhvcnl0a3RmZnpmYW9hbm9zb2htamtydHZjeHdsaGVuYm1meW55",
+                "c2stanBrdm55ZG9sY3Fpc2Nyd2x6cXJ5dWJrZXhnbmVsdXVsYmJkdHF6bGZxeHhycm5m",
+                "c2std2hwcWNxZnpnd3RpdHRubXZqaG1xYWpsaXV6dmlucG5pYm1zY2hvbGFrcWV2bGlu",
+                "c2stZHV1enptanJmdmZmbG5zc3RjcHBpZ250anVxamR6aHVqeWJqa2dheGhzaG5iYW5j",
+                "c2stZWFjbGFlcXRidm9xY2ZjbHNqbXV3bmx0b2JwbXphY2R0emJnemVzc2txdWZrd2xk",
+                "c2stZ3h6amVyYmVxd2dxaXJ3aGZwYnhka3plYWxtemJ5Zml1cG54d2dzYmxndmlzeXZu",
+                "c2stb21ib3N0aHFtYXN6emNiYnJnbHJlZG9ldnN3YWhsZXZ6bWVhdmhremF4bXZ1Ym9h",
+                "c2sta3B0ZWxzZGJyZ2tpdWxkemZjdmF1bHZ4YWJ6aW5mbnN5b212a3RhbnF6aXZmYnl6",
+                "c2steGhybnVycG1hdG53dWR4dHd3d2h4YnRqcnhydnN1bHdsZWlkdWRseG9lcWh3cXJq"
             ];
 
             const apiKeySelect = document.getElementById('apiKey');
-            apiKeys.forEach((key, index) => {
+            encodedApiKeys.forEach((encodedKey, index) => {
                 const option = document.createElement('option');
-                option.value = key;
+                option.value = decodeApiKey(encodedKey);
                 option.text = `sk-${index + 1}`;
                 apiKeySelect.appendChild(option);
             });
 
-            const randomApiKey = apiKeys[Math.floor(Math.random() * apiKeys.length)];
+            const randomApiKey = decodeApiKey(encodedApiKeys[Math.floor(Math.random() * encodedApiKeys.length)]);
             apiKeySelect.value = randomApiKey;
 
             document.getElementById('seed').value = Math.floor(Math.random() * 10000000000);
+
+            // 测试解码函数
+            const testKey = encodedApiKeys[0];
+            const decodedKey = decodeApiKey(testKey);
+            // 检查解码结果是否以 "sk-" 开头
+            if (!decodedKey.startsWith("sk-")) {
+                console.error("警告: 解码后的密钥格式可能不正确");
+            }
         });
 
         document.getElementById('promptForm').addEventListener('submit', function(event) {
             event.preventDefault();
             document.getElementById('loading').style.display = 'block';
             document.getElementById('generatedImage').style.display = 'none';
+            document.getElementById('downloadImage').style.display = 'none';
 
             const prompt = document.getElementById('prompt').value;
             const apiKey = document.getElementById('apiKey').value;
@@ -233,8 +246,16 @@
                 },
                 body: JSON.stringify(payload)
             })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`API request failed with status ${response.status}: ${response.statusText}`);
+                }
+                return response.json();
+            })
             .then(data => {
+                if (!data || !data.images || !data.images.length) {
+                    throw new Error('Invalid response format: missing images data');
+                }
                 const imageUrl = data.images[0].url;
                 const imgElement = document.getElementById('generatedImage');
                 imgElement.src = imageUrl;
@@ -245,6 +266,7 @@
             .catch(error => {
                 console.error('Error:', error);
                 document.getElementById('loading').style.display = 'none';
+                alert(`生成图像失败: ${error.message}`);
             });
         });
 
