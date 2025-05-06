@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>万科2025年第一季度财报分析</title>
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome via CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- ECharts via CDN -->
+    <script src="https://fastly.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+    <!-- Framer Motion via CDN (Note: Full capability often requires React, but we can use basic concepts/alternatives) -->
+    <!-- For scroll-triggered animations, we'll primarily use Intersection Observer + CSS transitions -->
+    <style>
+        :root {
+            --tesla-red: #E31937;
+        }
+
+        body {
+            background-color: #000000;
+            color: #ffffff;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+        }
+
+        .bento-grid {
+            display: grid;
+            gap: 1rem; /* Equivalent to gap-4 in Tailwind */
+            padding: 2rem; /* Equivalent to p-8 */
+            max-width: 1400px;
+            margin: auto;
+        }
+
+        .bento-cell {
+            background-color: #111111; /* Slightly lighter than pure black */
+            border-radius: 0.75rem; /* Equivalent to rounded-xl */
+            padding: 1.5rem; /* Equivalent to p-6 */
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+            position: relative; /* Needed for absolute positioning of elements inside */
+            opacity: 0; /* Start hidden for animation */
+            transform: translateY(30px); /* Start slightly lower for animation */
+            transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .bento-cell.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Grid layout definitions */
+        @media (min-width: 768px) { /* md breakpoint */
+            .bento-grid {
+                grid-template-columns: repeat(3, 1fr);
+                grid-auto-rows: minmax(150px, auto); /* Adjust row height */
+            }
+            .cell-span-2 { grid-column: span 2 / span 2; }
+            .cell-span-3 { grid-column: span 3 / span 3; }
+            .cell-row-span-2 { grid-row: span 2 / span 2; }
+        }
+        @media (min-width: 1024px) { /* lg breakpoint */
+            .bento-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            .lg\:cell-span-2 { grid-column: span 2 / span 2; }
+            .lg\:cell-span-3 { grid-column: span 3 / span 3; }
+            .lg\:cell-span-4 { grid-column: span 4 / span 4; }
+            .lg\:cell-row-span-2 { grid-row: span 2 / span 2; }
+        }
+
+        /* Custom Tesla Red */
+        .text-tesla-red { color: var(--tesla-red); }
+        .bg-tesla-red { background-color: var(--tesla-red); }
+        .border-tesla-red { border-color: var(--tesla-red); }
+
+        /* Highlighting with gradient */
+        .highlight-gradient {
+            background: linear-gradient(to top, rgba(227, 25, 55, 0.6), rgba(227, 25, 55, 0.1));
+        }
+        .highlight-border-gradient::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit; /* Match parent's border radius */
+            padding: 1px; /* Border width */
+            background: linear-gradient(to bottom, rgba(227, 25, 55, 0.7), rgba(227, 25, 55, 0.1));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+
+        /* Large Text Styles */
+        .text-display-huge {
+            font-size: 5rem; /* 80px */
+            line-height: 1;
+            font-weight: 800; /* Extra bold */
+        }
+        @media (min-width: 768px) {
+            .text-display-huge { font-size: 7rem; } /* 112px */
+        }
+        @media (min-width: 1024px) {
+            .text-display-huge { font-size: 9rem; } /* 144px */
+        }
+
+        .text-display-large {
+            font-size: 3rem; /* 48px */
+            line-height: 1.1;
+            font-weight: 700; /* Bold */
+        }
+         @media (min-width: 768px) {
+            .text-display-large { font-size: 4.5rem; } /* 72px */
+        }
+
+        .text-display-medium {
+            font-size: 2.25rem; /* 36px */
+            line-height: 1.2;
+             font-weight: 700; /* Bold */
+        }
+
+        /* Small English Text */
+        .text-label-eng {
+            font-size: 0.75rem; /* 12px */
+            color: rgba(255, 255, 255, 0.6);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            display: block;
+            margin-top: 0.25rem;
+        }
+
+        /* Simple line icon style */
+        .line-icon {
+            stroke: var(--tesla-red);
+            stroke-width: 1.5;
+            fill: none;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+        .bento-cell:hover .line-icon {
+             opacity: 1;
+        }
+
+        /* Chart container */
+        .chart-container {
+            width: 100%;
+            height: 250px; /* Default height, can be overridden */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bento-grid">
+        <!-- Header Cell -->
+        <div class="bento-cell lg:cell-span-4 flex flex-col justify-center items-center text-center min-h-[250px] md:min-h-[350px]">
+            <h1 class="text-display-medium md:text-display-large font-bold mb-2">万科2025年第一季度财报分析</h1>
+            <p class="text-lg text-neutral-400 max-w-3xl">深入解读核心数据、业务表现、挑战与机遇，展望未来发展路径</p>
+             <span class="text-label-eng mt-4">VANKE Q1 2025 Financial Report Analysis</span>
+        </div>
+
+        <!-- Core Financial Data Section -->
+        <div class="bento-cell lg:cell-span-2 lg:cell-row-span-2 flex flex-col justify-between highlight-border-gradient">
+            <div>
+                <h2 class="text-xl font-bold mb-4 text-tesla-red flex items-center">
+                    <i class="fas fa-chart-pie mr-2"></i>核心财务数据 <span class="text-label-eng ml-2">Core Financials</span>
+                </h2>
+                <div class="mb-6">
+                    <span class="text-display-large text-tesla-red">-1625.63%</span>
+                    <p class="text-lg font-bold mt-1">净利润同比</p>
+                    <span class="text-label-eng">Net Profit YOY Growth</span>
+                    <p class="text-sm text-neutral-400 mt-1">归母净利润 -62.46亿元</p>
+                </div>
+                <div class="grid grid-cols-2 gap-4 text-center md:text-left">
+                    <div>
+                        <span class="text-2xl md:text-3xl font-bold block">379.95 <span class="text-lg">亿</span></span>
+                        <p class="text-sm font-semibold text-neutral-300">营业总收入</p>
+                        <span class="text-xs text-red-500/80">同比 -38.31%</span>
+                        <span class="text-label-eng">Total Revenue</span>
+                    </div>
+                     <div>
+                        <span class="text-2xl md:text-3xl font-bold block">6.1%</span>
+                        <p class="text-sm font-semibold text-neutral-300">整体毛利率</p>
+                        <span class="text-xs text-red-500/80">下降 4.7 pct</span>
+                        <span class="text-label-eng">Gross Margin</span>
+                    </div>
+                     <div>
+                        <span class="text-2xl md:text-3xl font-bold block">-57.93 <span class="text-lg">亿</span></span>
+                        <p class="text-sm font-semibold text-neutral-300">经营现金流净额</p>
+                         <span class="text-xs text-green-500/80">较同期改善</span>
+                        <span class="text-label-eng">Operating Cash Flow</span>
+                    </div>
+                     <div>
+                        <span class="text-2xl md:text-3xl font-bold block">-0.53 <span class="text-lg">元</span></span>
+                        <p class="text-sm font-semibold text-neutral-300">每股收益</p>
+                        <span class="text-xs text-red-500/80">同比 -1627.21%</span>
+                        <span class="text-label-eng">EPS</span>
+                    </div>
+                </div>
+            </div>
+             <div class="mt-6 w-full h-2 bg-gradient-to-r from-tesla-red/50 via-tesla-red/10 to-transparent self-end"></div>
+        </div>
+
+        <!-- Development Business Cell -->
+        <div class="bento-cell flex flex-col justify-between">
+            <h3 class="text-lg font-bold mb-3 text-tesla-red flex items-center"><i class="fas fa-building mr-2"></i>房地产开发 <span class="text-label-eng ml-2">Development</span></h3>
+            <div>
+                <span class="text-display-medium text-tesla-red block mb-1">-51.1%</span>
+                <p class="font-semibold text-neutral-200">营业收入同比</p>
+                <span class="text-label-eng">Revenue YOY</span>
+                 <p class="text-sm text-neutral-400 mt-1">营收 228.0亿元</p>
+            </div>
+             <div class="mt-4 text-sm text-neutral-300 space-y-1">
+                <p><i class="fas fa-vector-square mr-1 text-tesla-red/70"></i> 合同销售面积: 254万㎡ (-35.1%)</p>
+                <p><i class="fas fa-money-bill-wave mr-1 text-tesla-red/70"></i> 合同销售金额: 349.2亿 (-39.8%)</p>
+                <p><i class="fas fa-hand-holding-dollar mr-1 text-tesla-red/70"></i> 销售回款率: >100%</p>
+            </div>
+             <svg viewBox="0 0 100 30" class="w-full h-auto mt-4 line-icon" preserveAspectRatio="none">
+                <polyline points="0,25 15,10 30,20 45,5 60,15 75,8 90,22 100,18" />
+            </svg>
+        </div>
+
+        <!-- Operating Services Business Cell -->
+        <div class="bento-cell flex flex-col justify-between highlight-border-gradient">
+             <h3 class="text-lg font-bold mb-3 text-tesla-red flex items-center"><i class="fas fa-concierge-bell mr-2"></i>经营服务 <span class="text-label-eng ml-2">Operations</span></h3>
+            <div>
+                <span class="text-display-medium text-green-500 block mb-1">+12.1%</span>
+                <p class="font-semibold text-neutral-200">营业收入同比</p>
+                <span class="text-label-eng">Revenue YOY</span>
+                <p class="text-sm text-neutral-400 mt-1">营收 122.7亿元</p>
+            </div>
+            <div class="mt-4 text-sm text-neutral-300 space-y-1">
+                <p><i class="fas fa-thumbs-up mr-1 text-tesla-red/70"></i> 万科物业满意度领先</p>
+                <p><i class="fas fa-robot mr-1 text-tesla-red/70"></i> 推出"智能物业经理"、"AI管家"</p>
+            </div>
+             <div class="mt-4 text-center">
+                 <i class="fas fa-chart-line text-5xl text-tesla-red opacity-20"></i>
+             </div>
+        </div>
+
+        <!-- Rental Housing Cell -->
+        <div class="bento-cell">
+             <h3 class="text-lg font-bold mb-3 text-tesla-red flex items-center"><i class="fas fa-house-user mr-2"></i>租赁住宅 <span class="text-label-eng ml-2">Rental</span></h3>
+             <span class="text-display-medium text-green-500 block mb-1">+6%</span>
+             <p class="font-semibold text-neutral-200">泊寓营收同比</p>
+             <span class="text-label-eng">Boyu Revenue YOY</span>
+             <p class="text-sm text-neutral-400 mt-1">营收 8.84亿元</p>
+             <p class="mt-4 text-sm text-neutral-300"><i class="fas fa-handshake mr-1 text-tesla-red/70"></i> 与深圳地铁深化长租公寓合作</p>
+        </div>
+
+        <!-- Commercial Dev & Ops Cell -->
+        <div class="bento-cell">
+             <h3 class="text-lg font-bold mb-3 text-tesla-red flex items-center"><i class="fas fa-store mr-2"></i>商业开发运营 <span class="text-label-eng ml-2">Commercial</span></h3>
+             <span class="text-2xl font-bold block">19.37 <span class="text-base">亿</span></span>
+             <p class="font-semibold text-neutral-200">营业收入</p>
+             <span class="text-label-eng">Revenue</span>
+             <p class="mt-4 text-sm text-neutral-300"><i class="fas fa-users mr-1 text-tesla-red/70"></i> 客流与销售额同比增长</p>
+             <p class="text-sm text-neutral-300"><i class="fas fa-chart-pie mr-1 text-tesla-red/70"></i> 出租率 92.1% (平稳)</p>
+        </div>
+
+        <!-- Logistics Cell -->
+        <div class="bento-cell">
+             <h3 class="text-lg font-bold mb-3 text-tesla-red flex items-center"><i class="fas fa-truck-moving mr-2"></i>物流仓储 <span class="text-label-eng ml-2">Logistics</span></h3>
+             <span class="text-2xl font-bold block">10.0 <span class="text-base">亿</span></span>
+             <p class="font-semibold text-neutral-200">营业收入</p>
+             <span class="text-xs text-green-500/80">同比 +3.3%</span>
+             <span class="text-label-eng">Revenue</span>
+             <p class="mt-4 text-sm text-neutral-300"><i class="fas fa-snowflake mr-1 text-tesla-red/70"></i> 冷链业务增长 15.6%</p>
+        </div>
+
+        <!-- Highlights Cell -->
+        <div class="bento-cell lg:cell-span-2 highlight-border-gradient">
+            <h2 class="text-xl font-bold mb-4 text-tesla-red flex items-center"><i class="fas fa-star mr-2"></i>经营亮点 <span class="text-label-eng ml-2">Highlights</span></h2>
+            <div class="space-y-3 text-neutral-200 text-sm md:text-base">
+                <p><i class="fas fa-check-circle text-green-500 mr-2"></i> <b>项目交付:</b> 按期高质量交付 1.04万套房屋</p>
+                <p><i class="fas fa-check-circle text-green-500 mr-2"></i> <b>资金管理:</b> 新增融资139亿, 成本降至3.39% (-21bp); 公开债如期兑付</p>
+                <p><i class="fas fa-check-circle text-green-500 mr-2"></i> <b>资产盘活:</b> 大宗交易签约38亿; 盘活回款40.9亿</p>
+                <p><i class="fas fa-check-circle text-green-500 mr-2"></i> <b>科技创新:</b> AI图纸/BIM应用广泛, 获近300项专利</p>
+            </div>
+             <div class="absolute bottom-4 right-4 text-tesla-red opacity-10 text-6xl">
+                <i class="fas fa-thumbs-up"></i>
+            </div>
+        </div>
+
+        <!-- Challenges Cell -->
+        <div class="bento-cell lg:cell-span-2">
+            <h2 class="text-xl font-bold mb-4 text-tesla-red flex items-center"><i class="fas fa-exclamation-triangle mr-2"></i>经营挑战 <span class="text-label-eng ml-2">Challenges</span></h2>
+             <div class="space-y-3 text-neutral-200 text-sm md:text-base">
+                <p><i class="fas fa-arrow-down text-red-500 mr-2"></i> <b>业绩下滑:</b> 归母净利润 -62.46亿 (同比 -1625.63%)</p>
+                <p><i class="fas fa-arrow-down text-red-500 mr-2"></i> <b>开发承压:</b> 开发收入 -51.1%, 销售面积/金额大幅下降</p>
+                <p><i class="fas fa-arrow-down text-red-500 mr-2"></i> <b>财务压力:</b> 三费占营收比升至11.82%; 有息负债3658.7亿; 资产负债率73.5%</p>
+            </div>
+             <div class="absolute bottom-4 right-4 text-tesla-red opacity-10 text-6xl">
+                <i class="fas fa-chart-line fa-rotate-180"></i>
+            </div>
+        </div>
+
+         <!-- Shareholder Support & Strategy Section -->
+        <div class="bento-cell lg:cell-span-4 flex flex-col md:flex-row gap-6">
+             <div class="md:w-1/2">
+                 <h2 class="text-xl font-bold mb-4 text-tesla-red flex items-center"><i class="fas fa-shield-alt mr-2"></i>大股东支持与管理层 <span class="text-label-eng ml-2">Shareholder Support</span></h2>
+                 <p class="text-lg font-semibold text-neutral-200 mb-2">深铁集团强力支持:</p>
+                 <ul class="list-disc list-inside text-sm text-neutral-300 space-y-1 pl-2">
+                     <li><b>资金支持:</b> 三笔借款共计 <span class="text-tesla-red font-bold">103亿元</span> (利率低至2.34%)</li>
+                     <li><b>资产接盘:</b> 认购基金(10亿), 受让地块(22.35亿), 受让收益权(12.92亿)</li>
+                 </ul>
+                  <p class="mt-4 text-sm text-neutral-300"><i class="fas fa-users-cog mr-1 text-tesla-red/70"></i> 国资背景经理人入驻，进入"深铁时代"</p>
+             </div>
+             <div class="md:w-1/2 border-t md:border-t-0 md:border-l border-white/10 pt-6 md:pt-0 md:pl-6">
+                 <h2 class="text-xl font-bold mb-4 text-tesla-red flex items-center"><i class="fas fa-route mr-2"></i>战略转型举措 <span class="text-label-eng ml-2">Strategic Transformation</span></h2>
+                 <ul class="list-disc list-inside text-sm text-neutral-300 space-y-1 pl-2">
+                     <li><b>模式调整:</b> "开发经营服务并重"，经营性业务显韧性</li>
+                     <li><b>资产盘活:</b> REITs、Pre-REIT基金等金融创新</li>
+                     <li><b>科技赋能:</b> AI、BIM 提升服务与建造效率</li>
+                     <li><b>强强联合:</b> 与深铁在轨道物流、TOD等领域合作</li>
+                 </ul>
+             </div>
+        </div>
+
+        <!-- Future Outlook Cell -->
+        <div class="bento-cell lg:cell-span-2">
+             <h2 class="text-xl font-bold mb-4 text-tesla-red flex items-center"><i class="fas fa-binoculars mr-2"></i>未来展望 <span class="text-label-eng ml-2">Outlook</span></h2>
+             <div class="space-y-3 text-sm md:text-base text-neutral-300">
+                 <p><i class="fas fa-chart-area text-tesla-red/70 mr-2"></i> <b>市场环境:</b> 降幅收窄、二手房活跃、土地回升，政策维稳</p>
+                 <p><i class="fas fa-cogs text-tesla-red/70 mr-2"></i> <b>业务发展:</b> 持续推动科技创新、智能化服务、多元场景</p>
+                 <p><i class="fas fa-calculator text-tesla-red/70 mr-2"></i> <b>分析师预期 (全年):</b> 净利润约 -176亿, EPS约 -1.48元</p>
+             </div>
+             <div id="outlookChart" class="chart-container mt-4 h-[150px]"></div>
+        </div>
+
+        <!-- Conclusion Cell -->
+        <div class="bento-cell lg:cell-span-2">
+             <h2 class="text-xl font-bold mb-4 text-tesla-red flex items-center"><i class="fas fa-file-signature mr-2"></i>结论 <span class="text-label-eng ml-2">Conclusion</span></h2>
+             <p class="text-sm md:text-base text-neutral-300 leading-relaxed">
+                 万科Q1财报反映了行业调整期的严峻挑战，开发业务承压导致业绩大幅下滑。然而，公司在经营服务、租赁、科技等转型领域展现韧性与潜力。
+             </p>
+             <p class="text-sm md:text-base text-neutral-300 leading-relaxed mt-3">
+                 深铁的强力支持缓解了短期风险，战略转型、资产盘活和科技创新是关键。虽短期承压，但正探索新路。未来取决于市场、支持持续性及转型成效。
+             </p>
+        </div>
+
+    </div>
+
+    <script>
+        // Simple Intersection Observer for scroll animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    // Optional: stop observing once visible to prevent re-animation
+                    // observer.unobserve(entry.target);
+                }
+                // Optional: remove class if you want animation on scroll up too
+                // else {
+                //     entry.target.classList.remove('is-visible');
+                // }
+            });
+        }, {
+            threshold: 0.1 // Trigger when 10% of the element is visible
+        });
+
+        document.querySelectorAll('.bento-cell').forEach(cell => {
+            observer.observe(cell);
+        });
+
+        // ECharts Initialization
+        document.addEventListener('DOMContentLoaded', function () {
+            // Example Chart: Future Outlook (Simplified Trend)
+            var outlookChartDom = document.getElementById('outlookChart');
+            if (outlookChartDom) {
+                var outlookChart = echarts.init(outlookChartDom, null, { renderer: 'svg' }); // Use SVG for sharper lines
+                var option = {
+                    tooltip: {
+                        trigger: 'axis',
+                         axisPointer: {
+                            type: 'cross',
+                            label: { backgroundColor: '#283b56' }
+                        }
+                    },
+                    grid: { left: '5%', right: '5%', bottom: '10%', top: '15%', containLabel: true },
+                    xAxis: {
+                        type: 'category',
+                        boundaryGap: false,
+                        data: ['Q4 \'24', 'Q1 \'25', 'Q2 \'25e', 'Q3 \'25e', 'Q4 \'25e'],
+                         axisLine: { lineStyle: { color: 'rgba(255,255,255,0.3)' } },
+                         axisLabel: { color: 'rgba(255,255,255,0.7)', fontSize: 10 }
+                    },
+                    yAxis: {
+                        type: 'value',
+                        axisLabel: { show: false }, // Hide Y-axis labels for simplicity
+                        splitLine: { show: false }, // Hide grid lines
+                        axisLine: { show: false }
+                    },
+                    series: [{
+                        name: '市场情绪/业绩趋势 (示意)',
+                        type: 'line',
+                        smooth: true,
+                        symbol: 'none', // No markers
+                        data: [0, -10, -5, 5, 10], // Example data representing trend
+                        lineStyle: {
+                            color: 'var(--tesla-red)',
+                            width: 3,
+                             shadowColor: 'rgba(227, 25, 55, 0.5)', // Red shadow
+                             shadowBlur: 10
+                        },
+                        areaStyle: { // Gradient fill under the line
+                             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                offset: 0,
+                                color: 'rgba(227, 25, 55, 0.5)' // Tesla Red with opacity
+                            }, {
+                                offset: 1,
+                                color: 'rgba(227, 25, 55, 0.05)' // Fading to transparent
+                            }])
+                        },
+                        emphasis: {
+                            focus: 'series',
+                             lineStyle: { width: 4 }
+                        },
+                    }]
+                };
+                outlookChart.setOption(option);
+
+                 // Make chart responsive
+                window.addEventListener('resize', function() {
+                    outlookChart.resize();
+                });
+            }
+
+            // Add more charts here if needed, following the same pattern
+            // e.g., var revenueChart = echarts.init(document.getElementById('revenueChart'));
+            // revenueChart.setOption({...});
+        });
+    </script>
+
+</body>
+</html>
