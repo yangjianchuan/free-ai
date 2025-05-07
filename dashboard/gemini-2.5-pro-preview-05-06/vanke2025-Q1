@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>万科2025年第一季度财报分析</title>
+    <script src="https://cdn.tailwindcss.com/3.4.1"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* 基本样式和字体 */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* 平滑滚动 */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* 深色模式下的特定调整 */
+        .dark .prose strong { color: #e5e7eb; } /* 深色模式下strong标签颜色 */
+        .dark .prose a { color: #93c5fd; } /* 深色模式下链接颜色 */
+        .dark .prose h1, .dark .prose h2, .dark .prose h3, .dark .prose h4 { color: #f3f4f6; } /* 深色模式下标题颜色 */
+
+        /* 卡片悬停效果 */
+        .data-card {
+            transition: transform 0.2s ease-out, box-shadow 0.2s ease-out, border-color 0.2s ease-out;
+        }
+        .data-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .dark .data-card:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+            border-color: #4b5563; /* 深色模式下悬停边框颜色 */
+        }
+        
+        /* 按钮悬停效果 */
+        .theme-toggle-button, .action-button {
+            transition: transform 0.15s ease-in-out, background-color 0.15s ease-in-out;
+        }
+        .theme-toggle-button:hover, .action-button:hover {
+            transform: scale(1.05);
+        }
+
+        /* 内容区块加载动画 */
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* 来源标记 */
+        .source-ref {
+            font-size: 0.7em;
+            vertical-align: super;
+            color: #6b7280; /* 浅色模式 */
+        }
+        .dark .source-ref {
+            color: #9ca3af; /* 深色模式 */
+        }
+
+        /* Linear风格的分割线 */
+        hr {
+            border-color: #e5e7eb; /* 浅色 */
+        }
+        .dark hr {
+            border-color: #374151; /* 深色 */
+        }
+
+        /* 财务数据正负值颜色 */
+        .positive-value { color: #10b981; } /* 绿色 */
+        .negative-value { color: #ef4444; } /* 红色 */
+        .dark .positive-value { color: #34d399; }
+        .dark .negative-value { color: #f87171; }
+    </style>
+    <script>
+        // TailwindCSS JIT-friendly dark mode setup
+        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+
+        function toggleTheme() {
+            const isDark = document.documentElement.classList.toggle('dark');
+            localStorage.setItem('color-theme', isDark ? 'dark' : 'light');
+            updateThemeButtonIcon();
+        }
+
+        function updateThemeButtonIcon() {
+            const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+            const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+            if (document.documentElement.classList.contains('dark')) {
+                themeToggleLightIcon.classList.remove('hidden');
+                themeToggleDarkIcon.classList.add('hidden');
+            } else {
+                themeToggleDarkIcon.classList.remove('hidden');
+                themeToggleLightIcon.classList.add('hidden');
+            }
+        }
+        
+        // 页面加载后更新按钮图标
+        document.addEventListener('DOMContentLoaded', updateThemeButtonIcon);
+
+        // 内容区块淡入动画
+        document.addEventListener('DOMContentLoaded', () => {
+            const sections = document.querySelectorAll('.fade-in-section');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target); // Optional: stop observing after animation
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+</head>
+<body class="bg-slate-50 dark:bg-gray-900 text-gray-700 dark:text-gray-300 transition-colors duration-300 ease-in-out">
+
+    <!-- 页面头部 -->
+    <header class="sticky top-0 z-50 bg-white/80 dark:bg-gray-800/80 backdrop-blur-md shadow-sm">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <h1 class="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
+                    <i class="fas fa-chart-pie mr-2 text-blue-600 dark:text-blue-400"></i>万科2025年第一季度财报分析
+                </h1>
+                <button id="theme-toggle" onclick="toggleTheme()" type="button" class="theme-toggle-button text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5">
+                    <i id="theme-toggle-dark-icon" class="fas fa-moon w-5 h-5 hidden"></i>
+                    <i id="theme-toggle-light-icon" class="fas fa-sun w-5 h-5 hidden"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主体内容 -->
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+
+        <!-- 核心财务数据 -->
+        <section id="core-financials" class="mb-12 fade-in-section">
+            <h2 class="text-2xl sm:text-3xl font-semibold text-gray-900 dark:text-white mb-6 flex items-center">
+                <i class="fas fa-file-invoice-dollar mr-3 text-indigo-600 dark:text-indigo-400"></i>核心财务数据
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="data-card bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg border border-transparent">
+                    <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-1">营业收入</h3>
+                    <p class="text-3xl font-bold text-gray-800 dark:text-gray-100">379.95<span class="text-sm font-normal">亿元</span></p>
+                    <p class="text-sm text-red-500 dark:text-red-400 mt-1"><i class="fas fa-arrow-down mr-1"></i>同比下降 38.31% <span class="source-ref">1</span></p>
+                </div>
+                <div class="data-card bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg border border-transparent">
+                    <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-1">净利润</h3>
+                    <p class="text-3xl font-bold negative-value">-62.46<span class="text-sm font-normal">亿元</span></p>
+                    <p class="text-sm text-red-500 dark:text-red-400 mt-1"><i class="fas fa-arrow-down mr-1"></i>同比下降 1625.63% <span class="source-ref">2</span></p>
+                </div>
+                <div class="data-card bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg border border-transparent">
+                    <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-1">毛利率</h3>
+                    <p class="text-3xl font-bold text-gray-800 dark:text-gray-100">6.1%</p>
+                    <p class="text-sm text-red-500 dark:text-red-400 mt-1"><i class="fas fa-arrow-down mr-1"></i>同比下降 4.7个百分点 <span class="source-ref">3</span></p>
+                </div>
+                <div class="data-card bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg border border-transparent">
+                    <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-1">经营活动现金流量净额</h3>
+                    <p class="text-3xl font-bold negative-value">-57.93<span class="text-sm font-normal">亿元</span></p>
+                    <p class="text-sm text-green-500 dark:text-green-400 mt-1"><i class="fas fa-arrow-up mr-1"></i>较上年同期改善 <span class="source-ref">1</span></p>
+                </div>
+                <div class="data-card bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg border border-transparent">
+                    <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-1">基本每股收益</h3>
+                    <p class="text-3xl font-bold negative-value">-0.53<span class="text-sm font-normal">元</span></p>
+                    <p class="text-sm text-red-500 dark:text-red-400 mt-1"><i class="fas fa-arrow-down mr-1"></i>同比下降 1627.21% <span class="source-ref">2</span></p>
+                </div>
+            </div>
+        </section>
+
+        <hr class="my-12"/>
+
+        <!-- 业务板块表现 -->
+        <section id="business-segments" class="mb-12 fade-in-section">
+            <h2 class="text-2xl sm:text-3xl font-semibold text-gray-900 dark:text-white mb-6 flex items-center">
+                <i class="fas fa-briefcase mr-3 text-teal-600 dark:text-teal-400"></i>业务板块表现
+            </h2>
+            <div class="space-y-8">
+                <!-- 房地产开发业务 -->
+                <div class="data-card bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg border border-transparent">
+                    <h3 class="text-xl font-medium text-gray-900 dark:text-white mb-4 flex items-center"><i class="fas fa-city mr-2 text-orange-500"></i>房地产开发业务</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <div><p><strong>营业收入:</strong> 228.0亿元 <span class="text-sm text-red-500 dark:text-red-400">(<i class="fas fa-arrow-down"></i>51.1%)</span><span class="source-ref">3</span></p></div>
+                        <div><p><strong>合同销售面积:</strong> 254万㎡ <span class="text-sm text-red-500 dark:text-red-400">(<i class="fas fa-arrow-down"></i>35.1%)</span><span class="source-ref">3</span></p></div>
+                        <div><p><strong>合同销售金额:</strong> 349.2亿元 <span class="text-sm text-red-500 dark:text-red-400">(<i class="fas fa-arrow-down"></i>39.8%)</span><span class="source-ref">3</span></p></div>
+                        <div><p><strong>结算面积:</strong> 203.1万㎡ <span class="text-sm text-red-500 dark:text-red-400">(<i class="fas fa-arrow-down"></i>36.2%)</span><span class="source-ref">3</span></p></div>
+                        <div><p><strong>结算金额:</strong> 228亿元 <span class="text-sm text-red-500 dark:text-red-400">(<i class="fas fa-arrow-down"></i>51.1%)</span><span class="source-ref">3</span></p></div>
+                        <div><p><strong>销售回款率:</strong> <span class="positive-value">>100%</span><span class="source-ref">4</span></p></div>
+                    </div>
+                </div>
+
+                <!-- 经营服务业务 -->
+                <div class="data-card bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg border border-transparent">
+                    <h3 class="text-xl font-medium text-gray-900 dark:text-white mb-4 flex items-center"><i class="fas fa-concierge-bell mr-2 text-cyan-500"></i>经营服务业务</h3>
+                    <p><strong>营业收入:</strong> 122.7亿元 <span class="text-sm positive-value">(<i class="fas fa-arrow-up"></i>12.1%)</span><span class="source-ref">3</span></p>
+                    <p class="mt-2 text-gray-600 dark:text-gray-400">万科物业满意度行业领先，推出"智能物业经理"和"AI管家"等创新产品。<span class="source-ref">1</span></p>
+                </div>
+
+                <!-- 租赁住宅业务 -->
+                <div class="data-card bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg border border-transparent">
+                    <h3 class="text-xl font-medium text-gray-900 dark:text-white mb-4 flex items-center"><i class="fas fa-house-user mr-2 text-lime-500"></i>租赁住宅业务 (泊寓)</h3>
+                    <p><strong>营业收入:</strong> 8.84亿元 <span class="text-sm positive-value">(<i class="fas fa-arrow-up"></i>6%)</span><span class="source-ref">1</span></p>
+                    <p class="mt-2 text-gray-600 dark:text-gray-400">与深圳地铁置业集团签署深铁项目租赁运营合作框架协议。<span class="source-ref">5</span></p>
+                </div>
+                
+                <!-- 商业开发与运营 -->
+                <div class="data-card bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg border border-transparent">
+                    <h3 class="text-xl font-medium text-gray-900 dark:text-white mb-4 flex items-center"><i class="fas fa-store mr-2 text-purple-500"></i>商业开发与运营</h3>
+                    <p><strong>营业收入:</strong> 19.37亿元 <span class="text-sm positive-value">(客流与销售额同比增长)</span><span class="source-ref">1</span></p>
+                    <p class="mt-2 text-gray-600 dark:text-gray-400">整体出租率: 92.1% (保持平稳)<span class="source-ref">1</span></p>
+                </div>
+
+                <!-- 物流仓储业务 -->
+                <div class="data-card bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg border border-transparent">
+                    <h3 class="text-xl font-medium text-gray-900 dark:text-white mb-4 flex items-center"><i class="fas fa-truck-ramp-box mr-2 text-amber-500"></i>物流仓储业务</h3>
+                    <p><strong>营业收入:</strong> 10.0亿元 <span class="text-sm positive-value">(<i class="fas fa-arrow-up"></i>3.3%)</span><span class="source-ref">1</span></p>
+                    <p class="mt-2 text-gray-600 dark:text-gray-400">冷链部分增速较快，同比增长15.6%。<span class="source-ref">1</span></p>
+                </div>
+            </div>
+        </section>
+        
+        <hr class="my-12"/>
+
+        <!-- 经营亮点与挑战 -->
+        <section id="highlights-challenges" class="mb-12 fade-in-section">
+            <h2 class="text-2xl sm:text-3xl font-semibold text-gray-900 dark:text-white mb-6 flex items-center">
+                <i class="fas fa-balance-scale mr-3 text-pink-600 dark:text-pink-400"></i>经营亮点与挑战
+            </h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- 经营亮点 -->
+                <div class="data-card bg-green-50 dark:bg-green-900/30 p-6 rounded-xl shadow-lg border border-green-200 dark:border-green-700">
+                    <h3 class="text-xl font-medium text-green-700 dark:text-green-300 mb-4 flex items-center"><i class="fas fa-thumbs-up mr-2"></i>经营亮点</h3>
+                    <ul class="space-y-3 text-gray-700 dark:text-gray-300">
+                        <li><strong class="font-semibold">项目交付:</strong> 一季度高质量交付1.04万套房屋。<span class="source-ref">4</span></li>
+                        <li><strong class="font-semibold">资金管理:</strong> 新增融资139亿元，综合成本降至3.39%<span class="source-ref">1</span>。一季度公开债如期兑付<span class="source-ref">5</span>。</li>
+                        <li><strong class="font-semibold">资产盘活:</strong> 大宗交易签约38亿元<span class="source-ref">1</span>，盘活回款40.9亿元<span class="source-ref">1</span>。</li>
+                        <li><strong class="font-semibold">科技创新:</strong> AI图纸大模型应用于超千项目<span class="source-ref">6</span>，自研BIM软件"斗拱"<span class="source-ref">1</span>，获近300件国家发明专利<span class="source-ref">7</span>。</li>
+                    </ul>
+                </div>
+                <!-- 经营挑战 -->
+                <div class="data-card bg-red-50 dark:bg-red-900/30 p-6 rounded-xl shadow-lg border border-red-200 dark:border-red-700">
+                    <h3 class="text-xl font-medium text-red-700 dark:text-red-300 mb-4 flex items-center"><i class="fas fa-triangle-exclamation mr-2"></i>经营挑战</h3>
+                    <ul class="space-y-3 text-gray-700 dark:text-gray-300">
+                        <li><strong class="font-semibold">业绩大幅下滑:</strong> 归母净利润 -62.46亿元，同比降1625.63%。<span class="source-ref">2</span></li>
+                        <li><strong class="font-semibold">开发业务承压:</strong> 收入同比降51.1%<span class="source-ref">3</span>，合同销售面积和金额分别降35.1%和39.8%<span class="source-ref">3</span>。</li>
+                        <li><strong class="font-semibold">财务压力:</strong> 三费占营收比11.82% (同比增71.23%)<span class="source-ref">2</span>。有息负债3658.7亿元，资产负债率73.5%<span class="source-ref">3</span>。</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <hr class="my-12"/>
+
+        <!-- 大股东支持与战略转型 -->
+        <section id="support-transformation" class="mb-12 fade-in-section">
+            <h2 class="text-2xl sm:text-3xl font-semibold text-gray-900 dark:text-white mb-6 flex items-center">
+                <i class="fas fa-handshake-angle mr-3 text-sky-600 dark:text-sky-400"></i>大股东支持与战略转型
+            </h2>
+            <div class="space-y-8">
+                <div class="data-card bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg border border-transparent">
+                    <h3 class="text-xl font-medium text-gray-900 dark:text-white mb-4 flex items-center"><i class="fas fa-shield-halved mr-2 text-blue-500"></i>深铁集团的支持</h3>
+                    <ul class="list-disc list-inside space-y-2 text-gray-600 dark:text-gray-400">
+                        <li><strong>资金支持:</strong> 三笔借款共计103亿元 (抵押万物云股权、三大子公司资产等)。<span class="source-ref">3</span></li>
+                        <li><strong>资产接盘:</strong> 认购中金印力公募基金份额(10亿元)，受让深圳湾超级总部基地地块(22.35亿元)及红树湾项目收益权(12.92亿元)。<span class="source-ref">3</span></li>
+                        <li><strong>管理层重构:</strong> 国资背景经理人团队全面入驻，标志万科进入"深铁时代"。<span class="source-ref">3</span></li>
+                    </ul>
+                </div>
+                <div class="data-card bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg border border-transparent">
+                    <h3 class="text-xl font-medium text-gray-900 dark:text-white mb-4 flex items-center"><i class="fas fa-shuffle mr-2 text-green-500"></i>战略转型举措</h3>
+                    <ul class="list-disc list-inside space-y-2 text-gray-600 dark:text-gray-400">
+                        <li><strong>业务模式调整:</strong> 向"开发经营服务并重"转型，经营性业务显现韧性。<span class="source-ref">8</span></li>
+                        <li><strong>资产盘活:</strong> 通过REITs、Pre-REIT基金等盘活存量资产。<span class="source-ref">1</span></li>
+                        <li><strong>科技赋能:</strong> 利用AI、BIM推动服务智能化和智能建造。<span class="source-ref">1</span></li>
+                        <li><strong>强强联合:</strong> 与深铁在轨道物流、TOD综合开发等领域创造新机会。<span class="source-ref">5</span></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <hr class="my-12"/>
+
+        <!-- 未来展望 -->
+        <section id="future-outlook" class="mb-12 fade-in-section">
+            <h2 class="text-2xl sm:text-3xl font-semibold text-gray-900 dark:text-white mb-6 flex items-center">
+                <i class="fas fa-binoculars mr-3 text-fuchsia-600 dark:text-fuchsia-400"></i>未来展望
+            </h2>
+            <div class="prose prose-lg dark:prose-invert max-w-none bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg data-card border border-transparent">
+                <ul class="list-disc space-y-2">
+                    <li><strong>市场环境:</strong> 一季度全国房地产市场降幅收窄，二手房活跃，土地成交回升，政策持续稳定市场。<span class="source-ref">1</span></li>
+                    <li><strong>业务发展:</strong> 万科将持续推动科技创新、智能化服务和多元场景开发，积极布局转型。<span class="source-ref">1</span></li>
+                    <li><strong>分析师预期:</strong> 市场普遍预期2025年万科全年业绩为-176.06亿元，每股收益约-1.48元。<span class="source-ref">2</span></li>
+                </ul>
+            </div>
+        </section>
+
+        <hr class="my-12"/>
+
+        <!-- 结论 -->
+        <section id="conclusion" class="mb-12 fade-in-section">
+            <h2 class="text-2xl sm:text-3xl font-semibold text-gray-900 dark:text-white mb-6 flex items-center">
+                <i class="fas fa-flag-checkered mr-3 text-yellow-500 dark:text-yellow-400"></i>结论
+            </h2>
+            <div class="prose prose-lg dark:prose-invert max-w-none bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg data-card border border-transparent">
+                <p>万科2025年第一季度财报反映出公司在房地产行业深度调整期所面临的挑战与机遇。一方面，传统房地产开发业务继续承压，导致整体营收和利润大幅下滑；另一方面，公司正积极推动业务转型，经营服务、租赁住宅和科技创新等领域展现出增长潜力。</p>
+                <p>在深铁集团的强力支持下，万科的债务风险得到缓解，融资状况有所改善。同时，公司通过资产盘活、科技创新和战略合作，逐步构建多元化的业务格局。虽然短期内业绩压力依然较大，但万科正努力通过转型与创新，探索可持续发展的新道路。</p>
+                <p>未来，万科能否成功转型及恢复盈利能力，将取决于市场环境的变化、大股东的持续支持以及公司战略调整的成效。投资者需密切关注公司后续的业务动态和财务状况。</p>
+            </div>
+            <p class="mt-4 text-xs text-gray-500 dark:text-gray-400">
+                <i class="fas fa-info-circle mr-1"></i> 来源说明: <sup>1</sup>中国证券网, <sup>2</sup>证券之星, <sup>3</sup>36氪, <sup>4</sup>东方财富, <sup>5</sup>搜狐, <sup>6</sup>搜狐证券, <sup>7</sup>新浪财经, <sup>8</sup>网易。
+            </p>
+        </section>
+    </main>
+
+    <!-- 页面底部 -->
+    <footer class="bg-gray-800 dark:bg-gray-950 text-gray-300 dark:text-gray-400 py-12 fade-in-section">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="mb-4">
+                <h3 class="text-lg font-semibold text-white mb-2">作者信息</h3>
+                <p class="text-gray-400">作者姓名: [作者姓名]</p> <!-- 请替换为您自己的姓名 -->
+            </div>
+            <div class="flex justify-center space-x-6 mb-6">
+                <a href="https://github.com/[your-github]" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white transition-colors duration-200 action-button">
+                    <i class="fab fa-github fa-2x"></i>
+                </a>
+                <a href="https://twitter.com/[your-twitter]" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white transition-colors duration-200 action-button">
+                    <i class="fab fa-twitter fa-2x"></i> <!-- 或者 fab fa-x-twitter -->
+                </a>
+                <a href="https://linkedin.com/in/[your-linkedin]" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white transition-colors duration-200 action-button">
+                    <i class="fab fa-linkedin fa-2x"></i>
+                </a>
+                <!-- 您可以添加更多社交媒体链接 -->
+            </div>
+            <p class="text-sm text-gray-500 dark:text-gray-600">
+                © <span id="currentYear"></span> [作者姓名] 版权所有。保留所有权利。
+            </p>
+            <script>
+                document.getElementById('currentYear').textContent = new Date().getFullYear();
+            </script>
+        </div>
+    </footer>
+
+</body>
+</html>
