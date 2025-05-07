@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>万科2024：风浪中求索 / VANKE 2024: NAVIGATING THE STORM</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/framer-motion/10.16.4/framer-motion.umd.js"></script>
+    <script src="https://fastly.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+    <style>
+        body {
+            background-color: #000000;
+            color: #FFFFFF;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+        }
+        .tesla-red {
+            color: #E31937;
+        }
+        .bg-tesla-red {
+            background-color: #E31937;
+        }
+        .border-tesla-red {
+            border-color: #E31937;
+        }
+        .highlight-gradient {
+            background-image: linear-gradient(to right, #E31937, rgba(227, 25, 55, 0.5));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .bento-grid-item {
+            background-color: #111111; /* Slightly lighter than pure black for item background */
+            border-radius: 1rem; /* 16px */
+            padding: 1.5rem; /* 24px */
+            border: 1px solid #222222;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .chinese-title {
+            font-size: 2.25rem; /* 36px */
+            line-height: 2.5rem; /* 40px */
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+        @media (min-width: 768px) {
+            .chinese-title {
+                font-size: 3rem; /* 48px */
+                line-height: 1;
+            }
+        }
+        .english-subtitle {
+            font-size: 0.875rem; /* 14px */
+            line-height: 1.25rem; /* 20px */
+            color: #A0A0A0;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .super-text {
+            font-size: 4rem; /* 64px */
+            font-weight: 800;
+            line-height: 1;
+        }
+         @media (min-width: 768px) {
+            .super-text {
+                font-size: 6rem; /* 96px */
+            }
+        }
+        @media (min-width: 1024px) {
+            .super-text {
+                font-size: 8rem; /* 128px */
+            }
+        }
+        .metric-value {
+            font-size: 2.5rem; /* 40px */
+            font-weight: 700;
+            line-height: 1.1;
+        }
+        .metric-label {
+            font-size: 0.875rem; /* 14px */
+            color: #A0A0A0;
+            margin-top: 0.25rem;
+        }
+        .icon-accent {
+            font-size: 1.5rem; /* 24px */
+            margin-right: 0.75rem; /* 12px */
+        }
+    </style>
+</head>
+<body class="overflow-x-hidden">
+    <div id="app" class="container mx-auto p-4 md:p-8">
+
+        <!-- Hero Section -->
+        <motion.section
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: "easeInOut" }}
+            class="text-center my-16 md:my-24"
+        >
+            <h1 class="chinese-title text-4xl md:text-6xl lg:text-7xl">万科2024：风浪中求索</h1>
+            <p class="english-subtitle text-lg md:text-xl mt-2">VANKE 2024: NAVIGATING THE STORM</p>
+        </motion.section>
+
+        <!-- Main Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+
+            <!-- Annual Performance Core -->
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+                class="bento-grid-item md:col-span-2 lg:col-span-3 p-8 md:p-12 flex flex-col md:flex-row items-center justify-between"
+            >
+                <div>
+                    <h2 class="chinese-title">年度业绩核心</h2>
+                    <p class="english-subtitle mb-6">Headline: Navigating Unprecedented Loss</p>
+                    <p class="text-gray-300 text-sm md:text-base max-w-3xl">
+                        2024年，万科企业股份有限公司经历了自1991年上市以来最为严峻的挑战，财务表现呈现历史性亏损。面对前所未有的经营压力和流动性挑战，万科启动了全面的业务重整与风险化解方案，力求在风浪中稳定航向，寻求可持续发展之路。
+                    </p>
+                </div>
+                <div class="text-center mt-8 md:mt-0 md:ml-12">
+                    <p class="super-text tesla-red">-¥495<span class="text-2xl md:text-4xl align-baseline">亿</span></p>
+                    <p class="metric-label">归母净亏损 / Net Loss Attributable</p>
+                    <p class="text-2xl md:text-3xl font-semibold tesla-red mt-2">-506.8% <span class="text-sm align-middle">YoY</span></p>
+                </div>
+            </motion.div>
+
+            <!-- Core Financial Snapshot Introduction -->
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                class="bento-grid-item lg:col-span-1"
+            >
+                <h3 class="chinese-title text-2xl md:text-3xl">核心财务速览</h3>
+                <p class="english-subtitle mb-4">Core Financial Snapshot</p>
+                <p class="text-gray-400 text-xs md:text-sm">本报告期内，万科各项核心财务指标均承受显著压力，但亦有结构性亮点显现。</p>
+                <div class="mt-auto pt-4">
+                     <i class="fas fa-chart-pie tesla-red text-6xl opacity-30"></i>
+                </div>
+            </motion.div>
+
+            <!-- Revenue & Profit -->
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.5, delay: 0.25 }}
+                class="bento-grid-item"
+            >
+                <div class="flex items-center mb-3">
+                    <i class="fas fa-wallet icon-accent tesla-red"></i>
+                    <div>
+                        <h4 class="font-semibold text-lg">营收与利润</h4>
+                        <p class="english-subtitle text-xs">Revenue & Profit</p>
+                    </div>
+                </div>
+                <p class="metric-value">¥3431.8<span class="text-lg align-baseline">亿</span></p>
+                <p class="metric-label">营业收入 / Revenue <span class="tesla-red ml-1">(-26.3% YoY)</span></p>
+                <p class="metric-value mt-4 tesla-red">-¥494.8<span class="text-lg align-baseline">亿</span></p>
+                <p class="metric-label">净亏损 / Net Loss <span class="tesla-red ml-1">(-506.8% YoY)</span></p>
+                <p class="text-gray-400 text-xs mt-3">主要源于开发业务下滑、大额计提、投资亏损及资产处置损失。</p>
+            </motion.div>
+
+            <!-- Assets & Liabilities -->
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+                class="bento-grid-item"
+            >
+                <div class="flex items-center mb-3">
+                     <i class="fas fa-balance-scale icon-accent tesla-red"></i>
+                    <div>
+                        <h4 class="font-semibold text-lg">资产与负债</h4>
+                        <p class="english-subtitle text-xs">Assets & Liabilities</p>
+                    </div>
+                </div>
+                <p class="metric-value">¥1.29<span class="text-lg align-baseline">万亿</span></p>
+                <p class="metric-label">总资产 / Total Assets <span class="text-gray-400 ml-1">(-14.5% YoY)</span></p>
+                <p class="metric-value mt-4">¥9474<span class="text-lg align-baseline">亿</span></p>
+                <p class="metric-label">总负债 / Total Liabilities <span class="text-gray-400 ml-1">(-14.0% YoY)</span></p>
+                <p class="text-gray-400 text-xs mt-3">资产负债率 (剔除预收) 微升至 <span class="font-semibold text-white">73.7%</span> (+0.4pp YoY)。</p>
+            </motion.div>
+
+            <!-- Cash Flow -->
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.5, delay: 0.35 }}
+                class="bento-grid-item"
+            >
+                <div class="flex items-center mb-3">
+                    <i class="fas fa-hand-holding-dollar icon-accent tesla-red"></i>
+                    <div>
+                        <h4 class="font-semibold text-lg">现金流量</h4>
+                        <p class="english-subtitle text-xs">Cash Flow</p>
+                    </div>
+                </div>
+                <p class="metric-value text-green-400">¥38.0<span class="text-lg align-baseline">亿</span></p>
+                <p class="metric-label">经营活动现金流量净额 / Operating Cash Flow</p>
+                <p class="text-gray-400 text-xs mt-1">同比微降 -2.9%，连续16年为正。</p>
+                <p class="text-gray-400 text-xs mt-3">表明核心经营仍能产生净现金流入，亏损主要受非现金项目影响。</p>
+            </motion.div>
+
+            <!-- Debt & Gearing -->
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.5, delay: 0.4 }}
+                class="bento-grid-item"
+            >
+                <div class="flex items-center mb-3">
+                    <i class="fas fa-chart-line icon-accent tesla-red"></i>
+                    <div>
+                        <h4 class="font-semibold text-lg">债务与杠杆</h4>
+                        <p class="english-subtitle text-xs">Debt & Gearing</p>
+                    </div>
+                </div>
+                <p class="metric-value tesla-red">80.6%</p>
+                <p class="metric-label">净负债率 / Net Gearing Ratio <span class="tesla-red ml-1">(+25.9pp YoY)</span></p>
+                <p class="text-gray-400 text-xs mt-3">急剧攀升，财务风险放大。已将“坚定降杠杆”作为核心要务。</p>
+                <p class="text-gray-400 text-xs mt-1">计划两年削减超 <span class="font-semibold text-white">千亿</span> 有息负债。</p>
+            </motion.div>
+            
+            <!-- Placeholder for a large visual element or another key metric -->
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.5, delay: 0.45 }}
+                class="bento-grid-item items-center justify-center text-center"
+            >
+                <i class="fas fa-shield-alt tesla-red text-8xl opacity-50"></i>
+                <p class="chinese-title text-xl mt-4">风险化解进行时</p>
+                <p class="english-subtitle text-xs">RISK MITIGATION IN PROGRESS</p>
+            </motion.div>
+
+            <!-- Key Financial Metrics Summary (Table & Chart) -->
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                class="bento-grid-item md:col-span-2 lg:col-span-3"
+            >
+                <h3 class="chinese-title text-2xl md:text-3xl">关键财务指标摘要</h3>
+                <p class="english-subtitle mb-6">Key Financial Metrics Summary</p>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm text-left">
+                            <thead class="text-xs text-gray-300 uppercase bg-zinc-800">
+                                <tr>
+                                    <th scope="col" class="px-4 py-3">指标 (Metric)</th>
+                                    <th scope="col" class="px-4 py-3 text-right">2024年数值 (Value)</th>
+                                    <th scope="col" class="px-4 py-3 text-right">同比变动 (YoY)</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-zinc-700">
+                                <tr class="hover:bg-zinc-700/50">
+                                    <td class="px-4 py-3 font-medium">营业总收入</td>
+                                    <td class="px-4 py-3 text-right">3,431.76 亿</td>
+                                    <td class="px-4 py-3 text-right tesla-red">-26.32%</td>
+                                </tr>
+                                <tr class="hover:bg-zinc-700/50">
+                                    <td class="px-4 py-3 font-medium">归母净利润</td>
+                                    <td class="px-4 py-3 text-right tesla-red">-494.78 亿</td>
+                                    <td class="px-4 py-3 text-right tesla-red">-506.81%</td>
+                                </tr>
+                                <tr class="hover:bg-zinc-700/50">
+                                    <td class="px-4 py-3 font-medium">总资产</td>
+                                    <td class="px-4 py-3 text-right">12,862.60 亿</td>
+                                    <td class="px-4 py-3 text-right text-gray-400">-14.53%</td>
+                                </tr>
+                                 <tr class="hover:bg-zinc-700/50">
+                                    <td class="px-4 py-3 font-medium">经营现金流净额</td>
+                                    <td class="px-4 py-3 text-right text-green-400">38.00 亿</td>
+                                    <td class="px-4 py-3 text-right text-gray-400">-2.87%</td>
+                                </tr>
+                                <tr class="hover:bg-zinc-700/50">
+                                    <td class="px-4 py-3 font-medium">资产负债率</td>
+                                    <td class="px-4 py-3 text-right">73.66%</td>
+                                    <td class="px-4 py-3 text-right tesla-red">+0.44 pp</td>
+                                </tr>
+                                <tr class="hover:bg-zinc-700/50">
+                                    <td class="px-4 py-3 font-medium">净负债率</td>
+                                    <td class="px-4 py-3 text-right tesla-red">80.60%</td>
+                                    <td class="px-4 py-3 text-right tesla-red">+25.94 pp</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p class="text-xs text-gray-500 mt-2">单位：百万元 (除特别注明)</p>
+                    </div>
+                    <div>
+                        <div id="keyMetricsChart" style="width: 100%; height: 300px;"></div>
+                        <p class="text-xs text-gray-400 text-center mt-2">主要指标对比 (亿元)</p>
+                    </div>
+                </div>
+            </motion.div>
+
+            <!-- Business Segment Performance Intro -->
+             <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+                class="bento-grid-item lg:col-span-3"
+            >
+                <h2 class="chinese-title text-3xl md:text-4xl">业务板块表现</h2>
+                <p class="english-subtitle mb-4">Business Segment Performance</p>
+                <p class="text-gray-300 text-sm md:text-base">在整体承压的背景下，万科各业务板块表现分化，经营性业务展现出相对韧性。</p>
+            </motion.div>
+
+            <!-- Real Estate Development -->
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                class="bento-grid-item md:col-span-2"
+            >
+                <div class="flex items-center mb-3">
+                    <i class="fas fa-city icon-accent tesla-red"></i>
+                    <div>
+                        <h4 class="font-semibold text-xl">房地产开发</h4>
+                        <p class="english-subtitle">Real Estate Development</p>
+                    </div>
+                </div>
+                <p class="metric-value">¥2460<span class="text-lg align-baseline">亿</span></p>
+                <p class="metric-label">合同销售金额 / Sales Amount <span class="tesla-red ml-1">(-34.6% YoY)</span></p>
+                <p class="text-gray-300 text-sm mt-3">销售面积仍居行业第一。交付房屋超 <span class="font-semibold text-white">18万套</span>。结算毛利率 <span class="font-semibold tesla-red">9.5%</span>。</p>
+                <p class="text-gray-400 text-xs mt-2">战略转向聚焦现金流、加速去化和风险控制。</p>
+            </motion.div>
+
+            <!-- Property Services (Onewo) -->
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.5, delay: 0.25 }}
+                class="bento-grid-item"
+            >
+                 <div class="flex items-center mb-3">
+                    <i class="fas fa-concierge-bell icon-accent tesla-red"></i>
+                    <div>
+                        <h4 class="font-semibold text-xl">物业服务 (万物云)</h4>
+                        <p class="english-subtitle">Property Services (Onewo)</p>
+                    </div>
+                </div>
+                <p class="metric-value">¥363.8<span class="text-lg align-baseline">亿</span></p>
+                <p class="metric-label">营业收入 / Revenue <span class="text-green-400 ml-1">(+8.9% YoY)</span></p>
+                <p class="text-gray-300 text-sm mt-3">“蝶城”战略深化，数量增至 <span class="font-semibold text-white">666个</span>。</p>
+                <p class="text-gray-400 text-xs mt-2">轻资产、现金牛业务，提供宝贵收入和现金流。</p>
+            </motion.div>
+            
+            <!-- Rental Housing (Port Apartment) -->
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+                class="bento-grid-item"
+            >
+                <div class="flex items-center mb-3">
+                    <i class="fas fa-home icon-accent tesla-red"></i>
+                    <div>
+                        <h4 class="font-semibold text-xl">租赁住宅 (泊寓)</h4>
+                        <p class="english-subtitle">Rental Housing (Port Apartment)</p>
+                    </div>
+                </div>
+                <p class="metric-value">¥37.0<span class="text-lg align-baseline">亿</span></p>
+                <p class="metric-label">营业收入 / Revenue <span class="text-green-400 ml-1">(+7.0% YoY)</span></p>
+                <p class="text-gray-300 text-sm mt-3">管理 <span class="font-semibold text-white">26.24万间</span>，出租率 <span class="font-semibold text-white">95.6%</span>。</p>
+                <p class="text-gray-400 text-xs mt-2">规模领先，运营高效，政策契合。</p>
+            </motion.div>
+
+            <!-- Logistics & Warehousing (VX Logistics) -->
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.5, delay: 0.35 }}
+                class="bento-grid-item"
+            >
+                <div class="flex items-center mb-3">
+                    <i class="fas fa-truck-loading icon-accent tesla-red"></i>
+                    <div>
+                        <h4 class="font-semibold text-xl">物流仓储 (万纬物流)</h4>
+                        <p class="english-subtitle">Logistics & Warehousing (VX Logistics)</p>
+                    </div>
+                </div>
+                <p class="metric-value">¥39.7<span class="text-lg align-baseline">亿</span></p>
+                <p class="metric-label">营业收入 / Revenue</p>
+                <p class="text-gray-300 text-sm mt-3">仓储规模超 <span class="font-semibold text-white">1000万平米</span>。REITs取得关键进展。</p>
+                <p class="text-gray-400 text-xs mt-2">具备资产盘活潜力，支持集团流动性。</p>
+            </motion.div>
+
+            <!-- Commercial Operations (SCPG) -->
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.5, delay: 0.4 }}
+                class="bento-grid-item"
+            >
+                <div class="flex items-center mb-3">
+                    <i class="fas fa-store icon-accent tesla-red"></i>
+                    <div>
+                        <h4 class="font-semibold text-xl">商业开发与运营 (印力)</h4>
+                        <p class="english-subtitle">Commercial Operations (SCPG)</p>
+                    </div>
+                </div>
+                <p class="metric-value">¥88.9<span class="text-lg align-baseline">亿</span></p>
+                <p class="metric-label">营业收入 / Revenue <span class="text-gray-400 ml-1">(-2.5% YoY)</span></p>
+                <p class="text-gray-300 text-sm mt-3">管理181个项目，出租率 <span class="font-semibold text-white">95.1%</span>。REITs取得进展。</p>
+                <p class="text-gray-400 text-xs mt-2">利用成熟资产进行资本循环。</p>
+            </motion.div>
+
+            <!-- Strategic Response & Outlook -->
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+                class="bento-grid-item md:col-span-2 lg:col-span-3 p-8 md:p-12"
+            >
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <h2 class="chinese-title text-3xl md:text-4xl">战略应对与展望</h2>
+                        <p class="english-subtitle mb-6">Strategic Response & Outlook</p>
+                        
+                        <h4 class="font-semibold text-xl mt-6 mb-2">前所未有的挑战</h4>
+                        <p class="english-subtitle text-xs mb-2">Unprecedented Challenges</p>
+                        <p class="text-gray-300 text-sm">市场调整、巨额亏损、流动性压力、过往模式惯性、评级下调等多重挑战。</p>
+
+                        <h4 class="font-semibold text-xl mt-6 mb-2">“一揽子”自救方案</h4>
+                        <p class="english-subtitle text-xs mb-2">The "Self-Rescue" Plan</p>
+                        <ul class="list-disc list-inside text-gray-300 text-sm space-y-1 pl-1">
+                            <li><span class="font-semibold text-white">坚定瘦身健体:</span> 聚焦主业，清理非主业投资。</li>
+                            <li><span class="font-semibold text-white">全力保现金流:</span> 促回款，去库存，完成大宗交易。</li>
+                            <li><span class="font-semibold text-white">保障融资渠道:</span> 争取金融支持，拓展经营性物业贷。</li>
+                            <li><span class="font-semibold text-white">借助国资支持:</span> 深铁集团及深圳国资体系支持。</li>
+                        </ul>
+                    </div>
+                    <div class="flex flex-col justify-between">
+                        <div>
+                            <h4 class="font-semibold text-xl mt-6 md:mt-0 mb-2">未来展望与转型</h4>
+                            <p class="english-subtitle text-xs mb-2">Future Outlook & Transformation</p>
+                            <p class="text-gray-300 text-sm">
+                                风险未彻底化解，2025首要任务安全度债。深化转型，抓住政策机遇，优化业务组合，推动模式创新，与深铁深度融合。
+                                长期目标是恢复财务稳健，实现可持续发展。复苏之路任重道远，伴随显著代价。
+                            </p>
+                        </div>
+                        <div class="mt-8 text-center md:text-right">
+                            <i class="fas fa-route tesla-red text-8xl opacity-40"></i>
+                        </div>
+                    </div>
+                </div>
+            </motion.div>
+
+            <!-- 2024 Milestones & Achievements -->
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                class="bento-grid-item md:col-span-2 lg:col-span-3"
+            >
+                <h3 class="chinese-title text-2xl md:text-3xl">2024 里程碑与成就</h3>
+                <p class="english-subtitle mb-6">2024 Milestones & Achievements</p>
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 text-sm">
+                    <div class="bg-zinc-800 p-3 rounded-lg">
+                        <i class="fas fa-house-user tesla-red mr-2"></i> 高品质交付 <span class="font-bold text-white">>18万套</span>
+                    </div>
+                    <div class="bg-zinc-800 p-3 rounded-lg">
+                        <i class="fas fa-medal tesla-red mr-2"></i> 销售面积领先 <span class="font-bold text-white">行业第一</span>
+                    </div>
+                    <div class="bg-zinc-800 p-3 rounded-lg">
+                        <i class="fas fa-handshake tesla-red mr-2"></i> 大宗资产交易 <span class="font-bold text-white">¥259亿</span>
+                    </div>
+                    <div class="bg-zinc-800 p-3 rounded-lg">
+                        <i class="fas fa-credit-card tesla-red mr-2"></i> 公开债偿付 <span class="font-bold text-white">约¥292亿</span>
+                    </div>
+                    <div class="bg-zinc-800 p-3 rounded-lg">
+                        <i class="fas fa-briefcase tesla-red mr-2"></i> 经营业务坚韧 <span class="font-bold text-white">持续增长</span>
+                    </div>
+                    <div class="bg-zinc-800 p-3 rounded-lg">
+                        <i class="fas fa-chart-pie tesla-red mr-2"></i> REITs 突破 <span class="font-bold text-white">关键进展</span>
+                    </div>
+                    <div class="bg-zinc-800 p-3 rounded-lg">
+                        <i class="fas fa-landmark tesla-red mr-2"></i> 融资落地 <span class="font-bold text-white">¥948亿</span>
+                    </div>
+                    <div class="bg-zinc-800 p-3 rounded-lg">
+                        <i class="fas fa-leaf tesla-red mr-2"></i> 绿色实践 <span class="font-bold text-white">>60%项目</span>
+                    </div>
+                </div>
+                <p class="text-xs text-gray-400 mt-4">尽管面临财务危机，核心运营能力仍在维持，为未来复苏保留基础。</p>
+            </motion.div>
+
+            <!-- Data Source & Disclaimer -->
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+                class="bento-grid-item md:col-span-2 lg:col-span-3 text-xs text-gray-500"
+            >
+                <h4 class="font-semibold text-gray-300 text-sm mb-2">数据来源与免责声明</h4>
+                <p class="english-subtitle text-xs mb-3">Data Source & Disclaimer</p>
+                <ul class="list-disc list-inside space-y-1">
+                    <li>数据来源于万科企业股份有限公司2024年年度报告及相关官方公告。 / Data sourced from Vanke 2024 Annual Report and related official disclosures.</li>
+                    <li>本分析基于截至报告生成之日的公开信息。 / Analysis based on publicly available information as of the date of this report.</li>
+                    <li>本报告仅供参考，不构成任何投资建议。 / This report is for informational purposes only and does not constitute investment advice.</li>
+                </ul>
+            </motion.div>
+        </div>
+    </div>
+
+    <script>
+        // Framer Motion setup (basic, as attributes are used in HTML)
+        // For more complex JS-driven animations, you'd use the Motion library here.
+        // For this example, HTML attributes handle the basics.
+
+        // ECharts Initialization
+        document.addEventListener('DOMContentLoaded', function () {
+            var chartDom = document.getElementById('keyMetricsChart');
+            if (chartDom) {
+                var myChart = echarts.init(chartDom);
+                var option;
+
+                // Calculate 2023 values for comparison (approximate)
+                // Revenue 2024 = 3431.76, YoY = -26.32%. Revenue 2023 = 3431.76 / (1 - 0.2632) = 4657.75
+                // Net Profit 2024 = -494.78, YoY = -506.81%. Net Profit 2023 = -494.78 / (1 - 5.0681) = 121.63 (approx, from text)
+                // Operating Cash Flow 2024 = 38.00, YoY = -2.87%. OCF 2023 = 38.00 / (1 - 0.0287) = 39.12
+                
+                const revenue2023 = (3431.76 / (1 - 0.2632)).toFixed(2);
+                const netProfit2023 = 121.63; // Given in text
+                const ocf2023 = (38.00 / (1 - 0.0287)).toFixed(2);
+
+
+                option = {
+                    backgroundColor: 'transparent',
+                    tooltip: {
+                        trigger: 'axis',
+                        axisPointer: {
+                            type: 'shadow'
+                        },
+                        backgroundColor: 'rgba(30,30,30,0.9)',
+                        borderColor: '#555',
+                        textStyle: {
+                            color: '#fff'
+                        }
+                    },
+                    legend: {
+                        data: ['2023年', '2024年'],
+                        textStyle: { color: '#ccc' },
+                        top: '5%'
+                    },
+                    grid: {
+                        left: '3%',
+                        right: '4%',
+                        bottom: '3%',
+                        containLabel: true
+                    },
+                    xAxis: {
+                        type: 'value',
+                        boundaryGap: [0, 0.01],
+                        axisLabel: { color: '#aaa' },
+                        splitLine: { lineStyle: { color: '#333' } }
+                    },
+                    yAxis: {
+                        type: 'category',
+                        data: ['营业总收入', '归母净利润', '经营现金流净额'],
+                        axisLabel: { color: '#ccc' }
+                    },
+                    series: [
+                        {
+                            name: '2023年',
+                            type: 'bar',
+                            data: [parseFloat(revenue2023), netProfit2023, parseFloat(ocf2023)],
+                            itemStyle: {
+                                color: '#555555' // Grey for previous year
+                            }
+                        },
+                        {
+                            name: '2024年',
+                            type: 'bar',
+                            data: [3431.76, -494.78, 38.00],
+                            itemStyle: {
+                                color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [
+                                    { offset: 0, color: 'rgba(227, 25, 55, 0.6)' }, // Tesla Red with opacity
+                                    { offset: 1, color: '#E31937' } // Tesla Red
+                                ])
+                            }
+                        }
+                    ]
+                };
+                myChart.setOption(option);
+                window.addEventListener('resize', function() {
+                    myChart.resize();
+                });
+            } else {
+                console.error("ECharts container not found.");
+            }
+
+            // Simple Framer Motion instantiation for elements that might need it via JS
+            // This is largely handled by attributes in HTML for `whileInView`
+            // Example: if you had dynamic elements:
+            // const elements = document.querySelectorAll('.needs-motion');
+            // elements.forEach(el => {
+            // new motion.div(el, { initial: { opacity: 0 }, animate: { opacity: 1 }});
+            // });
+        });
+    </script>
+</body>
+</html>
