@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>万科2024：风浪中求索｜数据可视化看板</title>
+
+  <!-- TailwindCSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+  <!-- ECharts -->
+  <script src="https://fastly.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+
+  <style>
+    html, body { background: #F5F7F8; }
+    .card { background: #ffffff; }
+    .chart-card { background: #ffffff; }
+    .chip {
+      display: inline-flex; align-items: center; gap: .35rem;
+      font-size: .75rem; padding: 0.15rem .5rem; border-radius: 9999px;
+    }
+    .chip.down { color: #b42318; background: #fee4e2; }
+    .chip.up   { color: #05603a; background: #d1fadf; }
+    .chip.flat { color: #6938ef; background: #ebe9fe; }
+    .kpi-icon {
+      width: 40px; height: 40px; display: grid; place-items: center; border-radius: 10px;
+      color: #fff;
+    }
+  </style>
+</head>
+<body class="text-gray-800">
+  <!-- Header / Hero -->
+  <header class="max-w-7xl mx-auto px-4 sm:px-6 pt-8 pb-4">
+    <div class="card rounded-2xl p-6 sm:p-8 shadow-sm">
+      <div class="flex flex-col-reverse md:flex-row md:items-center md:justify-between gap-6">
+        <div>
+          <h1 class="text-2xl sm:text-3xl font-bold mb-2">
+            万科2024：风浪中求索
+          </h1>
+          <p class="text-gray-600">
+            年度业绩核心：历史性亏损下的艰难转型
+          </p>
+          <p class="text-gray-500 mt-3">
+            房地产行业深度调整叠加历史问题集中暴露，万科启动全面重整与风险化解，重点在“稳现金流、降杠杆、保交付、促转型”中寻求穿越周期的可持续路径。
+          </p>
+        </div>
+        <div class="flex-0">
+          <div class="rounded-xl bg-[#38acff] text-white px-5 py-4 shadow-sm">
+            <div class="text-sm opacity-90">2024 经营关键词</div>
+            <div class="text-lg font-semibold mt-1">“稳安全、保现金、降负债、促转型”</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- KPI Summary -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 mt-6">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <!-- 营业总收入 -->
+      <div class="card rounded-xl p-5 shadow-sm flex items-start gap-4">
+        <div class="kpi-icon" style="background:#38acff"><i class="fa-solid fa-sack-dollar"></i></div>
+        <div class="flex-1">
+          <div class="text-sm text-gray-500">营业总收入</div>
+          <div class="text-xl font-semibold"><span class="count" data-target="3431.8" data-decimals="1"></span> 亿元</div>
+          <div class="mt-1"><span class="chip down"><i class="fa-solid fa-arrow-down"></i> -26.32%</span></div>
+        </div>
+      </div>
+      <!-- 归母净利润 -->
+      <div class="card rounded-xl p-5 shadow-sm flex items-start gap-4">
+        <div class="kpi-icon" style="background:#f64e4e"><i class="fa-solid fa-chart-line"></i></div>
+        <div class="flex-1">
+          <div class="text-sm text-gray-500">归母净利润</div>
+          <div class="text-xl font-semibold text-red-600"><span class="count" data-target="-494.8" data-decimals="1"></span> 亿元</div>
+          <div class="mt-1"><span class="chip down"><i class="fa-solid fa-arrow-down"></i> -506.81%</span></div>
+        </div>
+      </div>
+      <!-- 总资产 -->
+      <div class="card rounded-xl p-5 shadow-sm flex items-start gap-4">
+        <div class="kpi-icon" style="background:#3fe484"><i class="fa-solid fa-building-columns"></i></div>
+        <div class="flex-1">
+          <div class="text-sm text-gray-500">总资产</div>
+          <div class="text-xl font-semibold"><span class="count" data-target="1.29" data-decimals="2"></span> 万亿元</div>
+          <div class="mt-1"><span class="chip down"><i class="fa-solid fa-arrow-down"></i> -14.53%</span></div>
+        </div>
+      </div>
+      <!-- 总负债 -->
+      <div class="card rounded-xl p-5 shadow-sm flex items-start gap-4">
+        <div class="kpi-icon" style="background:#ffd738"><i class="fa-solid fa-layer-group"></i></div>
+        <div class="flex-1">
+          <div class="text-sm text-gray-500">总负债</div>
+          <div class="text-xl font-semibold"><span class="count" data-target="0.95" data-decimals="2"></span> 万亿元</div>
+          <div class="mt-1"><span class="chip down"><i class="fa-solid fa-arrow-down"></i> -14.02%</span></div>
+        </div>
+      </div>
+      <!-- 经营现金流 -->
+      <div class="card rounded-xl p-5 shadow-sm flex items-start gap-4">
+        <div class="kpi-icon" style="background:#ffa257"><i class="fa-solid fa-money-bill-trend-up"></i></div>
+        <div class="flex-1">
+          <div class="text-sm text-gray-500">经营现金流净额</div>
+          <div class="text-xl font-semibold"><span class="count" data-target="38.0" data-decimals="1"></span> 亿元</div>
+          <div class="mt-1"><span class="chip down"><i class="fa-solid fa-arrow-down"></i> -2.87%</span> <span class="text-xs text-gray-500">已连续16年为正</span></div>
+        </div>
+      </div>
+      <!-- 资产负债率 -->
+      <div class="card rounded-xl p-5 shadow-sm flex items-start gap-4">
+        <div class="kpi-icon" style="background:#f9815c"><i class="fa-solid fa-percent"></i></div>
+        <div class="flex-1">
+          <div class="text-sm text-gray-500">资产负债率（剔除预收）</div>
+          <div class="text-xl font-semibold"><span class="count" data-target="73.66" data-decimals="2"></span>%</div>
+          <div class="mt-1"><span class="chip flat"><i class="fa-solid fa-arrow-right"></i> +0.44pp</span></div>
+        </div>
+      </div>
+      <!-- 净负债率 -->
+      <div class="card rounded-xl p-5 shadow-sm flex items-start gap-4">
+        <div class="kpi-icon" style="background:#3fe484"><i class="fa-solid fa-gauge-high"></i></div>
+        <div class="flex-1">
+          <div class="text-sm text-gray-500">净负债率</div>
+          <div class="text-xl font-semibold"><span class="count" data-target="80.6" data-decimals="1"></span>%</div>
+          <div class="mt-1"><span class="chip up"><i class="fa-solid fa-arrow-up"></i> +25.94pp</span></div>
+        </div>
+      </div>
+      <!-- EPS -->
+      <div class="card rounded-xl p-5 shadow-sm flex items-start gap-4">
+        <div class="kpi-icon" style="background:#38acff"><i class="fa-solid fa-coins"></i></div>
+        <div class="flex-1">
+          <div class="text-sm text-gray-500">基本每股收益</div>
+          <div class="text-xl font-semibold text-red-600"><span class="count" data-target="-4.17" data-decimals="2"></span> 元/股</div>
+          <div class="mt-1"><span class="chip down"><i class="fa-solid fa-arrow-down"></i> -506.8%</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 核心财务速览：图表 -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 mt-6">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <!-- 收入 与 净利 对比 -->
+      <div class="chart-card rounded-xl p-4 shadow-sm">
+        <div class="flex items-center justify-between mb-2">
+          <h3 class="font-semibold">营收与净利润对比（亿元）</h3>
+          <span class="text-xs text-gray-500">显示2023-2024对比</span>
+        </div>
+        <div id="chart-rev-profit" class="h-72"></div>
+        <p class="text-gray-600 text-sm mt-3">
+          2024年营收为 3431.8 亿元，同比-26.3%；净利润为 -494.8 亿元，较2023年121.6亿元大幅转负。
+          主要因结算规模及毛利率下滑、审慎计提减值、非主业投资亏损及资产处置损失等叠加影响。
+        </p>
+      </div>
+
+      <!-- 资产结构（负债+权益=资产） -->
+      <div class="chart-card rounded-xl p-4 shadow-sm">
+        <div class="flex items-center justify-between mb-2">
+          <h3 class="font-semibold">资产结构（2024，亿元）</h3>
+          <span class="text-xs text-gray-500">负债 + 权益 = 资产</span>
+        </div>
+        <div id="chart-asset-structure" class="h-72"></div>
+        <p class="text-gray-600 text-sm mt-3">
+          年末总资产约 1.29 万亿元，总负债约 0.95 万亿元；所有者权益约 0.34 万亿元。
+          在巨额亏损侵蚀下，资产负债率微升至 73.7%，杠杆压力未明显缓解。
+        </p>
+      </div>
+
+      <!-- 经营现金流 vs 净利润 -->
+      <div class="chart-card rounded-xl p-4 shadow-sm">
+        <div class="flex items-center justify-between mb-2">
+          <h3 class="font-semibold">经营现金流与净利润对照（亿元）</h3>
+          <span class="text-xs text-gray-500">现金流连续为正</span>
+        </div>
+        <div id="chart-cash-profit" class="h-64"></div>
+        <p class="text-gray-600 text-sm mt-3">
+          2024年经营性现金流净额为 38.0 亿元，仍保持正值；亏损更多来自非现金项目与一次性处置损失，
+          日常经营现金未出现断裂。
+        </p>
+      </div>
+
+      <!-- 杠杆与安全性（仪表盘） -->
+      <div class="chart-card rounded-xl p-4 shadow-sm">
+        <div class="flex items-center justify-between mb-2">
+          <h3 class="font-semibold">杠杆与安全性</h3>
+          <span class="text-xs text-gray-500">资产负债率与净负债率</span>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <div id="gauge-asset-liab" class="h-64"></div>
+            <div class="text-center text-sm text-gray-600 -mt-4">资产负债率（剔预收） 73.66%</div>
+          </div>
+          <div>
+            <div id="gauge-net-debt" class="h-64"></div>
+            <div class="text-center text-sm text-gray-600 -mt-4">净负债率 80.60%</div>
+          </div>
+        </div>
+        <p class="text-gray-600 text-sm mt-3">
+          净负债率升至 80.6%，同比+25.9个百分点。公司将“坚定降杠杆”作为核心要务，
+          规划两年削减超千亿有息负债，应对2025年到期高峰。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 业务板块表现 -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 mt-6">
+    <div class="card rounded-2xl p-6 shadow-sm">
+      <div class="flex items-center justify-between">
+        <h2 class="text-xl font-semibold">业务板块表现</h2>
+        <span class="text-xs text-gray-500">结构性亮点与韧性业务</span>
+      </div>
+      <div class="grid grid-cols-1 lg:grid-cols-5 gap-6 mt-4">
+        <!-- 构成饼图 -->
+        <div class="lg:col-span-2">
+          <div class="chart-card rounded-xl p-4 shadow-sm">
+            <div class="flex items-center justify-between mb-2">
+              <h3 class="font-semibold">营收构成（估算，亿元）</h3>
+              <span class="text-xs text-gray-500">注：开发口径为结算收入</span>
+            </div>
+            <div id="chart-segment-pie" class="h-80"></div>
+          </div>
+        </div>
+        <!-- 板块卡片 -->
+        <div class="lg:col-span-3 grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- 开发 -->
+          <div class="card rounded-xl p-4 shadow-sm">
+            <div class="flex items-center justify-between">
+              <div class="font-semibold">房地产开发</div>
+              <span class="chip down"><i class="fa-solid fa-arrow-down"></i> 周期承压</span>
+            </div>
+            <ul class="mt-2 text-sm text-gray-700 space-y-1">
+              <li>合同销售金额 2,460 亿元（-34.6%）</li>
+              <li>合同销售面积 1,810.7 万㎡（-26.6%），行业第一</li>
+              <li>全年交付超 18 万套，结算收入 2,791 亿元（-30.5%）</li>
+              <li>结算毛利率 9.5%，仅获 13 个新项目</li>
+              <li>去库存销售约 560 亿元，重心转向现金流与风险控制</li>
+            </ul>
+          </div>
+          <!-- 物业服务 -->
+          <div class="card rounded-xl p-4 shadow-sm">
+            <div class="flex items-center justify-between">
+              <div class="font-semibold">物业服务（万物云）</div>
+              <span class="chip up"><i class="fa-solid fa-arrow-up"></i> 增长</span>
+            </div>
+            <ul class="mt-2 text-sm text-gray-700 space-y-1">
+              <li>营业收入 363.8 亿元（+8.9%）</li>
+              <li>社区/商企/科技板块协同增长</li>
+              <li>“蝶城”数量增至 666 个</li>
+            </ul>
+          </div>
+          <!-- 租赁住宅 -->
+          <div class="card rounded-xl p-4 shadow-sm">
+            <div class="flex items-center justify-between">
+              <div class="font-semibold">租赁住宅（泊寓）</div>
+              <span class="chip up"><i class="fa-solid fa-arrow-up"></i> 稳健</span>
+            </div>
+            <ul class="mt-2 text-sm text-gray-700 space-y-1">
+              <li>营业收入 37.0 亿元（+7.0%）</li>
+              <li>总房源 26.24 万间，开业 19.12 万间</li>
+              <li>出租率 95.6%，效率居行业高位</li>
+            </ul>
+          </div>
+          <!-- 物流 -->
+          <div class="card rounded-xl p-4 shadow-sm">
+            <div class="flex items-center justify-between">
+              <div class="font-semibold">物流仓储（万纬物流）</div>
+              <span class="chip flat"><i class="fa-solid fa-arrow-right"></i> 扩张</span>
+            </div>
+            <ul class="mt-2 text-sm text-gray-700 space-y-1">
+              <li>收入 39.7 亿元：高标库 21.3 亿元，冷链 18.4 亿元</li>
+              <li>仓储规模超 1,000 万㎡，管理 160+ 园区</li>
+              <li>资产证券化进入申报阶段</li>
+            </ul>
+          </div>
+          <!-- 商业 -->
+          <div class="card rounded-xl p-4 shadow-sm">
+            <div class="flex items-center justify-between">
+              <div class="font-semibold">商业开发与运营（印力）</div>
+              <span class="chip down"><i class="fa-solid fa-arrow-down"></i> 轻降</span>
+            </div>
+            <ul class="mt-2 text-sm text-gray-700 space-y-1">
+              <li>营业收入 88.9 亿元（-2.5%）</li>
+              <li>管理项目 181 个，总建面 1,081 万㎡</li>
+              <li>出租率 95.1%，推进商业 REIT 并获大股东支持</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- 销售&交付 与 融资支持 -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+        <div class="chart-card rounded-xl p-4 shadow-sm">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="font-semibold">销售与交付（2024）</h3>
+            <span class="text-xs text-gray-500">金额 vs 面积</span>
+          </div>
+          <div id="chart-sales" class="h-64"></div>
+          <p class="text-gray-600 text-sm mt-3">
+            在行业低迷期保持交付韧性与规模优势，销售回款率超100%，为现金流安全提供保障。
+          </p>
+        </div>
+        <div class="card rounded-xl p-4 shadow-sm">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="font-semibold">融资与保障</h3>
+            <span class="text-xs text-gray-500">现金为王</span>
+          </div>
+          <ul class="text-gray-700 text-sm space-y-2">
+            <li><i class="fa-regular fa-circle-check text-emerald-500 mr-2"></i>新增融资 ¥948 亿元；经营性物业贷 ¥293 亿元</li>
+            <li><i class="fa-regular fa-circle-check text-emerald-500 mr-2"></i>偿还公开市场债券及 ABS 约 ¥292 亿元</li>
+            <li><i class="fa-regular fa-circle-check text-emerald-500 mr-2"></i>签约 54 项大宗资产交易，回笼现金超百亿元</li>
+            <li><i class="fa-regular fa-circle-check text-emerald-500 mr-2"></i>深铁集团在资产处置、REITs 认购、金融资源等方面予以支持</li>
+          </ul>
+          <div class="mt-3 text-xs text-gray-500">
+            注：公司将坚定降杠杆作为核心要务，未来两年计划削减超千亿有息负债，应对到期高峰。
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 战略应对与展望 -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 mt-6">
+    <div class="card rounded-2xl p-6 shadow-sm">
+      <h2 class="text-xl font-semibold mb-4">战略应对与展望</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="rounded-xl p-4 border border-gray-100">
+          <div class="font-semibold mb-2"><i class="fa-solid fa-triangle-exclamation text-rose-500 mr-2"></i>挑战</div>
+          <ul class="text-sm text-gray-700 space-y-1.5">
+            <li>行业深度调整、利润率下滑</li>
+            <li>财务与流动性压力叠加</li>
+            <li>发展模式与路径依赖问题</li>
+            <li>信用评级被下调至“垃圾级”</li>
+          </ul>
+        </div>
+        <div class="rounded-xl p-4 border border-gray-100">
+          <div class="font-semibold mb-2"><i class="fa-solid fa-life-ring text-sky-500 mr-2"></i>自救方案</div>
+          <ul class="text-sm text-gray-700 space-y-1.5">
+            <li>瘦身健体：聚焦三大核心业务，剥离非主业</li>
+            <li>降杠杆：未来两年削减超千亿有息负债</li>
+            <li>保现金：回款率超100%，大宗交易回笼现金</li>
+            <li>保融资：新增融资 948 亿元，优化融资模式</li>
+            <li>借助国资：与深铁集团深度协同</li>
+          </ul>
+        </div>
+        <div class="rounded-xl p-4 border border-gray-100">
+          <div class="font-semibold mb-2"><i class="fa-solid fa-compass-drafting text-emerald-600 mr-2"></i>未来展望</div>
+          <ul class="text-sm text-gray-700 space-y-1.5">
+            <li>2025年安全度过债务高峰</li>
+            <li>坚持城市聚焦、优化组合、模式创新</li>
+            <li>科技与产业协同发力，推进 REITs</li>
+            <li>与深铁集团深度融合，修复财务稳健</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2024 里程碑与成就 -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 mt-6">
+    <div class="card rounded-2xl p-6 shadow-sm">
+      <h2 class="text-xl font-semibold mb-4">2024 年里程碑与成就</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-sm">
+        <div class="rounded-xl p-4 border border-gray-100 flex items-start gap-3">
+          <i class="fa-solid fa-house-circle-check text-sky-500 mt-0.5"></i>
+          <div>交付超 18 万套房屋，保交付成效显著</div>
+        </div>
+        <div class="rounded-xl p-4 border border-gray-100 flex items-start gap-3">
+          <i class="fa-solid fa-ranking-star text-amber-500 mt-0.5"></i>
+          <div>销售面积行业第一</div>
+        </div>
+        <div class="rounded-xl p-4 border border-gray-100 flex items-start gap-3">
+          <i class="fa-solid fa-handshake-simple text-emerald-600 mt-0.5"></i>
+          <div>完成 54 项大宗资产交易</div>
+        </div>
+        <div class="rounded-xl p-4 border border-gray-100 flex items-start gap-3">
+          <i class="fa-solid fa-money-check-dollar text-rose-500 mt-0.5"></i>
+          <div>偿还债务约 ¥292 亿元</div>
+        </div>
+        <div class="rounded-xl p-4 border border-gray-100 flex items-start gap-3">
+          <i class="fa-solid fa-diagram-project text-indigo-500 mt-0.5"></i>
+          <div>物业、租赁、物流等业务保持增长或领先</div>
+        </div>
+        <div class="rounded-xl p-4 border border-gray-100 flex items-start gap-3">
+          <i class="fa-solid fa-building-circle-arrow-right text-amber-600 mt-0.5"></i>
+          <div>推进物流与商业 REIT 项目</div>
+        </div>
+        <div class="rounded-xl p-4 border border-gray-100 flex items-start gap-3">
+          <i class="fa-solid fa-sack-dollar text-emerald-600 mt-0.5"></i>
+          <div>新增融资 ¥948 亿元，经营性物业贷 ¥293 亿元</div>
+        </div>
+        <div class="rounded-xl p-4 border border-gray-100 flex items-start gap-3">
+          <i class="fa-solid fa-solar-panel text-emerald-500 mt-0.5"></i>
+          <div>超 60% 新建项目采用可再生能源设计</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 关键财务指标摘要（表格） -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 mt-6 mb-10">
+    <div class="card rounded-2xl p-6 shadow-sm">
+      <h2 class="text-xl font-semibold mb-4">关键财务指标摘要</h2>
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-sm">
+          <thead>
+            <tr class="text-left text-gray-500 border-b">
+              <th class="py-2 pr-4">指标</th>
+              <th class="py-2 pr-4">2024年数值</th>
+              <th class="py-2 pr-4">同比变动</th>
+              <th class="py-2 pr-4">单位</th>
+            </tr>
+          </thead>
+          <tbody class="[&>tr:nth-child(odd)]:bg-gray-50/50">
+            <tr>
+              <td class="py-2 pr-4">营业总收入</td>
+              <td class="py-2 pr-4">343,176.44</td>
+              <td class="py-2 pr-4 text-red-600">-26.32%</td>
+              <td class="py-2 pr-4">百万元</td>
+            </tr>
+            <tr>
+              <td class="py-2 pr-4">归母净利润</td>
+              <td class="py-2 pr-4">-49,478.43</td>
+              <td class="py-2 pr-4 text-red-600">-506.81%</td>
+              <td class="py-2 pr-4">百万元</td>
+            </tr>
+            <tr>
+              <td class="py-2 pr-4">总资产</td>
+              <td class="py-2 pr-4">1,286,259.86</td>
+              <td class="py-2 pr-4 text-red-600">-14.53%</td>
+              <td class="py-2 pr-4">百万元</td>
+            </tr>
+            <tr>
+              <td class="py-2 pr-4">总负债</td>
+              <td class="py-2 pr-4">947,405.20</td>
+              <td class="py-2 pr-4 text-red-600">-14.02%</td>
+              <td class="py-2 pr-4">百万元</td>
+            </tr>
+            <tr>
+              <td class="py-2 pr-4">经营现金流净额</td>
+              <td class="py-2 pr-4">3,799.85</td>
+              <td class="py-2 pr-4 text-red-600">-2.87%</td>
+              <td class="py-2 pr-4">百万元</td>
+            </tr>
+            <tr>
+              <td class="py-2 pr-4">资产负债率（剔预收）</td>
+              <td class="py-2 pr-4">73.66%</td>
+              <td class="py-2 pr-4 text-indigo-600">+0.44pp</td>
+              <td class="py-2 pr-4">%</td>
+            </tr>
+            <tr>
+              <td class="py-2 pr-4">净负债率</td>
+              <td class="py-2 pr-4">80.60%</td>
+              <td class="py-2 pr-4 text-emerald-600">+25.94pp</td>
+              <td class="py-2 pr-4">%</td>
+            </tr>
+            <tr>
+              <td class="py-2 pr-4">基本每股收益</td>
+              <td class="py-2 pr-4">-4.17</td>
+              <td class="py-2 pr-4 text-red-600">-506.8%</td>
+              <td class="py-2 pr-4">元/股</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="text-xs text-gray-500 mt-3">
+        单位换算提示：表格以“百万元”为主；页面图表、卡片多以“亿元”展示（1 亿元 = 100 百万元）。
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // 全局设置
+    const palette = ['#38acff', '#3fe484', '#ffd738', '#ffa257', '#f9815c', '#f64e4e'];
+    const echartsTheme = {
+      color: palette
+    };
+
+    // 数字动画
+    function animateCount(el) {
+      const target = parseFloat(el.dataset.target || '0');
+      const decimals = parseInt(el.dataset.decimals || '0', 10);
+      const duration = 1100;
+      const start = performance.now();
+      const from = 0;
+
+      function step(now) {
+        const p = Math.min(1, (now - start) / duration);
+        const value = from + (target - from) * p;
+        el.textContent = value.toLocaleString('zh-CN', {
+          minimumFractionDigits: decimals,
+          maximumFractionDigits: decimals
+        });
+        if (p < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }
+
+    // 懒加载/初始化图表
+    const chartInstances = {};
+
+    function initRevProfit(dom) {
+      const chart = echarts.init(dom, echartsTheme);
+      const data2023 = { revenue: 4657.7, profit: 121.6 }; // 由同比推算的近似值
+      const data2024 = { revenue: 3431.8, profit: -494.8 };
+
+      chart.setOption({
+        backgroundColor: '#ffffff',
+        tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
+        legend: { data: ['营业收入', '归母净利润'] },
+        grid: { left: 50, right: 20, top: 40, bottom: 40 },
+        xAxis: {
+          type: 'category',
+          data: ['2023', '2024'],
+          axisTick: { alignWithLabel: true }
+        },
+        yAxis: { type: 'value', name: '亿元' },
+        series: [
+          {
+            name: '营业收入',
+            type: 'bar',
+            data: [data2023.revenue, data2024.revenue],
+            barWidth: 24,
+            itemStyle: { color: palette[0], borderRadius: [4,4,0,0] },
+            z: 2
+          },
+          {
+            name: '归母净利润',
+            type: 'bar',
+            data: [data2023.profit, data2024.profit],
+            barWidth: 24,
+            itemStyle: { color: palette[5], borderRadius: [4,4,0,0] }
+          }
+        ]
+      });
+      return chart;
+    }
+
+    function initAssetStructure(dom) {
+      const chart = echarts.init(dom, echartsTheme);
+      const assets = 12862.6;    // 亿元（1,286,259.86 百万元）
+      const liabilities = 9474.1; // 亿元
+      const equity = assets - liabilities;
+
+      chart.setOption({
+        backgroundColor: '#ffffff',
+        tooltip: {
+          trigger: 'item',
+          formatter: (p) => `${p.seriesName}<br/>${p.name}：${p.value.toLocaleString()} 亿元`
+        },
+        grid: { left: 70, right: 30, top: 30, bottom: 40 },
+        xAxis: { type: 'category', data: ['2024'] },
+        yAxis: { type: 'value', name: '亿元' },
+        legend: { data: ['负债', '所有者权益'] },
+        series: [
+          {
+            name: '负债',
+            type: 'bar',
+            stack: '总量',
+            data: [liabilities],
+            barWidth: 40,
+            itemStyle: { color: palette[3], borderRadius: [6,6,0,0] }
+          },
+          {
+            name: '所有者权益',
+            type: 'bar',
+            stack: '总量',
+            data: [equity],
+            barWidth: 40,
+            itemStyle: { color: palette[1], borderRadius: [6,6,0,0] },
+            label: {
+              show: true, position: 'top',
+              formatter: (p) => `资产合计：${assets.toLocaleString()} 亿元`
+            }
+          }
+        ]
+      });
+      return chart;
+    }
+
+    function initCashProfit(dom) {
+      const chart = echarts.init(dom, echartsTheme);
+      const items = [
+        { name: '经营现金流净额', value: 38.0 },
+        { name: '归母净利润', value: -494.8 }
+      ];
+      chart.setOption({
+        backgroundColor: '#ffffff',
+        tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
+        grid: { left: 60, right: 20, top: 20, bottom: 40 },
+        xAxis: { type: 'category', data: items.map(i => i.name) },
+        yAxis: { type: 'value', name: '亿元' },
+        series: [
+          {
+            type: 'bar',
+            barWidth: 40,
+            data: items.map(i => ({
+              value: i.value,
+              itemStyle: { color: i.value >= 0 ? palette[1] : palette[5] }
+            })),
+            label: { show: true, position: 'top' }
+          }
+        ]
+      });
+      return chart;
+    }
+
+    function gaugeOption(title, value) {
+      return {
+        backgroundColor: '#ffffff',
+        series: [
+          {
+            type: 'gauge',
+            startAngle: 200,
+            endAngle: -20,
+            min: 0,
+            max: 100,
+            axisLine: {
+              lineStyle: {
+                width: 12,
+                color: [
+                  [0.6, palette[1]],
+                  [0.8, palette[2]],
+                  [1.0, palette[5]]
+                ]
+              }
+            },
+            splitLine: { show: false },
+            axisTick: { show: false },
+            axisLabel: { show: false },
+            pointer: { show: true, itemStyle: { color: '#333' } },
+            detail: {
+              valueAnimation: true,
+              formatter: '{value}%',
+              color: '#111',
+              fontSize: 16,
+              offsetCenter: [0, '60%']
+            },
+            title: { show: true, offsetCenter: [0, '85%'], fontSize: 12, color: '#6b7280' },
+            data: [{ value, name: title }]
+          }
+        ]
+      };
+    }
+
+    function initGauge(dom, title, value) {
+      const chart = echarts.init(dom, echartsTheme);
+      chart.setOption(gaugeOption(title, value));
+      return chart;
+    }
+
+    function initSegmentPie(dom) {
+      const chart = echarts.init(dom, echartsTheme);
+      const total = 3431.8; // 亿元
+      const segments = [
+        { name: '房地产开发（结算）', value: 2791.0 },
+        { name: '物业服务', value: 363.8 },
+        { name: '租赁住宅', value: 37.0 },
+        { name: '物流仓储', value: 39.7 },
+        { name: '商业开发与运营', value: 88.9 }
+      ];
+      const others = +(total - segments.reduce((s, d) => s + d.value, 0)).toFixed(1);
+      segments.push({ name: '其他', value: others });
+
+      chart.setOption({
+        backgroundColor: '#ffffff',
+        tooltip: { trigger: 'item', formatter: '{b}<br/>{c} 亿元（{d}%）' },
+        legend: { bottom: 0, type: 'scroll' },
+        series: [
+          {
+            type: 'pie',
+            radius: ['42%', '70%'],
+            center: ['50%', '45%'],
+            label: { formatter: '{b}\n{d}%' },
+            data: segments
+          }
+        ]
+      });
+      return chart;
+    }
+
+    function initSales(dom) {
+      const chart = echarts.init(dom, echartsTheme);
+      const cats = ['2024'];
+      const salesAmount = [2460];  // 亿元
+      const salesArea = [1810.7];  // 万㎡
+
+      chart.setOption({
+        backgroundColor: '#ffffff',
+        tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
+        legend: { data: ['合同销售金额', '合同销售面积'] },
+        grid: { left: 60, right: 60, top: 30, bottom: 40 },
+        xAxis: [{ type: 'category', data: cats }],
+        yAxis: [
+          { type: 'value', name: '金额（亿元）' },
+          { type: 'value', name: '面积（万㎡）' }
+        ],
+        series: [
+          { name: '合同销售金额', type: 'bar', data: salesAmount, barWidth: 36, itemStyle: { color: palette[0], borderRadius: [6,6,0,0] } },
+          { name: '合同销售面积', type: 'bar', yAxisIndex: 1, data: salesArea, barWidth: 36, itemStyle: { color: palette[2], borderRadius: [6,6,0,0] } }
+        ]
+      });
+      return chart;
+    }
+
+    // Intersection Observer to init animations/charts
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+
+        // 数字
+        entry.target.querySelectorAll?.('.count').forEach(el => {
+          if (!el.dataset.done) {
+            animateCount(el);
+            el.dataset.done = '1';
+          }
+        });
+
+        // 图表
+        const dom = entry.target;
+        if (dom.id === 'chart-rev-profit' && !chartInstances[dom.id]) {
+          chartInstances[dom.id] = initRevProfit(dom);
+        }
+        if (dom.id === 'chart-asset-structure' && !chartInstances[dom.id]) {
+          chartInstances[dom.id] = initAssetStructure(dom);
+        }
+        if (dom.id === 'chart-cash-profit' && !chartInstances[dom.id]) {
+          chartInstances[dom.id] = initCashProfit(dom);
+        }
+        if (dom.id === 'gauge-asset-liab' && !chartInstances[dom.id]) {
+          chartInstances[dom.id] = initGauge(dom, '资产负债率', 73.66);
+        }
+        if (dom.id === 'gauge-net-debt' && !chartInstances[dom.id]) {
+          chartInstances[dom.id] = initGauge(dom, '净负债率', 80.6);
+        }
+        if (dom.id === 'chart-segment-pie' && !chartInstances[dom.id]) {
+          chartInstances[dom.id] = initSegmentPie(dom);
+        }
+        if (dom.id === 'chart-sales' && !chartInstances[dom.id]) {
+          chartInstances[dom.id] = initSales(dom);
+        }
+      });
+    }, { threshold: 0.2 });
+
+    // Observe all KPI and Chart containers
+    document.querySelectorAll('.card, .chart-card, #chart-rev-profit, #chart-asset-structure, #chart-cash-profit, #gauge-asset-liab, #gauge-net-debt, #chart-segment-pie, #chart-sales').forEach(el => {
+      io.observe(el);
+    });
+
+    // 额外确保单独的chart容器被观察（因为上面选择器中已包含）
+    ['chart-rev-profit','chart-asset-structure','chart-cash-profit','gauge-asset-liab','gauge-net-debt','chart-segment-pie','chart-sales'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) io.observe(el);
+    });
+
+    // Resize charts on window resize
+    window.addEventListener('resize', () => {
+      for (const id in chartInstances) {
+        chartInstances[id]?.resize && chartInstances[id].resize();
+      }
+    });
+  </script>
+</body>
+</html>
