@@ -1,81 +1,34 @@
-# Qwen Context for D:\SVNYJC\yangjianchuan\free-ai
+# Project Context for Qwen Code
 
-This document provides an overview of the `free-ai` project for use by Qwen Code in future interactions. It describes the project's nature, structure, and key components.
+## Project Overview
 
-## Project Type and Overview
+This is a simple, static web application project named "Free AI". Its primary purpose is to serve as a navigation page or directory for various free AI-related online tools and resources. The project is built using basic web technologies: HTML, CSS, and JavaScript, leveraging the Bootstrap 5.3.0-alpha1 framework for responsive design and UI components.
 
-This is a **static HTML/CSS/JavaScript project**. It serves as a multi-purpose web portal, primarily consisting of:
+Key features include:
+- A responsive grid layout for displaying resource cards.
+- Dynamically rendered cards for each AI tool/resource, loaded from a JavaScript data file (`sites.js`).
+- Custom styling via `style.css`.
+- Use of Bootstrap for base styling and layout utilities.
 
-1.  **A Navigation Hub (`index.html`)**: A main page aggregating links to various online AI tools, services, and resources. It uses Bootstrap for layout and responsiveness.
-2.  **A Data Visualization Dashboard (`dashboard/`)**: A directory containing specialized HTML files for data visualization, focusing on the financial performance of a company (e.g., `dashboard/gemini-2.5-pro-exp-03-25/2024.html`). These dashboards use modern libraries like Tailwind CSS, ECharts, and Framer Motion.
+There is also a `dashboard` directory containing subdirectories, but these appear unrelated to the main index page and may be for a separate part of the site or future development.
 
-## Key Technologies
+## Building and Running
 
-*   **HTML5**
-*   **CSS3** (Including custom styles in `style.css` and Bootstrap classes)
-*   **Bootstrap 5.3.0-alpha1** (For the main navigation page)
-*   **Tailwind CSS** (For the dashboard pages)
-*   **JavaScript** (Vanilla JS for interactivity and ECharts for data visualization on dashboard pages)
-*   **ECharts** (For rendering charts on dashboard pages)
-*   **Framer Motion** (For animations on dashboard pages)
+This is a client-side static website. There is no build process required.
 
-## Project Structure
+### Running the Application
+1.  Open the `index.html` file directly in a web browser.
+2.  Alternatively, serve the project directory using any static file server (e.g., `python -m http.server`, `npx serve .`).
 
-```
-free-ai/
-├── index.html              # Main navigation page
-├── style.css               # Custom CSS for the main page
-├── LICENSE                 # Project license
-├── README.md               # Project description and usage
-├── .gitignore              # Git ignore rules
-├── bootstrap-5.3.0-alpha1-dist/  # Local Bootstrap distribution
-│   ├── css/
-│   └── js/
-└── dashboard/              # Directory for specialized dashboards
-    ├── gemini-2.5-pro-exp-03-25/
-    │   ├── 2024.html       # Dashboard for 2024 financial data
-    │   ├── 2024CashFlow.html # (Potentially) Cash flow specific dashboard
-    │   └── 2025-Q1.html    # (Potentially) 2025 Q1 data dashboard
-    ├── gemini-2.5-pro-preview-05-06/ # (Potentially) Another dashboard set
-    ├── gpt-5/              # (Potentially) Another dashboard set
-    └── microsoft-copilot/  # (Potentially) Another dashboard set
-```
+### Development Commands
+There are no specific build, test, or development commands defined for this project. It's a simple static site.
 
-## Main Components
+## Development Conventions
 
-### 1. Main Navigation (`index.html`)
-
-*   **Purpose:** Acts as a central hub linking to various external AI-related websites and resources.
-*   **Features:**
-    *   Responsive design using Bootstrap.
-    *   Cards for each link with titles, descriptions, and tags (e.g., "官网" for official sites, "👍" for recommendations).
-    *   Header with safety, privacy tips, and links to other resources.
-*   **Customization:** Styles are primarily in `style.css`.
-
-### 2. Data Dashboards (`dashboard/`)
-
-*   **Purpose:** Provide detailed, visually rich data visualizations, currently focused on financial analysis.
-*   **Example (`dashboard/gemini-2.5-pro-exp-03-25/2024.html`):**
-    *   **Theme:** Analysis of a company's 2024 financial performance, highlighting significant losses and strategic responses.
-    *   **Technology Stack:** Uses Tailwind CSS for layout, ECharts for dynamic charts, and Framer Motion for entrance animations.
-    *   **Content:** Key financial metrics (Revenue, Net Loss, Assets, Liabilities, Cash Flow, Debt Ratios) displayed in a "bento grid" layout with a detailed summary table and chart.
-    *   **Structure:** Single HTML file containing all HTML, CSS (in `<style>` tags), and JavaScript for rendering and interactivity.
-
-## Development and Usage
-
-*   **Running:** Simply open the relevant `.html` file in a web browser. The main navigation (`index.html`) requires `bootstrap-5.3.0-alpha1-dist` and `style.css` to be present. Dashboard files are self-contained.
-*   **Editing:** Modify `index.html` and `style.css` for the main navigation. For dashboards, edit the specific `.html` files directly.
-*   **Adding Content:**
-    *   To the main navigation: Add new `<div class="card">` elements in `index.html`.
-    *   To dashboards: Create new HTML files within the relevant subdirectories under `dashboard/`.
-
-## Building and Testing
-
-There is no build process required for this static project. It runs directly in the browser. Testing involves manually opening the HTML files and verifying layout and functionality in different browsers.
-
-## Conventions
-
-*   The main navigation uses a consistent card-based layout for links.
-*   Dashboard pages use a Tailwind-based "bento grid" structure for organizing information.
-*   Visual styling for tags (`.official-tag`, `.recommend-tag`) is defined in `style.css`.
-*   Dashboard pages use a dark theme with a specific red (`#E31937`) accent color.
+Based on the code:
+- **File Naming:** Files use lowercase names with hyphens (e.g., `style.css`, `sites.js`).
+- **HTML Structure:** Uses standard HTML5 doctype and structure.
+- **CSS:** Uses a separate `style.css` file for custom styles. Classes are named using kebab-case (e.g., `.card-title`, `.official-tag`). Leverages Bootstrap classes extensively.
+- **JavaScript:** Logic for rendering the site's content is contained in `sites.js`. It uses standard DOM manipulation and event listeners.
+- **Bootstrap:** Heavily relies on Bootstrap 5.3.0-alpha1 for layout (`container`, `card` classes) and responsive behavior.
+- **Data:** Website data is stored directly within `sites.js` as a JavaScript array of objects.
