@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>硅基流动余额查询</title>
+
+  <!-- Vue 3 -->
+  <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { darkMode: 'class' }
+  </script>
+
+  <!-- Favicon (SVG) -->
+  <link
+    rel="icon"
+    type="image/svg+xml"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%233B82F6;stop-opacity:1'/%3E%3Cstop offset='100%25' style='stop-color:%2310B981;stop-opacity:1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath fill='url(%23grad)' d='M50,5 C74.85,5 95,25.15 95,50 C95,74.85 74.85,95 50,95 C25.15,95 5,74.85 5,50 C5,25.15 25.15,5 50,5 Z M50,15 C30.67,15 15,30.67 15,50 C15,69.33 30.67,85 50,85 C69.33,85 85,69.33 85,50 C85,30.67 69.33,15 50,15 Z'/%3E%3Cpath fill='white' d='M50,25 C63.81,25 75,36.19 75,50 C75,63.81 63.81,75 50,75 C36.19,75 25,63.81 25,50 C25,36.19 36.19,25 50,25 Z'/%3E%3C/svg%3E"
+  />
+
+  <style>
+    :root {
+      --font-sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Noto Sans, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      --color-bg: #0b1220;
+      --color-card: rgba(255,255,255,0.08);
+      --color-border: rgba(255,255,255,0.12);
+      --color-text: #0f172a;
+      --color-text-muted: #64748b;
+      --primary: #3b82f6;
+      --primary-strong: #2563eb;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --error: #ef4444;
+    }
+    html:not(.dark) {
+      --color-bg: #f6f7fb;
+      --color-card: rgba(255,255,255,0.75);
+      --color-border: rgba(15,23,42,0.08);
+      --color-text: #0f172a;
+      --color-text-muted: #64748b;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font-sans); background: var(--color-bg); color: var(--color-text); transition: background .3s ease, color .3s ease; min-height: 100vh; }
+    [v-cloak] { display: none; }
+
+    /* 背景渐变点缀 */
+    .bg-deco {
+      position: fixed; inset: -20vh -10vw auto auto; width: 60vw; height: 60vh; pointer-events: none;
+      background: radial-gradient(600px 400px at 80% 20%, rgba(59,130,246,.18), transparent 55%),
+                  radial-gradient(500px 300px at 10% 70%, rgba(16,185,129,.14), transparent 60%);
+      filter: blur(12px);
+      z-index: 0;
+    }
+
+    /* 玻璃卡片 */
+    .glass {
+      position: relative;
+      background: var(--color-card);
+      border: 1px solid var(--color-border);
+      border-radius: 16px;
+      backdrop-filter: saturate(160%) blur(10px);
+      box-shadow: 0 8px 30px rgba(0,0,0,.06);
+      transition: border-color .25s ease, box-shadow .25s ease, background .25s ease;
+    }
+    .glass:hover { box-shadow: 0 12px 40px rgba(0,0,0,.08); }
+
+    /* 头部导航 */
+    .nav-blur {
+      background: linear-gradient(to bottom, rgba(255,255,255,.65), rgba(255,255,255,.35));
+      border-bottom: 1px solid var(--color-border);
+      backdrop-filter: blur(10px);
+    }
+    html.dark .nav-blur {
+      background: linear-gradient(to bottom, rgba(17,24,39,.5), rgba(17,24,39,.25));
+    }
+
+    /* 开关样式 */
+    .switch {
+      width: 38px; height: 22px; border-radius: 9999px; position: relative; background: #cbd5e1;
+      transition: background .2s ease;
+    }
+    .switch:after {
+      content:''; width: 18px; height: 18px; background: #fff; border-radius: 9999px; position: absolute; top: 2px; left: 2px;
+      transition: transform .2s ease;
+      box-shadow: 0 2px 6px rgba(0,0,0,.15);
+    }
+    .switch.on { background: #60a5fa; }
+    .switch.on:after { transform: translateX(16px); }
+
+    /* 进度条 */
+    .progress-bar {
+      height: 8px; border-radius: 9999px; background: rgba(148,163,184,.25); overflow: hidden;
+    }
+    .progress-bar > span {
+      display: block; height: 100%; background: linear-gradient(90deg, #60a5fa, #34d399);
+      width: 0%; transition: width .3s ease;
+    }
+
+    /* 标签(筛选Chip) */
+    .chip {
+      padding: 6px 10px; border-radius: 9999px; border: 1px solid var(--color-border);
+      background: rgba(255,255,255,.45); cursor: pointer; user-select: none; transition: all .2s ease;
+    }
+    html.dark .chip { background: rgba(255,255,255,.06); }
+    .chip.active {
+      color: #0b1a36; background: #bfdbfe; border-color: transparent;
+    }
+    html.dark .chip.active {
+      color: #eaf2ff; background: rgba(59,130,246,.22); border-color: rgba(59,130,246,.5);
+    }
+
+    /* 表格细节 */
+    .table-sticky thead th {
+      position: sticky; top: 0; z-index: 1;
+      background: rgba(248,250,252,.7);
+    }
+    html.dark .table-sticky thead th { background: rgba(30,41,59,.7); }
+
+    /* Toast */
+    .toast {
+      animation: toast-in .25s ease;
+    }
+    @keyframes toast-in { from { transform: translateY(8px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+    /* 动效更友好 */
+    @media (prefers-reduced-motion: reduce) {
+      * { animation: none !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-deco"></div>
+
+  <div id="app" v-cloak class="relative z-10">
+    <!-- 顶部导航 -->
+    <header class="nav-blur sticky top-0 z-20">
+      <div class="max-w-6xl mx-auto px-4">
+        <div class="flex items-center justify-between h-16">
+          <div class="flex items-center gap-2">
+            <img class="h-8 w-8" alt="logo" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%233B82F6;stop-opacity:1'/%3E%3Cstop offset='100%25' style='stop-color:%2310B981;stop-opacity:1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath fill='url(%23grad)' d='M50,5 C74.85,5 95,25.15 95,50 C95,74.85 74.85,95 50,95 C25.15,95 5,74.85 5,50 C5,25.15 25.15,5 50,5 Z M50,15 C30.67,15 15,30.67 15,50 C15,69.33 30.67,85 50,85 C69.33,85 85,69.33 85,50 C85,30.67 69.33,15 50,15 Z'/%3E%3Cpath fill='white' d='M50,25 C63.81,25 75,36.19 75,50 C75,63.81 63.81,75 50,75 C36.19,75 25,63.81 25,50 C25,36.19 36.19,25 50,25 Z'/%3E%3C/svg%3E">
+            <div class="font-semibold text-slate-900 dark:text-slate-100 text-[15px]">硅基流动 API 余额查询</div>
+
+          </div>
+
+          <div class="flex items-center gap-3">
+            <!-- 并发控制 -->
+            <div class="hidden sm:flex items-center gap-2 text-xs text-slate-500 dark:text-slate-300">
+              <span>并发</span>
+              <select v-model.number="concurrency" class="text-xs rounded-md border border-slate-200 dark:border-slate-700 bg-white/70 dark:bg-slate-800/70 px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-400">
+                <option v-for="n in [2,4,6,8,10,12]" :key="n" :value="n">{{ n }}</option>
+              </select>
+            </div>
+
+            <!-- 隐藏Key -->
+            <div class="hidden sm:flex items-center gap-2 text-xs">
+              <span class="text-slate-500 dark:text-slate-300">隐藏Key</span>
+              <button @click="maskKeys = !maskKeys; savePref('maskKeys', maskKeys)" :class="['switch', maskKeys && 'on']" aria-label="切换Key遮挡"></button>
+            </div>
+
+            <!-- 主题切换 -->
+            <button @click="toggleDarkMode" class="h-9 w-9 rounded-full border border-slate-200 dark:border-slate-700 bg-white/70 dark:bg-slate-800/70 flex items-center justify-center hover:border-blue-400 hover:text-blue-500 transition">
+              <svg v-if="!isDark" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 3v2m0 14v2m9-9h-2M5 12H3m15.364 6.364-1.414-1.414M7.05 7.05 5.636 5.636m12.728 0-1.414 1.414M7.05 16.95l-1.414 1.414M12 8a4 4 0 100 8 4 4 0 000-8z"/>
+              </svg>
+              <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M21.64 13a9 9 0 11-10.63-10.6 1 1 0 01.9.57A8 8 0 0020 12a8.26 8.26 0 01-.36 2.43 1 1 0 001.95.57A10.26 10.26 0 0021.64 13z"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 py-6 space-y-6">
+      <!-- 提示 -->
+      <div class="glass p-4 sm:p-5">
+        <div class="flex gap-3">
+          <div class="h-9 w-9 rounded-lg flex items-center justify-center bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-300">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 1010 10A10 10 0 0012 2z"/>
+            </svg>
+          </div>
+          <div class="text-sm text-slate-600 dark:text-slate-300 flex items-center gap-2"><div class="font-medium">隐私与历史记录</div><p>所有数据仅保存在本地。相同 Key 组合的多次查询会自动记录快照并显示余额变化。</p></div>
+        </div>
+      </div>
+
+      <!-- 输入 + 操作 -->
+      <section class="glass p-5 space-y-4">
+        <div>
+          <label for="api-keys" class="block text-sm font-medium text-slate-700 dark:text-slate-200">API Key（可批量，一行一个或逗号分隔）</label>
+          <textarea
+            id="api-keys"
+            v-model="apiKeysInput"
+            rows="5"
+            class="mt-2 w-full rounded-lg border border-slate-200 dark:border-slate-700 bg-white/70 dark:bg-slate-800/70 px-3 py-2 outline-none focus:ring-2 focus:ring-blue-400 placeholder:text-slate-400"
+            placeholder="支持两种输入方式：
+1. 一行一个 API Key
+2. 用英文逗号分隔多个 API Key"
+          ></textarea>
+          <div class="mt-2 flex flex-wrap gap-2 text-xs">
+            <button @click="pasteFromClipboard" class="px-2.5 py-1.5 rounded-md border border-slate-200 dark:border-slate-700 hover:border-blue-400 hover:text-blue-500 transition">从剪贴板粘贴</button>
+            <button @click="apiKeysInput=''" class="px-2.5 py-1.5 rounded-md border border-slate-200 dark:border-slate-700 hover:border-rose-400 hover:text-rose-500 transition">清空输入</button>
+            <span class="text-slate-400 dark:text-slate-500 select-none" v-if="keysCount">已输入 {{ keysCount }} 个（去重后 {{ dedupCount }} 个）</span>
+          </div>
+        </div>
+
+        <div class="space-y-3">
+          <div v-if="loading" class="progress-bar">
+            <span :style="{ width: progressPercent + '%' }"></span>
+          </div>
+
+          <div class="flex flex-col sm:flex-row gap-3">
+            <button
+              @click="loading ? cancelAll() : fetchBalances()"
+              :disabled="!dedupCount && !loading"
+              class="flex-1 inline-flex items-center justify-center gap-2 rounded-lg py-2.5 text-white font-medium transition"
+              :class="loading ? 'bg-rose-500 hover:bg-rose-600' : 'bg-blue-600 hover:bg-blue-700'"
+            >
+              <span v-if="loading" class="inline-flex items-center gap-2">
+                <svg class="animate-spin h-4 w-4 text-white" viewBox="0 0 24 24">
+                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
+                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4A4 4 0 008 12H4z"/>
+                </svg>
+                正在查询… ({{ progress.done }}/{{ progress.total }})
+              </span>
+              <span v-else class="inline-flex items-center gap-2">
+                <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M3 5a2 2 0 012-2h3.28a2 2 0 011.497.664l1.543 1.736A2 2 0 0012.817 6H19a2 2 0 012 2v1H3V5z"/><path d="M3 10h18v7a2 2 0 01-2 2H5a2 2 0 01-2-2v-7z"/>
+                </svg>
+                批量查询余额
+              </span>
+            </button>
+
+            <button @click="exportCSV" :disabled="!results.length" class="sm:w-40 inline-flex items-center justify-center gap-2 rounded-lg py-2.5 border border-slate-200 dark:border-slate-700 hover:border-blue-400 hover:text-blue-500 transition disabled:opacity-50">
+              导出 CSV
+            </button>
+          </div>
+
+          <p v-if="error" class="text-sm text-rose-500">{{ error }}</p>
+        </div>
+      </section>
+
+      <!-- 统计 + 过滤 -->
+      <section v-if="results.length" class="glass p-5 space-y-4" id="results-area">
+        <!-- 统计卡片 -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <div class="p-4 rounded-lg border border-slate-200 dark:border-slate-700 bg-white/60 dark:bg-slate-800/60">
+            <div class="text-xs text-slate-500">总余额 (元)</div>
+            <div class="mt-1 text-2xl font-bold text-blue-600 dark:text-blue-400">{{ formatMoney(totalBalance) }}</div>
+          </div>
+          <button @click="openDialog('success')" class="text-left p-4 rounded-lg border border-emerald-200/60 dark:border-emerald-700/60 bg-emerald-50/60 dark:bg-emerald-900/20 hover:shadow">
+            <div class="text-xs text-emerald-600 dark:text-emerald-300">有余额</div>
+            <div class="mt-1 text-2xl font-bold text-emerald-600">{{ validWithBalanceCount }}</div>
+          </button>
+          <button @click="openDialog('warning')" class="text-left p-4 rounded-lg border border-amber-200/60 dark:border-amber-700/60 bg-amber-50/60 dark:bg-amber-900/20 hover:shadow">
+            <div class="text-xs text-amber-600 dark:text-amber-300">无余额</div>
+            <div class="mt-1 text-2xl font-bold text-amber-600">{{ validNoBalanceCount }}</div>
+          </button>
+          <button @click="openDialog('error')" class="text-left p-4 rounded-lg border border-rose-200/60 dark:border-rose-700/60 bg-rose-50/60 dark:bg-rose-900/20 hover:shadow">
+            <div class="text-xs text-rose-600 dark:text-rose-300">无效</div>
+            <div class="mt-1 text-2xl font-bold text-rose-600">{{ invalidCount }}</div>
+          </button>
+        </div>
+
+        <!-- 过滤工具栏 -->
+        <div class="flex flex-col md:flex-row md:items-center gap-3 justify-between">
+          <div class="flex flex-wrap gap-2">
+            <span @click="filterStatus='all'"        :class="['chip', filterStatus==='all'&&'active']">全部</span>
+            <span @click="filterStatus='hasBalance'" :class="['chip', filterStatus==='hasBalance'&&'active']">有余额</span>
+            <span @click="filterStatus='noBalance'"  :class="['chip', filterStatus==='noBalance'&&'active']">无余额</span>
+            <span @click="filterStatus='invalid'"    :class="['chip', filterStatus==='invalid'&&'active']">无效</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <input v-model.trim="searchTerm" type="text" class="w-60 rounded-md border border-slate-200 dark:border-slate-700 bg-white/70 dark:bg-slate-800/70 px-3 py-2 outline-none focus:ring-2 focus:ring-blue-400 text-sm" placeholder="搜索 Key/ID" />
+            <button @click="copyVisibleKeys" :disabled="!filteredResults.length" class="rounded-md border border-slate-200 dark:border-slate-700 bg-white/70 dark:bg-slate-800/70 px-3 py-2 text-sm hover:border-blue-400 hover:text-blue-500 transition disabled:opacity-50">复制当前筛选</button>
+          </div>
+        </div>
+
+        <!-- 表格 -->
+        <div class="overflow-auto rounded-lg border border-slate-200 dark:border-slate-700">
+          <table class="min-w-full text-sm table-sticky">
+            <thead class="text-slate-500">
+              <tr>
+                <th class="px-3 py-2 text-left">#</th>
+                <th class="px-3 py-2 text-left">API Key</th>
+                <th class="px-3 py-2 text-left">状态</th>
+                <th class="px-3 py-2 text-left">赠送余额 (元)</th>
+                <th class="px-3 py-2 text-left">充值余额 (元)</th>
+                <th class="px-3 py-2 text-left">总余额 (元)</th>
+                <th class="px-3 py-2 text-left">余额变化</th>
+                <th class="px-3 py-2 text-left">用户ID</th>
+                <th class="px-3 py-2 text-left">操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(r, i) in filteredResults" :key="r.apiKey" class="border-t border-slate-100 dark:border-slate-800 hover:bg-blue-50/40 dark:hover:bg-slate-800/60">
+                <td class="px-3 py-2 align-top">{{ i + 1 }}</td>
+                <td class="px-3 py-2 align-top font-mono break-all">
+                  <span :title="r.apiKey">{{ displayKey(r.apiKey) }}</span>
+                </td>
+                <td class="px-3 py-2 align-top">
+                  <span v-if="r.error" class="text-rose-600 font-medium">无效</span>
+                  <span v-else-if="Number(r.totalBalance) > 0" class="text-emerald-600 font-medium">有效 | 有余额</span>
+                  <span v-else class="text-amber-600 font-medium">有效 | 无余额</span>
+                </td>
+                <td class="px-3 py-2 align-top">
+                  <span v-if="!r.error">{{ formatMoney(r.giftBalance) }}</span>
+                  <span v-else class="text-slate-400">N/A</span>
+                </td>
+                <td class="px-3 py-2 align-top">
+                  <span v-if="!r.error">{{ formatMoney(r.chargeBalance) }}</span>
+                  <span v-else class="text-slate-400">N/A</span>
+                </td>
+                <td class="px-3 py-2 align-top">
+                  <span v-if="!r.error">{{ formatMoney(r.totalBalance) }}</span>
+                  <span v-else class="text-slate-400">N/A</span>
+                </td>
+                <td class="px-3 py-2 align-top">
+                  <span v-if="!r.error" :class="getBalanceChange(r.apiKey).class">{{ getBalanceChange(r.apiKey).text }}</span>
+                  <span v-else class="text-slate-400">N/A</span>
+                </td>
+                <td class="px-3 py-2 align-top text-xs text-slate-500">
+                  <div v-if="!r.error">
+                    <div>ID: {{ r.userInfo?.id || 'N/A' }}</div>
+                  </div>
+                  <div v-else class="text-rose-500">{{ r.error }}</div>
+                </td>
+                <td class="px-3 py-2 align-top">
+                  <button @click="copyToClipboard(r.apiKey, 'row'+i)" class="px-2 py-1 rounded-md border border-slate-200 dark:border-slate-700 hover:border-blue-400 hover:text-blue-500 transition text-xs">
+                    {{ copied === 'row'+i ? '已复制!' : '复制' }}
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 弹窗：按类别查看 Key -->
+      <div v-if="showDialog" class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-30" @click="closeDialog">
+        <div class="glass max-w-xl w-full p-5 rounded-xl" @click.stop>
+          <div class="flex items-center justify-between">
+            <div class="font-semibold text-lg" :class="getDialogTitleClass()">{{ dialogTitle }}</div>
+            <button @click="closeDialog" class="h-8 w-8 rounded-full bg-white/80 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 flex items-center justify-center hover:bg-rose-500 hover:border-rose-500 hover:text-white transition-all duration-200 shadow">
+              <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+          </div>
+          <div class="mt-4 max-h-[50vh] overflow-auto space-y-3">
+            <div v-for="(k, idx) in dialogKeys" :key="idx" class="flex items-center gap-3 p-2 rounded-lg hover:bg-white/40 dark:hover:bg-slate-800/40 transition-colors">
+              <div class="flex-1 bg-white/60 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 rounded-md px-3 py-2 font-mono break-all text-sm">{{ k }}</div>
+              <button @click="copyToClipboard(k, 'dialog'+idx)" class="px-3 py-2 rounded-md border border-slate-200 dark:border-slate-700 hover:border-blue-400 hover:text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/30 transition-all text-sm min-w-[60px]">
+                {{ copied === 'dialog'+idx ? '已复制!' : '复制' }}
+              </button>
+            </div>
+          </div>
+          <div class="mt-6 flex justify-end gap-3">
+            <button @click="copyDialogKeys" class="px-4 py-2 rounded-md text-white bg-blue-600 hover:bg-blue-700 transition text-sm font-medium shadow">
+              {{ copied === 'dialogAll' ? '已复制!' : '复制全部' }}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 历史记录 -->
+      <section v-if="sortedHistory.length" id="history-section" class="glass p-5">
+        <div class="flex items-center justify-between">
+          <div class="font-medium">查询历史</div>
+          <button @click="clearHistory" class="px-2.5 py-1.5 rounded-md border border-slate-200 dark:border-slate-700 hover:border-rose-400 hover:text-rose-500 transition text-sm">清空历史记录</button>
+        </div>
+        <ul class="mt-3 space-y-2">
+          <li v-for="item in sortedHistory" :key="item.id" @click="loadFromHistory(item)"
+              :class="['p-3 rounded-lg border cursor-pointer transition',
+                       item.id===activeHistoryId ? 'border-blue-400 bg-blue-50/50 dark:bg-blue-900/20' : 'border-slate-200 dark:border-slate-700 hover:border-blue-300 hover:bg-blue-50/40 dark:hover:bg-slate-800/60']">
+            <div class="flex items-center justify-between gap-2">
+              <div class="min-w-0">
+                <div class="truncate text-xs text-slate-500">{{ item.apiKeys.length }} Keys: {{ item.apiKeys.map(maskKey).join(', ') }}</div>
+                <div class="text-sm mt-1">
+                  <span class="text-slate-500">{{ new Date(item.snapshots[0].date).toLocaleString('zh-CN') }}</span>
+                  <span class="mx-2 text-slate-400">|</span>
+                  总余额：<span class="font-semibold text-blue-600 dark:text-blue-400">{{ formatMoney(item.snapshots[0].totalBalance) }}</span>
+                  <span class="text-slate-400">（{{ item.snapshots.length }} 次查询）</span>
+                </div>
+              </div>
+              <div class="flex items-center gap-2">
+                <button @click.stop="reQueryFromHistory(item)" class="px-2.5 py-1.5 rounded-md border border-slate-200 dark:border-slate-700 hover:border-blue-400 hover:text-blue-500 transition text-sm">重新查询</button>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </section>
+    </main>
+
+    <!-- Toast -->
+    <div class="fixed right-4 bottom-4 space-y-2 z-40">
+      <div v-for="t in toasts" :key="t.id" class="toast px-3 py-2 rounded-lg text-sm text-white shadow-lg"
+           :class="{
+             'bg-blue-600': t.type==='info',
+             'bg-emerald-600': t.type==='success',
+             'bg-rose-600': t.type==='error',
+             'bg-amber-600': t.type==='warn'
+           }">
+        {{ t.text }}
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const { createApp, ref, computed, onMounted, watch } = Vue;
+
+    const HISTORY_KEY = 'siliconflow_balance_query_history_v3';
+    const PREFS_KEY = 'siliconflow_balance_prefs_v1';
+    const API_URL = 'https://api.siliconflow.cn/v1/user/info';
+
+    createApp({
+      setup() {
+        // 基础状态
+        const apiKeysInput = ref('');
+        const results = ref([]);
+        const loading = ref(false);
+        const error = ref('');
+        const isDark = ref(false);
+        const copied = ref(null);
+
+        // 并发与控制
+        const concurrency = ref(6);
+        const controllers = ref(new Map());
+        const stopRequested = ref(false);
+        const progress = ref({ total: 0, done: 0, success: 0, error: 0 });
+
+        // 过滤/搜索
+        const filterStatus = ref('all'); // all | hasBalance | noBalance | invalid
+        const searchTerm = ref('');
+        const maskKeys = ref(true);
+
+        // 历史
+        const history = ref({});
+        const activeHistoryId = ref(null);
+
+        // 弹窗
+        const showDialog = ref(false);
+        const dialogType = ref('');
+        const dialogTitle = ref('');
+        const dialogKeys = ref([]);
+
+        // Toast
+        const toasts = ref([]);
+
+        // 计算属性
+        const currency = new Intl.NumberFormat('zh-CN', { minimumFractionDigits: 4, maximumFractionDigits: 4 });
+
+        const keysParsed = computed(() => apiKeysInput.value.split(/[\n,]/).map(s => s.trim()).filter(Boolean));
+        const keysUnique = computed(() => Array.from(new Set(keysParsed.value)));
+        const keysCount = computed(() => keysParsed.value.length);
+        const dedupCount = computed(() => keysUnique.value.length);
+
+        const validApiKeysWithBalance = computed(() => results.value.filter(r => !r.error && Number(r.totalBalance) > 0).map(r => r.apiKey));
+        const validApiKeysNoBalance = computed(() => results.value.filter(r => !r.error && Number(r.totalBalance) === 0).map(r => r.apiKey));
+        const invalidApiKeys = computed(() => results.value.filter(r => r.error).map(r => r.apiKey));
+
+        const validWithBalanceCount = computed(() => validApiKeysWithBalance.value.length);
+        const validNoBalanceCount = computed(() => validApiKeysNoBalance.value.length);
+        const invalidCount = computed(() => invalidApiKeys.value.length);
+
+        const totalBalance = computed(() => results.value.filter(r => !r.error).reduce((sum, r) => sum + (parseFloat(r.totalBalance || 0) || 0), 0));
+
+        const filteredResults = computed(() => {
+          let list = results.value.slice();
+          // 过滤
+          list = list.filter(r => {
+            if (filterStatus.value === 'hasBalance') return !r.error && Number(r.totalBalance) > 0;
+            if (filterStatus.value === 'noBalance') return !r.error && Number(r.totalBalance) === 0;
+            if (filterStatus.value === 'invalid') return !!r.error;
+            return true;
+          });
+          // 搜索
+          const q = searchTerm.value.trim().toLowerCase();
+          if (q) {
+            list = list.filter(r => {
+              const keyText = (r.apiKey || '').toLowerCase();
+              const id = String(r.userInfo?.id || '').toLowerCase();
+              return keyText.includes(q) || id.includes(q);
+            });
+          }
+          return list;
+        });
+
+        const progressPercent = computed(() => {
+          if (!progress.value.total) return 0;
+          return Math.round((progress.value.done / progress.value.total) * 100);
+        });
+
+        const sortedHistory = computed(() =>
+          Object.values(history.value).sort((a, b) => new Date(b.snapshots[0].date) - new Date(a.snapshots[0].date))
+        );
+
+        // 工具函数
+        const addToast = (text, type = 'info', ttl = 2200) => {
+          const t = { id: Date.now() + Math.random(), text, type };
+          toasts.value.push(t);
+          setTimeout(() => {
+            const idx = toasts.value.findIndex(x => x.id === t.id);
+            if (idx >= 0) toasts.value.splice(idx, 1);
+          }, ttl);
+        };
+
+        const savePref = (key, val) => {
+          const prefs = JSON.parse(localStorage.getItem(PREFS_KEY) || '{}');
+          prefs[key] = val;
+          localStorage.setItem(PREFS_KEY, JSON.stringify(prefs));
+        };
+
+        const loadPrefs = () => {
+          const prefs = JSON.parse(localStorage.getItem(PREFS_KEY) || '{}');
+          if (typeof prefs.maskKeys === 'boolean') maskKeys.value = prefs.maskKeys;
+          if (typeof prefs.concurrency === 'number') concurrency.value = prefs.concurrency;
+          if (typeof prefs.darkMode === 'boolean') isDark.value = prefs.darkMode;
+          document.documentElement.classList.toggle('dark', isDark.value);
+        };
+
+        const toggleDarkMode = () => {
+          isDark.value = !isDark.value;
+          savePref('darkMode', isDark.value);
+          document.documentElement.classList.toggle('dark', isDark.value);
+        };
+
+        const formatMoney = (n) => {
+          const num = Number(n || 0);
+          return currency.format(isFinite(num) ? num : 0);
+        };
+
+        const maskKey = (key) => {
+          if (!key) return key;
+          if (!maskKeys.value) return key;
+          if (key.length <= 10) return key.slice(0, 2) + '…' + key.slice(-2);
+          return key.slice(0, 4) + '…' + key.slice(-4);
+        };
+
+        const displayKey = (key) => maskKey(key);
+
+        async function copyToClipboard(text, id) {
+          try {
+            await navigator.clipboard.writeText(text || '');
+            copied.value = id;
+            addToast('已复制到剪贴板', 'success');
+            setTimeout(() => copied.value === id && (copied.value = null), 1600);
+          } catch {
+            addToast('复制失败', 'error');
+          }
+        }
+
+        // 余额变化（与历史中同组最近两次比对）
+        const getBalanceChange = (apiKey) => {
+          if (!activeHistoryId.value || !history.value[activeHistoryId.value]) return { text: 'N/A', class: 'text-slate-400' };
+          const group = history.value[activeHistoryId.value];
+          if (group.snapshots.length < 2) return { text: '首次查询', class: 'text-slate-400' };
+
+          const cur = group.snapshots[0].results.find(r => r.apiKey === apiKey);
+          const prev = group.snapshots[1].results.find(r => r.apiKey === apiKey);
+          if (!cur || cur.error || !prev || prev.error) return { text: 'N/A', class: 'text-slate-400' };
+
+          const diff = (parseFloat(cur.totalBalance) || 0) - (parseFloat(prev.totalBalance) || 0);
+          if (diff > 0) return { text: `+${formatMoney(diff)}`, class: 'text-emerald-600' };
+          if (diff < 0) return { text: `${formatMoney(diff)}`, class: 'text-rose-600' };
+          return { text: '无变化', class: 'text-slate-500' };
+        };
+
+        // 请求单个 Key
+        async function fetchKey(apiKey, signal) {
+          const timeoutMs = 15000;
+          let timeoutId;
+          try {
+            // 超时控制
+            const controller = new AbortController();
+            const onAbort = () => controller.abort();
+            signal?.addEventListener('abort', onAbort, { once: true });
+
+            timeoutId = setTimeout(() => controller.abort('timeout'), timeoutMs);
+
+            const res = await fetch(API_URL, {
+              headers: { Authorization: 'Bearer ' + apiKey },
+              signal: controller.signal
+            });
+
+            clearTimeout(timeoutId);
+            signal?.removeEventListener('abort', onAbort);
+
+            if (res.status === 401) throw new Error('API Key 无效或认证失败');
+            if (res.status === 429) throw new Error('请求过于频繁，请稍后再试 (429)');
+            if (!res.ok) throw new Error(`请求失败，HTTP ${res.status}`);
+
+            const data = await res.json();
+            if (data && data.data) {
+              return {
+                apiKey,
+                giftBalance: data.data.balance,
+                chargeBalance: data.data.chargeBalance,
+                totalBalance: data.data.totalBalance,
+                userInfo: data.data,
+                error: null
+              };
+            }
+            throw new Error('返回数据格式异常');
+          } catch (e) {
+            clearTimeout(timeoutId);
+            const msg = e?.name === 'AbortError'
+              ? (stopRequested.value ? '用户取消' : '请求超时或取消')
+              : (e?.message || '查询失败');
+            return { apiKey, balance: null, userInfo: null, error: msg };
+          }
+        }
+
+        // 并发调度
+        async function runWithConcurrency(keys, limit) {
+          progress.value = { total: keys.length, done: 0, success: 0, error: 0 };
+          controllers.value.clear();
+          stopRequested.value = false;
+
+          // 预置占位，保持顺序
+          results.value = keys.map(k => ({ apiKey: k, giftBalance: null, chargeBalance: null, totalBalance: null, userInfo: null, error: null }));
+
+          let index = 0;
+          const runners = Array.from({ length: Math.min(limit, keys.length) }, async () => {
+            while (!stopRequested.value) {
+              const i = index++;
+              if (i >= keys.length) break;
+
+              const key = keys[i];
+              const ctrl = new AbortController();
+              controllers.value.set(key, ctrl);
+
+              const res = await fetchKey(key, ctrl.signal);
+              controllers.value.delete(key);
+
+              results.value[i] = res;
+              progress.value.done++;
+              if (res.error) progress.value.error++; else progress.value.success++;
+            }
+          });
+
+          await Promise.all(runners);
+        }
+
+        async function fetchBalances() {
+          error.value = '';
+          if (!keysUnique.value.length) {
+            error.value = '请输入至少一个 API Key';
+            return;
+          }
+
+          loading.value = true;
+          try {
+            await runWithConcurrency(keysUnique.value, concurrency.value);
+            // 写入历史
+            const groupId = keysUnique.value.slice().sort().join('|');
+            const snapshot = {
+              date: new Date().toISOString(),
+              results: results.value,
+              totalBalance: results.value.filter(r => !r.error).reduce((s, r) => s + (parseFloat(r.totalBalance || 0) || 0), 0),
+            };
+            if (history.value[groupId]) {
+              history.value[groupId].snapshots.unshift(snapshot);
+            } else {
+              history.value[groupId] = { id: groupId, apiKeys: keysUnique.value.slice(), snapshots: [snapshot] };
+            }
+            activeHistoryId.value = groupId;
+
+            // 限制历史组数量为 30
+            const groups = Object.values(history.value).sort((a,b) => new Date(b.snapshots[0].date) - new Date(a.snapshots[0].date));
+            if (groups.length > 30) {
+              const oldest = groups[groups.length - 1].id;
+              delete history.value[oldest];
+            }
+
+            addToast('查询完成', 'success');
+            // 滚动到结果
+            document.getElementById('results-area')?.scrollIntoView({ behavior: 'smooth' });
+          } catch (e) {
+            error.value = e?.message || '查询失败';
+          } finally {
+            loading.value = false;
+          }
+        }
+
+        function cancelAll() {
+          stopRequested.value = true;
+          let count = 0;
+          controllers.value.forEach(c => { try { c.abort(); count++; } catch {} });
+          controllers.value.clear();
+          addToast(`已取消 ${count} 个请求`, 'warn');
+          loading.value = false;
+        }
+
+        // 弹窗（分类查看）
+        const openDialog = (type) => {
+          if (type === 'success' && !validWithBalanceCount.value) return;
+          if (type === 'warning' && !validNoBalanceCount.value) return;
+          if (type === 'error' && !invalidCount.value) return;
+
+          dialogType.value = type;
+          if (type === 'success') {
+            dialogTitle.value = `有余额的 Key (${validWithBalanceCount.value} 个)`;
+            dialogKeys.value = validApiKeysWithBalance.value;
+          } else if (type === 'warning') {
+            dialogTitle.value = `无余额的 Key (${validNoBalanceCount.value} 个)`;
+            dialogKeys.value = validApiKeysNoBalance.value;
+          } else {
+            dialogTitle.value = `无效的 Key (${invalidCount.value} 个)`;
+            dialogKeys.value = invalidApiKeys.value;
+          }
+          showDialog.value = true;
+        };
+        const closeDialog = () => {
+          showDialog.value = false; dialogType.value = ''; dialogTitle.value = ''; dialogKeys.value = [];
+        };
+        const getDialogTitleClass = () => {
+          if (dialogType.value === 'success') return 'text-emerald-600';
+          if (dialogType.value === 'warning') return 'text-amber-600';
+          if (dialogType.value === 'error') return 'text-rose-600';
+          return '';
+        };
+        const copyDialogKeys = () => {
+          if (!dialogKeys.value.length) return;
+          copyToClipboard(dialogKeys.value.join('\n'), 'dialogAll');
+        };
+
+        // 历史交互
+        const loadFromHistory = (item) => {
+          results.value = item.snapshots[0].results;
+          activeHistoryId.value = item.id;
+          error.value = '';
+          document.getElementById('results-area')?.scrollIntoView({ behavior: 'smooth' });
+        };
+        const reQueryFromHistory = (item) => {
+          apiKeysInput.value = item.apiKeys.join('\n');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          fetchBalances();
+        };
+        const clearHistory = () => {
+          if (confirm('确定清空所有本地历史记录吗？此操作无法撤销。')) {
+            history.value = {};
+            results.value = [];
+            activeHistoryId.value = null;
+            addToast('已清空历史', 'info');
+          }
+        };
+
+        // 批量操作
+        const copyVisibleKeys = () => {
+          if (!filteredResults.value.length) return;
+          const list = filteredResults.value.map(r => r.apiKey).join('\n');
+          copyToClipboard(list, 'copyVisible');
+        };
+
+        const exportCSV = () => {
+          if (!results.value.length) return;
+          const headers = ['序号','API Key','状态','赠送余额(元)','充值余额(元)','总余额(元)','余额变化','用户ID','错误'];
+          const rows = results.value.map((r, idx) => {
+            const status = r.error ? '无效' : (Number(r.totalBalance) > 0 ? '有效|有余额' : '有效|无余额');
+            const change = getBalanceChange(r.apiKey).text;
+            return [
+              idx + 1,
+              r.apiKey,
+              status,
+              (r.error ? '' : r.giftBalance),
+              (r.error ? '' : r.chargeBalance),
+              (r.error ? '' : r.totalBalance),
+              (r.error ? '' : change),
+              r.userInfo?.id || '',
+              r.error || ''
+            ];
+          });
+          const csv = [headers, ...rows].map(row =>
+            row.map(cell => {
+              const s = String(cell ?? '');
+              return /[,"\n]/.test(s) ? `"${s.replace(/"/g,'""')}"` : s;
+            }).join(',')
+          ).join('\n');
+
+          const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `siliconflow_balances_${new Date().toISOString().slice(0,19).replace(/[:T]/g,'-')}.csv`;
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+          URL.revokeObjectURL(url);
+
+          addToast('CSV 已导出', 'success');
+        };
+
+        // 读取剪贴板
+        const pasteFromClipboard = async () => {
+          try {
+            const text = await navigator.clipboard.readText();
+            if (!text) return addToast('剪贴板为空', 'warn');
+            apiKeysInput.value = text.trim();
+            addToast('已粘贴', 'success');
+          } catch {
+            addToast('无法访问剪贴板', 'error');
+          }
+        };
+
+        // 持久化
+        onMounted(() => {
+          // 主题+偏好
+          loadPrefs();
+
+          // 历史
+          const saved = localStorage.getItem(HISTORY_KEY);
+          if (saved) {
+            try {
+              const parsed = JSON.parse(saved);
+              if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) {
+                history.value = parsed;
+              }
+            } catch {
+              localStorage.removeItem(HISTORY_KEY);
+            }
+          }
+
+          // 初始暗色取系统偏好
+          if (!('darkMode' in (JSON.parse(localStorage.getItem(PREFS_KEY) || '{}')))) {
+            const sysDark = window.matchMedia?.('(prefers-color-scheme: dark)').matches;
+            isDark.value = sysDark;
+            savePref('darkMode', sysDark);
+            document.documentElement.classList.toggle('dark', sysDark);
+          }
+        });
+
+        watch(history, (val) => {
+          localStorage.setItem(HISTORY_KEY, JSON.stringify(val));
+        }, { deep: true });
+
+        watch(concurrency, (n) => savePref('concurrency', n));
+
+        return {
+          // state
+          apiKeysInput, results, loading, error, isDark, copied, concurrency, filterStatus, searchTerm, maskKeys,
+          history, activeHistoryId, showDialog, dialogType, dialogTitle, dialogKeys, toasts,
+          // computed
+          keysCount, dedupCount, progress, progressPercent, filteredResults,
+          validWithBalanceCount, validNoBalanceCount, invalidCount, totalBalance, sortedHistory,
+          // methods
+          fetchBalances, cancelAll, openDialog, closeDialog, getDialogTitleClass, copyDialogKeys,
+          copyToClipboard, copyVisibleKeys, exportCSV, loadFromHistory, reQueryFromHistory, clearHistory,
+          toggleDarkMode, formatMoney, maskKey, displayKey, getBalanceChange, pasteFromClipboard, savePref
+        };
+      }
+    }).mount('#app');
+  </script>
+</body>
+</html>
