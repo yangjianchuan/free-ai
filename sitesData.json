@@ -30,7 +30,7 @@
   {
     "title": "sophnet",
     "tags": [],
-    "description": "免登录，sophnet云算力平台，免费Kimi-K2、DeepSeek-v3、DeepSeek-v3.1、Qwen3-235B-A22B、Qwen3-Coder、GLM-4.5等",
+    "description": "免登录，sophnet云算力平台，免费Kimi-K2、DeepSeek-V3、DeepSeek-V3.1、Qwen3-235B-A22B、Qwen3-Coder、GLM-4.5等",
     "link": "https://www.sophnet.com/#/playground/chat?model=Kimi-K2",
     "buttonText": "免登录聊天"
   },
@@ -44,7 +44,7 @@
   {
     "title": "当贝AI",
     "tags": ["official"],
-    "description": "免登录，免费Kimi-K2、DeepSeek-R1、DeepSeek-v3、豆包、通义3-235B、GLM-4.5等",
+    "description": "免登录，免费Kimi-K2、DeepSeek-R1、DeepSeek-V3、豆包、通义3-235B、GLM-4.5等",
     "link": "https://ai.dangbei.com/chat",
     "buttonText": "免登录聊天"
   },

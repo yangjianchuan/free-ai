@@ -62,6 +62,12 @@ function renderCards(sitesData) {
 
 // 页面加载完成后自动渲染
 document.addEventListener('DOMContentLoaded', function() {
+  // 显示加载指示器
+  const loadingIndicator = document.getElementById('loadingIndicator');
+  if (loadingIndicator) {
+    loadingIndicator.classList.remove('hidden');
+  }
+
   fetch('sitesData.json')
     .then(response => {
       if (!response.ok) {
@@ -70,9 +76,30 @@ document.addEventListener('DOMContentLoaded', function() {
       return response.json();
     })
     .then(sitesData => {
+      // 隐藏加载指示器
+      if (loadingIndicator) {
+        loadingIndicator.classList.add('hidden');
+      }
+      
+      // 清空容器内容
+      const container = document.querySelector('.container');
+      if (container) {
+        container.innerHTML = '';
+      }
+      
       renderCards(sitesData);
     })
     .catch(error => {
       console.error('获取 sitesData.json 失败:', error);
+      // 隐藏加载指示器
+      if (loadingIndicator) {
+        loadingIndicator.classList.add('hidden');
+      }
+      
+      // 显示错误信息
+      const container = document.querySelector('.container');
+      if (container) {
+        container.innerHTML = '<div class="alert alert-danger" role="alert">加载数据失败，请刷新页面重试。</div>';
+      }
     });
 });
