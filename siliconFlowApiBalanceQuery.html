@@ -3,10 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>硅基流动余额查询</title>
-
-  <!-- Vue 3 -->
-  <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+  <title>硅基流动余额查询 (Vanilla JS版)</title>
 
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -15,7 +12,6 @@
       darkMode: 'class',
       theme: {
         extend: {
-          // 自定义动画
           keyframes: {
             'toast-in': {
               'from': { transform: 'translateY(20px)', opacity: '0' },
@@ -45,51 +41,39 @@
     html { scroll-behavior: smooth; }
     body { font-family: var(--font-sans); background-color: #030712; color: #f9fafb; transition: background-color .3s, color .3s; }
     html:not(.dark) body { background-color: #f3f4f6; color: #111827; }
-    [v-cloak] { display: none; }
+    .hidden { display: none; }
 
-    /* 背景装饰：更柔和的辉光效果 */
     .bg-deco {
       position: fixed; inset: 0; pointer-events: none; z-index: -1; overflow: hidden;
     }
     .bg-deco::before {
       content: ''; position: absolute; top: 0; left: 0; width: 60vw; height: 60vh;
-      background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, transparent 60%);
+      background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, transparent: 60%);
       transform: translate(-30%, -30%); filter: blur(60px);
     }
     .bg-deco::after {
       content: ''; position: absolute; bottom: 0; right: 0; width: 50vw; height: 50vh;
-      background: radial-gradient(circle, rgba(16, 185, 129, 0.12) 0%, transparent 60%);
+      background: radial-gradient(circle, rgba(16, 185, 129, 0.12) 0%, transparent: 60%);
       transform: translate(30%, 30%); filter: blur(60px);
     }
 
-    /* 玻璃质感卡片：使用 Tailwind 的 background-opacity 和 border-opacity */
     .glass-card {
-      border-radius: 0.75rem;
-      border-width: 1px;
+      border-radius: 0.75rem; border-width: 1px;
       border-color: rgba(255, 255, 255, 0.1);
       background-color: rgba(107, 114, 128, 0.1);
       backdrop-filter: blur(16px);
       box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
     }
-    
-    @media (prefers-color-scheme: dark) {
-      .glass-card {
-        border-color: rgba(255, 255, 255, 0.1);
-        background-color: rgba(17, 24, 39, 0.2);
-      }
+    html:not(.dark) .glass-card {
+      border-color: rgba(0, 0, 0, 0.1);
+      background-color: rgba(255, 255, 255, 0.4);
     }
     
-    /* 动效友好性 */
-    
-    /* 动效友好性 */
     @media (prefers-reduced-motion: reduce) {
       *, ::before, ::after {
-        animation-delay: -1ms !important;
-        animation-duration: -1ms !important;
-        animation-iteration-count: 1 !important;
-        background-attachment: initial !important;
-        scroll-behavior: auto !important;
-        transition-duration: 0s !important;
+        animation-delay: -1ms !important; animation-duration: -1ms !important;
+        animation-iteration-count: 1 !important; background-attachment: initial !important;
+        scroll-behavior: auto !important; transition-duration: 0s !important;
         transition-delay: 0s !important;
       }
     }
@@ -98,20 +82,16 @@
 <body class="min-h-screen antialiased">
   <div class="bg-deco"></div>
 
-  <div id="app" v-cloak class="relative z-10 flex flex-col min-h-screen">
+  <div id="app" class="relative z-10 flex flex-col min-h-screen">
     <!-- 顶部导航 -->
     <header class="sticky top-0 z-30 w-full border-b border-white/10 bg-white/30 backdrop-blur-lg dark:bg-slate-900/30">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex items-center justify-between h-16 min-h-[44px]">
-          <div class="flex items-center gap-3">
-            <h1 class="text-lg font-bold text-slate-800 dark:text-slate-200 min-h-[44px]">硅基流动余额查询</h1>
-          </div>
-          <div class="flex items-center gap-4">
-             <button @click="toggleDarkMode" class="h-9 w-9 rounded-full flex items-center justify-center text-slate-500 hover:text-blue-500 dark:text-slate-400 dark:hover:text-blue-400 bg-white/50 dark:bg-slate-800/50 transition-colors min-h-[44px] min-w-[44px]">
-              <svg v-if="!isDark" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
-              <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" /></svg>
-            </button>
-          </div>
+        <div class="flex items-center justify-between h-16">
+          <h1 class="text-lg font-bold text-slate-800 dark:text-slate-200">硅基流动余额查询</h1>
+          <button id="dark-mode-toggle" class="h-9 w-9 rounded-full flex items-center justify-center text-slate-500 hover:text-blue-500 dark:text-slate-400 dark:hover:text-blue-400 bg-white/50 dark:bg-slate-800/50 transition-colors">
+            <svg id="sun-icon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+            <svg id="moon-icon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 hidden" viewBox="0 0 20 20" fill="currentColor"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" /></svg>
+          </button>
         </div>
       </div>
     </header>
@@ -120,599 +100,704 @@
       <div class="space-y-8">
         <!-- 输入区 -->
         <section class="glass-card p-5 sm:p-6">
-          <label for="api-keys" class="text-base font-semibold text-slate-800 dark:text-slate-100 min-h-[44px]">API Key</label>
-          <p class="mt-1 text-sm text-slate-600 dark:text-slate-400 min-h-[44px]">可批量输入，支持换行或逗号分隔。</p>
-          <textarea
-            id="api-keys"
-            v-model="apiKeysInput"
-            rows="6"
-            class="mt-4 w-full rounded-lg border-0 bg-white/40 dark:bg-slate-800/60 p-4 text-sm font-mono placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:ring-2 focus:ring-blue-500 focus:outline-none transition min-h-[44px]"
-            placeholder="sk-..."
-          ></textarea>
-          <div class="mt-6 flex-wrap items-center gap-6">
-            <button @click="loading ? cancelAll() : fetchBalances()" :disabled="!dedupCount && !loading"
-              class="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-md font-semibold text-sm transition-all shadow-sm disabled:opacity-50 disabled:cursor-not-allowed min-h-[4px] min-w-[44px]"
-              :class="loading ? 'bg-rose-600 hover:bg-rose-700 text-white' : 'bg-blue-600 hover:bg-blue-700 text-white'">
-              <svg v-if="loading" class="animate-spin h-4 w-4" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4A4 4 0 008 12H4z"/></svg>
-              <span v-if="loading">查询中 ({{ progress.done }}/{{ progress.total }})</span>
-              <span v-else>查询余额</span>
+          <label for="api-keys" class="text-base font-semibold text-slate-800 dark:text-slate-100">API Key</label>
+          <p class="mt-1 text-sm text-slate-600 dark:text-slate-400">可批量输入，支持换行或逗号分隔。</p>
+          <textarea id="api-keys" rows="6" class="mt-4 w-full rounded-lg border-0 bg-white/40 dark:bg-slate-800/60 p-4 text-sm font-mono placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:ring-2 focus:ring-blue-500 focus:outline-none transition" placeholder="sk-..."></textarea>
+          <div class="mt-6 flex flex-wrap items-center gap-4">
+            <button id="query-btn" class="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-md font-semibold text-sm transition-all shadow-sm disabled:opacity-50 disabled:cursor-not-allowed bg-blue-600 hover:bg-blue-700 text-white">
+              <svg id="query-spinner" class="animate-spin h-4 w-4 hidden" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4A4 4 0 008 12H4z"/></svg>
+              <span id="query-btn-text">查询余额</span>
             </button>
-            <button @click="pasteFromClipboard" class="px-3 py-2 text-sm rounded-md bg-white/60 dark:bg-slate-800/80 hover:bg-white/90 dark:hover:bg-slate-700/80 transition-colors border border-slate-300 dark:border-slate-700 min-h-[44px] min-w-[44px]">粘贴</button>
-            <button @click="apiKeysInput=''" class="px-3 py-2 text-sm rounded-md bg-white/60 dark:bg-slate-800/80 hover:bg-white/90 dark:hover:bg-slate-700/80 transition-colors border border-slate-300 dark:border-slate-700 min-h-[44px] min-w-[44px]">清空</button>
-            <span v-if="keysCount" class="text-sm text-slate-500 dark:text-slate-400 select-none min-h-[44px]">去重后 {{ dedupCount }} 个</span>
+            <button id="paste-btn" class="px-3 py-2 text-sm rounded-md bg-white/60 dark:bg-slate-800/80 hover:bg-white/90 dark:hover:bg-slate-700/80 transition-colors border border-slate-300 dark:border-slate-700">粘贴</button>
+            <button id="clear-btn" class="px-3 py-2 text-sm rounded-md bg-white/60 dark:bg-slate-800/80 hover:bg-white/90 dark:hover:bg-slate-700/80 transition-colors border border-slate-300 dark:border-slate-700">清空</button>
+            <span id="key-count" class="text-sm text-slate-500 dark:text-slate-400 select-none hidden"></span>
           </div>
-          <div v-if="loading" class="mt-4 h-2 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden min-h-[44px]">
-            <div class="h-full rounded-full bg-gradient-to-r from-blue-500 to-green-500 transition-all duration-300 ease-linear" :style="{ width: progressPercent + '%' }"></div>
+          <div id="progress-bar-container" class="mt-4 h-2 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden hidden">
+            <div id="progress-bar" class="h-full rounded-full bg-gradient-to-r from-blue-500 to-green-500 transition-all duration-300 ease-linear" style="width: 0%"></div>
           </div>
-          <p v-if="error" class="mt-3 text-sm text-rose-500 font-medium min-h-[44px]">{{ error }}</p>
+          <p id="error-message" class="mt-3 text-sm text-rose-500 font-medium"></p>
         </section>
 
         <!-- 结果区 -->
-        <transition name="fade">
-          <section v-if="results.length" id="results-area" class="space-y-6 animate-fade-in">
-            <!-- 统计卡片 -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              <!-- 定义一个 Vue 组件或者模板来简化 -->
-              <div class="glass-card p-5 flex items-center gap-4 min-h-[44px]">
-                <div class="flex-shrink-0 h-12 w-12 rounded-lg bg-blue-500/10 dark:bg-blue-500/20 flex items-center justify-center text-blue-500 dark:text-blue-400">
-                  <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12a2.25 2.25 0 00-2.25-2.25H15a3 3 0 11-6 0H5.25A2.25 2.25 0 003 12m18 0v6a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 18v-6m18 0V9M3 12V9m18 0a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 9m12 3a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-                </div>
-                <div>
-                  <div class="text-sm text-slate-500 dark:text-slate-400 min-h-[44px]">总余额 (元)</div>
-                  <div class="mt-1 text-2xl font-bold text-blue-600 dark:text-blue-400 min-h-[44px]">{{ formatMoney(totalBalance) }}</div>
-                </div>
-              </div>
-              <button @click="openDialog('success')" class="glass-card p-5 flex items-center gap-4 text-left group transition-all hover:scale-[1.02] hover:shadow-2xl">
-                <div class="flex-shrink-0 h-12 w-12 rounded-lg bg-green-500/10 dark:bg-green-500/20 flex items-center justify-center text-green-500 dark:text-green-400">
-                  <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                </div>
-                <div>
-                  <div class="text-sm text-green-600 dark:text-green-300 min-h-[44px]">有余额</div>
-                  <div class="mt-1 text-2xl font-bold text-green-600 dark:text-green-400 group-hover:text-green-500 min-h-[44px]">{{ validWithBalanceCount }}</div>
-                </div>
-              </button>
-              <button @click="openDialog('warning')" class="glass-card p-5 flex items-center gap-4 text-left group transition-all hover:scale-[1.02] hover:shadow-2xl">
-                 <div class="flex-shrink-0 h-12 w-12 rounded-lg bg-amber-500/10 dark:bg-amber-500/20 flex items-center justify-center text-amber-500 dark:text-amber-400">
-                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.86-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" /></svg>
-                 </div>
-                <div>
-                  <div class="text-sm text-amber-600 dark:text-amber-300 min-h-[44px]">无余额</div>
-                  <div class="mt-1 text-2xl font-bold text-amber-600 dark:text-amber-400 group-hover:text-amber-500 min-h-[44px]">{{ validNoBalanceCount }}</div>
-                </div>
-              </button>
-              <button @click="openDialog('error')" class="glass-card p-5 flex items-center gap-4 text-left group transition-all hover:scale-[1.02] hover:shadow-2xl">
-                 <div class="flex-shrink-0 h-12 w-12 rounded-lg bg-rose-500/10 dark:bg-rose-500/20 flex items-center justify-center text-rose-500 dark:text-rose-400">
-                   <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" /></svg>
-                 </div>
-                <div>
-                  <div class="text-sm text-rose-60 dark:text-rose-300 min-h-[44px]">无效</div>
-                  <div class="mt-1 text-2xl font-bold text-rose-600 dark:text-rose-40 group-hover:text-rose-500 min-h-[44px]">{{ invalidCount }}</div>
-                </div>
-              </button>
-            </div>
-
-            <!-- 工具栏和表格 -->
-            <div class="glass-card p-5 sm:p-6 space-y-4">
-              <!-- 过滤/搜索/操作 -->
-              <div class="flex flex-col md:flex-row md:items-center gap-4 justify-between">
-                <div class="flex items-center flex-wrap gap-2">
-                  <button @click="filterStatus='all'" :class="['px-3 py-2 text-sm rounded-full transition min-h-[44px] min-w-[44px]', filterStatus === 'all' ? 'bg-blue-600 text-white' : 'bg-white/60 dark:bg-slate-800/80 hover:bg-white/90 dark:hover:bg-slate-700/80']">全部</button>
-                  <button @click="filterStatus='hasBalance'" :class="['px-3 py-2 text-sm rounded-full transition min-h-[44px] min-w-[44px]', filterStatus === 'hasBalance' ? 'bg-blue-600 text-white' : 'bg-white/60 dark:bg-slate-800/80 hover:bg-white/90 dark:hover:bg-slate-700/80']">有余额</button>
-                  <button @click="filterStatus='noBalance'" :class="['px-3 py-2 text-sm rounded-full transition min-h-[44px] min-w-[44px]', filterStatus === 'noBalance' ? 'bg-blue-600 text-white' : 'bg-white/60 dark:bg-slate-800/80 hover:bg-white/90 dark:hover:bg-slate-700/80']">无余额</button>
-                  <button @click="filterStatus='invalid'" :class="['px-3 py-2 text-sm rounded-full transition min-h-[44px] min-w-[44px]', filterStatus === 'invalid' ? 'bg-blue-600 text-white' : 'bg-white/60 dark:bg-slate-800/80 hover:bg-white/90 dark:hover:bg-slate-700/80']">无效</button>
-                </div>
-                <div class="flex items-center gap-2">
-                  <input v-model.trim="searchTerm" type="text" class="w-full md:w-48 rounded-md border-0 bg-white/40 dark:bg-slate-800/60 px-3 py-2 text-sm placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:ring-2 focus:ring-blue-500 focus:outline-none transition min-h-[44px]" placeholder="搜索 Key..." />
-                  <button @click="copyVisibleKeys" :disabled="!filteredResults.length" class="px-3 py-2 text-sm rounded-md bg-white/60 dark:bg-slate-800/80 hover:bg-white/90 dark:hover:bg-slate-700/80 transition-colors border border-slate-300 dark:border-slate-700 disabled:opacity-50 min-h-[44px] min-w-[44px]">复制筛选</button>
-                  <button @click="exportCSV" :disabled="!results.length" class="px-3 py-2 text-sm rounded-md bg-white/60 dark:bg-slate-800/80 hover:bg-white/90 dark:hover:bg-slate-700/80 transition-colors border border-slate-300 dark:border-slate-700 disabled:opacity-50 min-h-[44px] min-w-[44px]">导出 CSV</button>
-                </div>
-              </div>
-
-              <!-- 表格 -->
-              <div class="overflow-x-auto">
-                <table class="min-w-full text-sm md:text-base">
-                  <thead class="text-left">
-                    <tr class="border-b border-slate-200/50 dark:border-slate-700/50 min-h-[44px]">
-                      <th class="p-3 font-semibold min-h-[44px]">#</th>
-                      <th class="p-3 font-semibold min-h-[44px]">API Key</th>
-                      <th class="p-3 font-semibold min-h-[44px]">状态</th>
-                      <th class="p-3 font-semibold text-right min-h-[44px]">总余额 (元)</th>
-                      <th class="p-3 font-semibold text-right min-h-[44px]">
-                        <span class="inline-flex items-center gap-1 group relative">
-                          余额变化
-                          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-slate-400" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" /></svg>
-                          <span class="absolute bottom-full mb-2 w-48 p-2 text-xs font-normal text-white bg-slate-800 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">与该组上次查询结果对比</span>
-                        </span>
-                      </th>
-                      <th class="p-3 font-semibold text-right min-h-[44px]">赠送 (元)</th>
-                      <th class="p-3 font-semibold text-right min-h-[44px]">充值 (元)</th>
-                      <th class="p-3 font-semibold text-center min-h-[44px]">操作</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr v-for="(r, i) in filteredResults" :key="r.apiKey" class="border-b border-slate-200/30 dark:border-slate-700/30 hover:bg-blue-500/5 dark:hover:bg-blue-500/10 min-h-[44px]">
-                      <td class="p-3 text-slate-500 dark:text-slate-400 min-h-[44px]">{{ i + 1 }}</td>
-                      <td class="p-3 font-mono min-h-[44px]" :title="r.apiKey">{{ displayKey(r.apiKey) }}</td>
-                      <td class="p-3 min-h-[44px]">
-                        <span v-if="r.error" class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-rose-100 text-rose-800 dark:bg-rose-900/50 dark:text-rose-300">无效</span>
-                        <span v-else-if="Number(r.totalBalance) > 0" class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-80 dark:bg-green-900/50 dark:text-green-30">有余额</span>
-                        <span v-else class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800 dark:bg-amber-90/50 dark:text-amber-300">无余额</span>
-                      </td>
-                      <td class="p-3 text-right font-medium min-h-[44px]">
-                        <span v-if="!r.error" class="text-slate-800 dark:text-slate-100">{{ formatMoney(r.totalBalance) }}</span>
-                        <span v-else class="text-slate-400">--</span>
-                      </td>
-                       <td class="p-3 text-right min-h-[44px]">
-                        <span v-if="!r.error" :class="getBalanceChange(r.apiKey).class">{{ getBalanceChange(r.apiKey).text }}</span>
-                        <span v-else class="text-slate-400">--</span>
-                      </td>
-                      <td class="p-3 text-right text-slate-500 dark:text-slate-400 min-h-[44px]">
-                        <span v-if="!r.error">{{ formatMoney(r.giftBalance) }}</span>
-                        <span v-else>--</span>
-                      </td>
-                      <td class="p-3 text-right text-slate-500 dark:text-slate-400 min-h-[44px]">
-                        <span v-if="!r.error">{{ formatMoney(r.chargeBalance) }}</span>
-                        <span v-else>--</span>
-                      </td>
-                      <td class="p-3 text-center min-h-[44px]">
-                        <button @click="copyToClipboard(r.apiKey, 'row'+i)" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium transition-colors min-h-[44px] min-w-[44px]">
-                          {{ copied === 'row'+i ? '已复制' : '复制' }}
-                        </button>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-                 <div v-if="!filteredResults.length" class="text-center py-10 text-slate-500 min-h-[44px]">
-                   没有匹配的结果
-                 </div>
+        <section id="results-area" class="space-y-6 hidden animate-fade-in">
+          <!-- 统计卡片 -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="glass-card p-5 flex items-center gap-4">
+              <div class="flex-shrink-0 h-12 w-12 rounded-lg bg-blue-500/10 dark:bg-blue-500/20 flex items-center justify-center text-blue-500 dark:text-blue-400"><svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12a2.25 2.25 0 00-2.25-2.25H15a3 3 0 11-6 0H5.25A2.25 2.25 0 003 12m18 0v6a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 18v-6m18 0V9M3 12V9m18 0a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 9m12 3a3 3 0 11-6 0 3 3 0 016 0z" /></svg></div>
+              <div>
+                <div class="text-sm text-slate-500 dark:text-slate-400">总余额 (元)</div>
+                <div id="total-balance" class="mt-1 text-2xl font-bold text-blue-600 dark:text-blue-400">0.0000</div>
               </div>
             </div>
-          </section>
-        </transition>
+            <button data-dialog-type="success" class="summary-card-btn glass-card p-5 flex items-center gap-4 text-left group transition-all hover:scale-[1.02] hover:shadow-2xl">
+              <div class="flex-shrink-0 h-12 w-12 rounded-lg bg-green-500/10 dark:bg-green-500/20 flex items-center justify-center text-green-500 dark:text-green-400"><svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg></div>
+              <div>
+                <div class="text-sm text-green-600 dark:text-green-300">有余额</div>
+                <div id="valid-with-balance-count" class="mt-1 text-2xl font-bold text-green-600 dark:text-green-400 group-hover:text-green-500">0</div>
+              </div>
+            </button>
+            <button data-dialog-type="warning" class="summary-card-btn glass-card p-5 flex items-center gap-4 text-left group transition-all hover:scale-[1.02] hover:shadow-2xl">
+              <div class="flex-shrink-0 h-12 w-12 rounded-lg bg-amber-500/10 dark:bg-amber-500/20 flex items-center justify-center text-amber-500 dark:text-amber-400"><svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.86-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" /></svg></div>
+              <div>
+                <div class="text-sm text-amber-600 dark:text-amber-300">无余额</div>
+                <div id="valid-no-balance-count" class="mt-1 text-2xl font-bold text-amber-600 dark:text-amber-400 group-hover:text-amber-500">0</div>
+              </div>
+            </button>
+            <button data-dialog-type="error" class="summary-card-btn glass-card p-5 flex items-center gap-4 text-left group transition-all hover:scale-[1.02] hover:shadow-2xl">
+              <div class="flex-shrink-0 h-12 w-12 rounded-lg bg-rose-500/10 dark:bg-rose-500/20 flex items-center justify-center text-rose-500 dark:text-rose-400"><svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" /></svg></div>
+              <div>
+                <div class="text-sm text-rose-600 dark:text-rose-300">无效</div>
+                <div id="invalid-count" class="mt-1 text-2xl font-bold text-rose-600 dark:text-rose-400 group-hover:text-rose-500">0</div>
+              </div>
+            </button>
+          </div>
+
+          <!-- 工具栏和表格 -->
+          <div class="glass-card p-5 sm:p-6 space-y-4">
+            <div class="flex flex-col md:flex-row md:items-center gap-4 justify-between">
+              <div id="filter-buttons" class="flex items-center flex-wrap gap-2">
+                <button data-status="all" class="filter-btn px-3 py-1.5 text-sm rounded-full transition bg-blue-600 text-white">全部</button>
+                <button data-status="hasBalance" class="filter-btn px-3 py-1.5 text-sm rounded-full transition bg-white/60 dark:bg-slate-800/80 hover:bg-white/90 dark:hover:bg-slate-700/80">有余额</button>
+                <button data-status="noBalance" class="filter-btn px-3 py-1.5 text-sm rounded-full transition bg-white/60 dark:bg-slate-800/80 hover:bg-white/90 dark:hover:bg-slate-700/80">无余额</button>
+                <button data-status="invalid" class="filter-btn px-3 py-1.5 text-sm rounded-full transition bg-white/60 dark:bg-slate-800/80 hover:bg-white/90 dark:hover:bg-slate-700/80">无效</button>
+              </div>
+              <div class="flex items-center gap-2">
+                <input id="search-term" type="text" class="w-full md:w-48 rounded-md border-0 bg-white/40 dark:bg-slate-800/60 px-3 py-2 text-sm placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:ring-2 focus:ring-blue-500 focus:outline-none transition" placeholder="搜索 Key..." />
+                <button id="copy-visible-btn" class="px-3 py-2 text-sm rounded-md bg-white/60 dark:bg-slate-800/80 hover:bg-white/90 dark:hover:bg-slate-700/80 transition-colors border border-slate-300 dark:border-slate-700 disabled:opacity-50">复制筛选</button>
+                <button id="export-csv-btn" class="px-3 py-2 text-sm rounded-md bg-white/60 dark:bg-slate-800/80 hover:bg-white/90 dark:hover:bg-slate-700/80 transition-colors border border-slate-300 dark:border-slate-700 disabled:opacity-50">导出 CSV</button>
+              </div>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="min-w-full text-sm">
+                <thead class="text-left">
+                  <tr class="border-b border-slate-200/50 dark:border-slate-700/50">
+                    <th class="p-3 font-semibold">#</th>
+                    <th class="p-3 font-semibold">API Key</th>
+                    <th class="p-3 font-semibold">状态</th>
+                    <th class="p-3 font-semibold text-right">总余额 (元)</th>
+                    <th class="p-3 font-semibold text-right"><span class="inline-flex items-center gap-1 group relative">余额变化<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-slate-400" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" /></svg><span class="absolute bottom-full mb-2 w-48 p-2 text-xs font-normal text-white bg-slate-800 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">与该组上次查询结果对比</span></span></th>
+                    <th class="p-3 font-semibold text-right">赠送 (元)</th>
+                    <th class="p-3 font-semibold text-right">充值 (元)</th>
+                    <th class="p-3 font-semibold text-center">操作</th>
+                  </tr>
+                </thead>
+                <tbody id="results-table-body"></tbody>
+              </table>
+              <div id="no-results-message" class="text-center py-10 text-slate-500 hidden">没有匹配的结果</div>
+            </div>
+          </div>
+        </section>
 
         <!-- 历史记录 -->
-        <section id="history-section" class="glass-card p-5 sm:p-6">
+        <section class="glass-card p-5 sm:p-6">
           <div class="flex items-center justify-between">
-            <h2 class="text-lg font-semibold text-slate-800 dark:text-slate-100 min-h-[44px]">查询历史</h2>
-            <button v-if="sortedHistory.length" @click="clearHistory" class="px-3 py-2 text-sm rounded-md bg-white/60 dark:bg-slate-800/80 hover:bg-rose-100 text-rose-600 dark:hover:bg-rose-900/50 dark:text-rose-400 transition-colors border border-slate-300 dark:border-slate-700 min-h-[44px] min-w-[44px]">清空历史</button>
+            <h2 class="text-lg font-semibold text-slate-800 dark:text-slate-100">查询历史</h2>
+            <button id="clear-history-btn" class="px-3 py-2 text-sm rounded-md bg-white/60 dark:bg-slate-800/80 hover:bg-rose-100 text-rose-600 dark:hover:bg-rose-900/50 dark:text-rose-400 transition-colors border border-slate-300 dark:border-slate-700 hidden">清空历史</button>
           </div>
-          <ul v-if="sortedHistory.length" class="mt-4 space-y-3">
-            <li v-for="item in sortedHistory" :key="item.id" @click="loadFromHistory(item)"
-                class="rounded-lg p-4 cursor-pointer transition-all border min-h-[44px]"
-                :class="item.id === activeHistoryId ? 'bg-blue-500/10 border-blue-500/30' : 'bg-white/30 dark:bg-slate-800/40 border-slate-300 dark:border-slate-700 hover:border-blue-500/30 hover:bg-blue-500/5'">
-              <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-                <div class="min-w-0 flex-1">
-                  <div class="text-xs text-slate-500 dark:text-slate-400">
-                    {{ item.apiKeys.length }} Keys
-                  </div>
-                  <div class="text-sm mt-1.5 min-h-[44px]">
-                    <span class="text-slate-500">{{ new Date(item.snapshots[0].date).toLocaleString('zh-CN') }}</span>
-                    <span class="mx-2 text-slate-400">|</span>
-                    <span class="font-semibold text-blue-600 dark:text-blue-400">{{ formatMoney(item.snapshots[0].totalBalance) }} 元</span>
-                    <span class="text-slate-400"> ({{ item.snapshots.length }} 次查询)</span>
-                  </div>
-                </div>
-                <button @click.stop="reQueryFromHistory(item)" class="flex-shrink-0 px-3 py-2 text-sm rounded-md bg-white/60 dark:bg-slate-800/80 hover:bg-white/90 dark:hover:bg-slate-700/80 transition-colors border border-slate-300 dark:border-slate-700 font-medium min-h-[4px] min-w-[44px]">重新查询</button>
-              </div>
-            </li>
-          </ul>
-           <div v-else class="text-center py-10 text-slate-500 min-h-[44px]">
-             暂无历史记录
-           </div>
+          <ul id="history-list" class="mt-4 space-y-3"></ul>
+          <div id="no-history-message" class="text-center py-10 text-slate-500">暂无历史记录</div>
         </section>
       </div>
     </main>
 
-    <footer class="text-center py-4 text-sm text-slate-500 min-h-[44px]">
-      <p class="min-h-[44px]">页面由 Vue 3 + Tailwind CSS 构建。数据存储在本地浏览器中。</p>
+    <footer class="text-center py-4 text-sm text-slate-500">
+      <p>页面由 Vanilla JS + Tailwind CSS 构建。数据存储在本地浏览器中。</p>
     </footer>
 
-    <!-- 弹窗: 按类别查看 Key -->
-    <transition
-      enter-active-class="transition-opacity duration-300 ease-out"
-      enter-from-class="opacity-0"
-      enter-to-class="opacity-100"
-      leave-active-class="transition-opacity duration-200 ease-in"
-      leave-from-class="opacity-100"
-      leave-to-class="opacity-0"
-    >
-    <div v-if="showDialog" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-40" @click="closeDialog">
-      <transition
-        enter-active-class="transition-all duration-300 ease-out"
-        enter-from-class="opacity-0 scale-95"
-        enter-to-class="opacity-100 scale-10"
-        leave-active-class="transition-all duration-200 ease-in"
-        leave-from-class="opacity-100 scale-100"
-        leave-to-class="opacity-0 scale-95"
-      >
-      <div class="glass-card max-w-2xl w-full p-6 rounded-xl" @click.stop>
+    <!-- 弹窗 -->
+    <div id="dialog" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-40 hidden">
+      <div class="glass-card max-w-2xl w-full p-6 rounded-xl">
         <div class="flex items-center justify-between">
-          <h3 class="font-semibold text-lg min-h-[44px]" :class="getDialogTitleClass()">{{ dialogTitle }}</h3>
-          <button @click="closeDialog" class="h-8 w-8 rounded-full flex items-center justify-center text-slate-500 hover:text-white hover:bg-rose-500 transition-all min-h-[4px] min-w-[44px]">
-            <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z"/></svg>
-          </button>
+          <h3 id="dialog-title" class="font-semibold text-lg"></h3>
+          <button id="dialog-close-btn" class="h-8 w-8 rounded-full flex items-center justify-center text-slate-500 hover:text-white hover:bg-rose-500 transition-all"><svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z"/></svg></button>
         </div>
-        <div class="mt-4 max-h-[60vh] overflow-auto pr-2 space-y-2">
-          <div v-for="(k, idx) in dialogKeys" :key="idx" class="flex items-center gap-3 p-2 rounded-lg hover:bg-white/20 dark:hover:bg-slate-800/40">
-            <div class="flex-1 rounded-md px-3 py-2 font-mono break-all text-sm bg-white/30 dark:bg-slate-800/50 border border-slate-300 dark:border-slate-700 min-h-[44px]">{{ k }}</div>
-            <button @click="copyToClipboard(k, 'dialog'+idx)" class="flex-shrink-0 px-3 py-2 rounded-md border border-slate-300 dark:border-slate-700 hover:border-blue-500/50 hover:bg-blue-500/10 text-sm min-w-[70px] transition-colors min-h-[44px]">
-              {{ copied === 'dialog'+idx ? '已复制' : '复制' }}
-            </button>
-          </div>
-        </div>
+        <div id="dialog-keys-list" class="mt-4 max-h-[60vh] overflow-auto pr-2 space-y-2"></div>
         <div class="mt-6 flex justify-end">
-          <button @click="copyDialogKeys" class="px-4 py-2 rounded-md text-white bg-blue-600 hover:bg-blue-700 transition font-semibold text-sm shadow-lg min-h-[44px] min-w-[44px]">
-            {{ copied === 'dialogAll' ? '全部已复制!' : '复制全部' }}
-          </button>
+          <button id="dialog-copy-all-btn" class="px-4 py-2 rounded-md text-white bg-blue-600 hover:bg-blue-700 transition font-semibold text-sm shadow-lg">复制全部</button>
         </div>
       </div>
-      </transition>
     </div>
-    </transition>
 
-    <!-- Toast 通知 -->
-    <div class="fixed right-4 bottom-4 w-full max-w-xs space-y-2 z-50">
-      <transition-group
-        enter-active-class="animate-toast-in"
-        leave-active-class="transition-opacity duration-300 ease-in"
-        leave-to-class="opacity-0"
-      >
-        <div v-for="t in toasts" :key="t.id"
-             class="flex items-start gap-3 w-full p-3 rounded-lg shadow-2xl text-white text-sm min-h-[44px]"
-             :class="{
-               'bg-blue-600': t.type==='info',
-               'bg-green-600': t.type==='success',
-               'bg-rose-600': t.type==='error',
-               'bg-amber-500': t.type==='warn'
-             }">
-          <div class="flex-shrink-0">
-            <svg v-if="t.type==='success'" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>
-            <svg v-else-if="t.type==='error'" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" /></svg>
-            <svg v-else class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" /></svg>
-          </div>
-          <div class="flex-1">{{ t.text }}</div>
-          <button @click="removeToast(t.id)" class="ml-2 -mr-1 p-1 rounded-full hover:bg-white/20 transition-colors min-h-[44px] min-w-[44px]">
-            <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z"/></svg>
-          </button>
-        </div>
-      </transition-group>
-    </div>
+    <!-- Toast 通知容器 -->
+    <div id="toast-container" class="fixed right-4 bottom-4 w-full max-w-xs space-y-2 z-50"></div>
   </div>
 
   <script>
-    const { createApp, ref, computed, onMounted, watch } = Vue;
+    (function() {
+      // --- CONSTANTS ---
+      const HISTORY_KEY = 'siliconflow_balance_query_history_v3';
+      const PREFS_KEY = 'siliconflow_balance_prefs_v1';
+      const API_URL = 'https://api.siliconflow.cn/v1/user/info';
+      const CONCURRENCY = 6;
 
-    // --- CONSTANTS ---
-    const HISTORY_KEY = 'siliconflow_balance_query_history_v3';
-    const PREFS_KEY = 'siliconflow_balance_prefs_v1';
-    const API_URL = 'https://api.siliconflow.cn/v1/user/info';
+      // --- STATE ---
+      const state = {
+        results: [],
+        loading: false,
+        isDark: true,
+        progress: { total: 0, done: 0 },
+        filterStatus: 'all',
+        searchTerm: '',
+        history: {},
+        activeHistoryId: null,
+        stopRequested: false,
+        controllers: new Map(),
+      };
 
-    createApp({
-      setup() {
-        // --- STATE REFS ---
-        const apiKeysInput = ref('');
-        const results = ref([]);
-        const loading = ref(false);
-        const error = ref('');
-        const isDark = ref(true); // Default to dark
-        const copied = ref(null);
-        const concurrency = ref(6);
-        const controllers = ref(new Map());
-        const stopRequested = ref(false);
-        const progress = ref({ total: 0, done: 0 });
-        const filterStatus = ref('all');
-        const searchTerm = ref('');
-        const maskKeys = ref(true);
-        const history = ref({});
-        const activeHistoryId = ref(null);
-        const showDialog = ref(false);
-        const dialogType = ref('');
-        const dialogTitle = ref('');
-        const dialogKeys = ref([]);
-        const toasts = ref([]);
+      // --- DOM ELEMENTS CACHE ---
+      const DOMElements = {
+        html: document.documentElement,
+        darkModeToggle: document.getElementById('dark-mode-toggle'),
+        sunIcon: document.getElementById('sun-icon'),
+        moonIcon: document.getElementById('moon-icon'),
+        apiKeysTextarea: document.getElementById('api-keys'),
+        queryBtn: document.getElementById('query-btn'),
+        querySpinner: document.getElementById('query-spinner'),
+        queryBtnText: document.getElementById('query-btn-text'),
+        pasteBtn: document.getElementById('paste-btn'),
+        clearBtn: document.getElementById('clear-btn'),
+        keyCount: document.getElementById('key-count'),
+        progressBarContainer: document.getElementById('progress-bar-container'),
+        progressBar: document.getElementById('progress-bar'),
+        errorMessage: document.getElementById('error-message'),
+        resultsArea: document.getElementById('results-area'),
+        totalBalance: document.getElementById('total-balance'),
+        validWithBalanceCount: document.getElementById('valid-with-balance-count'),
+        validNoBalanceCount: document.getElementById('valid-no-balance-count'),
+        invalidCount: document.getElementById('invalid-count'),
+        filterButtons: document.getElementById('filter-buttons'),
+        searchTermInput: document.getElementById('search-term'),
+        copyVisibleBtn: document.getElementById('copy-visible-btn'),
+        exportCsvBtn: document.getElementById('export-csv-btn'),
+        resultsTableBody: document.getElementById('results-table-body'),
+        noResultsMessage: document.getElementById('no-results-message'),
+        historyList: document.getElementById('history-list'),
+        noHistoryMessage: document.getElementById('no-history-message'),
+        clearHistoryBtn: document.getElementById('clear-history-btn'),
+        dialog: document.getElementById('dialog'),
+        dialogTitle: document.getElementById('dialog-title'),
+        dialogCloseBtn: document.getElementById('dialog-close-btn'),
+        dialogKeysList: document.getElementById('dialog-keys-list'),
+        dialogCopyAllBtn: document.getElementById('dialog-copy-all-btn'),
+        toastContainer: document.getElementById('toast-container'),
+      };
 
-        // --- COMPUTED PROPERTIES ---
-        const currency = new Intl.NumberFormat('zh-CN', { minimumFractionDigits: 4, maximumFractionDigits: 4 });
-        const keysParsed = computed(() => apiKeysInput.value.split(/[\n,]/).map(s => s.trim()).filter(Boolean));
-        const keysUnique = computed(() => Array.from(new Set(keysParsed.value)));
-        const keysCount = computed(() => keysParsed.value.length);
-        const dedupCount = computed(() => keysUnique.value.length);
+      // --- HELPERS ---
+      const currency = new Intl.NumberFormat('zh-CN', { minimumFractionDigits: 4, maximumFractionDigits: 4 });
+      const formatMoney = (n) => currency.format(isFinite(Number(n)) ? Number(n) : 0);
+      const maskKey = (key) => key && key.length > 8 ? `${key.slice(0, 4)}...${key.slice(-4)}` : key;
+      const getUniqueKeys = () => Array.from(new Set(DOMElements.apiKeysTextarea.value.split(/[\n,]/).map(s => s.trim()).filter(Boolean)));
+
+      // --- UI & UX LOGIC ---
+      function addToast(text, type = 'info', ttl = 3000) {
+        const toast = document.createElement('div');
+        const colors = {
+          info: 'bg-blue-600', success: 'bg-green-600',
+          error: 'bg-rose-600', warn: 'bg-amber-500'
+        };
+        const icons = {
+          success: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>`,
+          error: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" /></svg>`,
+          default: `<svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" /></svg>`
+        };
+        toast.className = `flex items-start gap-3 w-full p-3 rounded-lg shadow-2xl text-white text-sm animate-toast-in ${colors[type] || colors.info}`;
+        toast.innerHTML = `
+          <div class="flex-shrink-0">${icons[type] || icons.default}</div>
+          <div class="flex-1">${text}</div>
+          <button class="ml-2 -mr-1 p-1 rounded-full hover:bg-white/20 transition-colors">
+            <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z"/></svg>
+          </button>`;
         
-        const validApiKeysWithBalance = computed(() => results.value.filter(r => !r.error && Number(r.totalBalance) > 0).map(r => r.apiKey));
-        const validApiKeysNoBalance = computed(() => results.value.filter(r => !r.error && Number(r.totalBalance) === 0).map(r => r.apiKey));
-        const invalidApiKeys = computed(() => results.value.filter(r => r.error).map(r => r.apiKey));
+        const removeToast = () => {
+          toast.classList.remove('animate-toast-in');
+          toast.classList.add('opacity-0', 'transition-opacity', 'duration-300');
+          setTimeout(() => toast.remove(), 300);
+        };
+        
+        toast.querySelector('button').onclick = removeToast;
+        DOMElements.toastContainer.appendChild(toast);
+        if (ttl) setTimeout(removeToast, ttl);
+      }
 
-        const validWithBalanceCount = computed(() => validApiKeysWithBalance.value.length);
-        const validNoBalanceCount = computed(() => validApiKeysNoBalance.value.length);
-        const invalidCount = computed(() => invalidApiKeys.value.length);
-
-        const totalBalance = computed(() => results.value.filter(r => !r.error).reduce((sum, r) => sum + parseFloat(r.totalBalance || 0), 0));
-
-        const filteredResults = computed(() => {
-          let list = results.value.slice();
-          if (filterStatus.value === 'hasBalance') list = list.filter(r => !r.error && Number(r.totalBalance) > 0);
-          else if (filterStatus.value === 'noBalance') list = list.filter(r => !r.error && Number(r.totalBalance) === 0);
-          else if (filterStatus.value === 'invalid') list = list.filter(r => !!r.error);
-          
-          const q = searchTerm.value.trim().toLowerCase();
-          if (q) {
-            list = list.filter(r => r.apiKey.toLowerCase().includes(q));
+      async function copyToClipboard(text, btn) {
+        try {
+          await navigator.clipboard.writeText(text || '');
+          addToast('已复制', 'success');
+          if(btn) {
+            const originalText = btn.textContent;
+            btn.textContent = '已复制!';
+            setTimeout(() => { btn.textContent = originalText; }, 2000);
           }
-          return list;
+        } catch { addToast('复制失败', 'error'); }
+      }
+
+      function openDialog(type) {
+        let title, keys, titleClass;
+        const validWithBalance = state.results.filter(r => !r.error && Number(r.totalBalance) > 0);
+        const validNoBalance = state.results.filter(r => !r.error && Number(r.totalBalance) === 0);
+        const invalid = state.results.filter(r => r.error);
+        
+        if (type === 'success') {
+          if (!validWithBalance.length) return;
+          title = `有余额的 Key (${validWithBalance.length} 个)`;
+          keys = validWithBalance.map(r => r.apiKey);
+          titleClass = 'text-green-600 dark:text-green-400';
+        } else if (type === 'warning') {
+          if (!validNoBalance.length) return;
+          title = `无余额的 Key (${validNoBalance.length} 个)`;
+          keys = validNoBalance.map(r => r.apiKey);
+          titleClass = 'text-amber-600 dark:text-amber-400';
+        } else {
+          if (!invalid.length) return;
+          title = `无效的 Key (${invalid.length} 个)`;
+          keys = invalid.map(r => r.apiKey);
+          titleClass = 'text-rose-600 dark:text-rose-400';
+        }
+        
+        DOMElements.dialogTitle.textContent = title;
+        DOMElements.dialogTitle.className = `font-semibold text-lg ${titleClass}`;
+        
+        DOMElements.dialogKeysList.innerHTML = keys.map((k, idx) => `
+          <div class="flex items-center gap-3 p-2 rounded-lg hover:bg-white/20 dark:hover:bg-slate-800/40">
+            <div class="flex-1 rounded-md px-3 py-2 font-mono break-all text-sm bg-white/30 dark:bg-slate-800/50 border border-slate-300 dark:border-slate-700">${k}</div>
+            <button data-key="${k}" class="dialog-copy-btn flex-shrink-0 px-3 py-2 rounded-md border border-slate-300 dark:border-slate-700 hover:border-blue-500/50 hover:bg-blue-500/10 text-sm min-w-[70px] transition-colors">复制</button>
+          </div>`).join('');
+        
+        DOMElements.dialogCopyAllBtn.dataset.keys = keys.join('\n');
+        DOMElements.dialog.classList.remove('hidden');
+      }
+
+      function closeDialog() {
+        DOMElements.dialog.classList.add('hidden');
+      }
+
+
+      // --- RENDER LOGIC ---
+      function renderTable() {
+        let filtered = state.results.slice();
+        if (state.filterStatus === 'hasBalance') filtered = filtered.filter(r => !r.error && Number(r.totalBalance) > 0);
+        else if (state.filterStatus === 'noBalance') filtered = filtered.filter(r => !r.error && Number(r.totalBalance) === 0);
+        else if (state.filterStatus === 'invalid') filtered = filtered.filter(r => !!r.error);
+
+        if (state.searchTerm) {
+          const q = state.searchTerm.trim().toLowerCase();
+          filtered = filtered.filter(r => r.apiKey.toLowerCase().includes(q));
+        }
+
+        DOMElements.copyVisibleBtn.disabled = !filtered.length;
+        
+        if (!filtered.length) {
+          DOMElements.resultsTableBody.innerHTML = '';
+          DOMElements.noResultsMessage.classList.remove('hidden');
+          return;
+        }
+
+        DOMElements.noResultsMessage.classList.add('hidden');
+        DOMElements.resultsTableBody.innerHTML = filtered.map((r, i) => {
+          let statusHtml, balanceChange;
+          if (r.error) {
+            statusHtml = `<span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-rose-100 text-rose-800 dark:bg-rose-900/50 dark:text-rose-300">无效</span>`;
+            balanceChange = { text: '--', class: 'text-slate-400' };
+          } else {
+            statusHtml = Number(r.totalBalance) > 0
+              ? `<span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-300">有余额</span>`
+              : `<span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800 dark:bg-amber-900/50 dark:text-amber-300">无余额</span>`;
+            balanceChange = getBalanceChange(r.apiKey);
+          }
+
+          return `
+            <tr class="border-b border-slate-200/30 dark:border-slate-700/30 hover:bg-blue-500/5 dark:hover:bg-blue-500/10">
+              <td class="p-3 text-slate-500 dark:text-slate-400">${i + 1}</td>
+              <td class="p-3 font-mono" title="${r.apiKey}">${maskKey(r.apiKey)}</td>
+              <td class="p-3">${statusHtml}</td>
+              <td class="p-3 text-right font-medium text-slate-800 dark:text-slate-100">${r.error ? '--' : formatMoney(r.totalBalance)}</td>
+              <td class="p-3 text-right ${balanceChange.class}">${balanceChange.text}</td>
+              <td class="p-3 text-right text-slate-500 dark:text-slate-400">${r.error ? '--' : formatMoney(r.giftBalance)}</td>
+              <td class="p-3 text-right text-slate-500 dark:text-slate-400">${r.error ? '--' : formatMoney(r.chargeBalance)}</td>
+              <td class="p-3 text-center">
+                <button data-key="${r.apiKey}" class="copy-key-btn text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium transition-colors">复制</button>
+              </td>
+            </tr>`;
+        }).join('');
+      }
+
+      function renderSummaryCards() {
+        const validWithBalance = state.results.filter(r => !r.error && Number(r.totalBalance) > 0);
+        const validNoBalance = state.results.filter(r => !r.error && Number(r.totalBalance) === 0);
+        const invalid = state.results.filter(r => r.error);
+        const total = state.results.filter(r => !r.error).reduce((sum, r) => sum + parseFloat(r.totalBalance || 0), 0);
+
+        DOMElements.totalBalance.textContent = formatMoney(total);
+        DOMElements.validWithBalanceCount.textContent = validWithBalance.length;
+        DOMElements.validNoBalanceCount.textContent = validNoBalance.length;
+        DOMElements.invalidCount.textContent = invalid.length;
+      }
+
+      function renderHistory() {
+        const sorted = Object.values(state.history).sort((a, b) => new Date(b.snapshots[0].date) - new Date(a.snapshots[0].date));
+        
+        if (!sorted.length) {
+          DOMElements.historyList.innerHTML = '';
+          DOMElements.noHistoryMessage.classList.remove('hidden');
+          DOMElements.clearHistoryBtn.classList.add('hidden');
+          return;
+        }
+
+        DOMElements.noHistoryMessage.classList.add('hidden');
+        DOMElements.clearHistoryBtn.classList.remove('hidden');
+        DOMElements.historyList.innerHTML = sorted.map(item => `
+          <li data-history-id="${item.id}" class="history-item rounded-lg p-4 cursor-pointer transition-all border ${item.id === state.activeHistoryId ? 'bg-blue-500/10 border-blue-500/30' : 'bg-white/30 dark:bg-slate-800/40 border-slate-300 dark:border-slate-700 hover:border-blue-500/30 hover:bg-blue-500/5'}">
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+              <div class="min-w-0 flex-1">
+                <div class="text-xs text-slate-500 dark:text-slate-400">${item.apiKeys.length} Keys</div>
+                <div class="text-sm mt-1.5">
+                  <span class="text-slate-500">${new Date(item.snapshots[0].date).toLocaleString('zh-CN')}</span>
+                  <span class="mx-2 text-slate-400">|</span>
+                  <span class="font-semibold text-blue-600 dark:text-blue-400">${formatMoney(item.snapshots[0].totalBalance)} 元</span>
+                  <span class="text-slate-400"> (${item.snapshots.length} 次查询)</span>
+                </div>
+              </div>
+              <button data-history-id="${item.id}" class="history-requery-btn flex-shrink-0 px-3 py-2 text-sm rounded-md bg-white/60 dark:bg-slate-800/80 hover:bg-white/90 dark:hover:bg-slate-700/80 transition-colors border border-slate-300 dark:border-slate-700 font-medium">重新查询</button>
+            </div>
+          </li>`).join('');
+      }
+
+      function updateUI() {
+        // Update key count
+        const keys = getUniqueKeys();
+        if (keys.length) {
+          DOMElements.keyCount.textContent = `去重后 ${keys.length} 个`;
+          DOMElements.keyCount.classList.remove('hidden');
+        } else {
+          DOMElements.keyCount.classList.add('hidden');
+        }
+        
+        // Update query button state
+        DOMElements.queryBtn.disabled = !keys.length && !state.loading;
+        if (state.loading) {
+          DOMElements.queryBtn.classList.remove('bg-blue-600', 'hover:bg-blue-700');
+          DOMElements.queryBtn.classList.add('bg-rose-600', 'hover:bg-rose-700');
+          DOMElements.querySpinner.classList.remove('hidden');
+          DOMElements.queryBtnText.textContent = `查询中 (${state.progress.done}/${state.progress.total})`;
+        } else {
+          DOMElements.queryBtn.classList.add('bg-blue-600', 'hover:bg-blue-700');
+          DOMElements.queryBtn.classList.remove('bg-rose-600', 'hover:bg-rose-700');
+          DOMElements.querySpinner.classList.add('hidden');
+          DOMElements.queryBtnText.textContent = '查询余额';
+        }
+
+        // Update progress bar
+        DOMElements.progressBarContainer.classList.toggle('hidden', !state.loading);
+        const percent = state.progress.total ? Math.round((state.progress.done / state.progress.total) * 100) : 0;
+        DOMElements.progressBar.style.width = `${percent}%`;
+
+        // Update results area
+        DOMElements.resultsArea.classList.toggle('hidden', !state.results.length);
+        if (state.results.length) {
+          renderSummaryCards();
+          renderTable();
+        }
+        DOMElements.exportCsvBtn.disabled = !state.results.length;
+
+        // Update history
+        renderHistory();
+      }
+
+      // --- CORE LOGIC & API ---
+      async function fetchKey(apiKey, signal) {
+        try {
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort('timeout'), 15000);
+          signal?.addEventListener('abort', () => controller.abort(), { once: true });
+
+          const res = await fetch(API_URL, { headers: { Authorization: `Bearer ${apiKey}` }, signal: controller.signal });
+          clearTimeout(timeoutId);
+
+          if (res.status === 401) throw new Error('API Key 无效');
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          
+          const data = await res.json();
+          if (!data?.data) throw new Error('返回数据格式异常');
+          
+          return { apiKey, ...data.data, giftBalance: data.data.balance || '0', error: null };
+        } catch (e) {
+          const msg = e.name === 'AbortError' ? (state.stopRequested ? '用户取消' : '请求超时') : (e.message || '查询失败');
+          return { apiKey, error: msg };
+        }
+      }
+
+      async function runWithConcurrency(keys, limit) {
+        state.progress = { total: keys.length, done: 0 };
+        state.controllers.clear();
+        state.stopRequested = false;
+        state.results = keys.map(k => ({ apiKey: k, error: 'pending' }));
+        updateUI();
+
+        let index = 0;
+        const runners = Array(Math.min(limit, keys.length)).fill(0).map(async () => {
+          while (!state.stopRequested && index < keys.length) {
+            const i = index++;
+            const key = keys[i];
+            const ctrl = new AbortController();
+            state.controllers.set(key, ctrl);
+            
+            const res = await fetchKey(key, ctrl.signal);
+            state.controllers.delete(key);
+            
+            state.results[i] = res;
+            state.progress.done++;
+            updateUI();
+          }
+        });
+        await Promise.all(runners);
+      }
+
+      async function fetchBalances() {
+        const keys = getUniqueKeys();
+        if (!keys.length) return addToast('请输入至少一个 API Key', 'warn');
+        DOMElements.errorMessage.textContent = '';
+        state.loading = true;
+        updateUI();
+        
+        await runWithConcurrency(keys, CONCURRENCY);
+        
+        if (!state.stopRequested) {
+          addToast('查询完成', 'success');
+          saveToHistory();
+          DOMElements.resultsArea.scrollIntoView({ behavior: 'smooth' });
+        }
+        state.loading = false;
+        updateUI();
+      }
+
+      function cancelAll() {
+        state.stopRequested = true;
+        state.controllers.forEach(c => c.abort());
+        state.controllers.clear();
+        addToast('已取消查询', 'warn');
+        state.loading = false;
+        updateUI();
+      }
+
+      // --- HISTORY & PERSISTENCE ---
+      function saveToHistory() {
+        const keys = getUniqueKeys();
+        if(!keys.length) return;
+        const groupId = keys.slice().sort().join('|');
+        const snapshot = {
+          date: new Date().toISOString(),
+          results: JSON.parse(JSON.stringify(state.results)),
+          totalBalance: state.results.filter(r => !r.error).reduce((sum, r) => sum + parseFloat(r.totalBalance || 0), 0),
+        };
+
+        if (state.history[groupId]) {
+          state.history[groupId].snapshots.unshift(snapshot);
+          state.history[groupId].snapshots.splice(10); // Limit snapshots
+        } else {
+          state.history[groupId] = { id: groupId, apiKeys: keys.slice(), snapshots: [snapshot] };
+        }
+        state.activeHistoryId = groupId;
+        
+        const groups = Object.values(state.history).sort((a,b) => new Date(b.snapshots[0].date) - new Date(a.snapshots[0].date));
+        if (groups.length > 30) {
+          delete state.history[groups[groups.length - 1].id];
+        }
+        localStorage.setItem(HISTORY_KEY, JSON.stringify(state.history));
+      }
+
+      function getBalanceChange(apiKey) {
+        const group = state.history[state.activeHistoryId];
+        if (!group || group.snapshots.length < 2) return { text: '首次', class: 'text-slate-400' };
+
+        const cur = group.snapshots[0].results.find(r => r.apiKey === apiKey);
+        const prev = group.snapshots[1].results.find(r => r.apiKey === apiKey);
+        if (!cur || cur.error || !prev || prev.error) return { text: '--', class: 'text-slate-400' };
+
+        const diff = (parseFloat(cur.totalBalance) || 0) - (parseFloat(prev.totalBalance) || 0);
+        if (diff > 0.0001) return { text: `+${formatMoney(diff)}`, class: 'text-green-600 font-medium' };
+        if (diff < -0.0001) return { text: formatMoney(diff), class: 'text-rose-600 font-medium' };
+        return { text: '无变化', class: 'text-slate-500' };
+      }
+
+      function loadFromHistory(id) {
+        const item = state.history[id];
+        if (!item) return;
+        state.results = item.snapshots[0].results;
+        state.activeHistoryId = item.id;
+        DOMElements.errorMessage.textContent = '';
+        updateUI();
+        DOMElements.resultsArea.scrollIntoView({ behavior: 'smooth' });
+      }
+      
+      function reQueryFromHistory(id) {
+        const item = state.history[id];
+        if (!item) return;
+        DOMElements.apiKeysTextarea.value = item.apiKeys.join('\n');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        fetchBalances();
+      }
+
+      function clearHistory() {
+        if (confirm('确定清空所有历史记录吗？')) {
+          state.history = {};
+          state.results = [];
+          state.activeHistoryId = null;
+          localStorage.removeItem(HISTORY_KEY);
+          updateUI();
+          addToast('已清空历史', 'info');
+        }
+      }
+
+      function savePref(key, val) {
+        const prefs = JSON.parse(localStorage.getItem(PREFS_KEY) || '{}');
+        prefs[key] = val;
+        localStorage.setItem(PREFS_KEY, JSON.stringify(prefs));
+      }
+
+      function loadPrefs() {
+        const prefs = JSON.parse(localStorage.getItem(PREFS_KEY) || '{}');
+        state.isDark = typeof prefs.darkMode === 'boolean'
+          ? prefs.darkMode
+          : window.matchMedia?.('(prefers-color-scheme: dark)').matches;
+        updateDarkMode();
+      }
+
+      function updateDarkMode(){
+        DOMElements.html.classList.toggle('dark', state.isDark);
+        DOMElements.sunIcon.classList.toggle('hidden', state.isDark);
+        DOMElements.moonIcon.classList.toggle('hidden', !state.isDark);
+      }
+      
+      // --- EVENT BINDING ---
+      function bindEvents() {
+        DOMElements.darkModeToggle.addEventListener('click', () => {
+          state.isDark = !state.isDark;
+          updateDarkMode();
+          savePref('darkMode', state.isDark);
         });
 
-        const progressPercent = computed(() => progress.value.total ? Math.round((progress.value.done / progress.value.total) * 100) : 0);
-        const sortedHistory = computed(() => Object.values(history.value).sort((a, b) => new Date(b.snapshots[0].date) - new Date(a.snapshots[0].date)));
-
-        // --- UI & UX METHODS ---
-        const addToast = (text, type = 'info', ttl = 3000) => {
-          const t = { id: Date.now() + Math.random(), text, type };
-          toasts.value.push(t);
-          if (ttl) {
-            setTimeout(() => removeToast(t.id), ttl);
-          }
-        };
-        const removeToast = (id) => {
-          const idx = toasts.value.findIndex(x => x.id === id);
-          if (idx >= 0) toasts.value.splice(idx, 1);
-        };
-        const formatMoney = (n) => currency.format(isFinite(Number(n)) ? Number(n) : 0);
-        const maskKey = (key) => key && key.length > 8 ? `${key.slice(0, 4)}...${key.slice(-4)}` : key;
-        const displayKey = (key) => maskKeys.value ? maskKey(key) : key;
-        const toggleDarkMode = () => {
-          isDark.value = !isDark.value;
-          document.documentElement.classList.toggle('dark', isDark.value);
-          savePref('darkMode', isDark.value);
-        };
-        async function copyToClipboard(text, id) {
-          try {
-            await navigator.clipboard.writeText(text || '');
-            copied.value = id;
-            addToast('已复制', 'success');
-            setTimeout(() => { if (copied.value === id) copied.value = null; }, 2000);
-          } catch { addToast('复制失败', 'error'); }
-        }
-
-        // --- DIALOG (MODAL) METHODS ---
-        const openDialog = (type) => {
-          dialogType.value = type;
-          if (type === 'success') {
-            if (!validWithBalanceCount.value) return;
-            dialogTitle.value = `有余额的 Key (${validWithBalanceCount.value} 个)`;
-            dialogKeys.value = validApiKeysWithBalance.value;
-          } else if (type === 'warning') {
-            if (!validNoBalanceCount.value) return;
-            dialogTitle.value = `无余额的 Key (${validNoBalanceCount.value} 个)`;
-            dialogKeys.value = validApiKeysNoBalance.value;
-          } else {
-            if (!invalidCount.value) return;
-            dialogTitle.value = `无效的 Key (${invalidCount.value} 个)`;
-            dialogKeys.value = invalidApiKeys.value;
-          }
-          showDialog.value = true;
-        };
-        const closeDialog = () => { showDialog.value = false; };
-        const getDialogTitleClass = () => ({
-          'success': 'text-green-600 dark:text-green-400',
-          'warning': 'text-amber-600 dark:text-amber-400',
-          'error': 'text-rose-600 dark:text-rose-400',
-        }[dialogType.value] || '');
-        const copyDialogKeys = () => copyToClipboard(dialogKeys.value.join('\n'), 'dialogAll');
-
-        // --- CORE LOGIC & API ---
-        async function fetchKey(apiKey, signal) {
-          try {
-            const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort('timeout'), 15000);
-            signal?.addEventListener('abort', () => controller.abort(), { once: true });
-
-            const res = await fetch(API_URL, { headers: { Authorization: `Bearer ${apiKey}` }, signal: controller.signal });
-            clearTimeout(timeoutId);
-
-            if (res.status === 401) throw new Error('API Key 无效');
-            if (!res.ok) throw new Error(`HTTP ${res.status}`);
-            
-            const data = await res.json();
-            if (!data?.data) throw new Error('返回数据格式异常');
-
-            // 根据反馈，赠送余额字段是 balance
-            const giftBalance = data.data.balance || '0';
-            
-            return { apiKey, ...data.data, giftBalance, error: null };
-          } catch (e) {
-            const msg = e.name === 'AbortError' ? (stopRequested.value ? '用户取消' : '请求超时') : (e.message || '查询失败');
-            return { apiKey, error: msg };
-          }
-        }
-        
-        async function runWithConcurrency(keys, limit) {
-          progress.value = { total: keys.length, done: 0 };
-          controllers.value.clear();
-          stopRequested.value = false;
-          results.value = keys.map(k => ({ apiKey: k, error: 'pending' }));
-
-          let index = 0;
-          const runners = Array(Math.min(limit, keys.length)).fill(0).map(async () => {
-            while (!stopRequested.value && index < keys.length) {
-              const i = index++;
-              const key = keys[i];
-              const ctrl = new AbortController();
-              controllers.value.set(key, ctrl);
-              
-              const res = await fetchKey(key, ctrl.signal);
-              controllers.value.delete(key);
-              
-              results.value[i] = res;
-              progress.value.done++;
-            }
-          });
-          await Promise.all(runners);
-        }
-
-        async function fetchBalances() {
-          if (!dedupCount.value) return addToast('请输入至少一个 API Key', 'warn');
-          error.value = '';
-          loading.value = true;
-          await runWithConcurrency(keysUnique.value, concurrency.value);
-          if (!stopRequested.value) {
-            addToast('查询完成', 'success');
-            saveToHistory();
-            document.getElementById('results-area')?.scrollIntoView({ behavior: 'smooth' });
-          }
-          loading.value = false;
-        }
-
-        function cancelAll() {
-          stopRequested.value = true;
-          controllers.value.forEach(c => c.abort());
-          controllers.value.clear();
-          addToast('已取消查询', 'warn');
-          loading.value = false;
-        }
-
-        // --- HISTORY & PERSISTENCE ---
-        const saveToHistory = () => {
-          const groupId = keysUnique.value.slice().sort().join('|');
-          const snapshot = {
-            date: new Date().toISOString(),
-            results: JSON.parse(JSON.stringify(results.value)),
-            totalBalance: totalBalance.value,
-          };
-
-          if (history.value[groupId]) {
-            history.value[groupId].snapshots.unshift(snapshot);
-            // 限制单个历史组的快照数量为 10
-            history.value[groupId].snapshots.splice(10);
-          } else {
-            history.value[groupId] = { id: groupId, apiKeys: keysUnique.value.slice(), snapshots: [snapshot] };
-          }
-          activeHistoryId.value = groupId;
-          
-          // 限制历史组数量为 30
-          const groups = Object.values(history.value).sort((a,b) => new Date(b.snapshots[0].date) - new Date(a.snapshots[0].date));
-          if (groups.length > 30) {
-            delete history.value[groups[groups.length - 1].id];
-          }
-        };
-
-        const getBalanceChange = (apiKey) => {
-          const group = history.value[activeHistoryId.value];
-          if (!group || group.snapshots.length < 2) return { text: '首次', class: 'text-slate-400' };
-
-          const cur = group.snapshots[0].results.find(r => r.apiKey === apiKey);
-          const prev = group.snapshots[1].results.find(r => r.apiKey === apiKey);
-          if (!cur || cur.error || !prev || prev.error) return { text: '--', class: 'text-slate-400' };
-
-          const diff = (parseFloat(cur.totalBalance) || 0) - (parseFloat(prev.totalBalance) || 0);
-          if (diff > 0.0001) return { text: `+${formatMoney(diff)}`, class: 'text-green-600 font-medium' };
-          if (diff < -0.0001) return { text: formatMoney(diff), class: 'text-rose-600 font-medium' };
-          return { text: '无变化', class: 'text-slate-500' };
-        };
-
-        const loadFromHistory = (item) => {
-          results.value = item.snapshots[0].results;
-          activeHistoryId.value = item.id;
-          error.value = '';
-          document.getElementById('results-area')?.scrollIntoView({ behavior: 'smooth' });
-        };
-        
-        const reQueryFromHistory = (item) => {
-          apiKeysInput.value = item.apiKeys.join('\n');
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-          fetchBalances();
-        };
-
-        const clearHistory = () => {
-          if (confirm('确定清空所有历史记录吗？')) {
-            history.value = {};
-            results.value = [];
-            activeHistoryId.value = null;
-            addToast('已清空历史', 'info');
-          }
-        };
-
-        const savePref = (key, val) => {
-          const prefs = JSON.parse(localStorage.getItem(PREFS_KEY) || '{}');
-          prefs[key] = val;
-          localStorage.setItem(PREFS_KEY, JSON.stringify(prefs));
-        };
-
-        const loadPrefs = () => {
-          const prefs = JSON.parse(localStorage.getItem(PREFS_KEY) || '{}');
-          // 检查 localStorage 中是否有 darkMode 设置
-          if (typeof prefs.darkMode === 'boolean') {
-              isDark.value = prefs.darkMode;
-          } else {
-              // 否则，根据系统偏好设置
-              isDark.value = window.matchMedia?.('(prefers-color-scheme: dark)').matches;
-              savePref('darkMode', isDark.value);
-          }
-          document.documentElement.classList.toggle('dark', isDark.value);
-        };
-
-        // --- ACTIONS ---
-        const copyVisibleKeys = () => {
-          if (!filteredResults.value.length) return;
-          copyToClipboard(filteredResults.value.map(r => r.apiKey).join('\n'), 'copyVisible');
-        };
-
-        const exportCSV = () => {
-          if (!results.value.length) return;
-          const headers = ['#','API Key','状态','总余额 (元)','余额变化','赠送 (元)','充值 (元)'];
-          const rows = results.value.map((r, i) => [
-              i + 1,
-              r.apiKey,
-              r.error ? '无效' : (Number(r.totalBalance) > 0 ? '有余额' : '无余额'),
-              r.error ? '' : r.totalBalance,
-              r.error ? '' : getBalanceChange(r.apiKey).text,
-              r.error ? '' : r.giftBalance,
-              r.error ? '' : r.chargeBalance
-          ]);
-          const csv = [headers, ...rows].map(row =>
-            row.map(cell => `"${String(cell ?? '').replace(/"/g, '""')}"`).join(',')
-          ).join('\n');
-          const blob = new Blob([`\uFEFF${csv}`], { type: 'text/csv;charset=utf-8;' }); // Add BOM for Excel
-          const link = document.createElement('a');
-          link.href = URL.createObjectURL(blob);
-          link.download = `siliconflow_balances_${new Date().toISOString().slice(0,10)}.csv`;
-          link.click();
-          URL.revokeObjectURL(link.href);
-          addToast('CSV 已导出', 'success');
-        };
-
-        const pasteFromClipboard = async () => {
+        DOMElements.apiKeysTextarea.addEventListener('input', updateUI);
+        DOMElements.queryBtn.addEventListener('click', () => state.loading ? cancelAll() : fetchBalances());
+        DOMElements.clearBtn.addEventListener('click', () => {
+          DOMElements.apiKeysTextarea.value = '';
+          updateUI();
+        });
+        DOMElements.pasteBtn.addEventListener('click', async () => {
           try {
             const text = await navigator.clipboard.readText();
-            if (text) apiKeysInput.value = text;
-            addToast('已从剪贴板粘贴', 'success');
+            if (text) {
+              DOMElements.apiKeysTextarea.value = text;
+              updateUI();
+              addToast('已从剪贴板粘贴', 'success');
+            }
           } catch { addToast('无法访问剪贴板', 'error'); }
-        };
-
-        // --- LIFECYCLE HOOKS ---
-        onMounted(() => {
-          loadPrefs();
-          const savedHistory = localStorage.getItem(HISTORY_KEY);
-          if (savedHistory) {
-            try { history.value = JSON.parse(savedHistory); } catch { localStorage.removeItem(HISTORY_KEY); }
-          }
         });
+
+        DOMElements.filterButtons.addEventListener('click', (e) => {
+          const btn = e.target.closest('.filter-btn');
+          if (!btn) return;
+          state.filterStatus = btn.dataset.status;
+          DOMElements.filterButtons.querySelectorAll('.filter-btn').forEach(b => {
+            b.classList.remove('bg-blue-600', 'text-white');
+            b.classList.add('bg-white/60', 'dark:bg-slate-800/80', 'hover:bg-white/90', 'dark:hover:bg-slate-700/80');
+          });
+          btn.classList.add('bg-blue-600', 'text-white');
+          btn.classList.remove('bg-white/60', 'dark:bg-slate-800/80', 'hover:bg-white/90', 'dark:hover:bg-slate-700/80');
+          renderTable();
+        });
+
+        DOMElements.searchTermInput.addEventListener('input', (e) => {
+          state.searchTerm = e.target.value;
+          renderTable();
+        });
+
+        DOMElements.resultsTableBody.addEventListener('click', (e) => {
+           const btn = e.target.closest('.copy-key-btn');
+           if(btn) copyToClipboard(btn.dataset.key, btn);
+        });
+
+        DOMElements.historyList.addEventListener('click', (e) => {
+            const item = e.target.closest('.history-item');
+            const requeryBtn = e.target.closest('.history-requery-btn');
+            if (requeryBtn) {
+                reQueryFromHistory(requeryBtn.dataset.historyId);
+            } else if (item) {
+                loadFromHistory(item.dataset.historyId);
+            }
+        });
+
+        DOMElements.clearHistoryBtn.addEventListener('click', clearHistory);
         
-        watch(history, (val) => {
-          localStorage.setItem(HISTORY_KEY, JSON.stringify(val));
-        }, { deep: true });
-        
-        // --- RETURN ---
-        return {
-          apiKeysInput, results, loading, error, isDark, copied, concurrency, filterStatus, searchTerm, maskKeys,
-          history, activeHistoryId, showDialog, dialogType, dialogTitle, dialogKeys, toasts,
-          keysCount, dedupCount, progress, progressPercent, filteredResults,
-          validWithBalanceCount, validNoBalanceCount, invalidCount, totalBalance, sortedHistory,
-          fetchBalances, cancelAll, openDialog, closeDialog, getDialogTitleClass, copyDialogKeys,
-          copyToClipboard, copyVisibleKeys, exportCSV, loadFromHistory, reQueryFromHistory, clearHistory,
-          toggleDarkMode, formatMoney, maskKey, displayKey, getBalanceChange, pasteFromClipboard, removeToast
-        };
+        document.querySelectorAll('.summary-card-btn').forEach(btn => {
+           btn.addEventListener('click', () => openDialog(btn.dataset.dialogType));
+        });
+
+        DOMElements.dialogCloseBtn.addEventListener('click', closeDialog);
+        DOMElements.dialog.addEventListener('click', (e) => {
+            if(e.target === DOMElements.dialog) closeDialog();
+        });
+
+        DOMElements.dialogKeysList.addEventListener('click', e => {
+            const btn = e.target.closest('.dialog-copy-btn');
+            if(btn) copyToClipboard(btn.dataset.key, btn);
+        });
+
+        DOMElements.dialogCopyAllBtn.addEventListener('click', e => {
+            copyToClipboard(e.target.dataset.keys, e.target);
+        });
+
+        DOMElements.copyVisibleBtn.addEventListener('click', () => {
+            let filtered = state.results.slice();
+             if (state.filterStatus === 'hasBalance') filtered = filtered.filter(r => !r.error && Number(r.totalBalance) > 0);
+            else if (state.filterStatus === 'noBalance') filtered = filtered.filter(r => !r.error && Number(r.totalBalance) === 0);
+            else if (state.filterStatus === 'invalid') filtered = filtered.filter(r => !!r.error);
+            if (state.searchTerm) {
+                const q = state.searchTerm.trim().toLowerCase();
+                filtered = filtered.filter(r => r.apiKey.toLowerCase().includes(q));
+            }
+            if(filtered.length) copyToClipboard(filtered.map(r => r.apiKey).join('\n'));
+        });
+
+        DOMElements.exportCsvBtn.addEventListener('click', () => {
+            if (!state.results.length) return;
+            const headers = ['#','API Key','状态','总余额 (元)','余额变化','赠送 (元)','充值 (元)'];
+            const rows = state.results.map((r, i) => [
+                i + 1, r.apiKey,
+                r.error ? '无效' : (Number(r.totalBalance) > 0 ? '有余额' : '无余额'),
+                r.error ? '' : r.totalBalance,
+                r.error ? '' : getBalanceChange(r.apiKey).text,
+                r.error ? '' : r.giftBalance,
+                r.error ? '' : r.chargeBalance
+            ]);
+            const csv = [headers, ...rows].map(row =>
+                row.map(cell => `"${String(cell ?? '').replace(/"/g, '""')}"`).join(',')
+            ).join('\n');
+            const blob = new Blob([`\uFEFF${csv}`], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `siliconflow_balances_${new Date().toISOString().slice(0,10)}.csv`;
+            link.click();
+            URL.revokeObjectURL(link.href);
+            addToast('CSV 已导出', 'success');
+        });
       }
-    }).mount('#app');
+
+      // --- INITIALIZATION ---
+      function init() {
+        loadPrefs();
+        try {
+          state.history = JSON.parse(localStorage.getItem(HISTORY_KEY) || '{}');
+        } catch {
+          localStorage.removeItem(HISTORY_KEY);
+        }
+        bindEvents();
+        updateUI();
+      }
+
+      // Run on DOM ready
+      document.addEventListener('DOMContentLoaded', init);
+
+    })();
   </script>
 </body>
 </html>
