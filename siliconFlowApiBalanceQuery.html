@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" class="dark">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>硅基流动余额查询</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>硅基流动余额查询 (现代化重构版)</title>
 
   <!-- Vue 3 -->
   <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
@@ -11,411 +11,413 @@
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
-    tailwind.config = { darkMode: 'class' }
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          // 自定义动画
+          keyframes: {
+            'toast-in': {
+              'from': { transform: 'translateY(20px)', opacity: '0' },
+              'to': { transform: 'translateY(0)', opacity: '1' },
+            },
+            'fade-in': {
+              'from': { opacity: '0' },
+              'to': { opacity: '1' },
+            }
+          },
+          animation: {
+            'toast-in': 'toast-in 0.3s ease-out forwards',
+            'fade-in': 'fade-in 0.4s ease-out forwards',
+          }
+        }
+      }
+    }
   </script>
 
   <!-- Favicon (SVG) -->
-  <link
-    rel="icon"
-    type="image/svg+xml"
-    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%233B82F6;stop-opacity:1'/%3E%3Cstop offset='100%25' style='stop-color:%2310B981;stop-opacity:1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath fill='url(%23grad)' d='M50,5 C74.85,5 95,25.15 95,50 C95,74.85 74.85,95 50,95 C25.15,95 5,74.85 5,50 C5,25.15 25.15,5 50,5 Z M50,15 C30.67,15 15,30.67 15,50 C15,69.33 30.67,85 50,85 C69.33,85 85,69.33 85,50 C85,30.67 69.33,15 50,15 Z'/%3E%3Cpath fill='white' d='M50,25 C63.81,25 75,36.19 75,50 C75,63.81 63.81,75 50,75 C36.19,75 25,63.81 25,50 C25,36.19 36.19,25 50,25 Z'/%3E%3C/svg%3E"
-  />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%233B82F6;stop-opacity:1'/%3E%3Cstop offset='100%25' style='stop-color:%2310B981;stop-opacity:1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle fill='url(%23grad)' cx='50' cy='50' r='45'/%3E%3Cpath fill='white' d='M50,25 A25,25 0 1,1 50,75 A25,25 0 1,1 50,25 Z'/%3E%3C/svg%3E"/>
 
   <style>
     :root {
-      --font-sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Noto Sans, Arial, "Apple Color Emoji", "Segoe UI Emoji";
-      --color-bg: #0b1220;
-      --color-card: rgba(255,255,255,0.08);
-      --color-border: rgba(255,255,255,0.12);
-      --color-text: #0f172a;
-      --color-text-muted: #64748b;
-      --primary: #3b82f6;
-      --primary-strong: #2563eb;
-      --success: #10b981;
-      --warning: #f59e0b;
-      --error: #ef4444;
-    }
-    html:not(.dark) {
-      --color-bg: #f6f7fb;
-      --color-card: rgba(255,255,255,0.75);
-      --color-border: rgba(15,23,42,0.08);
-      --color-text: #0f172a;
-      --color-text-muted: #64748b;
+      --font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     }
     html { scroll-behavior: smooth; }
-    body { font-family: var(--font-sans); background: var(--color-bg); color: var(--color-text); transition: background .3s ease, color .3s ease; min-height: 100vh; }
+    body { font-family: var(--font-sans); background-color: #030712; color: #f9fafb; transition: background-color .3s, color .3s; }
+    html:not(.dark) body { background-color: #f3f4f6; color: #111827; }
     [v-cloak] { display: none; }
 
-    /* 背景渐变点缀 */
+    /* 背景装饰：更柔和的辉光效果 */
     .bg-deco {
-      position: fixed; inset: -20vh -10vw auto auto; width: 60vw; height: 60vh; pointer-events: none;
-      background: radial-gradient(600px 400px at 80% 20%, rgba(59,130,246,.18), transparent 55%),
-                  radial-gradient(500px 300px at 10% 70%, rgba(16,185,129,.14), transparent 60%);
-      filter: blur(12px);
-      z-index: 0;
+      position: fixed; inset: 0; pointer-events: none; z-index: -1; overflow: hidden;
+    }
+    .bg-deco::before {
+      content: ''; position: absolute; top: 0; left: 0; width: 60vw; height: 60vh;
+      background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, transparent 60%);
+      transform: translate(-30%, -30%); filter: blur(60px);
+    }
+    .bg-deco::after {
+      content: ''; position: absolute; bottom: 0; right: 0; width: 50vw; height: 50vh;
+      background: radial-gradient(circle, rgba(16, 185, 129, 0.12) 0%, transparent 60%);
+      transform: translate(30%, 30%); filter: blur(60px);
     }
 
-    /* 玻璃卡片 */
-    .glass {
-      position: relative;
-      background: var(--color-card);
-      border: 1px solid var(--color-border);
-      border-radius: 16px;
-      backdrop-filter: saturate(160%) blur(10px);
-      box-shadow: 0 8px 30px rgba(0,0,0,.06);
-      transition: border-color .25s ease, box-shadow .25s ease, background .25s ease;
+    /* 玻璃质感卡片：使用 Tailwind 的 background-opacity 和 border-opacity */
+    .glass-card {
+      border-radius: 0.75rem;
+      border-width: 1px;
+      border-color: rgba(255, 255, 255, 0.1);
+      background-color: rgba(107, 114, 128, 0.1);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
     }
-    .glass:hover { box-shadow: 0 12px 40px rgba(0,0,0,.08); }
-
-    /* 头部导航 */
-    .nav-blur {
-      background: linear-gradient(to bottom, rgba(255,255,255,.65), rgba(255,255,255,.35));
-      border-bottom: 1px solid var(--color-border);
-      backdrop-filter: blur(10px);
+    
+    @media (prefers-color-scheme: dark) {
+      .glass-card {
+        border-color: rgba(255, 255, 255, 0.1);
+        background-color: rgba(17, 24, 39, 0.2);
+      }
     }
-    html.dark .nav-blur {
-      background: linear-gradient(to bottom, rgba(17,24,39,.5), rgba(17,24,39,.25));
-    }
-
-    /* 开关样式 */
-    .switch {
-      width: 38px; height: 22px; border-radius: 9999px; position: relative; background: #cbd5e1;
-      transition: background .2s ease;
-    }
-    .switch:after {
-      content:''; width: 18px; height: 18px; background: #fff; border-radius: 9999px; position: absolute; top: 2px; left: 2px;
-      transition: transform .2s ease;
-      box-shadow: 0 2px 6px rgba(0,0,0,.15);
-    }
-    .switch.on { background: #60a5fa; }
-    .switch.on:after { transform: translateX(16px); }
-
-    /* 进度条 */
-    .progress-bar {
-      height: 8px; border-radius: 9999px; background: rgba(148,163,184,.25); overflow: hidden;
-    }
-    .progress-bar > span {
-      display: block; height: 100%; background: linear-gradient(90deg, #60a5fa, #34d399);
-      width: 0%; transition: width .3s ease;
-    }
-
-    /* 标签(筛选Chip) */
-    .chip {
-      padding: 6px 10px; border-radius: 9999px; border: 1px solid var(--color-border);
-      background: rgba(255,255,255,.45); cursor: pointer; user-select: none; transition: all .2s ease;
-    }
-    html.dark .chip { background: rgba(255,255,255,.06); }
-    .chip.active {
-      color: #0b1a36; background: #bfdbfe; border-color: transparent;
-    }
-    html.dark .chip.active {
-      color: #eaf2ff; background: rgba(59,130,246,.22); border-color: rgba(59,130,246,.5);
-    }
-
-    /* 表格细节 */
-    .table-sticky thead th {
-      position: sticky; top: 0; z-index: 1;
-      background: rgba(248,250,252,.7);
-    }
-    html.dark .table-sticky thead th { background: rgba(30,41,59,.7); }
-
-    /* Toast */
-    .toast {
-      animation: toast-in .25s ease;
-    }
-    @keyframes toast-in { from { transform: translateY(8px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-
-    /* 动效更友好 */
+    
+    /* 动效友好性 */
+    
+    /* 动效友好性 */
     @media (prefers-reduced-motion: reduce) {
-      * { animation: none !important; transition: none !important; }
+      *, ::before, ::after {
+        animation-delay: -1ms !important;
+        animation-duration: -1ms !important;
+        animation-iteration-count: 1 !important;
+        background-attachment: initial !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0s !important;
+        transition-delay: 0s !important;
+      }
     }
   </style>
 </head>
-<body>
+<body class="min-h-screen antialiased">
   <div class="bg-deco"></div>
 
-  <div id="app" v-cloak class="relative z-10">
+  <div id="app" v-cloak class="relative z-10 flex flex-col min-h-screen">
     <!-- 顶部导航 -->
-    <header class="nav-blur sticky top-0 z-20">
-      <div class="max-w-6xl mx-auto px-4">
-        <div class="flex items-center justify-between h-16">
-          <div class="flex items-center gap-2">
-            <img class="h-8 w-8" alt="logo" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%233B82F6;stop-opacity:1'/%3E%3Cstop offset='100%25' style='stop-color:%2310B981;stop-opacity:1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath fill='url(%23grad)' d='M50,5 C74.85,5 95,25.15 95,50 C95,74.85 74.85,95 50,95 C25.15,95 5,74.85 5,50 C5,25.15 25.15,5 50,5 Z M50,15 C30.67,15 15,30.67 15,50 C15,69.33 30.67,85 50,85 C69.33,85 85,69.33 85,50 C85,30.67 69.33,15 50,15 Z'/%3E%3Cpath fill='white' d='M50,25 C63.81,25 75,36.19 75,50 C75,63.81 63.81,75 50,75 C36.19,75 25,63.81 25,50 C25,36.19 36.19,25 50,25 Z'/%3E%3C/svg%3E">
-            <div class="font-semibold text-slate-900 dark:text-slate-100 text-[13px] sm:text-sm">余额查询</div>
-
-          </div>
-
+    <header class="sticky top-0 z-30 w-full border-b border-white/10 bg-white/30 backdrop-blur-lg dark:bg-slate-900/30">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16 min-h-[44px]">
           <div class="flex items-center gap-3">
-            <!-- 主题切换 -->
-            <button @click="toggleDarkMode" class="h-9 w-9 rounded-full border border-slate-200 dark:border-slate-700 bg-white/70 dark:bg-slate-800/70 flex items-center justify-center hover:border-blue-400 hover:text-blue-500 transition">
-              <svg v-if="!isDark" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 3v2m0 14v2m9-9h-2M5 12H3m15.364 6.364-1.414-1.414M7.05 7.05 5.636 5.636m12.728 0-1.414 1.414M7.05 16.95l-1.414 1.414M12 8a4 4 0 100 8 4 4 0 000-8z"/>
-              </svg>
-              <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M21.64 13a9 9 0 11-10.63-10.6 1 1 0 01.9.57A8 8 0 0020 12a8.26 8.26 0 01-.36 2.43 1 1 0 001.95.57A10.26 10.26 0 0021.64 13z"/>
-              </svg>
+            <h1 class="text-lg font-bold text-slate-800 dark:text-slate-200 min-h-[44px]">硅基流动余额查询</h1>
+          </div>
+          <div class="flex items-center gap-4">
+             <button @click="toggleDarkMode" class="h-9 w-9 rounded-full flex items-center justify-center text-slate-500 hover:text-blue-500 dark:text-slate-400 dark:hover:text-blue-400 bg-white/50 dark:bg-slate-800/50 transition-colors min-h-[44px] min-w-[44px]">
+              <svg v-if="!isDark" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+              <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" /></svg>
             </button>
           </div>
         </div>
       </div>
     </header>
 
-    <main class="max-w-6xl mx-auto px-4 py-6 space-y-6">
-
-      <!-- 输入 + 操作 -->
-      <section class="glass p-4 sm:p-5 space-y-4">
-        <div>
-          <label for="api-keys" class="block text-sm font-medium text-slate-700 dark:text-slate-200">API Key（可批量，一行一个或逗号分隔）</label>
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-8 sm:py-12">
+      <div class="space-y-8">
+        <!-- 输入区 -->
+        <section class="glass-card p-5 sm:p-6">
+          <label for="api-keys" class="text-base font-semibold text-slate-800 dark:text-slate-100 min-h-[44px]">API Key</label>
+          <p class="mt-1 text-sm text-slate-600 dark:text-slate-400 min-h-[44px]">可批量输入，支持换行或逗号分隔。</p>
           <textarea
             id="api-keys"
             v-model="apiKeysInput"
-            rows="5"
-            class="mt-2 w-full rounded-lg border border-slate-200 dark:border-slate-700 bg-white/70 dark:bg-slate-800/70 px-4 py-3 outline-none focus:ring-2 focus:ring-blue-400 placeholder:text-slate-400"
-            placeholder="支持两种输入方式：
-1. 一行一个 API Key
-2. 用英文逗号分隔多个 API Key"
+            rows="6"
+            class="mt-4 w-full rounded-lg border-0 bg-white/40 dark:bg-slate-800/60 p-4 text-sm font-mono placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:ring-2 focus:ring-blue-500 focus:outline-none transition min-h-[44px]"
+            placeholder="sk-..."
           ></textarea>
-          <div class="mt-2 flex flex-wrap gap-2 text-xs items-center">
-            <button @click="pasteFromClipboard" class="px-3 py-2 rounded-md border border-slate-200 dark:border-slate-700 hover:border-blue-400 hover:text-blue-500 transition">从剪贴板粘贴</button>
-            <button @click="apiKeysInput=''" class="px-3 py-2 rounded-md border border-slate-200 dark:border-slate-700 hover:border-rose-400 hover:text-rose-500 transition">清空输入</button>
-            <span class="text-slate-400 dark:text-slate-500 select-none" v-if="keysCount">已输入 {{ keysCount }} 个（去重后 {{ dedupCount }} 个）</span>
-            <button
-              @click="loading ? cancelAll() : fetchBalances()"
-              :disabled="!dedupCount && !loading"
-              class="px-3 py-2 rounded-md border transition text-xs"
-              :class="loading ? 'border-rose-400 text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-900/30' : 'border-blue-400 text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/30'"
-            >
-              <span v-if="loading" class="inline-flex items-center gap-2">
-                <svg class="animate-spin h-4 w-4" viewBox="0 0 24 24">
-                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
-                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4A4 4 0 008 12H4z"/>
-                </svg>
-                正在查询… ({{ progress.done }}/{{ progress.total }})
-              </span>
-              <span v-else>批量查询余额</span>
+          <div class="mt-6 flex-wrap items-center gap-6">
+            <button @click="loading ? cancelAll() : fetchBalances()" :disabled="!dedupCount && !loading"
+              class="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-md font-semibold text-sm transition-all shadow-sm disabled:opacity-50 disabled:cursor-not-allowed min-h-[4px] min-w-[44px]"
+              :class="loading ? 'bg-rose-600 hover:bg-rose-700 text-white' : 'bg-blue-600 hover:bg-blue-700 text-white'">
+              <svg v-if="loading" class="animate-spin h-4 w-4" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4A4 4 0 008 12H4z"/></svg>
+              <span v-if="loading">查询中 ({{ progress.done }}/{{ progress.total }})</span>
+              <span v-else>查询余额</span>
             </button>
-
-            <button @click="exportCSV" :disabled="!results.length" class="px-3 py-2 rounded-md border border-slate-200 dark:border-slate-700 hover:border-blue-400 hover:text-blue-500 transition text-xs disabled:opacity-50">
-              导出 CSV
-            </button>
+            <button @click="pasteFromClipboard" class="px-3 py-2 text-sm rounded-md bg-white/60 dark:bg-slate-800/80 hover:bg-white/90 dark:hover:bg-slate-700/80 transition-colors border border-slate-300 dark:border-slate-700 min-h-[44px] min-w-[44px]">粘贴</button>
+            <button @click="apiKeysInput=''" class="px-3 py-2 text-sm rounded-md bg-white/60 dark:bg-slate-800/80 hover:bg-white/90 dark:hover:bg-slate-700/80 transition-colors border border-slate-300 dark:border-slate-700 min-h-[44px] min-w-[44px]">清空</button>
+            <span v-if="keysCount" class="text-sm text-slate-500 dark:text-slate-400 select-none min-h-[44px]">去重后 {{ dedupCount }} 个</span>
           </div>
-        </div>
-
-        <div class="space-y-3">
-          <div v-if="loading" class="progress-bar">
-            <span :style="{ width: progressPercent + '%' }"></span>
+          <div v-if="loading" class="mt-4 h-2 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden min-h-[44px]">
+            <div class="h-full rounded-full bg-gradient-to-r from-blue-500 to-green-500 transition-all duration-300 ease-linear" :style="{ width: progressPercent + '%' }"></div>
           </div>
+          <p v-if="error" class="mt-3 text-sm text-rose-500 font-medium min-h-[44px]">{{ error }}</p>
+        </section>
 
-          <p v-if="error" class="text-sm text-rose-500">{{ error }}</p>
-        </div>
-      </section>
-
-      <!-- 统计 + 过滤 -->
-      <section v-if="results.length" class="glass p-4 sm:p-5 space-y-4" id="results-area">
-        <!-- 统计卡片 -->
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-          <div class="p-4 rounded-lg border border-slate-200 dark:border-slate-700 bg-white/60 dark:bg-slate-800/60">
-            <div class="text-xs text-slate-500">总余额 (元)</div>
-            <div class="mt-1 text-2xl font-bold text-blue-600 dark:text-blue-400">{{ formatMoney(totalBalance) }}</div>
-          </div>
-          <button @click="openDialog('success')" class="text-left p-4 rounded-lg border border-emerald-200/60 dark:border-emerald-700/60 bg-emerald-50/60 dark:bg-emerald-900/20 hover:shadow">
-            <div class="text-xs text-emerald-600 dark:text-emerald-300">有余额</div>
-            <div class="mt-1 text-2xl font-bold text-emerald-600">{{ validWithBalanceCount }}</div>
-          </button>
-          <button @click="openDialog('warning')" class="text-left p-4 rounded-lg border border-amber-200/60 dark:border-amber-700/60 bg-amber-50/60 dark:bg-amber-900/20 hover:shadow">
-            <div class="text-xs text-amber-600 dark:text-amber-300">无余额</div>
-            <div class="mt-1 text-2xl font-bold text-amber-600">{{ validNoBalanceCount }}</div>
-          </button>
-          <button @click="openDialog('error')" class="text-left p-4 rounded-lg border border-rose-200/60 dark:border-rose-700/60 bg-rose-50/60 dark:bg-rose-900/20 hover:shadow">
-            <div class="text-xs text-rose-600 dark:text-rose-300">无效</div>
-            <div class="mt-1 text-2xl font-bold text-rose-600">{{ invalidCount }}</div>
-          </button>
-        </div>
-
-        <!-- 过滤工具栏 -->
-        <div class="flex flex-col md:flex-row md:items-center gap-3 justify-between">
-          <div class="flex flex-wrap gap-2">
-            <span @click="filterStatus='all'"        :class="['chip', filterStatus==='all'&&'active']">全部</span>
-            <span @click="filterStatus='hasBalance'" :class="['chip', filterStatus==='hasBalance'&&'active']">有余额</span>
-            <span @click="filterStatus='noBalance'"  :class="['chip', filterStatus==='noBalance'&&'active']">无余额</span>
-            <span @click="filterStatus='invalid'"    :class="['chip', filterStatus==='invalid'&&'active']">无效</span>
-          </div>
-          <div class="flex items-center gap-2">
-            <input v-model.trim="searchTerm" type="text" class="w-full md:w-60 rounded-md border border-slate-200 dark:border-slate-700 bg-white/70 dark:bg-slate-800/70 px-3 py-2 outline-none focus:ring-2 focus:ring-blue-400 text-sm" placeholder="搜索 Key/ID" />
-            <button @click="copyVisibleKeys" :disabled="!filteredResults.length" class="rounded-md border border-slate-200 dark:border-slate-700 bg-white/70 dark:bg-slate-800/70 px-3 py-2 text-sm hover:border-blue-400 hover:text-blue-500 transition disabled:opacity-50">复制当前筛选</button>
-          </div>
-        </div>
-
-        <!-- 表格 -->
-        <div class="overflow-auto rounded-lg border border-slate-200 dark:border-slate-700">
-          <table class="min-w-full text-sm sm:text-base table-sticky">
-            <thead class="text-slate-500">
-              <tr>
-                <th class="px-3 py-2 text-left">#</th>
-                <th class="px-3 py-2 text-left">API Key</th>
-                <th class="px-3 py-2 text-left">状态</th>
-                <th class="px-3 py-2 text-left">赠送余额 (元)</th>
-                <th class="px-3 py-2 text-left">充值余额 (元)</th>
-                <th class="px-3 py-2 text-left">总余额 (元)</th>
-                <th class="px-3 py-2 text-left">余额变化</th>
-                <th class="px-3 py-2 text-left">操作</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(r, i) in filteredResults" :key="r.apiKey" class="border-t border-slate-100 dark:border-slate-800 hover:bg-blue-50/40 dark:hover:bg-slate-800/60">
-                <td class="px-3 py-2 align-top">{{ i + 1 }}</td>
-                <td class="px-3 py-2 align-top font-mono break-all">
-                  <span :title="r.apiKey">{{ displayKey(r.apiKey) }}</span>
-                </td>
-                <td class="px-3 py-2 align-top">
-                  <span v-if="r.error" class="text-rose-600 font-medium">无效</span>
-                  <span v-else-if="Number(r.totalBalance) > 0" class="text-emerald-600 font-medium">有效 | 有余额</span>
-                  <span v-else class="text-amber-600 font-medium">有效 | 无余额</span>
-                </td>
-                <td class="px-3 py-2 align-top">
-                  <span v-if="!r.error">{{ formatMoney(r.giftBalance) }}</span>
-                  <span v-else class="text-slate-400">N/A</span>
-                </td>
-                <td class="px-3 py-2 align-top">
-                  <span v-if="!r.error">{{ formatMoney(r.chargeBalance) }}</span>
-                  <span v-else class="text-slate-400">N/A</span>
-                </td>
-                <td class="px-3 py-2 align-top">
-                  <span v-if="!r.error">{{ formatMoney(r.totalBalance) }}</span>
-                  <span v-else class="text-slate-400">N/A</span>
-                </td>
-                <td class="px-3 py-2 align-top">
-                  <span v-if="!r.error" :class="getBalanceChange(r.apiKey).class">{{ getBalanceChange(r.apiKey).text }}</span>
-                  <span v-else class="text-slate-400">N/A</span>
-                </td>
-                <td class="px-3 py-2 align-top">
-                  <button @click="copyToClipboard(r.apiKey, 'row'+i)" class="px-3 py-2 rounded-md border border-slate-200 dark:border-slate-700 hover:border-blue-400 hover:text-blue-500 transition text-xs">
-                    {{ copied === 'row'+i ? '已复制!' : '复制' }}
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      <!-- 弹窗：按类别查看 Key -->
-      <div v-if="showDialog" class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-30" @click="closeDialog">
-        <div class="glass max-w-xl w-full p-4 sm:p-5 rounded-xl" @click.stop>
-          <div class="flex items-center justify-between">
-            <div class="font-semibold text-lg" :class="getDialogTitleClass()">{{ dialogTitle }}</div>
-            <button @click="closeDialog" class="h-8 w-8 rounded-full bg-white/80 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 flex items-center justify-center hover:bg-rose-500 hover:border-rose-500 hover:text-white transition-all duration-200 shadow">
-              <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 18L18 6M6 6l12 12"/></svg>
-            </button>
-          </div>
-          <div class="mt-4 max-h-[50vh] overflow-auto space-y-3">
-            <div v-for="(k, idx) in dialogKeys" :key="idx" class="flex items-center gap-3 p-2 rounded-lg hover:bg-white/40 dark:hover:bg-slate-800/40 transition-colors">
-              <div class="flex-1 bg-white/60 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 rounded-md px-3 py-2 font-mono break-all text-sm">{{ k }}</div>
-              <button @click="copyToClipboard(k, 'dialog'+idx)" class="px-3 py-2 rounded-md border border-slate-200 dark:border-slate-700 hover:border-blue-400 hover:text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/30 transition-all text-sm min-w-[60px]">
-                {{ copied === 'dialog'+idx ? '已复制!' : '复制' }}
-              </button>
-            </div>
-          </div>
-          <div class="mt-6 flex justify-end gap-3">
-            <button @click="copyDialogKeys" class="px-4 py-2 rounded-md text-white bg-blue-600 hover:bg-blue-700 transition text-sm font-medium shadow">
-              {{ copied === 'dialogAll' ? '已复制!' : '复制全部' }}
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- 历史记录 -->
-      <section v-if="sortedHistory.length" id="history-section" class="glass p-4 sm:p-5">
-        <div class="flex items-center justify-between">
-          <div class="font-medium">查询历史</div>
-          <button @click="clearHistory" class="px-3 py-2 rounded-md border border-slate-200 dark:border-slate-700 hover:border-rose-400 hover:text-rose-500 transition text-sm">清空历史记录</button>
-        </div>
-        <ul class="mt-3 space-y-2">
-          <li v-for="item in sortedHistory" :key="item.id" @click="loadFromHistory(item)"
-              :class="['p-3 rounded-lg border cursor-pointer transition',
-                       item.id===activeHistoryId ? 'border-blue-400 bg-blue-50/50 dark:bg-blue-900/20' : 'border-slate-200 dark:border-slate-700 hover:border-blue-300 hover:bg-blue-50/40 dark:hover:bg-slate-800/60']">
-            <div class="flex items-center justify-between gap-2">
-              <div class="min-w-0">
-                <div class="truncate text-xs text-slate-500">{{ item.apiKeys.length }} Keys: {{ item.apiKeys.map(maskKey).join(', ') }}</div>
-                <div class="text-sm mt-1">
-                  <span class="text-slate-500">{{ new Date(item.snapshots[0].date).toLocaleString('zh-CN') }}</span>
-                  <span class="mx-2 text-slate-400">|</span>
-                  总余额：<span class="font-semibold text-blue-600 dark:text-blue-400">{{ formatMoney(item.snapshots[0].totalBalance) }}</span>
-                  <span class="text-slate-400">（{{ item.snapshots.length }} 次查询）</span>
+        <!-- 结果区 -->
+        <transition name="fade">
+          <section v-if="results.length" id="results-area" class="space-y-6 animate-fade-in">
+            <!-- 统计卡片 -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              <!-- 定义一个 Vue 组件或者模板来简化 -->
+              <div class="glass-card p-5 flex items-center gap-4 min-h-[44px]">
+                <div class="flex-shrink-0 h-12 w-12 rounded-lg bg-blue-500/10 dark:bg-blue-500/20 flex items-center justify-center text-blue-500 dark:text-blue-400">
+                  <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12a2.25 2.25 0 00-2.25-2.25H15a3 3 0 11-6 0H5.25A2.25 2.25 0 003 12m18 0v6a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 18v-6m18 0V9M3 12V9m18 0a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 9m12 3a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                </div>
+                <div>
+                  <div class="text-sm text-slate-500 dark:text-slate-400 min-h-[44px]">总余额 (元)</div>
+                  <div class="mt-1 text-2xl font-bold text-blue-600 dark:text-blue-400 min-h-[44px]">{{ formatMoney(totalBalance) }}</div>
                 </div>
               </div>
-              <div class="flex items-center gap-2">
-                <button @click.stop="reQueryFromHistory(item)" class="px-3 py-2 rounded-md border border-slate-200 dark:border-slate-700 hover:border-blue-400 hover:text-blue-500 transition text-sm">重新查询</button>
+              <button @click="openDialog('success')" class="glass-card p-5 flex items-center gap-4 text-left group transition-all hover:scale-[1.02] hover:shadow-2xl">
+                <div class="flex-shrink-0 h-12 w-12 rounded-lg bg-green-500/10 dark:bg-green-500/20 flex items-center justify-center text-green-500 dark:text-green-400">
+                  <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                </div>
+                <div>
+                  <div class="text-sm text-green-600 dark:text-green-300 min-h-[44px]">有余额</div>
+                  <div class="mt-1 text-2xl font-bold text-green-600 dark:text-green-400 group-hover:text-green-500 min-h-[44px]">{{ validWithBalanceCount }}</div>
+                </div>
+              </button>
+              <button @click="openDialog('warning')" class="glass-card p-5 flex items-center gap-4 text-left group transition-all hover:scale-[1.02] hover:shadow-2xl">
+                 <div class="flex-shrink-0 h-12 w-12 rounded-lg bg-amber-500/10 dark:bg-amber-500/20 flex items-center justify-center text-amber-500 dark:text-amber-400">
+                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.86-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" /></svg>
+                 </div>
+                <div>
+                  <div class="text-sm text-amber-600 dark:text-amber-300 min-h-[44px]">无余额</div>
+                  <div class="mt-1 text-2xl font-bold text-amber-600 dark:text-amber-400 group-hover:text-amber-500 min-h-[44px]">{{ validNoBalanceCount }}</div>
+                </div>
+              </button>
+              <button @click="openDialog('error')" class="glass-card p-5 flex items-center gap-4 text-left group transition-all hover:scale-[1.02] hover:shadow-2xl">
+                 <div class="flex-shrink-0 h-12 w-12 rounded-lg bg-rose-500/10 dark:bg-rose-500/20 flex items-center justify-center text-rose-500 dark:text-rose-400">
+                   <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" /></svg>
+                 </div>
+                <div>
+                  <div class="text-sm text-rose-60 dark:text-rose-300 min-h-[44px]">无效</div>
+                  <div class="mt-1 text-2xl font-bold text-rose-600 dark:text-rose-40 group-hover:text-rose-500 min-h-[44px]">{{ invalidCount }}</div>
+                </div>
+              </button>
+            </div>
+
+            <!-- 工具栏和表格 -->
+            <div class="glass-card p-5 sm:p-6 space-y-4">
+              <!-- 过滤/搜索/操作 -->
+              <div class="flex flex-col md:flex-row md:items-center gap-4 justify-between">
+                <div class="flex items-center flex-wrap gap-2">
+                  <button @click="filterStatus='all'" :class="['px-3 py-2 text-sm rounded-full transition min-h-[44px] min-w-[44px]', filterStatus === 'all' ? 'bg-blue-600 text-white' : 'bg-white/60 dark:bg-slate-800/80 hover:bg-white/90 dark:hover:bg-slate-700/80']">全部</button>
+                  <button @click="filterStatus='hasBalance'" :class="['px-3 py-2 text-sm rounded-full transition min-h-[44px] min-w-[44px]', filterStatus === 'hasBalance' ? 'bg-blue-600 text-white' : 'bg-white/60 dark:bg-slate-800/80 hover:bg-white/90 dark:hover:bg-slate-700/80']">有余额</button>
+                  <button @click="filterStatus='noBalance'" :class="['px-3 py-2 text-sm rounded-full transition min-h-[44px] min-w-[44px]', filterStatus === 'noBalance' ? 'bg-blue-600 text-white' : 'bg-white/60 dark:bg-slate-800/80 hover:bg-white/90 dark:hover:bg-slate-700/80']">无余额</button>
+                  <button @click="filterStatus='invalid'" :class="['px-3 py-2 text-sm rounded-full transition min-h-[44px] min-w-[44px]', filterStatus === 'invalid' ? 'bg-blue-600 text-white' : 'bg-white/60 dark:bg-slate-800/80 hover:bg-white/90 dark:hover:bg-slate-700/80']">无效</button>
+                </div>
+                <div class="flex items-center gap-2">
+                  <input v-model.trim="searchTerm" type="text" class="w-full md:w-48 rounded-md border-0 bg-white/40 dark:bg-slate-800/60 px-3 py-2 text-sm placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:ring-2 focus:ring-blue-500 focus:outline-none transition min-h-[44px]" placeholder="搜索 Key..." />
+                  <button @click="copyVisibleKeys" :disabled="!filteredResults.length" class="px-3 py-2 text-sm rounded-md bg-white/60 dark:bg-slate-800/80 hover:bg-white/90 dark:hover:bg-slate-700/80 transition-colors border border-slate-300 dark:border-slate-700 disabled:opacity-50 min-h-[44px] min-w-[44px]">复制筛选</button>
+                  <button @click="exportCSV" :disabled="!results.length" class="px-3 py-2 text-sm rounded-md bg-white/60 dark:bg-slate-800/80 hover:bg-white/90 dark:hover:bg-slate-700/80 transition-colors border border-slate-300 dark:border-slate-700 disabled:opacity-50 min-h-[44px] min-w-[44px]">导出 CSV</button>
+                </div>
+              </div>
+
+              <!-- 表格 -->
+              <div class="overflow-x-auto">
+                <table class="min-w-full text-sm md:text-base">
+                  <thead class="text-left">
+                    <tr class="border-b border-slate-200/50 dark:border-slate-700/50 min-h-[44px]">
+                      <th class="p-3 font-semibold min-h-[44px]">#</th>
+                      <th class="p-3 font-semibold min-h-[44px]">API Key</th>
+                      <th class="p-3 font-semibold min-h-[44px]">状态</th>
+                      <th class="p-3 font-semibold text-right min-h-[44px]">总余额 (元)</th>
+                      <th class="p-3 font-semibold text-right min-h-[44px]">
+                        <span class="inline-flex items-center gap-1 group relative">
+                          余额变化
+                          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-slate-400" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" /></svg>
+                          <span class="absolute bottom-full mb-2 w-48 p-2 text-xs font-normal text-white bg-slate-800 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">与该组上次查询结果对比</span>
+                        </span>
+                      </th>
+                      <th class="p-3 font-semibold text-right min-h-[44px]">赠送 (元)</th>
+                      <th class="p-3 font-semibold text-right min-h-[44px]">充值 (元)</th>
+                      <th class="p-3 font-semibold text-center min-h-[44px]">操作</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="(r, i) in filteredResults" :key="r.apiKey" class="border-b border-slate-200/30 dark:border-slate-700/30 hover:bg-blue-500/5 dark:hover:bg-blue-500/10 min-h-[44px]">
+                      <td class="p-3 text-slate-500 dark:text-slate-400 min-h-[44px]">{{ i + 1 }}</td>
+                      <td class="p-3 font-mono min-h-[44px]" :title="r.apiKey">{{ displayKey(r.apiKey) }}</td>
+                      <td class="p-3 min-h-[44px]">
+                        <span v-if="r.error" class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-rose-100 text-rose-800 dark:bg-rose-900/50 dark:text-rose-300">无效</span>
+                        <span v-else-if="Number(r.totalBalance) > 0" class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-80 dark:bg-green-900/50 dark:text-green-30">有余额</span>
+                        <span v-else class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800 dark:bg-amber-90/50 dark:text-amber-300">无余额</span>
+                      </td>
+                      <td class="p-3 text-right font-medium min-h-[44px]">
+                        <span v-if="!r.error" class="text-slate-800 dark:text-slate-100">{{ formatMoney(r.totalBalance) }}</span>
+                        <span v-else class="text-slate-400">--</span>
+                      </td>
+                       <td class="p-3 text-right min-h-[44px]">
+                        <span v-if="!r.error" :class="getBalanceChange(r.apiKey).class">{{ getBalanceChange(r.apiKey).text }}</span>
+                        <span v-else class="text-slate-400">--</span>
+                      </td>
+                      <td class="p-3 text-right text-slate-500 dark:text-slate-400 min-h-[44px]">
+                        <span v-if="!r.error">{{ formatMoney(r.giftBalance) }}</span>
+                        <span v-else>--</span>
+                      </td>
+                      <td class="p-3 text-right text-slate-500 dark:text-slate-400 min-h-[44px]">
+                        <span v-if="!r.error">{{ formatMoney(r.chargeBalance) }}</span>
+                        <span v-else>--</span>
+                      </td>
+                      <td class="p-3 text-center min-h-[44px]">
+                        <button @click="copyToClipboard(r.apiKey, 'row'+i)" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium transition-colors min-h-[44px] min-w-[44px]">
+                          {{ copied === 'row'+i ? '已复制' : '复制' }}
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                 <div v-if="!filteredResults.length" class="text-center py-10 text-slate-500 min-h-[44px]">
+                   没有匹配的结果
+                 </div>
               </div>
             </div>
-          </li>
-        </ul>
-      </section>
+          </section>
+        </transition>
+
+        <!-- 历史记录 -->
+        <section id="history-section" class="glass-card p-5 sm:p-6">
+          <div class="flex items-center justify-between">
+            <h2 class="text-lg font-semibold text-slate-800 dark:text-slate-100 min-h-[44px]">查询历史</h2>
+            <button v-if="sortedHistory.length" @click="clearHistory" class="px-3 py-2 text-sm rounded-md bg-white/60 dark:bg-slate-800/80 hover:bg-rose-100 text-rose-600 dark:hover:bg-rose-900/50 dark:text-rose-400 transition-colors border border-slate-300 dark:border-slate-700 min-h-[44px] min-w-[44px]">清空历史</button>
+          </div>
+          <ul v-if="sortedHistory.length" class="mt-4 space-y-3">
+            <li v-for="item in sortedHistory" :key="item.id" @click="loadFromHistory(item)"
+                class="rounded-lg p-4 cursor-pointer transition-all border min-h-[44px]"
+                :class="item.id === activeHistoryId ? 'bg-blue-500/10 border-blue-500/30' : 'bg-white/30 dark:bg-slate-800/40 border-slate-300 dark:border-slate-700 hover:border-blue-500/30 hover:bg-blue-500/5'">
+              <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                <div class="min-w-0 flex-1">
+                  <div class="text-xs text-slate-500 dark:text-slate-400">
+                    {{ item.apiKeys.length }} Keys
+                  </div>
+                  <div class="text-sm mt-1.5 min-h-[44px]">
+                    <span class="text-slate-500">{{ new Date(item.snapshots[0].date).toLocaleString('zh-CN') }}</span>
+                    <span class="mx-2 text-slate-400">|</span>
+                    <span class="font-semibold text-blue-600 dark:text-blue-400">{{ formatMoney(item.snapshots[0].totalBalance) }} 元</span>
+                    <span class="text-slate-400"> ({{ item.snapshots.length }} 次查询)</span>
+                  </div>
+                </div>
+                <button @click.stop="reQueryFromHistory(item)" class="flex-shrink-0 px-3 py-2 text-sm rounded-md bg-white/60 dark:bg-slate-800/80 hover:bg-white/90 dark:hover:bg-slate-700/80 transition-colors border border-slate-300 dark:border-slate-700 font-medium min-h-[4px] min-w-[44px]">重新查询</button>
+              </div>
+            </li>
+          </ul>
+           <div v-else class="text-center py-10 text-slate-500 min-h-[44px]">
+             暂无历史记录
+           </div>
+        </section>
+      </div>
     </main>
 
-    <!-- Toast -->
-    <div class="fixed right-4 bottom-4 space-y-2 z-40">
-      <div v-for="t in toasts" :key="t.id" class="toast px-3 py-2 rounded-lg text-sm text-white shadow-lg"
-           :class="{
-             'bg-blue-600': t.type==='info',
-             'bg-emerald-600': t.type==='success',
-             'bg-rose-600': t.type==='error',
-             'bg-amber-600': t.type==='warn'
-           }">
-        {{ t.text }}
+    <footer class="text-center py-4 text-sm text-slate-500 min-h-[44px]">
+      <p class="min-h-[44px]">页面由 Vue 3 + Tailwind CSS 构建。数据存储在本地浏览器中。</p>
+    </footer>
+
+    <!-- 弹窗: 按类别查看 Key -->
+    <transition
+      enter-active-class="transition-opacity duration-300 ease-out"
+      enter-from-class="opacity-0"
+      enter-to-class="opacity-100"
+      leave-active-class="transition-opacity duration-200 ease-in"
+      leave-from-class="opacity-100"
+      leave-to-class="opacity-0"
+    >
+    <div v-if="showDialog" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-40" @click="closeDialog">
+      <transition
+        enter-active-class="transition-all duration-300 ease-out"
+        enter-from-class="opacity-0 scale-95"
+        enter-to-class="opacity-100 scale-10"
+        leave-active-class="transition-all duration-200 ease-in"
+        leave-from-class="opacity-100 scale-100"
+        leave-to-class="opacity-0 scale-95"
+      >
+      <div class="glass-card max-w-2xl w-full p-6 rounded-xl" @click.stop>
+        <div class="flex items-center justify-between">
+          <h3 class="font-semibold text-lg min-h-[44px]" :class="getDialogTitleClass()">{{ dialogTitle }}</h3>
+          <button @click="closeDialog" class="h-8 w-8 rounded-full flex items-center justify-center text-slate-500 hover:text-white hover:bg-rose-500 transition-all min-h-[4px] min-w-[44px]">
+            <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z"/></svg>
+          </button>
+        </div>
+        <div class="mt-4 max-h-[60vh] overflow-auto pr-2 space-y-2">
+          <div v-for="(k, idx) in dialogKeys" :key="idx" class="flex items-center gap-3 p-2 rounded-lg hover:bg-white/20 dark:hover:bg-slate-800/40">
+            <div class="flex-1 rounded-md px-3 py-2 font-mono break-all text-sm bg-white/30 dark:bg-slate-800/50 border border-slate-300 dark:border-slate-700 min-h-[44px]">{{ k }}</div>
+            <button @click="copyToClipboard(k, 'dialog'+idx)" class="flex-shrink-0 px-3 py-2 rounded-md border border-slate-300 dark:border-slate-700 hover:border-blue-500/50 hover:bg-blue-500/10 text-sm min-w-[70px] transition-colors min-h-[44px]">
+              {{ copied === 'dialog'+idx ? '已复制' : '复制' }}
+            </button>
+          </div>
+        </div>
+        <div class="mt-6 flex justify-end">
+          <button @click="copyDialogKeys" class="px-4 py-2 rounded-md text-white bg-blue-600 hover:bg-blue-700 transition font-semibold text-sm shadow-lg min-h-[44px] min-w-[44px]">
+            {{ copied === 'dialogAll' ? '全部已复制!' : '复制全部' }}
+          </button>
+        </div>
       </div>
+      </transition>
+    </div>
+    </transition>
+
+    <!-- Toast 通知 -->
+    <div class="fixed right-4 bottom-4 w-full max-w-xs space-y-2 z-50">
+      <transition-group
+        enter-active-class="animate-toast-in"
+        leave-active-class="transition-opacity duration-300 ease-in"
+        leave-to-class="opacity-0"
+      >
+        <div v-for="t in toasts" :key="t.id"
+             class="flex items-start gap-3 w-full p-3 rounded-lg shadow-2xl text-white text-sm min-h-[44px]"
+             :class="{
+               'bg-blue-600': t.type==='info',
+               'bg-green-600': t.type==='success',
+               'bg-rose-600': t.type==='error',
+               'bg-amber-500': t.type==='warn'
+             }">
+          <div class="flex-shrink-0">
+            <svg v-if="t.type==='success'" class="h-5 w-5" viewBox="0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>
+            <svg v-else-if="t.type==='error'" class="h-5 w-5" viewBox="0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" /></svg>
+            <svg v-else class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" /></svg>
+          </div>
+          <div class="flex-1">{{ t.text }}</div>
+          <button @click="removeToast(t.id)" class="ml-2 -mr-1 p-1 rounded-full hover:bg-white/20 transition-colors min-h-[44px] min-w-[44px]">
+            <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z"/></svg>
+          </button>
+        </div>
+      </transition-group>
     </div>
   </div>
 
   <script>
     const { createApp, ref, computed, onMounted, watch } = Vue;
 
+    // --- CONSTANTS ---
     const HISTORY_KEY = 'siliconflow_balance_query_history_v3';
     const PREFS_KEY = 'siliconflow_balance_prefs_v1';
     const API_URL = 'https://api.siliconflow.cn/v1/user/info';
 
     createApp({
       setup() {
-        // 基础状态
+        // --- STATE REFS ---
         const apiKeysInput = ref('');
         const results = ref([]);
         const loading = ref(false);
         const error = ref('');
-        const isDark = ref(false);
+        const isDark = ref(true); // Default to dark
         const copied = ref(null);
-
-        // 并发与控制
         const concurrency = ref(6);
         const controllers = ref(new Map());
         const stopRequested = ref(false);
-        const progress = ref({ total: 0, done: 0, success: 0, error: 0 });
-
-        // 过滤/搜索
-        const filterStatus = ref('all'); // all | hasBalance | noBalance | invalid
+        const progress = ref({ total: 0, done: 0 });
+        const filterStatus = ref('all');
         const searchTerm = ref('');
         const maskKeys = ref(true);
-
-        // 历史
         const history = ref({});
         const activeHistoryId = ref(null);
-
-        // 弹窗
         const showDialog = ref(false);
         const dialogType = ref('');
         const dialogTitle = ref('');
         const dialogKeys = ref([]);
-
-        // Toast
         const toasts = ref([]);
 
-        // 计算属性
+        // --- COMPUTED PROPERTIES ---
         const currency = new Intl.NumberFormat('zh-CN', { minimumFractionDigits: 4, maximumFractionDigits: 4 });
-
         const keysParsed = computed(() => apiKeysInput.value.split(/[\n,]/).map(s => s.trim()).filter(Boolean));
         const keysUnique = computed(() => Array.from(new Set(keysParsed.value)));
         const keysCount = computed(() => keysParsed.value.length);
         const dedupCount = computed(() => keysUnique.value.length);
-
+        
         const validApiKeysWithBalance = computed(() => results.value.filter(r => !r.error && Number(r.totalBalance) > 0).map(r => r.apiKey));
         const validApiKeysNoBalance = computed(() => results.value.filter(r => !r.error && Number(r.totalBalance) === 0).map(r => r.apiKey));
         const invalidApiKeys = computed(() => results.value.filter(r => r.error).map(r => r.apiKey));
@@ -424,46 +426,209 @@
         const validNoBalanceCount = computed(() => validApiKeysNoBalance.value.length);
         const invalidCount = computed(() => invalidApiKeys.value.length);
 
-        const totalBalance = computed(() => results.value.filter(r => !r.error).reduce((sum, r) => sum + (parseFloat(r.totalBalance || 0) || 0), 0));
+        const totalBalance = computed(() => results.value.filter(r => !r.error).reduce((sum, r) => sum + parseFloat(r.totalBalance || 0), 0));
 
         const filteredResults = computed(() => {
           let list = results.value.slice();
-          // 过滤
-          list = list.filter(r => {
-            if (filterStatus.value === 'hasBalance') return !r.error && Number(r.totalBalance) > 0;
-            if (filterStatus.value === 'noBalance') return !r.error && Number(r.totalBalance) === 0;
-            if (filterStatus.value === 'invalid') return !!r.error;
-            return true;
-          });
-          // 搜索
+          if (filterStatus.value === 'hasBalance') list = list.filter(r => !r.error && Number(r.totalBalance) > 0);
+          else if (filterStatus.value === 'noBalance') list = list.filter(r => !r.error && Number(r.totalBalance) === 0);
+          else if (filterStatus.value === 'invalid') list = list.filter(r => !!r.error);
+          
           const q = searchTerm.value.trim().toLowerCase();
           if (q) {
-            list = list.filter(r => {
-              const keyText = (r.apiKey || '').toLowerCase();
-              const id = String(r.userInfo?.id || '').toLowerCase();
-              return keyText.includes(q) || id.includes(q);
-            });
+            list = list.filter(r => r.apiKey.toLowerCase().includes(q));
           }
           return list;
         });
 
-        const progressPercent = computed(() => {
-          if (!progress.value.total) return 0;
-          return Math.round((progress.value.done / progress.value.total) * 100);
-        });
+        const progressPercent = computed(() => progress.value.total ? Math.round((progress.value.done / progress.value.total) * 100) : 0);
+        const sortedHistory = computed(() => Object.values(history.value).sort((a, b) => new Date(b.snapshots[0].date) - new Date(a.snapshots[0].date)));
 
-        const sortedHistory = computed(() =>
-          Object.values(history.value).sort((a, b) => new Date(b.snapshots[0].date) - new Date(a.snapshots[0].date))
-        );
-
-        // 工具函数
-        const addToast = (text, type = 'info', ttl = 2200) => {
+        // --- UI & UX METHODS ---
+        const addToast = (text, type = 'info', ttl = 3000) => {
           const t = { id: Date.now() + Math.random(), text, type };
           toasts.value.push(t);
-          setTimeout(() => {
-            const idx = toasts.value.findIndex(x => x.id === t.id);
-            if (idx >= 0) toasts.value.splice(idx, 1);
-          }, ttl);
+          if (ttl) {
+            setTimeout(() => removeToast(t.id), ttl);
+          }
+        };
+        const removeToast = (id) => {
+          const idx = toasts.value.findIndex(x => x.id === id);
+          if (idx >= 0) toasts.value.splice(idx, 1);
+        };
+        const formatMoney = (n) => currency.format(isFinite(Number(n)) ? Number(n) : 0);
+        const maskKey = (key) => key && key.length > 8 ? `${key.slice(0, 4)}...${key.slice(-4)}` : key;
+        const displayKey = (key) => maskKeys.value ? maskKey(key) : key;
+        const toggleDarkMode = () => {
+          isDark.value = !isDark.value;
+          document.documentElement.classList.toggle('dark', isDark.value);
+          savePref('darkMode', isDark.value);
+        };
+        async function copyToClipboard(text, id) {
+          try {
+            await navigator.clipboard.writeText(text || '');
+            copied.value = id;
+            addToast('已复制', 'success');
+            setTimeout(() => { if (copied.value === id) copied.value = null; }, 2000);
+          } catch { addToast('复制失败', 'error'); }
+        }
+
+        // --- DIALOG (MODAL) METHODS ---
+        const openDialog = (type) => {
+          dialogType.value = type;
+          if (type === 'success') {
+            if (!validWithBalanceCount.value) return;
+            dialogTitle.value = `有余额的 Key (${validWithBalanceCount.value} 个)`;
+            dialogKeys.value = validApiKeysWithBalance.value;
+          } else if (type === 'warning') {
+            if (!validNoBalanceCount.value) return;
+            dialogTitle.value = `无余额的 Key (${validNoBalanceCount.value} 个)`;
+            dialogKeys.value = validApiKeysNoBalance.value;
+          } else {
+            if (!invalidCount.value) return;
+            dialogTitle.value = `无效的 Key (${invalidCount.value} 个)`;
+            dialogKeys.value = invalidApiKeys.value;
+          }
+          showDialog.value = true;
+        };
+        const closeDialog = () => { showDialog.value = false; };
+        const getDialogTitleClass = () => ({
+          'success': 'text-green-600 dark:text-green-400',
+          'warning': 'text-amber-600 dark:text-amber-400',
+          'error': 'text-rose-600 dark:text-rose-400',
+        }[dialogType.value] || '');
+        const copyDialogKeys = () => copyToClipboard(dialogKeys.value.join('\n'), 'dialogAll');
+
+        // --- CORE LOGIC & API ---
+        async function fetchKey(apiKey, signal) {
+          try {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort('timeout'), 15000);
+            signal?.addEventListener('abort', () => controller.abort(), { once: true });
+
+            const res = await fetch(API_URL, { headers: { Authorization: `Bearer ${apiKey}` }, signal: controller.signal });
+            clearTimeout(timeoutId);
+
+            if (res.status === 401) throw new Error('API Key 无效');
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            
+            const data = await res.json();
+            if (!data?.data) throw new Error('返回数据格式异常');
+
+            // 根据反馈，赠送余额字段是 balance
+            const giftBalance = data.data.balance || '0';
+            
+            return { apiKey, ...data.data, giftBalance, error: null };
+          } catch (e) {
+            const msg = e.name === 'AbortError' ? (stopRequested.value ? '用户取消' : '请求超时') : (e.message || '查询失败');
+            return { apiKey, error: msg };
+          }
+        }
+        
+        async function runWithConcurrency(keys, limit) {
+          progress.value = { total: keys.length, done: 0 };
+          controllers.value.clear();
+          stopRequested.value = false;
+          results.value = keys.map(k => ({ apiKey: k, error: 'pending' }));
+
+          let index = 0;
+          const runners = Array(Math.min(limit, keys.length)).fill(0).map(async () => {
+            while (!stopRequested.value && index < keys.length) {
+              const i = index++;
+              const key = keys[i];
+              const ctrl = new AbortController();
+              controllers.value.set(key, ctrl);
+              
+              const res = await fetchKey(key, ctrl.signal);
+              controllers.value.delete(key);
+              
+              results.value[i] = res;
+              progress.value.done++;
+            }
+          });
+          await Promise.all(runners);
+        }
+
+        async function fetchBalances() {
+          if (!dedupCount.value) return addToast('请输入至少一个 API Key', 'warn');
+          error.value = '';
+          loading.value = true;
+          await runWithConcurrency(keysUnique.value, concurrency.value);
+          if (!stopRequested.value) {
+            addToast('查询完成', 'success');
+            saveToHistory();
+            document.getElementById('results-area')?.scrollIntoView({ behavior: 'smooth' });
+          }
+          loading.value = false;
+        }
+
+        function cancelAll() {
+          stopRequested.value = true;
+          controllers.value.forEach(c => c.abort());
+          controllers.value.clear();
+          addToast('已取消查询', 'warn');
+          loading.value = false;
+        }
+
+        // --- HISTORY & PERSISTENCE ---
+        const saveToHistory = () => {
+          const groupId = keysUnique.value.slice().sort().join('|');
+          const snapshot = {
+            date: new Date().toISOString(),
+            results: JSON.parse(JSON.stringify(results.value)),
+            totalBalance: totalBalance.value,
+          };
+
+          if (history.value[groupId]) {
+            history.value[groupId].snapshots.unshift(snapshot);
+            // 限制单个历史组的快照数量为 10
+            history.value[groupId].snapshots.splice(10);
+          } else {
+            history.value[groupId] = { id: groupId, apiKeys: keysUnique.value.slice(), snapshots: [snapshot] };
+          }
+          activeHistoryId.value = groupId;
+          
+          // 限制历史组数量为 30
+          const groups = Object.values(history.value).sort((a,b) => new Date(b.snapshots[0].date) - new Date(a.snapshots[0].date));
+          if (groups.length > 30) {
+            delete history.value[groups[groups.length - 1].id];
+          }
+        };
+
+        const getBalanceChange = (apiKey) => {
+          const group = history.value[activeHistoryId.value];
+          if (!group || group.snapshots.length < 2) return { text: '首次', class: 'text-slate-400' };
+
+          const cur = group.snapshots[0].results.find(r => r.apiKey === apiKey);
+          const prev = group.snapshots[1].results.find(r => r.apiKey === apiKey);
+          if (!cur || cur.error || !prev || prev.error) return { text: '--', class: 'text-slate-400' };
+
+          const diff = (parseFloat(cur.totalBalance) || 0) - (parseFloat(prev.totalBalance) || 0);
+          if (diff > 0.0001) return { text: `+${formatMoney(diff)}`, class: 'text-green-600 font-medium' };
+          if (diff < -0.0001) return { text: formatMoney(diff), class: 'text-rose-600 font-medium' };
+          return { text: '无变化', class: 'text-slate-500' };
+        };
+
+        const loadFromHistory = (item) => {
+          results.value = item.snapshots[0].results;
+          activeHistoryId.value = item.id;
+          error.value = '';
+          document.getElementById('results-area')?.scrollIntoView({ behavior: 'smooth' });
+        };
+        
+        const reQueryFromHistory = (item) => {
+          apiKeysInput.value = item.apiKeys.join('\n');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          fetchBalances();
+        };
+
+        const clearHistory = () => {
+          if (confirm('确定清空所有历史记录吗？')) {
+            history.value = {};
+            results.value = [];
+            activeHistoryId.value = null;
+            addToast('已清空历史', 'info');
+          }
         };
 
         const savePref = (key, val) => {
@@ -474,339 +639,77 @@
 
         const loadPrefs = () => {
           const prefs = JSON.parse(localStorage.getItem(PREFS_KEY) || '{}');
-          if (typeof prefs.maskKeys === 'boolean') maskKeys.value = prefs.maskKeys;
-          if (typeof prefs.concurrency === 'number') concurrency.value = prefs.concurrency;
-          if (typeof prefs.darkMode === 'boolean') isDark.value = prefs.darkMode;
-          document.documentElement.classList.toggle('dark', isDark.value);
-        };
-
-        const toggleDarkMode = () => {
-          isDark.value = !isDark.value;
-          savePref('darkMode', isDark.value);
-          document.documentElement.classList.toggle('dark', isDark.value);
-        };
-
-        const formatMoney = (n) => {
-          const num = Number(n || 0);
-          return currency.format(isFinite(num) ? num : 0);
-        };
-
-        const maskKey = (key) => {
-          if (!key) return key;
-          if (!maskKeys.value) return key;
-          if (key.length <= 8) return key.slice(0, 1) + '…' + key.slice(-1);
-          return key.slice(0, 2) + '…' + key.slice(-2);
-        };
-
-        const displayKey = (key) => maskKey(key);
-
-        async function copyToClipboard(text, id) {
-          try {
-            await navigator.clipboard.writeText(text || '');
-            copied.value = id;
-            addToast('已复制到剪贴板', 'success');
-            setTimeout(() => copied.value === id && (copied.value = null), 1600);
-          } catch {
-            addToast('复制失败', 'error');
-          }
-        }
-
-        // 余额变化（与历史中同组最近两次比对）
-        const getBalanceChange = (apiKey) => {
-          if (!activeHistoryId.value || !history.value[activeHistoryId.value]) return { text: 'N/A', class: 'text-slate-400' };
-          const group = history.value[activeHistoryId.value];
-          if (group.snapshots.length < 2) return { text: '首次查询', class: 'text-slate-400' };
-
-          const cur = group.snapshots[0].results.find(r => r.apiKey === apiKey);
-          const prev = group.snapshots[1].results.find(r => r.apiKey === apiKey);
-          if (!cur || cur.error || !prev || prev.error) return { text: 'N/A', class: 'text-slate-400' };
-
-          const diff = (parseFloat(cur.totalBalance) || 0) - (parseFloat(prev.totalBalance) || 0);
-          if (diff > 0) return { text: `+${formatMoney(diff)}`, class: 'text-emerald-600' };
-          if (diff < 0) return { text: `${formatMoney(diff)}`, class: 'text-rose-600' };
-          return { text: '无变化', class: 'text-slate-500' };
-        };
-
-        // 请求单个 Key
-        async function fetchKey(apiKey, signal) {
-          const timeoutMs = 15000;
-          let timeoutId;
-          try {
-            // 超时控制
-            const controller = new AbortController();
-            const onAbort = () => controller.abort();
-            signal?.addEventListener('abort', onAbort, { once: true });
-
-            timeoutId = setTimeout(() => controller.abort('timeout'), timeoutMs);
-
-            const res = await fetch(API_URL, {
-              headers: { Authorization: 'Bearer ' + apiKey },
-              signal: controller.signal
-            });
-
-            clearTimeout(timeoutId);
-            signal?.removeEventListener('abort', onAbort);
-
-            if (res.status === 401) throw new Error('API Key 无效或认证失败');
-            if (res.status === 429) throw new Error('请求过于频繁，请稍后再试 (429)');
-            if (!res.ok) throw new Error(`请求失败，HTTP ${res.status}`);
-
-            const data = await res.json();
-            if (data && data.data) {
-              return {
-                apiKey,
-                giftBalance: data.data.balance,
-                chargeBalance: data.data.chargeBalance,
-                totalBalance: data.data.totalBalance,
-                userInfo: data.data,
-                error: null
-              };
-            }
-            throw new Error('返回数据格式异常');
-          } catch (e) {
-            clearTimeout(timeoutId);
-            const msg = e?.name === 'AbortError'
-              ? (stopRequested.value ? '用户取消' : '请求超时或取消')
-              : (e?.message || '查询失败');
-            return { apiKey, balance: null, userInfo: null, error: msg };
-          }
-        }
-
-        // 并发调度
-        async function runWithConcurrency(keys, limit) {
-          progress.value = { total: keys.length, done: 0, success: 0, error: 0 };
-          controllers.value.clear();
-          stopRequested.value = false;
-
-          // 预置占位，保持顺序
-          results.value = keys.map(k => ({ apiKey: k, giftBalance: null, chargeBalance: null, totalBalance: null, userInfo: null, error: null }));
-
-          let index = 0;
-          const runners = Array.from({ length: Math.min(limit, keys.length) }, async () => {
-            while (!stopRequested.value) {
-              const i = index++;
-              if (i >= keys.length) break;
-
-              const key = keys[i];
-              const ctrl = new AbortController();
-              controllers.value.set(key, ctrl);
-
-              const res = await fetchKey(key, ctrl.signal);
-              controllers.value.delete(key);
-
-              results.value[i] = res;
-              progress.value.done++;
-              if (res.error) progress.value.error++; else progress.value.success++;
-            }
-          });
-
-          await Promise.all(runners);
-        }
-
-        async function fetchBalances() {
-          error.value = '';
-          if (!keysUnique.value.length) {
-            error.value = '请输入至少一个 API Key';
-            return;
-          }
-
-          loading.value = true;
-          try {
-            await runWithConcurrency(keysUnique.value, concurrency.value);
-            // 写入历史
-            const groupId = keysUnique.value.slice().sort().join('|');
-            const snapshot = {
-              date: new Date().toISOString(),
-              results: results.value,
-              totalBalance: results.value.filter(r => !r.error).reduce((s, r) => s + (parseFloat(r.totalBalance || 0) || 0), 0),
-            };
-            if (history.value[groupId]) {
-              history.value[groupId].snapshots.unshift(snapshot);
-            } else {
-              history.value[groupId] = { id: groupId, apiKeys: keysUnique.value.slice(), snapshots: [snapshot] };
-            }
-            activeHistoryId.value = groupId;
-
-            // 限制历史组数量为 30
-            const groups = Object.values(history.value).sort((a,b) => new Date(b.snapshots[0].date) - new Date(a.snapshots[0].date));
-            if (groups.length > 30) {
-              const oldest = groups[groups.length - 1].id;
-              delete history.value[oldest];
-            }
-
-            addToast('查询完成', 'success');
-            // 滚动到结果
-            document.getElementById('results-area')?.scrollIntoView({ behavior: 'smooth' });
-          } catch (e) {
-            error.value = e?.message || '查询失败';
-          } finally {
-            loading.value = false;
-          }
-        }
-
-        function cancelAll() {
-          stopRequested.value = true;
-          let count = 0;
-          controllers.value.forEach(c => { try { c.abort(); count++; } catch {} });
-          controllers.value.clear();
-          addToast(`已取消 ${count} 个请求`, 'warn');
-          loading.value = false;
-        }
-
-        // 弹窗（分类查看）
-        const openDialog = (type) => {
-          if (type === 'success' && !validWithBalanceCount.value) return;
-          if (type === 'warning' && !validNoBalanceCount.value) return;
-          if (type === 'error' && !invalidCount.value) return;
-
-          dialogType.value = type;
-          if (type === 'success') {
-            dialogTitle.value = `有余额的 Key (${validWithBalanceCount.value} 个)`;
-            dialogKeys.value = validApiKeysWithBalance.value;
-          } else if (type === 'warning') {
-            dialogTitle.value = `无余额的 Key (${validNoBalanceCount.value} 个)`;
-            dialogKeys.value = validApiKeysNoBalance.value;
+          // 检查 localStorage 中是否有 darkMode 设置
+          if (typeof prefs.darkMode === 'boolean') {
+              isDark.value = prefs.darkMode;
           } else {
-            dialogTitle.value = `无效的 Key (${invalidCount.value} 个)`;
-            dialogKeys.value = invalidApiKeys.value;
+              // 否则，根据系统偏好设置
+              isDark.value = window.matchMedia?.('(prefers-color-scheme: dark)').matches;
+              savePref('darkMode', isDark.value);
           }
-          showDialog.value = true;
-        };
-        const closeDialog = () => {
-          showDialog.value = false; dialogType.value = ''; dialogTitle.value = ''; dialogKeys.value = [];
-        };
-        const getDialogTitleClass = () => {
-          if (dialogType.value === 'success') return 'text-emerald-600';
-          if (dialogType.value === 'warning') return 'text-amber-600';
-          if (dialogType.value === 'error') return 'text-rose-600';
-          return '';
-        };
-        const copyDialogKeys = () => {
-          if (!dialogKeys.value.length) return;
-          copyToClipboard(dialogKeys.value.join('\n'), 'dialogAll');
+          document.documentElement.classList.toggle('dark', isDark.value);
         };
 
-        // 历史交互
-        const loadFromHistory = (item) => {
-          results.value = item.snapshots[0].results;
-          activeHistoryId.value = item.id;
-          error.value = '';
-          document.getElementById('results-area')?.scrollIntoView({ behavior: 'smooth' });
-        };
-        const reQueryFromHistory = (item) => {
-          apiKeysInput.value = item.apiKeys.join('\n');
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-          fetchBalances();
-        };
-        const clearHistory = () => {
-          if (confirm('确定清空所有本地历史记录吗？此操作无法撤销。')) {
-            history.value = {};
-            results.value = [];
-            activeHistoryId.value = null;
-            addToast('已清空历史', 'info');
-          }
-        };
-
-        // 批量操作
+        // --- ACTIONS ---
         const copyVisibleKeys = () => {
           if (!filteredResults.value.length) return;
-          const list = filteredResults.value.map(r => r.apiKey).join('\n');
-          copyToClipboard(list, 'copyVisible');
+          copyToClipboard(filteredResults.value.map(r => r.apiKey).join('\n'), 'copyVisible');
         };
 
         const exportCSV = () => {
           if (!results.value.length) return;
-          const headers = ['序号','API Key','状态','赠送余额(元)','充值余额(元)','总余额(元)','余额变化','错误'];
-          const rows = results.value.map((r, idx) => {
-            const status = r.error ? '无效' : (Number(r.totalBalance) > 0 ? '有效|有余额' : '有效|无余额');
-            const change = getBalanceChange(r.apiKey).text;
-            return [
-              idx + 1,
+          const headers = ['#','API Key','状态','总余额 (元)','余额变化','赠送 (元)','充值 (元)'];
+          const rows = results.value.map((r, i) => [
+              i + 1,
               r.apiKey,
-              status,
-              (r.error ? '' : r.giftBalance),
-              (r.error ? '' : r.chargeBalance),
-              (r.error ? '' : r.totalBalance),
-              (r.error ? '' : change),
-              r.error || ''
-            ];
-          });
+              r.error ? '无效' : (Number(r.totalBalance) > 0 ? '有余额' : '无余额'),
+              r.error ? '' : r.totalBalance,
+              r.error ? '' : getBalanceChange(r.apiKey).text,
+              r.error ? '' : r.giftBalance,
+              r.error ? '' : r.chargeBalance
+          ]);
           const csv = [headers, ...rows].map(row =>
-            row.map(cell => {
-              const s = String(cell ?? '');
-              return /[,"\n]/.test(s) ? `"${s.replace(/"/g,'""')}"` : s;
-            }).join(',')
+            row.map(cell => `"${String(cell ?? '').replace(/"/g, '""')}"`).join(',')
           ).join('\n');
-
-          const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-          const url = URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = url;
-          a.download = `siliconflow_balances_${new Date().toISOString().slice(0,19).replace(/[:T]/g,'-')}.csv`;
-          document.body.appendChild(a);
-          a.click();
-          a.remove();
-          URL.revokeObjectURL(url);
-
+          const blob = new Blob([`\uFEFF${csv}`], { type: 'text/csv;charset=utf-8;' }); // Add BOM for Excel
+          const link = document.createElement('a');
+          link.href = URL.createObjectURL(blob);
+          link.download = `siliconflow_balances_${new Date().toISOString().slice(0,10)}.csv`;
+          link.click();
+          URL.revokeObjectURL(link.href);
           addToast('CSV 已导出', 'success');
         };
 
-        // 读取剪贴板
         const pasteFromClipboard = async () => {
           try {
             const text = await navigator.clipboard.readText();
-            if (!text) return addToast('剪贴板为空', 'warn');
-            apiKeysInput.value = text.trim();
-            addToast('已粘贴', 'success');
-          } catch {
-            addToast('无法访问剪贴板', 'error');
-          }
+            if (text) apiKeysInput.value = text;
+            addToast('已从剪贴板粘贴', 'success');
+          } catch { addToast('无法访问剪贴板', 'error'); }
         };
 
-        // 持久化
+        // --- LIFECYCLE HOOKS ---
         onMounted(() => {
-          // 主题+偏好
           loadPrefs();
-
-          // 历史
-          const saved = localStorage.getItem(HISTORY_KEY);
-          if (saved) {
-            try {
-              const parsed = JSON.parse(saved);
-              if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) {
-                history.value = parsed;
-              }
-            } catch {
-              localStorage.removeItem(HISTORY_KEY);
-            }
-          }
-
-          // 初始暗色取系统偏好
-          if (!('darkMode' in (JSON.parse(localStorage.getItem(PREFS_KEY) || '{}')))) {
-            const sysDark = window.matchMedia?.('(prefers-color-scheme: dark)').matches;
-            isDark.value = sysDark;
-            savePref('darkMode', sysDark);
-            document.documentElement.classList.toggle('dark', sysDark);
+          const savedHistory = localStorage.getItem(HISTORY_KEY);
+          if (savedHistory) {
+            try { history.value = JSON.parse(savedHistory); } catch { localStorage.removeItem(HISTORY_KEY); }
           }
         });
-
+        
         watch(history, (val) => {
           localStorage.setItem(HISTORY_KEY, JSON.stringify(val));
         }, { deep: true });
-
-        watch(concurrency, (n) => savePref('concurrency', n));
-
+        
+        // --- RETURN ---
         return {
-          // state
           apiKeysInput, results, loading, error, isDark, copied, concurrency, filterStatus, searchTerm, maskKeys,
           history, activeHistoryId, showDialog, dialogType, dialogTitle, dialogKeys, toasts,
-          // computed
           keysCount, dedupCount, progress, progressPercent, filteredResults,
           validWithBalanceCount, validNoBalanceCount, invalidCount, totalBalance, sortedHistory,
-          // methods
           fetchBalances, cancelAll, openDialog, closeDialog, getDialogTitleClass, copyDialogKeys,
           copyToClipboard, copyVisibleKeys, exportCSV, loadFromHistory, reQueryFromHistory, clearHistory,
-          toggleDarkMode, formatMoney, maskKey, displayKey, getBalanceChange, pasteFromClipboard, savePref
+          toggleDarkMode, formatMoney, maskKey, displayKey, getBalanceChange, pasteFromClipboard, removeToast
         };
       }
     }).mount('#app');
