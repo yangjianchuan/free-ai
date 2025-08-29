@@ -48,12 +48,12 @@
     }
     .bg-deco::before {
       content: ''; position: absolute; top: 0; left: 0; width: 60vw; height: 60vh;
-      background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, transparent: 60%);
+      background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, transparent 60%);
       transform: translate(-30%, -30%); filter: blur(60px);
     }
     .bg-deco::after {
       content: ''; position: absolute; bottom: 0; right: 0; width: 50vw; height: 50vh;
-      background: radial-gradient(circle, rgba(16, 185, 129, 0.12) 0%, transparent: 60%);
+      background: radial-gradient(circle, rgba(16, 185, 129, 0.12) 0%, transparent 60%);
       transform: translate(30%, 30%); filter: blur(60px);
     }
 
@@ -208,12 +208,12 @@
     <div id="dialog" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-40 hidden">
       <div class="glass-card max-w-2xl w-full p-6 rounded-xl">
         <div class="flex items-center justify-between">
-          <h3 id="dialog-title" class="font-semibold text-lg"></h3>
+          <h3 id="dialog-title" class="font-semibold text-lg text-slate-800 dark:text-slate-200"></h3>
           <button id="dialog-close-btn" class="h-8 w-8 rounded-full flex items-center justify-center text-slate-500 hover:text-white hover:bg-rose-500 transition-all"><svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z"/></svg></button>
         </div>
         <div id="dialog-keys-list" class="mt-4 max-h-[60vh] overflow-auto pr-2 space-y-2"></div>
         <div class="mt-6 flex justify-end">
-          <button id="dialog-copy-all-btn" class="px-4 py-2 rounded-md text-white bg-blue-600 hover:bg-blue-700 transition font-semibold text-sm shadow-lg">复制全部</button>
+          <button id="dialog-copy-all-btn" class="px-4 py-2 rounded-md text-white bg-blue-60 hover:bg-blue-700 transition font-semibold text-sm shadow-lg">复制全部</button>
         </div>
       </div>
     </div>
@@ -360,7 +360,7 @@
         DOMElements.dialogKeysList.innerHTML = keys.map((k, idx) => `
           <div class="flex items-center gap-3 p-2 rounded-lg hover:bg-white/20 dark:hover:bg-slate-800/40">
             <div class="flex-1 rounded-md px-3 py-2 font-mono break-all text-sm bg-white/30 dark:bg-slate-800/50 border border-slate-300 dark:border-slate-700">${k}</div>
-            <button data-key="${k}" class="dialog-copy-btn flex-shrink-0 px-3 py-2 rounded-md border border-slate-300 dark:border-slate-700 hover:border-blue-500/50 hover:bg-blue-500/10 text-sm min-w-[70px] transition-colors">复制</button>
+            <button data-key="${k}" class="dialog-copy-btn flex-shrink-0 px-3 py-2 rounded-md bg-white/60 dark:bg-slate-800/80 hover:bg-white/90 dark:hover:bg-slate-700/80 transition-colors border border-slate-300 dark:border-slate-700 text-sm min-w-[70px]">复制</button>
           </div>`).join('');
         
         DOMElements.dialogCopyAllBtn.dataset.keys = keys.join('\n');
