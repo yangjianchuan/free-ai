@@ -6,7 +6,7 @@
   <title>硅基流动余额查询 (Vanilla JS版)</title>
 
   <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <script>
     tailwind.config = {
       darkMode: 'class',
@@ -61,12 +61,24 @@
       border-radius: 0.75rem; border-width: 1px;
       border-color: rgba(255, 255, 255, 0.1);
       background-color: rgba(107, 114, 128, 0.1);
+      /* Fallback for browsers that don't support backdrop-filter */
+      background-color: rgba(107, 114, 128, 0.3);
+      -webkit-backdrop-filter: blur(16px);
       backdrop-filter: blur(16px);
       box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
     }
     html:not(.dark) .glass-card {
       border-color: rgba(0, 0, 0, 0.1);
-      background-color: rgba(255, 255, 255, 0.4);
+      /* Fallback for browsers that don't support backdrop-filter */
+      background-color: rgba(255, 255, 255, 0.6);
+    }
+    
+    /* Backdrop blur utilities */
+    .backdrop-blur-sm {
+      /* Fallback for browsers that don't support backdrop-filter */
+      background-color: rgba(0, 0, 0, 0.7);
+      -webkit-backdrop-filter: blur(4px);
+      backdrop-filter: blur(4px);
     }
     
     @media (prefers-reduced-motion: reduce) {
@@ -229,6 +241,18 @@
       const PREFS_KEY = 'siliconflow_balance_prefs_v1';
       const API_URL = 'https://api.siliconflow.cn/v1/user/info';
       const CONCURRENCY = 6;
+      
+      // Check for localStorage support
+      const localStorageSupported = (function() {
+        try {
+          const test = 'test';
+          window.localStorage.setItem(test, test);
+          window.localStorage.removeItem(test);
+          return true;
+        } catch(e) {
+          return false;
+        }
+      })();
 
       // --- STATE ---
       const state = {
@@ -241,7 +265,29 @@
         history: {},
         activeHistoryId: null,
         stopRequested: false,
-        controllers: new Map(),
+        // Polyfill for Map if not available
+        controllers: window.Map ? new Map() : {
+          _data: {},
+          set(key, value) {
+            this._data[key] = value;
+          },
+          get(key) {
+            return this._data[key];
+          },
+          delete(key) {
+            delete this._data[key];
+          },
+          forEach(callback) {
+            for (let key in this._data) {
+              if (this._data.hasOwnProperty(key)) {
+                callback(this._data[key], key, this);
+              }
+            }
+          },
+          clear() {
+            this._data = {};
+          }
+        },
       };
 
       // --- DOM ELEMENTS CACHE ---
@@ -283,10 +329,34 @@
       };
 
       // --- HELPERS ---
-      const currency = new Intl.NumberFormat('zh-CN', { minimumFractionDigits: 4, maximumFractionDigits: 4 });
+      // Polyfill for Intl.NumberFormat if not available
+      const currency = window.Intl && Intl.NumberFormat ?
+        new Intl.NumberFormat('zh-CN', { minimumFractionDigits: 4, maximumFractionDigits: 4 }) :
+        {
+          format: (n) => {
+            // Fallback formatting
+            const num = isFinite(Number(n)) ? Number(n) : 0;
+            return num.toFixed(4);
+          }
+        };
       const formatMoney = (n) => currency.format(isFinite(Number(n)) ? Number(n) : 0);
       const maskKey = (key) => key && key.length > 8 ? `${key.slice(0, 4)}...${key.slice(-4)}` : key;
-      const getUniqueKeys = () => Array.from(new Set(DOMElements.apiKeysTextarea.value.split(/[\n,]/).map(s => s.trim()).filter(Boolean)));
+      // Polyfill for Array.from and Set if not available
+      const getUniqueKeys = () => {
+        const keys = DOMElements.apiKeysTextarea.value.split(/[\n,]/).map(s => s.trim()).filter(Boolean);
+        if (window.Set && window.Array && Array.from) {
+          return Array.from(new Set(keys));
+        } else {
+          // Fallback for browsers that don't support Set or Array.from
+          const uniqueKeys = [];
+          for (let i = 0; i < keys.length; i++) {
+            if (uniqueKeys.indexOf(keys[i]) === -1) {
+              uniqueKeys.push(keys[i]);
+            }
+          }
+          return uniqueKeys;
+        }
+      };
 
       // --- UI & UX LOGIC ---
       function addToast(text, type = 'info', ttl = 3000) {
@@ -309,9 +379,22 @@
           </button>`;
         
         const removeToast = () => {
-          toast.classList.remove('animate-toast-in');
-          toast.classList.add('opacity-0', 'transition-opacity', 'duration-300');
-          setTimeout(() => toast.remove(), 300);
+          // Fallback for browsers that don't support classList
+          if (toast.classList) {
+            toast.classList.remove('animate-toast-in');
+            toast.classList.add('opacity-0', 'transition-opacity', 'duration-300');
+          } else {
+            toast.className = toast.className.replace('animate-toast-in', '');
+            toast.className += ' opacity-0 transition-opacity duration-300';
+          }
+          setTimeout(() => {
+            // Fallback for browsers that don't support remove()
+            if (toast.remove) {
+              toast.remove();
+            } else {
+              toast.parentNode.removeChild(toast);
+            }
+          }, 300);
         };
         
         toast.querySelector('button').onclick = removeToast;
@@ -319,9 +402,42 @@
         if (ttl) setTimeout(removeToast, ttl);
       }
 
+      // Clipboard API with fallback
       async function copyToClipboard(text, btn) {
         try {
-          await navigator.clipboard.writeText(text || '');
+          if (navigator.clipboard && window.isSecureContext) {
+            // Use Clipboard API if available
+            await navigator.clipboard.writeText(text || '');
+          } else {
+            // Fallback for browsers that don't support Clipboard API
+            const textArea = document.createElement("textarea");
+            textArea.value = text || '';
+            textArea.style.position = "fixed";
+            textArea.style.left = "-99999px";
+            textArea.style.top = "-999999px";
+            document.body.appendChild(textArea);
+            // Fallback for browsers that don't support focus()
+            if (textArea.focus) {
+              textArea.focus();
+            }
+            // Fallback for browsers that don't support select()
+            if (textArea.select) {
+              textArea.select();
+            }
+            // Fallback for browsers that don't support execCommand
+            try {
+              document.execCommand('copy');
+            } catch (e) {
+              // If execCommand fails, show a message to the user
+              addToast('无法复制到剪贴板，请手动复制', 'error');
+            }
+            // Fallback for browsers that don't support remove()
+            if (textArea.remove) {
+              textArea.remove();
+            } else {
+              textArea.parentNode.removeChild(textArea);
+            }
+          }
           addToast('已复制', 'success');
           if(btn) {
             const originalText = btn.textContent;
@@ -363,12 +479,30 @@
             <button data-key="${k}" class="dialog-copy-btn flex-shrink-0 px-3 py-2 rounded-md bg-white/60 dark:bg-slate-800/80 hover:bg-white/90 dark:hover:bg-slate-700/80 transition-colors border border-slate-300 dark:border-slate-700 text-sm min-w-[70px]">复制</button>
           </div>`).join('');
         
-        DOMElements.dialogCopyAllBtn.dataset.keys = keys.join('\n');
-        DOMElements.dialog.classList.remove('hidden');
+                // Fallback for browsers that don't support dataset
+                if (DOMElements.dialogCopyAllBtn.dataset) {
+                  DOMElements.dialogCopyAllBtn.dataset.keys = keys.join('\n');
+                } else {
+                  // Fallback for browsers that don't support setAttribute
+                  if (DOMElements.dialogCopyAllBtn.setAttribute) {
+                    DOMElements.dialogCopyAllBtn.setAttribute('data-keys', keys.join('\n'));
+                  }
+                }
+                // Fallback for browsers that don't support classList
+                if (DOMElements.dialog.classList) {
+                  DOMElements.dialog.classList.remove('hidden');
+                } else {
+                  DOMElements.dialog.className = DOMElements.dialog.className.replace('hidden', '');
+                }
       }
 
       function closeDialog() {
-        DOMElements.dialog.classList.add('hidden');
+        // Fallback for browsers that don't support classList
+        if (DOMElements.dialog.classList) {
+          DOMElements.dialog.classList.add('hidden');
+        } else {
+          DOMElements.dialog.className += ' hidden';
+        }
       }
 
 
@@ -388,11 +522,21 @@
         
         if (!filtered.length) {
           DOMElements.resultsTableBody.innerHTML = '';
-          DOMElements.noResultsMessage.classList.remove('hidden');
+          // Fallback for browsers that don't support classList
+          if (DOMElements.noResultsMessage.classList) {
+            DOMElements.noResultsMessage.classList.remove('hidden');
+          } else {
+            DOMElements.noResultsMessage.className = DOMElements.noResultsMessage.className.replace('hidden', '');
+          }
           return;
         }
 
-        DOMElements.noResultsMessage.classList.add('hidden');
+        // Fallback for browsers that don't support classList
+        if (DOMElements.noResultsMessage.classList) {
+          DOMElements.noResultsMessage.classList.add('hidden');
+        } else {
+          DOMElements.noResultsMessage.className += ' hidden';
+        }
         DOMElements.resultsTableBody.innerHTML = filtered.map((r, i) => {
           let statusHtml, balanceChange;
           if (r.error) {
@@ -438,20 +582,46 @@
         
         if (!sorted.length) {
           DOMElements.historyList.innerHTML = '';
-          DOMElements.noHistoryMessage.classList.remove('hidden');
-          DOMElements.clearHistoryBtn.classList.add('hidden');
+          // Fallback for browsers that don't support classList
+          if (DOMElements.noHistoryMessage.classList) {
+            DOMElements.noHistoryMessage.classList.remove('hidden');
+          } else {
+            DOMElements.noHistoryMessage.className = DOMElements.noHistoryMessage.className.replace('hidden', '');
+          }
+          if (DOMElements.clearHistoryBtn.classList) {
+            DOMElements.clearHistoryBtn.classList.add('hidden');
+          } else {
+            DOMElements.clearHistoryBtn.className += ' hidden';
+          }
           return;
         }
 
-        DOMElements.noHistoryMessage.classList.add('hidden');
-        DOMElements.clearHistoryBtn.classList.remove('hidden');
+        // Fallback for browsers that don't support classList
+        if (DOMElements.noHistoryMessage.classList) {
+          DOMElements.noHistoryMessage.classList.add('hidden');
+        } else {
+          DOMElements.noHistoryMessage.className += ' hidden';
+        }
+        if (DOMElements.clearHistoryBtn.classList) {
+          DOMElements.clearHistoryBtn.classList.remove('hidden');
+        } else {
+          DOMElements.clearHistoryBtn.className = DOMElements.clearHistoryBtn.className.replace('hidden', '');
+        }
         DOMElements.historyList.innerHTML = sorted.map(item => `
           <li data-history-id="${item.id}" class="history-item rounded-lg p-4 cursor-pointer transition-all border ${item.id === state.activeHistoryId ? 'bg-blue-500/10 border-blue-500/30' : 'bg-white/30 dark:bg-slate-800/40 border-slate-300 dark:border-slate-700 hover:border-blue-500/30 hover:bg-blue-500/5'}">
             <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
               <div class="min-w-0 flex-1">
                 <div class="text-xs text-slate-500 dark:text-slate-400">${item.apiKeys.length} Keys</div>
                 <div class="text-sm mt-1.5">
-                  <span class="text-slate-500">${new Date(item.snapshots[0].date).toLocaleString('zh-CN')}</span>
+                  <span class="text-slate-500">${(function() {
+                    const date = new Date(item.snapshots[0].date);
+                    // Fallback for browsers that don't support toLocaleString with locale
+                    try {
+                      return date.toLocaleString('zh-CN');
+                    } catch (e) {
+                      return date.toLocaleString();
+                    }
+                  })()}</span>
                   <span class="mx-2 text-slate-400">|</span>
                   <span class="font-semibold text-blue-600 dark:text-blue-400">${formatMoney(item.snapshots[0].totalBalance)} 元</span>
                   <span class="text-slate-400"> (${item.snapshots.length} 次查询)</span>
@@ -467,32 +637,80 @@
         const keys = getUniqueKeys();
         if (keys.length) {
           DOMElements.keyCount.textContent = `去重后 ${keys.length} 个`;
-          DOMElements.keyCount.classList.remove('hidden');
+          // Fallback for browsers that don't support classList
+          if (DOMElements.keyCount.classList) {
+            DOMElements.keyCount.classList.remove('hidden');
+          } else {
+            DOMElements.keyCount.className = DOMElements.keyCount.className.replace('hidden', '');
+          }
         } else {
-          DOMElements.keyCount.classList.add('hidden');
+          // Fallback for browsers that don't support classList
+          if (DOMElements.keyCount.classList) {
+            DOMElements.keyCount.classList.add('hidden');
+          } else {
+            DOMElements.keyCount.className += ' hidden';
+          }
         }
         
         // Update query button state
         DOMElements.queryBtn.disabled = !keys.length && !state.loading;
         if (state.loading) {
-          DOMElements.queryBtn.classList.remove('bg-blue-600', 'hover:bg-blue-700');
-          DOMElements.queryBtn.classList.add('bg-rose-600', 'hover:bg-rose-700');
-          DOMElements.querySpinner.classList.remove('hidden');
+          // Fallback for browsers that don't support classList
+          if (DOMElements.queryBtn.classList) {
+            DOMElements.queryBtn.classList.remove('bg-blue-600', 'hover:bg-blue-700');
+            DOMElements.queryBtn.classList.add('bg-rose-600', 'hover:bg-rose-700');
+          } else {
+            DOMElements.queryBtn.className = DOMElements.queryBtn.className.replace('bg-blue-600', '').replace('hover:bg-blue-700', '');
+            DOMElements.queryBtn.className += ' bg-rose-600 hover:bg-rose-700';
+          }
+          if (DOMElements.querySpinner.classList) {
+            DOMElements.querySpinner.classList.remove('hidden');
+          } else {
+            DOMElements.querySpinner.className = DOMElements.querySpinner.className.replace('hidden', '');
+          }
           DOMElements.queryBtnText.textContent = `查询中 (${state.progress.done}/${state.progress.total})`;
         } else {
-          DOMElements.queryBtn.classList.add('bg-blue-600', 'hover:bg-blue-700');
-          DOMElements.queryBtn.classList.remove('bg-rose-600', 'hover:bg-rose-700');
-          DOMElements.querySpinner.classList.add('hidden');
+          // Fallback for browsers that don't support classList
+          if (DOMElements.queryBtn.classList) {
+            DOMElements.queryBtn.classList.add('bg-blue-600', 'hover:bg-blue-700');
+            DOMElements.queryBtn.classList.remove('bg-rose-600', 'hover:bg-rose-700');
+          } else {
+            DOMElements.queryBtn.className = DOMElements.queryBtn.className.replace('bg-rose-600', '').replace('hover:bg-rose-700', '');
+            DOMElements.queryBtn.className += ' bg-blue-600 hover:bg-blue-700';
+          }
+          if (DOMElements.querySpinner.classList) {
+            DOMElements.querySpinner.classList.add('hidden');
+          } else {
+            DOMElements.querySpinner.className += ' hidden';
+          }
           DOMElements.queryBtnText.textContent = '查询余额';
         }
 
         // Update progress bar
-        DOMElements.progressBarContainer.classList.toggle('hidden', !state.loading);
+        // Fallback for browsers that don't support classList
+        if (DOMElements.progressBarContainer.classList) {
+          DOMElements.progressBarContainer.classList.toggle('hidden', !state.loading);
+        } else {
+          if (state.loading) {
+            DOMElements.progressBarContainer.className = DOMElements.progressBarContainer.className.replace('hidden', '');
+          } else {
+            DOMElements.progressBarContainer.className += ' hidden';
+          }
+        }
         const percent = state.progress.total ? Math.round((state.progress.done / state.progress.total) * 100) : 0;
         DOMElements.progressBar.style.width = `${percent}%`;
 
         // Update results area
-        DOMElements.resultsArea.classList.toggle('hidden', !state.results.length);
+        // Fallback for browsers that don't support classList
+        if (DOMElements.resultsArea.classList) {
+          DOMElements.resultsArea.classList.toggle('hidden', !state.results.length);
+        } else {
+          if (state.results.length) {
+            DOMElements.resultsArea.className = DOMElements.resultsArea.className.replace('hidden', '');
+          } else {
+            DOMElements.resultsArea.className += ' hidden';
+          }
+        }
         if (state.results.length) {
           renderSummaryCards();
           renderTable();
@@ -504,13 +722,68 @@
       }
 
       // --- CORE LOGIC & API ---
+      // Polyfill for EventTarget if not available
+      const EventTargetPolyfill = window.EventTarget || class {
+        constructor() {
+          this._listeners = {};
+        }
+        addEventListener(type, callback) {
+          if (!(type in this._listeners)) {
+            this._listeners[type] = [];
+          }
+          this._listeners[type].push(callback);
+        }
+        removeEventListener(type, callback) {
+          if (!(type in this._listeners)) {
+            return;
+          }
+          const stack = this._listeners[type];
+          for (let i = 0, l = stack.length; i < l; i++) {
+            if (stack[i] === callback) {
+              stack.splice(i, 1);
+              return;
+            }
+          }
+        }
+        dispatchEvent(event) {
+          if (!(event.type in this._listeners)) {
+            return true;
+          }
+          const stack = this._listeners[event.type].slice();
+          for (let i = 0, l = stack.length; i < l; i++) {
+            stack[i].call(this, event);
+          }
+          return !event.defaultPrevented;
+        }
+      };
+
+      // Polyfill for AbortController if not available
+      const AbortControllerPolyfill = window.AbortController || class {
+        constructor() {
+          this.signal = new EventTargetPolyfill();
+          this.signal.aborted = false;
+        }
+        abort() {
+          this.signal.aborted = true;
+          this.signal.dispatchEvent(new Event('abort'));
+        }
+      };
+
       async function fetchKey(apiKey, signal) {
         try {
-          const controller = new AbortController();
+          const controller = new AbortControllerPolyfill();
           const timeoutId = setTimeout(() => controller.abort('timeout'), 15000);
-          signal?.addEventListener('abort', () => controller.abort(), { once: true });
+          if (signal && signal.addEventListener) {
+            signal.addEventListener('abort', () => controller.abort(), { once: true });
+          }
 
-          const res = await fetch(API_URL, { headers: { Authorization: `Bearer ${apiKey}` }, signal: controller.signal });
+          const fetchOptions = { headers: { Authorization: `Bearer ${apiKey}` } };
+          // Only add signal if AbortController is supported
+          if (window.AbortController) {
+            fetchOptions.signal = controller.signal;
+          }
+
+          const res = await fetch(API_URL, fetchOptions);
           clearTimeout(timeoutId);
 
           if (res.status === 401) throw new Error('API Key 无效');
@@ -528,7 +801,10 @@
 
       async function runWithConcurrency(keys, limit) {
         state.progress = { total: keys.length, done: 0 };
-        state.controllers.clear();
+        // Only clear controllers if AbortController is supported
+        if (window.AbortController) {
+          state.controllers.clear();
+        }
         state.stopRequested = false;
         state.results = keys.map(k => ({ apiKey: k, error: 'pending' }));
         updateUI();
@@ -538,11 +814,17 @@
           while (!state.stopRequested && index < keys.length) {
             const i = index++;
             const key = keys[i];
-            const ctrl = new AbortController();
-            state.controllers.set(key, ctrl);
-            
-            const res = await fetchKey(key, ctrl.signal);
-            state.controllers.delete(key);
+            // Only create controller if AbortController is supported
+            if (window.AbortController) {
+              const ctrl = new AbortControllerPolyfill();
+              state.controllers.set(key, ctrl);
+              
+              const res = await fetchKey(key, ctrl.signal);
+              state.controllers.delete(key);
+            } else {
+              // Fallback when AbortController is not supported
+              const res = await fetchKey(key, null);
+            }
             
             state.results[i] = res;
             state.progress.done++;
@@ -564,7 +846,14 @@
         if (!state.stopRequested) {
           addToast('查询完成', 'success');
           saveToHistory();
-          DOMElements.resultsArea.scrollIntoView({ behavior: 'smooth' });
+          // Fallback for browsers that don't support scrollIntoView with behavior option
+          if (DOMElements.resultsArea.scrollIntoView) {
+            try {
+              DOMElements.resultsArea.scrollIntoView({ behavior: 'smooth' });
+            } catch (e) {
+              DOMElements.resultsArea.scrollIntoView();
+            }
+          }
         }
         state.loading = false;
         updateUI();
@@ -572,8 +861,11 @@
 
       function cancelAll() {
         state.stopRequested = true;
-        state.controllers.forEach(c => c.abort());
-        state.controllers.clear();
+        // Only abort controllers if AbortController is supported
+        if (window.AbortController) {
+          state.controllers.forEach(c => c.abort());
+          state.controllers.clear();
+        }
         addToast('已取消查询', 'warn');
         state.loading = false;
         updateUI();
@@ -581,6 +873,9 @@
 
       // --- HISTORY & PERSISTENCE ---
       function saveToHistory() {
+        // Only save to localStorage if supported
+        if (!localStorageSupported) return;
+        
         const keys = getUniqueKeys();
         if(!keys.length) return;
         const groupId = keys.slice().sort().join('|');
@@ -626,20 +921,37 @@
         state.activeHistoryId = item.id;
         DOMElements.errorMessage.textContent = '';
         updateUI();
-        DOMElements.resultsArea.scrollIntoView({ behavior: 'smooth' });
+        // Fallback for browsers that don't support scrollIntoView with behavior option
+        if (DOMElements.resultsArea.scrollIntoView) {
+          try {
+            DOMElements.resultsArea.scrollIntoView({ behavior: 'smooth' });
+          } catch (e) {
+            DOMElements.resultsArea.scrollIntoView();
+          }
+        }
       }
       
       function reQueryFromHistory(id) {
         const item = state.history[id];
         if (!item) return;
         DOMElements.apiKeysTextarea.value = item.apiKeys.join('\n');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        // Fallback for browsers that don't support scrollTo with behavior option
+        if (window.scrollTo) {
+          try {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          } catch (e) {
+            window.scrollTo(0, 0);
+          }
+        }
         fetchBalances();
       }
 
       function clearHistory() {
-        if (confirm('确定清空所有历史记录吗？')) {
-          state.history = {};
+        if (!localStorageSupported) return;
+        
+                // Fallback for browsers that don't support confirm
+                if (window.confirm && confirm('确定清空所有历史记录吗？')) {
+                  state.history = {};
           state.results = [];
           state.activeHistoryId = null;
           localStorage.removeItem(HISTORY_KEY);
@@ -649,23 +961,56 @@
       }
 
       function savePref(key, val) {
+        if (!localStorageSupported) return;
+        
         const prefs = JSON.parse(localStorage.getItem(PREFS_KEY) || '{}');
         prefs[key] = val;
         localStorage.setItem(PREFS_KEY, JSON.stringify(prefs));
       }
 
       function loadPrefs() {
+        if (!localStorageSupported) {
+          // Fallback to system preference if localStorage is not supported
+          state.isDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          return;
+        }
+        
         const prefs = JSON.parse(localStorage.getItem(PREFS_KEY) || '{}');
         state.isDark = typeof prefs.darkMode === 'boolean'
           ? prefs.darkMode
-          : window.matchMedia?.('(prefers-color-scheme: dark)').matches;
+          : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
         updateDarkMode();
       }
 
       function updateDarkMode(){
-        DOMElements.html.classList.toggle('dark', state.isDark);
-        DOMElements.sunIcon.classList.toggle('hidden', state.isDark);
-        DOMElements.moonIcon.classList.toggle('hidden', !state.isDark);
+        // Fallback for browsers that don't support classList
+        if (DOMElements.html.classList) {
+          DOMElements.html.classList.toggle('dark', state.isDark);
+        } else {
+          if (state.isDark) {
+            DOMElements.html.className += ' dark';
+          } else {
+            DOMElements.html.className = DOMElements.html.className.replace('dark', '');
+          }
+        }
+        if (DOMElements.sunIcon.classList) {
+          DOMElements.sunIcon.classList.toggle('hidden', state.isDark);
+        } else {
+          if (state.isDark) {
+            DOMElements.sunIcon.className += ' hidden';
+          } else {
+            DOMElements.sunIcon.className = DOMElements.sunIcon.className.replace('hidden', '');
+          }
+        }
+        if (DOMElements.moonIcon.classList) {
+          DOMElements.moonIcon.classList.toggle('hidden', !state.isDark);
+        } else {
+          if (!state.isDark) {
+            DOMElements.moonIcon.className += ' hidden';
+          } else {
+            DOMElements.moonIcon.className = DOMElements.moonIcon.className.replace('hidden', '');
+          }
+        }
       }
       
       // --- EVENT BINDING ---
@@ -684,25 +1029,57 @@
         });
         DOMElements.pasteBtn.addEventListener('click', async () => {
           try {
-            const text = await navigator.clipboard.readText();
-            if (text) {
-              DOMElements.apiKeysTextarea.value = text;
-              updateUI();
-              addToast('已从剪贴板粘贴', 'success');
+            if (navigator.clipboard && window.isSecureContext) {
+              // Use Clipboard API if available
+              const text = await navigator.clipboard.readText();
+              if (text) {
+                DOMElements.apiKeysTextarea.value = text;
+                updateUI();
+                addToast('已从剪贴板粘贴', 'success');
+              }
+            } else {
+              // Fallback for browsers that don't support Clipboard API
+              addToast('请手动粘贴内容到输入框', 'info');
+              // Fallback for browsers that don't support focus()
+              if (DOMElements.apiKeysTextarea.focus) {
+                DOMElements.apiKeysTextarea.focus();
+              }
             }
           } catch { addToast('无法访问剪贴板', 'error'); }
         });
 
         DOMElements.filterButtons.addEventListener('click', (e) => {
-          const btn = e.target.closest('.filter-btn');
+          // Fallback for browsers that don't support closest
+          const btn = e.target.closest ? e.target.closest('.filter-btn') : (function(el) {
+            while (el && el !== document) {
+              if (el.classList && el.classList.contains('filter-btn')) {
+                return el;
+              }
+              el = el.parentNode;
+            }
+            return null;
+          })(e.target);
           if (!btn) return;
-          state.filterStatus = btn.dataset.status;
+          // Fallback for browsers that don't support dataset
+          state.filterStatus = btn.dataset ? btn.dataset.status : btn.getAttribute('data-status');
           DOMElements.filterButtons.querySelectorAll('.filter-btn').forEach(b => {
-            b.classList.remove('bg-blue-600', 'text-white');
-            b.classList.add('bg-white/60', 'dark:bg-slate-800/80', 'hover:bg-white/90', 'dark:hover:bg-slate-700/80');
+            // Fallback for browsers that don't support classList
+            if (b.classList) {
+              b.classList.remove('bg-blue-600', 'text-white');
+              b.classList.add('bg-white/60', 'dark:bg-slate-800/80', 'hover:bg-white/90', 'dark:hover:bg-slate-700/80');
+            } else {
+              b.className = b.className.replace('bg-blue-600', '').replace('text-white', '');
+              b.className += ' bg-white/60 dark:bg-slate-800/80 hover:bg-white/90 dark:hover:bg-slate-700/80';
+            }
           });
-          btn.classList.add('bg-blue-600', 'text-white');
-          btn.classList.remove('bg-white/60', 'dark:bg-slate-800/80', 'hover:bg-white/90', 'dark:hover:bg-slate-700/80');
+          // Fallback for browsers that don't support classList
+          if (btn.classList) {
+            btn.classList.add('bg-blue-600', 'text-white');
+            btn.classList.remove('bg-white/60', 'dark:bg-slate-800/80', 'hover:bg-white/90', 'dark:hover:bg-slate-700/80');
+          } else {
+            btn.className = btn.className.replace('bg-white/60', '').replace('dark:bg-slate-800/80', '').replace('hover:bg-white/90', '').replace('dark:hover:bg-slate-700/80', '');
+            btn.className += ' bg-blue-600 text-white';
+          }
           renderTable();
         });
 
@@ -712,24 +1089,53 @@
         });
 
         DOMElements.resultsTableBody.addEventListener('click', (e) => {
-           const btn = e.target.closest('.copy-key-btn');
-           if(btn) copyToClipboard(btn.dataset.key, btn);
+           // Fallback for browsers that don't support closest
+           const btn = e.target.closest ? e.target.closest('.copy-key-btn') : (function(el) {
+             while (el && el !== document) {
+               if (el.classList && el.classList.contains('copy-key-btn')) {
+                 return el;
+               }
+               el = el.parentNode;
+             }
+             return null;
+           })(e.target);
+           // Fallback for browsers that don't support dataset
+           if(btn) copyToClipboard(btn.dataset ? btn.dataset.key : btn.getAttribute('data-key'), btn);
         });
 
         DOMElements.historyList.addEventListener('click', (e) => {
-            const item = e.target.closest('.history-item');
-            const requeryBtn = e.target.closest('.history-requery-btn');
+            // Fallback for browsers that don't support closest
+            const item = e.target.closest ? e.target.closest('.history-item') : (function(el) {
+              while (el && el !== document) {
+                if (el.classList && el.classList.contains('history-item')) {
+                  return el;
+                }
+                el = el.parentNode;
+              }
+              return null;
+            })(e.target);
+            const requeryBtn = e.target.closest ? e.target.closest('.history-requery-btn') : (function(el) {
+              while (el && el !== document) {
+                if (el.classList && el.classList.contains('history-requery-btn')) {
+                  return el;
+                }
+                el = el.parentNode;
+              }
+              return null;
+            })(e.target);
+            // Fallback for browsers that don't support dataset
             if (requeryBtn) {
-                reQueryFromHistory(requeryBtn.dataset.historyId);
+                reQueryFromHistory(requeryBtn.dataset ? requeryBtn.dataset.historyId : requeryBtn.getAttribute('data-history-id'));
             } else if (item) {
-                loadFromHistory(item.dataset.historyId);
+                loadFromHistory(item.dataset ? item.dataset.historyId : item.getAttribute('data-history-id'));
             }
         });
 
         DOMElements.clearHistoryBtn.addEventListener('click', clearHistory);
         
         document.querySelectorAll('.summary-card-btn').forEach(btn => {
-           btn.addEventListener('click', () => openDialog(btn.dataset.dialogType));
+           // Fallback for browsers that don't support dataset
+           btn.addEventListener('click', () => openDialog(btn.dataset ? btn.dataset.dialogType : btn.getAttribute('data-dialog-type')));
         });
 
         DOMElements.dialogCloseBtn.addEventListener('click', closeDialog);
@@ -738,12 +1144,23 @@
         });
 
         DOMElements.dialogKeysList.addEventListener('click', e => {
-            const btn = e.target.closest('.dialog-copy-btn');
-            if(btn) copyToClipboard(btn.dataset.key, btn);
+            // Fallback for browsers that don't support closest
+            const btn = e.target.closest ? e.target.closest('.dialog-copy-btn') : (function(el) {
+              while (el && el !== document) {
+                if (el.classList && el.classList.contains('dialog-copy-btn')) {
+                  return el;
+                }
+                el = el.parentNode;
+              }
+              return null;
+            })(e.target);
+            // Fallback for browsers that don't support dataset
+            if(btn) copyToClipboard(btn.dataset ? btn.dataset.key : btn.getAttribute('data-key'), btn);
         });
 
         DOMElements.dialogCopyAllBtn.addEventListener('click', e => {
-            copyToClipboard(e.target.dataset.keys, e.target);
+            // Fallback for browsers that don't support dataset
+            copyToClipboard(e.target.dataset ? e.target.dataset.keys : e.target.getAttribute('data-keys'), e.target);
         });
 
         DOMElements.copyVisibleBtn.addEventListener('click', () => {
@@ -760,6 +1177,12 @@
 
         DOMElements.exportCsvBtn.addEventListener('click', () => {
             if (!state.results.length) return;
+            // Check for Blob and URL API support
+            if (!window.Blob || !window.URL || !window.URL.createObjectURL || !window.URL.revokeObjectURL) {
+                addToast('您的浏览器不支持导出功能，请升级浏览器。', 'error');
+                return;
+            }
+            
             const headers = ['#','API Key','状态','总余额 (元)','余额变化','赠送 (元)','充值 (元)'];
             const rows = state.results.map((r, i) => [
                 i + 1, r.apiKey,
@@ -785,17 +1208,33 @@
       // --- INITIALIZATION ---
       function init() {
         loadPrefs();
-        try {
-          state.history = JSON.parse(localStorage.getItem(HISTORY_KEY) || '{}');
-        } catch {
-          localStorage.removeItem(HISTORY_KEY);
+        // Only load history if localStorage is supported
+        if (localStorageSupported) {
+          try {
+            state.history = JSON.parse(localStorage.getItem(HISTORY_KEY) || '{}');
+          } catch {
+            localStorage.removeItem(HISTORY_KEY);
+          }
         }
         bindEvents();
         updateUI();
       }
 
       // Run on DOM ready
-      document.addEventListener('DOMContentLoaded', init);
+      // Check for JSON support
+      if (!window.JSON) {
+        document.addEventListener('DOMContentLoaded', function() {
+          addToast('您的浏览器版本过低，请升级浏览器以获得更好的体验。', 'error');
+          return;
+        });
+      } else if (window.Promise) {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        // Fallback for browsers that don't support Promise
+        document.addEventListener('DOMContentLoaded', function() {
+          addToast('您的浏览器版本过低，请升级浏览器以获得更好的体验。', 'error');
+        });
+      }
 
     })();
   </script>
