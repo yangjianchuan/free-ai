@@ -1,1242 +1,268 @@
 <!DOCTYPE html>
-<html lang="zh-CN" class="dark">
+<html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>硅基流动余额查询 (Vanilla JS版)</title>
-
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          keyframes: {
-            'toast-in': {
-              'from': { transform: 'translateY(20px)', opacity: '0' },
-              'to': { transform: 'translateY(0)', opacity: '1' },
-            },
-            'fade-in': {
-              'from': { opacity: '0' },
-              'to': { opacity: '1' },
-            }
-          },
-          animation: {
-            'toast-in': 'toast-in 0.3s ease-out forwards',
-            'fade-in': 'fade-in 0.4s ease-out forwards',
-          }
-        }
-      }
-    }
-  </script>
-
-  <!-- Favicon (SVG) -->
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%233B82F6;stop-opacity:1'/%3E%3Cstop offset='100%25' style='stop-color:%2310B981;stop-opacity:1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle fill='url(%23grad)' cx='50' cy='50' r='45'/%3E%3Cpath fill='white' d='M50,25 A25,25 0 1,1 50,75 A25,25 0 1,1 50,25 Z'/%3E%3C/svg%3E"/>
-
+  <title>硅基流动余额查询工具</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <style>
     :root {
-      --font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+      --bg: #f0f2f5;
+      --card: rgba(255,255,255,.75);
+      --primary: #1677ff;
+      --danger: #ff4d4f;
+      --success: #52c41a;
+      --radius: 12px;
+      --blur: blur(20px);
+      --shadow: 0 8px 32px rgba(0,0,0,.08);
     }
-    html { scroll-behavior: smooth; }
-    body { font-family: var(--font-sans); background-color: #030712; color: #f9fafb; transition: background-color .3s, color .3s; }
-    html:not(.dark) body { background-color: #f3f4f6; color: #111827; }
-    .hidden { display: none; }
-
-    .bg-deco {
-      position: fixed; inset: 0; pointer-events: none; z-index: -1; overflow: hidden;
-    }
-    .bg-deco::before {
-      content: ''; position: absolute; top: 0; left: 0; width: 60vw; height: 60vh;
-      background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, transparent 60%);
-      transform: translate(-30%, -30%); filter: blur(60px);
-    }
-    .bg-deco::after {
-      content: ''; position: absolute; bottom: 0; right: 0; width: 50vw; height: 50vh;
-      background: radial-gradient(circle, rgba(16, 185, 129, 0.12) 0%, transparent 60%);
-      transform: translate(30%, 30%); filter: blur(60px);
-    }
-
-    .glass-card {
-      border-radius: 0.75rem; border-width: 1px;
-      border-color: rgba(255, 255, 255, 0.1);
-      background-color: rgba(107, 114, 128, 0.1);
-      /* Fallback for browsers that don't support backdrop-filter */
-      background-color: rgba(107, 114, 128, 0.3);
-      -webkit-backdrop-filter: blur(16px);
-      backdrop-filter: blur(16px);
-      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
-    }
-    html:not(.dark) .glass-card {
-      border-color: rgba(0, 0, 0, 0.1);
-      /* Fallback for browsers that don't support backdrop-filter */
-      background-color: rgba(255, 255, 255, 0.6);
-    }
-    
-    /* Backdrop blur utilities */
-    .backdrop-blur-sm {
-      /* Fallback for browsers that don't support backdrop-filter */
-      background-color: rgba(0, 0, 0, 0.7);
-      -webkit-backdrop-filter: blur(4px);
-      backdrop-filter: blur(4px);
-    }
-    
-    @media (prefers-reduced-motion: reduce) {
-      *, ::before, ::after {
-        animation-delay: -1ms !important; animation-duration: -1ms !important;
-        animation-iteration-count: 1 !important; background-attachment: initial !important;
-        scroll-behavior: auto !important; transition-duration: 0s !important;
-        transition-delay: 0s !important;
-      }
-    }
+    *{box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif}
+    body{margin:0;background:linear-gradient(135deg,#e0c3fc 0%,#9bb5ff 100%);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+    .glass-card{background:var(--card);border-radius:var(--radius);padding:24px 32px;backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);box-shadow:var(--shadow);max-width:900px;width:100%}
+    h1{margin:0 0 16px;font-size:24px;font-weight:600}
+    textarea{width:100%;min-height:120px;border:1px solid #d9d9d9;border-radius:var(--radius);padding:8px 12px;font-size:14px;resize:vertical}
+    button{outline:none;border:none;border-radius:var(--radius);padding:8px 16px;font-size:14px;cursor:pointer;transition:.2s}
+    .btn-primary{background:var(--primary);color:#fff}
+    .btn-danger{background:var(--danger);color:#fff}
+    .btn-success{background:var(--success);color:#fff}
+    .btn-outline{background:transparent;border:1px solid #d9d9d9;color:#333}
+    .actions{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+    .progress-bar{height:4px;background:#e0e0e0;border-radius:2px;margin:12px 0;overflow:hidden}
+    .progress-bar div{height:100%;background:var(--primary);width:0;transition:.3s}
+    table{width:100%;border-collapse:collapse;font-size:13px;margin-top:12px}
+    th,td{padding:8px;text-align:left;border-bottom:1px solid #f0f0f0}
+    th{background:var(--bg)}
+    .tag{padding:2px 6px;border-radius:4px;font-size:12px;color:#fff}
+    .tag.valid{background:var(--success)}
+    .tag.invalid{background:var(--danger)}
+    .toast{position:fixed;top:20px;right:20px;background:#000000cc;color:#fff;padding:8px 12px;border-radius:var(--radius);font-size:14px;opacity:0;transition:.3s}
+    .toast.show{opacity:1}
+    .hidden{display:none}
+    @media(max-width:600px){.glass-card{padding:16px}}
   </style>
 </head>
-<body class="min-h-screen antialiased">
-  <div class="bg-deco"></div>
+<body>
+  <div class="glass-card">
+    <h1>硅基流动余额查询工具</h1>
 
-  <div id="app" class="relative z-10 flex flex-col min-h-screen">
-    <!-- 顶部导航 -->
-    <header class="sticky top-0 z-30 w-full border-b border-white/10 bg-white/30 backdrop-blur-lg dark:bg-slate-900/30">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex items-center justify-between h-16">
-          <h1 class="text-lg font-bold text-slate-800 dark:text-slate-200">硅基流动余额查询</h1>
-          <button id="dark-mode-toggle" class="h-9 w-9 rounded-full flex items-center justify-center text-slate-500 hover:text-blue-500 dark:text-slate-400 dark:hover:text-blue-400 bg-white/50 dark:bg-slate-800/50 transition-colors">
-            <svg id="sun-icon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
-            <svg id="moon-icon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 hidden" viewBox="0 0 20 20" fill="currentColor"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" /></svg>
-          </button>
+    <section>
+      <label>API 密钥（换行或逗号分隔）</label>
+      <textarea id="keysInput" placeholder="sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"></textarea>
+      <div class="actions">
+        <button class="btn-primary" id="queryBtn">开始查询</button>
+        <button class="btn-outline" id="pasteBtn">粘贴</button>
+        <button class="btn-outline" id="clearBtn">清空</button>
+        <span id="keyCount" style="margin-left:auto;line-height:32px;font-size:13px;color:#666">共 0 个</span>
+      </div>
+      <div class="progress-bar hidden"><div></div></div>
+    </section>
+
+    <section style="margin-top:20px">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <select id="filterSelect" class="btn-outline">
+          <option value="all">全部</option>
+          <option value="valid">有余额</option>
+          <option value="zero">余额为 0</option>
+          <option value="invalid">无效密钥</option>
+        </select>
+        <div>
+          <button class="btn-outline" id="copyBtn">复制筛选结果</button>
+          <button class="btn-outline" id="exportBtn">导出 CSV</button>
         </div>
       </div>
-    </header>
+      <table id="resultTable">
+        <thead>
+          <tr><th>密钥（掩码）</th><th>状态</th><th>余额</th><th>查询时间</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
 
-    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-8 sm:py-12">
-      <div class="space-y-8">
-        <!-- 输入区 -->
-        <section class="glass-card p-5 sm:p-6">
-          <label for="api-keys" class="text-base font-semibold text-slate-800 dark:text-slate-100">API Key</label>
-          <p class="mt-1 text-sm text-slate-600 dark:text-slate-400">可批量输入，支持换行或逗号分隔。</p>
-          <textarea id="api-keys" rows="6" class="mt-4 w-full rounded-lg border-0 bg-white/40 dark:bg-slate-800/60 p-4 text-sm font-mono placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:ring-2 focus:ring-blue-500 focus:outline-none transition" placeholder="sk-..."></textarea>
-          <div class="mt-6 flex flex-wrap items-center gap-4">
-            <button id="query-btn" class="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-md font-semibold text-sm transition-all shadow-sm disabled:opacity-50 disabled:cursor-not-allowed bg-blue-600 hover:bg-blue-700 text-white">
-              <svg id="query-spinner" class="animate-spin h-4 w-4 hidden" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4A4 4 0 008 12H4z"/></svg>
-              <span id="query-btn-text">查询余额</span>
-            </button>
-            <button id="paste-btn" class="px-3 py-2 text-sm rounded-md bg-white/60 dark:bg-slate-800/80 hover:bg-white/90 dark:hover:bg-slate-700/80 transition-colors border border-slate-300 dark:border-slate-700">粘贴</button>
-            <button id="clear-btn" class="px-3 py-2 text-sm rounded-md bg-white/60 dark:bg-slate-800/80 hover:bg-white/90 dark:hover:bg-slate-700/80 transition-colors border border-slate-300 dark:border-slate-700">清空</button>
-            <span id="key-count" class="text-sm text-slate-500 dark:text-slate-400 select-none hidden"></span>
-          </div>
-          <div id="progress-bar-container" class="mt-4 h-2 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden hidden">
-            <div id="progress-bar" class="h-full rounded-full bg-gradient-to-r from-blue-500 to-green-500 transition-all duration-300 ease-linear" style="width: 0%"></div>
-          </div>
-          <p id="error-message" class="mt-3 text-sm text-rose-500 font-medium"></p>
-        </section>
-
-        <!-- 结果区 -->
-        <section id="results-area" class="space-y-6 hidden animate-fade-in">
-          <!-- 统计卡片 -->
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div class="glass-card p-5 flex items-center gap-4">
-              <div class="flex-shrink-0 h-12 w-12 rounded-lg bg-blue-500/10 dark:bg-blue-500/20 flex items-center justify-center text-blue-500 dark:text-blue-400"><svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12a2.25 2.25 0 00-2.25-2.25H15a3 3 0 11-6 0H5.25A2.25 2.25 0 003 12m18 0v6a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 18v-6m18 0V9M3 12V9m18 0a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 9m12 3a3 3 0 11-6 0 3 3 0 016 0z" /></svg></div>
-              <div>
-                <div class="text-sm text-slate-500 dark:text-slate-400">总余额 (元)</div>
-                <div id="total-balance" class="mt-1 text-2xl font-bold text-blue-600 dark:text-blue-400">0.0000</div>
-              </div>
-            </div>
-            <button data-dialog-type="success" class="summary-card-btn glass-card p-5 flex items-center gap-4 text-left group transition-all hover:scale-[1.02] hover:shadow-2xl">
-              <div class="flex-shrink-0 h-12 w-12 rounded-lg bg-green-500/10 dark:bg-green-500/20 flex items-center justify-center text-green-500 dark:text-green-400"><svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg></div>
-              <div>
-                <div class="text-sm text-green-600 dark:text-green-300">有余额</div>
-                <div id="valid-with-balance-count" class="mt-1 text-2xl font-bold text-green-600 dark:text-green-400 group-hover:text-green-500">0</div>
-              </div>
-            </button>
-            <button data-dialog-type="warning" class="summary-card-btn glass-card p-5 flex items-center gap-4 text-left group transition-all hover:scale-[1.02] hover:shadow-2xl">
-              <div class="flex-shrink-0 h-12 w-12 rounded-lg bg-amber-500/10 dark:bg-amber-500/20 flex items-center justify-center text-amber-500 dark:text-amber-400"><svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.86-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" /></svg></div>
-              <div>
-                <div class="text-sm text-amber-600 dark:text-amber-300">无余额</div>
-                <div id="valid-no-balance-count" class="mt-1 text-2xl font-bold text-amber-600 dark:text-amber-400 group-hover:text-amber-500">0</div>
-              </div>
-            </button>
-            <button data-dialog-type="error" class="summary-card-btn glass-card p-5 flex items-center gap-4 text-left group transition-all hover:scale-[1.02] hover:shadow-2xl">
-              <div class="flex-shrink-0 h-12 w-12 rounded-lg bg-rose-500/10 dark:bg-rose-500/20 flex items-center justify-center text-rose-500 dark:text-rose-400"><svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" /></svg></div>
-              <div>
-                <div class="text-sm text-rose-600 dark:text-rose-300">无效</div>
-                <div id="invalid-count" class="mt-1 text-2xl font-bold text-rose-600 dark:text-rose-400 group-hover:text-rose-500">0</div>
-              </div>
-            </button>
-          </div>
-
-          <!-- 工具栏和表格 -->
-          <div class="glass-card p-5 sm:p-6 space-y-4">
-            <div class="flex flex-col md:flex-row md:items-center gap-4 justify-between">
-              <div id="filter-buttons" class="flex items-center flex-wrap gap-2">
-                <button data-status="all" class="filter-btn px-3 py-1.5 text-sm rounded-full transition bg-blue-600 text-white">全部</button>
-                <button data-status="hasBalance" class="filter-btn px-3 py-1.5 text-sm rounded-full transition bg-white/60 dark:bg-slate-800/80 hover:bg-white/90 dark:hover:bg-slate-700/80">有余额</button>
-                <button data-status="noBalance" class="filter-btn px-3 py-1.5 text-sm rounded-full transition bg-white/60 dark:bg-slate-800/80 hover:bg-white/90 dark:hover:bg-slate-700/80">无余额</button>
-                <button data-status="invalid" class="filter-btn px-3 py-1.5 text-sm rounded-full transition bg-white/60 dark:bg-slate-800/80 hover:bg-white/90 dark:hover:bg-slate-700/80">无效</button>
-              </div>
-              <div class="flex items-center gap-2">
-                <input id="search-term" type="text" class="w-full md:w-48 rounded-md border-0 bg-white/40 dark:bg-slate-800/60 px-3 py-2 text-sm placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:ring-2 focus:ring-blue-500 focus:outline-none transition" placeholder="搜索 Key..." />
-                <button id="copy-visible-btn" class="px-3 py-2 text-sm rounded-md bg-white/60 dark:bg-slate-800/80 hover:bg-white/90 dark:hover:bg-slate-700/80 transition-colors border border-slate-300 dark:border-slate-700 disabled:opacity-50">复制筛选</button>
-                <button id="export-csv-btn" class="px-3 py-2 text-sm rounded-md bg-white/60 dark:bg-slate-800/80 hover:bg-white/90 dark:hover:bg-slate-700/80 transition-colors border border-slate-300 dark:border-slate-700 disabled:opacity-50">导出 CSV</button>
-              </div>
-            </div>
-            <div class="overflow-x-auto">
-              <table class="min-w-full text-sm">
-                <thead class="text-left">
-                  <tr class="border-b border-slate-200/50 dark:border-slate-700/50">
-                    <th class="p-3 font-semibold">#</th>
-                    <th class="p-3 font-semibold">API Key</th>
-                    <th class="p-3 font-semibold">状态</th>
-                    <th class="p-3 font-semibold text-right">总余额 (元)</th>
-                    <th class="p-3 font-semibold text-right"><span class="inline-flex items-center gap-1 group relative">余额变化<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-slate-400" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" /></svg><span class="absolute bottom-full mb-2 w-48 p-2 text-xs font-normal text-white bg-slate-800 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">与该组上次查询结果对比</span></span></th>
-                    <th class="p-3 font-semibold text-right">赠送 (元)</th>
-                    <th class="p-3 font-semibold text-right">充值 (元)</th>
-                    <th class="p-3 font-semibold text-center">操作</th>
-                  </tr>
-                </thead>
-                <tbody id="results-table-body"></tbody>
-              </table>
-              <div id="no-results-message" class="text-center py-10 text-slate-500 hidden">没有匹配的结果</div>
-            </div>
-          </div>
-        </section>
-
-        <!-- 历史记录 -->
-        <section class="glass-card p-5 sm:p-6">
-          <div class="flex items-center justify-between">
-            <h2 class="text-lg font-semibold text-slate-800 dark:text-slate-100">查询历史</h2>
-            <button id="clear-history-btn" class="px-3 py-2 text-sm rounded-md bg-white/60 dark:bg-slate-800/80 hover:bg-rose-100 text-rose-600 dark:hover:bg-rose-900/50 dark:text-rose-400 transition-colors border border-slate-300 dark:border-slate-700 hidden">清空历史</button>
-          </div>
-          <ul id="history-list" class="mt-4 space-y-3"></ul>
-          <div id="no-history-message" class="text-center py-10 text-slate-500">暂无历史记录</div>
-        </section>
+    <section style="margin-top:20px">
+      <div style="display:flex;justify-content:space-between">
+        <h2 style="margin:0;font-size:18px">历史记录</h2>
+        <button class="btn-outline" id="clearHistoryBtn">清空</button>
       </div>
-    </main>
-
-    <footer class="text-center py-4 text-sm text-slate-500">
-      <p>页面由 Vanilla JS + Tailwind CSS 构建。数据存储在本地浏览器中。</p>
-    </footer>
-
-    <!-- 弹窗 -->
-    <div id="dialog" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-40 hidden">
-      <div class="glass-card max-w-2xl w-full p-6 rounded-xl">
-        <div class="flex items-center justify-between">
-          <h3 id="dialog-title" class="font-semibold text-lg text-slate-800 dark:text-slate-200"></h3>
-          <button id="dialog-close-btn" class="h-8 w-8 rounded-full flex items-center justify-center text-slate-500 hover:text-white hover:bg-rose-500 transition-all"><svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z"/></svg></button>
-        </div>
-        <div id="dialog-keys-list" class="mt-4 max-h-[60vh] overflow-auto pr-2 space-y-2"></div>
-        <div class="mt-6 flex justify-end">
-          <button id="dialog-copy-all-btn" class="px-4 py-2 rounded-md text-white bg-blue-60 hover:bg-blue-700 transition font-semibold text-sm shadow-lg">复制全部</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Toast 通知容器 -->
-    <div id="toast-container" class="fixed right-4 bottom-4 w-full max-w-xs space-y-2 z-50"></div>
+      <ul id="historyList" style="padding:0;list-style:none;font-size:13px;margin-top:8px"></ul>
+    </section>
   </div>
 
+  <div id="toast" class="toast"></div>
+
   <script>
-    (function() {
-      // --- CONSTANTS ---
-      const HISTORY_KEY = 'siliconflow_balance_query_history_v3';
-      const PREFS_KEY = 'siliconflow_balance_prefs_v1';
-      const API_URL = 'https://api.siliconflow.cn/v1/user/info';
-      const CONCURRENCY = 6;
-      
-      // Check for localStorage support
-      const localStorageSupported = (function() {
-        try {
-          const test = 'test';
-          window.localStorage.setItem(test, test);
-          window.localStorage.removeItem(test);
-          return true;
-        } catch(e) {
-          return false;
-        }
-      })();
+  /* ---------- 常量 ---------- */
+  const API = 'https://api.siliconflow.cn/v1/user/info';
+  const TIMEOUT = 15000;
+  const CONCURRENCY = 6;
+  const STORAGE_KEY = 'siliconflow_balance_query_history_v3';
 
-      // --- STATE ---
-      const state = {
-        results: [],
-        loading: false,
-        isDark: true,
-        progress: { total: 0, done: 0 },
-        filterStatus: 'all',
-        searchTerm: '',
-        history: {},
-        activeHistoryId: null,
-        stopRequested: false,
-        // Polyfill for Map if not available
-        controllers: window.Map ? new Map() : {
-          _data: {},
-          set(key, value) {
-            this._data[key] = value;
-          },
-          get(key) {
-            return this._data[key];
-          },
-          delete(key) {
-            delete this._data[key];
-          },
-          forEach(callback) {
-            for (let key in this._data) {
-              if (this._data.hasOwnProperty(key)) {
-                callback(this._data[key], key, this);
-              }
-            }
-          },
-          clear() {
-            this._data = {};
-          }
-        },
+  /* ---------- 工具函数 ---------- */
+  const $ = sel => document.querySelector(sel);
+  const sleep = ms => new Promise(r => setTimeout(r, ms));
+  const toast = (msg, t = 2000) => {
+    const el = $('#toast');
+    el.textContent = msg;
+    el.classList.add('show');
+    setTimeout(() => el.classList.remove('show'), t);
+  };
+  const maskKey = k => k.length > 12 ? `${k.slice(0,4)}****${k.slice(-4)}` : k;
+
+  /* ---------- 本地存储 ---------- */
+  const loadHistory = () => JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+  const saveHistory = data => localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+
+  /* ---------- 数据 ---------- */
+  let allResults = [];
+
+  /* ---------- 事件绑定 ---------- */
+  $('#keysInput').addEventListener('input', e => {
+    const keys = parseKeys(e.target.value);
+    $('#keyCount').textContent = `共 ${keys.length} 个`;
+  });
+  $('#pasteBtn').addEventListener('click', () => navigator.clipboard.readText().then(t => $('#keysInput').value = t.trim()));
+  $('#clearBtn').addEventListener('click', () => $('#keysInput').value = '');
+  $('#queryBtn').addEventListener('click', startQuery);
+  $('#filterSelect').addEventListener('change', renderTable);
+  $('#copyBtn').addEventListener('click', copyFiltered);
+  $('#exportBtn').addEventListener('click', exportCSV);
+  $('#clearHistoryBtn').addEventListener('click', () => confirm('确定清空历史记录？') && (saveHistory({}), renderHistory()));
+
+  /* ---------- 主函数 ---------- */
+  function parseKeys(text) {
+    return [...new Set(text.split(/[\n,]+/).map(k => k.trim()).filter(Boolean))];
+  }
+
+  async function startQuery() {
+    const keys = parseKeys($('#keysInput').value);
+    if (!keys.length) return toast('请输入 API 密钥');
+    $('#queryBtn').disabled = true;
+    $('.progress-bar').classList.remove('hidden');
+    const progress = $('.progress-bar div');
+    allResults = [];
+    renderTable();
+
+    const controller = new AbortController();
+    let finished = 0;
+
+    const run = async (key) => {
+      try {
+        const res = await fetch(API, {
+          method: 'GET',
+          headers: { Authorization: `Bearer ${key}` },
+          signal: controller.signal
+        });
+        if (!res.ok) throw new Error(res.status);
+        const data = await res.json();
+        const balance = parseFloat(data.data.totalBalance || 0);
+        return { key, status: 'valid', balance, time: new Date() };
+      } catch (e) {
+        return { key, status: e.message === '401' ? 'invalid' : 'error', balance: null, time: new Date() };
+      } finally {
+        finished++;
+        progress.style.width = `${(finished / keys.length) * 100}%`;
+      }
+    };
+
+    const promises = [];
+    for (let i = 0; i < keys.length; i += CONCURRENCY) {
+      const chunk = keys.slice(i, i + CONCURRENCY).map(run);
+      promises.push(...chunk);
+      await Promise.all(chunk);
+    }
+
+    allResults = await Promise.all(promises);
+    $('#queryBtn').disabled = false;
+    $('.progress-bar').classList.add('hidden');
+    toast('查询完成');
+    renderTable();
+    saveSnapshot(keys, allResults);
+  }
+
+  function renderTable() {
+    const filter = $('#filterSelect').value;
+    const tbody = $('#resultTable tbody');
+    tbody.innerHTML = '';
+    const filtered = allResults.filter(r => {
+      if (filter === 'all') return true;
+      if (filter === 'valid') return r.status === 'valid' && r.balance > 0;
+      if (filter === 'zero') return r.status === 'valid' && r.balance === 0;
+      if (filter === 'invalid') return r.status === 'invalid';
+    });
+    filtered.forEach(r => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${maskKey(r.key)}</td>
+        <td><span class="tag ${r.status}">${r.status === 'valid' ? (r.balance > 0 ? '有余额' : '余额 0') : '无效'}</span></td>
+        <td>${r.balance !== null ? r.balance.toFixed(4) : '-'}</td>
+        <td>${r.time.toLocaleTimeString()}</td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
+
+  function copyFiltered() {
+    const filter = $('#filterSelect').value;
+    const filtered = allResults.filter(r => {
+      if (filter === 'all') return true;
+      if (filter === 'valid') return r.status === 'valid' && r.balance > 0;
+      if (filter === 'zero') return r.status === 'valid' && r.balance === 0;
+      if (filter === 'invalid') return r.status === 'invalid';
+    });
+    if (!filtered.length) return toast('无数据可复制');
+    const text = filtered.map(r => `${r.key},${r.status},${r.balance ?? ''}`).join('\n');
+    navigator.clipboard.writeText(text).then(() => toast('已复制'));
+  }
+
+  function exportCSV() {
+    if (!allResults.length) return toast('无数据可导出');
+    const header = 'key,status,balance,time\n';
+    const rows = allResults.map(r => `${r.key},${r.status},${r.balance ?? ''},${r.time.toISOString()}`).join('\n');
+    const blob = new Blob([header + rows], { type: 'text/csv;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `siliconflow_balance_${Date.now()}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  function saveSnapshot(keys, results) {
+    const history = loadHistory();
+    const id = [...keys].sort().join('|');
+    history[id] = {
+      id,
+      apiKeys: keys,
+      snapshots: [...(history[id]?.snapshots || []), {
+        date: new Date(),
+        results,
+        totalBalance: results.filter(r => r.status === 'valid').reduce((s, r) => s + r.balance, 0)
+      }]
+    };
+    saveHistory(history);
+    renderHistory();
+  }
+
+  function renderHistory() {
+    const history = loadHistory();
+    const ul = $('#historyList');
+    ul.innerHTML = '';
+    Object.values(history).reverse().forEach(item => {
+      const li = document.createElement('li');
+      li.style.display = 'flex'; li.style.justifyContent = 'space-between'; li.style.padding = '6px 0'; li.style.borderBottom = '1px solid #eee';
+      const last = item.snapshots[item.snapshots.length - 1];
+      li.innerHTML = `
+        <span>${item.apiKeys.length} 个密钥 · 总余额 ${last.totalBalance.toFixed(4)} · ${new Date(last.date).toLocaleString()}</span>
+        <button class="btn-outline" style="font-size:12px;padding:2px 8px">重新查询</button>
+      `;
+      li.querySelector('button').onclick = () => {
+        $('#keysInput').value = item.apiKeys.join('\n');
+        startQuery();
       };
+      ul.appendChild(li);
+    });
+  }
 
-      // --- DOM ELEMENTS CACHE ---
-      const DOMElements = {
-        html: document.documentElement,
-        darkModeToggle: document.getElementById('dark-mode-toggle'),
-        sunIcon: document.getElementById('sun-icon'),
-        moonIcon: document.getElementById('moon-icon'),
-        apiKeysTextarea: document.getElementById('api-keys'),
-        queryBtn: document.getElementById('query-btn'),
-        querySpinner: document.getElementById('query-spinner'),
-        queryBtnText: document.getElementById('query-btn-text'),
-        pasteBtn: document.getElementById('paste-btn'),
-        clearBtn: document.getElementById('clear-btn'),
-        keyCount: document.getElementById('key-count'),
-        progressBarContainer: document.getElementById('progress-bar-container'),
-        progressBar: document.getElementById('progress-bar'),
-        errorMessage: document.getElementById('error-message'),
-        resultsArea: document.getElementById('results-area'),
-        totalBalance: document.getElementById('total-balance'),
-        validWithBalanceCount: document.getElementById('valid-with-balance-count'),
-        validNoBalanceCount: document.getElementById('valid-no-balance-count'),
-        invalidCount: document.getElementById('invalid-count'),
-        filterButtons: document.getElementById('filter-buttons'),
-        searchTermInput: document.getElementById('search-term'),
-        copyVisibleBtn: document.getElementById('copy-visible-btn'),
-        exportCsvBtn: document.getElementById('export-csv-btn'),
-        resultsTableBody: document.getElementById('results-table-body'),
-        noResultsMessage: document.getElementById('no-results-message'),
-        historyList: document.getElementById('history-list'),
-        noHistoryMessage: document.getElementById('no-history-message'),
-        clearHistoryBtn: document.getElementById('clear-history-btn'),
-        dialog: document.getElementById('dialog'),
-        dialogTitle: document.getElementById('dialog-title'),
-        dialogCloseBtn: document.getElementById('dialog-close-btn'),
-        dialogKeysList: document.getElementById('dialog-keys-list'),
-        dialogCopyAllBtn: document.getElementById('dialog-copy-all-btn'),
-        toastContainer: document.getElementById('toast-container'),
-      };
-
-      // --- HELPERS ---
-      // Polyfill for Intl.NumberFormat if not available
-      const currency = window.Intl && Intl.NumberFormat ?
-        new Intl.NumberFormat('zh-CN', { minimumFractionDigits: 4, maximumFractionDigits: 4 }) :
-        {
-          format: (n) => {
-            // Fallback formatting
-            const num = isFinite(Number(n)) ? Number(n) : 0;
-            return num.toFixed(4);
-          }
-        };
-      const formatMoney = (n) => currency.format(isFinite(Number(n)) ? Number(n) : 0);
-      const maskKey = (key) => key && key.length > 8 ? `${key.slice(0, 4)}...${key.slice(-4)}` : key;
-      // Polyfill for Array.from and Set if not available
-      const getUniqueKeys = () => {
-        const keys = DOMElements.apiKeysTextarea.value.split(/[\n,]/).map(s => s.trim()).filter(Boolean);
-        if (window.Set && window.Array && Array.from) {
-          return Array.from(new Set(keys));
-        } else {
-          // Fallback for browsers that don't support Set or Array.from
-          const uniqueKeys = [];
-          for (let i = 0; i < keys.length; i++) {
-            if (uniqueKeys.indexOf(keys[i]) === -1) {
-              uniqueKeys.push(keys[i]);
-            }
-          }
-          return uniqueKeys;
-        }
-      };
-
-      // --- UI & UX LOGIC ---
-      function addToast(text, type = 'info', ttl = 3000) {
-        const toast = document.createElement('div');
-        const colors = {
-          info: 'bg-blue-600', success: 'bg-green-600',
-          error: 'bg-rose-600', warn: 'bg-amber-500'
-        };
-        const icons = {
-          success: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>`,
-          error: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" /></svg>`,
-          default: `<svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" /></svg>`
-        };
-        toast.className = `flex items-start gap-3 w-full p-3 rounded-lg shadow-2xl text-white text-sm animate-toast-in ${colors[type] || colors.info}`;
-        toast.innerHTML = `
-          <div class="flex-shrink-0">${icons[type] || icons.default}</div>
-          <div class="flex-1">${text}</div>
-          <button class="ml-2 -mr-1 p-1 rounded-full hover:bg-white/20 transition-colors">
-            <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z"/></svg>
-          </button>`;
-        
-        const removeToast = () => {
-          // Fallback for browsers that don't support classList
-          if (toast.classList) {
-            toast.classList.remove('animate-toast-in');
-            toast.classList.add('opacity-0', 'transition-opacity', 'duration-300');
-          } else {
-            toast.className = toast.className.replace('animate-toast-in', '');
-            toast.className += ' opacity-0 transition-opacity duration-300';
-          }
-          setTimeout(() => {
-            // Fallback for browsers that don't support remove()
-            if (toast.remove) {
-              toast.remove();
-            } else {
-              toast.parentNode.removeChild(toast);
-            }
-          }, 300);
-        };
-        
-        toast.querySelector('button').onclick = removeToast;
-        DOMElements.toastContainer.appendChild(toast);
-        if (ttl) setTimeout(removeToast, ttl);
-      }
-
-      // Clipboard API with fallback
-      async function copyToClipboard(text, btn) {
-        try {
-          if (navigator.clipboard && window.isSecureContext) {
-            // Use Clipboard API if available
-            await navigator.clipboard.writeText(text || '');
-          } else {
-            // Fallback for browsers that don't support Clipboard API
-            const textArea = document.createElement("textarea");
-            textArea.value = text || '';
-            textArea.style.position = "fixed";
-            textArea.style.left = "-99999px";
-            textArea.style.top = "-999999px";
-            document.body.appendChild(textArea);
-            // Fallback for browsers that don't support focus()
-            if (textArea.focus) {
-              textArea.focus();
-            }
-            // Fallback for browsers that don't support select()
-            if (textArea.select) {
-              textArea.select();
-            }
-            // Fallback for browsers that don't support execCommand
-            try {
-              document.execCommand('copy');
-            } catch (e) {
-              // If execCommand fails, show a message to the user
-              addToast('无法复制到剪贴板，请手动复制', 'error');
-            }
-            // Fallback for browsers that don't support remove()
-            if (textArea.remove) {
-              textArea.remove();
-            } else {
-              textArea.parentNode.removeChild(textArea);
-            }
-          }
-          addToast('已复制', 'success');
-          if(btn) {
-            const originalText = btn.textContent;
-            btn.textContent = '已复制!';
-            setTimeout(() => { btn.textContent = originalText; }, 2000);
-          }
-        } catch { addToast('复制失败', 'error'); }
-      }
-
-      function openDialog(type) {
-        let title, keys, titleClass;
-        const validWithBalance = state.results.filter(r => !r.error && Number(r.totalBalance) > 0);
-        const validNoBalance = state.results.filter(r => !r.error && Number(r.totalBalance) === 0);
-        const invalid = state.results.filter(r => r.error);
-        
-        if (type === 'success') {
-          if (!validWithBalance.length) return;
-          title = `有余额的 Key (${validWithBalance.length} 个)`;
-          keys = validWithBalance.map(r => r.apiKey);
-          titleClass = 'text-green-600 dark:text-green-400';
-        } else if (type === 'warning') {
-          if (!validNoBalance.length) return;
-          title = `无余额的 Key (${validNoBalance.length} 个)`;
-          keys = validNoBalance.map(r => r.apiKey);
-          titleClass = 'text-amber-600 dark:text-amber-400';
-        } else {
-          if (!invalid.length) return;
-          title = `无效的 Key (${invalid.length} 个)`;
-          keys = invalid.map(r => r.apiKey);
-          titleClass = 'text-rose-600 dark:text-rose-400';
-        }
-        
-        DOMElements.dialogTitle.textContent = title;
-        DOMElements.dialogTitle.className = `font-semibold text-lg ${titleClass}`;
-        
-        DOMElements.dialogKeysList.innerHTML = keys.map((k, idx) => `
-          <div class="flex items-center gap-3 p-2 rounded-lg hover:bg-white/20 dark:hover:bg-slate-800/40">
-            <div class="flex-1 rounded-md px-3 py-2 font-mono break-all text-sm bg-white/30 dark:bg-slate-800/50 border border-slate-300 dark:border-slate-700">${k}</div>
-            <button data-key="${k}" class="dialog-copy-btn flex-shrink-0 px-3 py-2 rounded-md bg-white/60 dark:bg-slate-800/80 hover:bg-white/90 dark:hover:bg-slate-700/80 transition-colors border border-slate-300 dark:border-slate-700 text-sm min-w-[70px]">复制</button>
-          </div>`).join('');
-        
-                // Fallback for browsers that don't support dataset
-                if (DOMElements.dialogCopyAllBtn.dataset) {
-                  DOMElements.dialogCopyAllBtn.dataset.keys = keys.join('\n');
-                } else {
-                  // Fallback for browsers that don't support setAttribute
-                  if (DOMElements.dialogCopyAllBtn.setAttribute) {
-                    DOMElements.dialogCopyAllBtn.setAttribute('data-keys', keys.join('\n'));
-                  }
-                }
-                // Fallback for browsers that don't support classList
-                if (DOMElements.dialog.classList) {
-                  DOMElements.dialog.classList.remove('hidden');
-                } else {
-                  DOMElements.dialog.className = DOMElements.dialog.className.replace('hidden', '');
-                }
-      }
-
-      function closeDialog() {
-        // Fallback for browsers that don't support classList
-        if (DOMElements.dialog.classList) {
-          DOMElements.dialog.classList.add('hidden');
-        } else {
-          DOMElements.dialog.className += ' hidden';
-        }
-      }
-
-
-      // --- RENDER LOGIC ---
-      function renderTable() {
-        let filtered = state.results.slice();
-        if (state.filterStatus === 'hasBalance') filtered = filtered.filter(r => !r.error && Number(r.totalBalance) > 0);
-        else if (state.filterStatus === 'noBalance') filtered = filtered.filter(r => !r.error && Number(r.totalBalance) === 0);
-        else if (state.filterStatus === 'invalid') filtered = filtered.filter(r => !!r.error);
-
-        if (state.searchTerm) {
-          const q = state.searchTerm.trim().toLowerCase();
-          filtered = filtered.filter(r => r.apiKey.toLowerCase().includes(q));
-        }
-
-        DOMElements.copyVisibleBtn.disabled = !filtered.length;
-        
-        if (!filtered.length) {
-          DOMElements.resultsTableBody.innerHTML = '';
-          // Fallback for browsers that don't support classList
-          if (DOMElements.noResultsMessage.classList) {
-            DOMElements.noResultsMessage.classList.remove('hidden');
-          } else {
-            DOMElements.noResultsMessage.className = DOMElements.noResultsMessage.className.replace('hidden', '');
-          }
-          return;
-        }
-
-        // Fallback for browsers that don't support classList
-        if (DOMElements.noResultsMessage.classList) {
-          DOMElements.noResultsMessage.classList.add('hidden');
-        } else {
-          DOMElements.noResultsMessage.className += ' hidden';
-        }
-        DOMElements.resultsTableBody.innerHTML = filtered.map((r, i) => {
-          let statusHtml, balanceChange;
-          if (r.error) {
-            statusHtml = `<span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-rose-100 text-rose-800 dark:bg-rose-900/50 dark:text-rose-300">无效</span>`;
-            balanceChange = { text: '--', class: 'text-slate-400' };
-          } else {
-            statusHtml = Number(r.totalBalance) > 0
-              ? `<span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-300">有余额</span>`
-              : `<span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800 dark:bg-amber-900/50 dark:text-amber-300">无余额</span>`;
-            balanceChange = getBalanceChange(r.apiKey);
-          }
-
-          return `
-            <tr class="border-b border-slate-200/30 dark:border-slate-700/30 hover:bg-blue-500/5 dark:hover:bg-blue-500/10">
-              <td class="p-3 text-slate-500 dark:text-slate-400">${i + 1}</td>
-              <td class="p-3 font-mono" title="${r.apiKey}">${maskKey(r.apiKey)}</td>
-              <td class="p-3">${statusHtml}</td>
-              <td class="p-3 text-right font-medium text-slate-800 dark:text-slate-100">${r.error ? '--' : formatMoney(r.totalBalance)}</td>
-              <td class="p-3 text-right ${balanceChange.class}">${balanceChange.text}</td>
-              <td class="p-3 text-right text-slate-500 dark:text-slate-400">${r.error ? '--' : formatMoney(r.giftBalance)}</td>
-              <td class="p-3 text-right text-slate-500 dark:text-slate-400">${r.error ? '--' : formatMoney(r.chargeBalance)}</td>
-              <td class="p-3 text-center">
-                <button data-key="${r.apiKey}" class="copy-key-btn text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium transition-colors">复制</button>
-              </td>
-            </tr>`;
-        }).join('');
-      }
-
-      function renderSummaryCards() {
-        const validWithBalance = state.results.filter(r => !r.error && Number(r.totalBalance) > 0);
-        const validNoBalance = state.results.filter(r => !r.error && Number(r.totalBalance) === 0);
-        const invalid = state.results.filter(r => r.error);
-        const total = state.results.filter(r => !r.error).reduce((sum, r) => sum + parseFloat(r.totalBalance || 0), 0);
-
-        DOMElements.totalBalance.textContent = formatMoney(total);
-        DOMElements.validWithBalanceCount.textContent = validWithBalance.length;
-        DOMElements.validNoBalanceCount.textContent = validNoBalance.length;
-        DOMElements.invalidCount.textContent = invalid.length;
-      }
-
-      function renderHistory() {
-        const sorted = Object.values(state.history).sort((a, b) => new Date(b.snapshots[0].date) - new Date(a.snapshots[0].date));
-        
-        if (!sorted.length) {
-          DOMElements.historyList.innerHTML = '';
-          // Fallback for browsers that don't support classList
-          if (DOMElements.noHistoryMessage.classList) {
-            DOMElements.noHistoryMessage.classList.remove('hidden');
-          } else {
-            DOMElements.noHistoryMessage.className = DOMElements.noHistoryMessage.className.replace('hidden', '');
-          }
-          if (DOMElements.clearHistoryBtn.classList) {
-            DOMElements.clearHistoryBtn.classList.add('hidden');
-          } else {
-            DOMElements.clearHistoryBtn.className += ' hidden';
-          }
-          return;
-        }
-
-        // Fallback for browsers that don't support classList
-        if (DOMElements.noHistoryMessage.classList) {
-          DOMElements.noHistoryMessage.classList.add('hidden');
-        } else {
-          DOMElements.noHistoryMessage.className += ' hidden';
-        }
-        if (DOMElements.clearHistoryBtn.classList) {
-          DOMElements.clearHistoryBtn.classList.remove('hidden');
-        } else {
-          DOMElements.clearHistoryBtn.className = DOMElements.clearHistoryBtn.className.replace('hidden', '');
-        }
-        DOMElements.historyList.innerHTML = sorted.map(item => `
-          <li data-history-id="${item.id}" class="history-item rounded-lg p-4 cursor-pointer transition-all border ${item.id === state.activeHistoryId ? 'bg-blue-500/10 border-blue-500/30' : 'bg-white/30 dark:bg-slate-800/40 border-slate-300 dark:border-slate-700 hover:border-blue-500/30 hover:bg-blue-500/5'}">
-            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-              <div class="min-w-0 flex-1">
-                <div class="text-xs text-slate-500 dark:text-slate-400">${item.apiKeys.length} Keys</div>
-                <div class="text-sm mt-1.5">
-                  <span class="text-slate-500">${(function() {
-                    const date = new Date(item.snapshots[0].date);
-                    // Fallback for browsers that don't support toLocaleString with locale
-                    try {
-                      return date.toLocaleString('zh-CN');
-                    } catch (e) {
-                      return date.toLocaleString();
-                    }
-                  })()}</span>
-                  <span class="mx-2 text-slate-400">|</span>
-                  <span class="font-semibold text-blue-600 dark:text-blue-400">${formatMoney(item.snapshots[0].totalBalance)} 元</span>
-                  <span class="text-slate-400"> (${item.snapshots.length} 次查询)</span>
-                </div>
-              </div>
-              <button data-history-id="${item.id}" class="history-requery-btn flex-shrink-0 px-3 py-2 text-sm rounded-md bg-white/60 dark:bg-slate-800/80 hover:bg-white/90 dark:hover:bg-slate-700/80 transition-colors border border-slate-300 dark:border-slate-700 font-medium">重新查询</button>
-            </div>
-          </li>`).join('');
-      }
-
-      function updateUI() {
-        // Update key count
-        const keys = getUniqueKeys();
-        if (keys.length) {
-          DOMElements.keyCount.textContent = `去重后 ${keys.length} 个`;
-          // Fallback for browsers that don't support classList
-          if (DOMElements.keyCount.classList) {
-            DOMElements.keyCount.classList.remove('hidden');
-          } else {
-            DOMElements.keyCount.className = DOMElements.keyCount.className.replace('hidden', '');
-          }
-        } else {
-          // Fallback for browsers that don't support classList
-          if (DOMElements.keyCount.classList) {
-            DOMElements.keyCount.classList.add('hidden');
-          } else {
-            DOMElements.keyCount.className += ' hidden';
-          }
-        }
-        
-        // Update query button state
-        DOMElements.queryBtn.disabled = !keys.length && !state.loading;
-        if (state.loading) {
-          // Fallback for browsers that don't support classList
-          if (DOMElements.queryBtn.classList) {
-            DOMElements.queryBtn.classList.remove('bg-blue-600', 'hover:bg-blue-700');
-            DOMElements.queryBtn.classList.add('bg-rose-600', 'hover:bg-rose-700');
-          } else {
-            DOMElements.queryBtn.className = DOMElements.queryBtn.className.replace('bg-blue-600', '').replace('hover:bg-blue-700', '');
-            DOMElements.queryBtn.className += ' bg-rose-600 hover:bg-rose-700';
-          }
-          if (DOMElements.querySpinner.classList) {
-            DOMElements.querySpinner.classList.remove('hidden');
-          } else {
-            DOMElements.querySpinner.className = DOMElements.querySpinner.className.replace('hidden', '');
-          }
-          DOMElements.queryBtnText.textContent = `查询中 (${state.progress.done}/${state.progress.total})`;
-        } else {
-          // Fallback for browsers that don't support classList
-          if (DOMElements.queryBtn.classList) {
-            DOMElements.queryBtn.classList.add('bg-blue-600', 'hover:bg-blue-700');
-            DOMElements.queryBtn.classList.remove('bg-rose-600', 'hover:bg-rose-700');
-          } else {
-            DOMElements.queryBtn.className = DOMElements.queryBtn.className.replace('bg-rose-600', '').replace('hover:bg-rose-700', '');
-            DOMElements.queryBtn.className += ' bg-blue-600 hover:bg-blue-700';
-          }
-          if (DOMElements.querySpinner.classList) {
-            DOMElements.querySpinner.classList.add('hidden');
-          } else {
-            DOMElements.querySpinner.className += ' hidden';
-          }
-          DOMElements.queryBtnText.textContent = '查询余额';
-        }
-
-        // Update progress bar
-        // Fallback for browsers that don't support classList
-        if (DOMElements.progressBarContainer.classList) {
-          DOMElements.progressBarContainer.classList.toggle('hidden', !state.loading);
-        } else {
-          if (state.loading) {
-            DOMElements.progressBarContainer.className = DOMElements.progressBarContainer.className.replace('hidden', '');
-          } else {
-            DOMElements.progressBarContainer.className += ' hidden';
-          }
-        }
-        const percent = state.progress.total ? Math.round((state.progress.done / state.progress.total) * 100) : 0;
-        DOMElements.progressBar.style.width = `${percent}%`;
-
-        // Update results area
-        // Fallback for browsers that don't support classList
-        if (DOMElements.resultsArea.classList) {
-          DOMElements.resultsArea.classList.toggle('hidden', !state.results.length);
-        } else {
-          if (state.results.length) {
-            DOMElements.resultsArea.className = DOMElements.resultsArea.className.replace('hidden', '');
-          } else {
-            DOMElements.resultsArea.className += ' hidden';
-          }
-        }
-        if (state.results.length) {
-          renderSummaryCards();
-          renderTable();
-        }
-        DOMElements.exportCsvBtn.disabled = !state.results.length;
-
-        // Update history
-        renderHistory();
-      }
-
-      // --- CORE LOGIC & API ---
-      // Polyfill for EventTarget if not available
-      const EventTargetPolyfill = window.EventTarget || class {
-        constructor() {
-          this._listeners = {};
-        }
-        addEventListener(type, callback) {
-          if (!(type in this._listeners)) {
-            this._listeners[type] = [];
-          }
-          this._listeners[type].push(callback);
-        }
-        removeEventListener(type, callback) {
-          if (!(type in this._listeners)) {
-            return;
-          }
-          const stack = this._listeners[type];
-          for (let i = 0, l = stack.length; i < l; i++) {
-            if (stack[i] === callback) {
-              stack.splice(i, 1);
-              return;
-            }
-          }
-        }
-        dispatchEvent(event) {
-          if (!(event.type in this._listeners)) {
-            return true;
-          }
-          const stack = this._listeners[event.type].slice();
-          for (let i = 0, l = stack.length; i < l; i++) {
-            stack[i].call(this, event);
-          }
-          return !event.defaultPrevented;
-        }
-      };
-
-      // Polyfill for AbortController if not available
-      const AbortControllerPolyfill = window.AbortController || class {
-        constructor() {
-          this.signal = new EventTargetPolyfill();
-          this.signal.aborted = false;
-        }
-        abort() {
-          this.signal.aborted = true;
-          this.signal.dispatchEvent(new Event('abort'));
-        }
-      };
-
-      async function fetchKey(apiKey, signal) {
-        try {
-          const controller = new AbortControllerPolyfill();
-          const timeoutId = setTimeout(() => controller.abort('timeout'), 15000);
-          if (signal && signal.addEventListener) {
-            signal.addEventListener('abort', () => controller.abort(), { once: true });
-          }
-
-          const fetchOptions = { headers: { Authorization: `Bearer ${apiKey}` } };
-          // Only add signal if AbortController is supported
-          if (window.AbortController) {
-            fetchOptions.signal = controller.signal;
-          }
-
-          const res = await fetch(API_URL, fetchOptions);
-          clearTimeout(timeoutId);
-
-          if (res.status === 401) throw new Error('API Key 无效');
-          if (!res.ok) throw new Error(`HTTP ${res.status}`);
-          
-          const data = await res.json();
-          if (!data?.data) throw new Error('返回数据格式异常');
-          
-          return { apiKey, ...data.data, giftBalance: data.data.balance || '0', error: null };
-        } catch (e) {
-          const msg = e.name === 'AbortError' ? (state.stopRequested ? '用户取消' : '请求超时') : (e.message || '查询失败');
-          return { apiKey, error: msg };
-        }
-      }
-
-      async function runWithConcurrency(keys, limit) {
-        state.progress = { total: keys.length, done: 0 };
-        // Only clear controllers if AbortController is supported
-        if (window.AbortController) {
-          state.controllers.clear();
-        }
-        state.stopRequested = false;
-        state.results = keys.map(k => ({ apiKey: k, error: 'pending' }));
-        updateUI();
-
-        let index = 0;
-        const runners = Array(Math.min(limit, keys.length)).fill(0).map(async () => {
-          while (!state.stopRequested && index < keys.length) {
-            const i = index++;
-            const key = keys[i];
-            // Only create controller if AbortController is supported
-            if (window.AbortController) {
-              const ctrl = new AbortControllerPolyfill();
-              state.controllers.set(key, ctrl);
-              
-              const res = await fetchKey(key, ctrl.signal);
-              state.controllers.delete(key);
-            } else {
-              // Fallback when AbortController is not supported
-              const res = await fetchKey(key, null);
-            }
-            
-            state.results[i] = res;
-            state.progress.done++;
-            updateUI();
-          }
-        });
-        await Promise.all(runners);
-      }
-
-      async function fetchBalances() {
-        const keys = getUniqueKeys();
-        if (!keys.length) return addToast('请输入至少一个 API Key', 'warn');
-        DOMElements.errorMessage.textContent = '';
-        state.loading = true;
-        updateUI();
-        
-        await runWithConcurrency(keys, CONCURRENCY);
-        
-        if (!state.stopRequested) {
-          addToast('查询完成', 'success');
-          saveToHistory();
-          // Fallback for browsers that don't support scrollIntoView with behavior option
-          if (DOMElements.resultsArea.scrollIntoView) {
-            try {
-              DOMElements.resultsArea.scrollIntoView({ behavior: 'smooth' });
-            } catch (e) {
-              DOMElements.resultsArea.scrollIntoView();
-            }
-          }
-        }
-        state.loading = false;
-        updateUI();
-      }
-
-      function cancelAll() {
-        state.stopRequested = true;
-        // Only abort controllers if AbortController is supported
-        if (window.AbortController) {
-          state.controllers.forEach(c => c.abort());
-          state.controllers.clear();
-        }
-        addToast('已取消查询', 'warn');
-        state.loading = false;
-        updateUI();
-      }
-
-      // --- HISTORY & PERSISTENCE ---
-      function saveToHistory() {
-        // Only save to localStorage if supported
-        if (!localStorageSupported) return;
-        
-        const keys = getUniqueKeys();
-        if(!keys.length) return;
-        const groupId = keys.slice().sort().join('|');
-        const snapshot = {
-          date: new Date().toISOString(),
-          results: JSON.parse(JSON.stringify(state.results)),
-          totalBalance: state.results.filter(r => !r.error).reduce((sum, r) => sum + parseFloat(r.totalBalance || 0), 0),
-        };
-
-        if (state.history[groupId]) {
-          state.history[groupId].snapshots.unshift(snapshot);
-          state.history[groupId].snapshots.splice(10); // Limit snapshots
-        } else {
-          state.history[groupId] = { id: groupId, apiKeys: keys.slice(), snapshots: [snapshot] };
-        }
-        state.activeHistoryId = groupId;
-        
-        const groups = Object.values(state.history).sort((a,b) => new Date(b.snapshots[0].date) - new Date(a.snapshots[0].date));
-        if (groups.length > 30) {
-          delete state.history[groups[groups.length - 1].id];
-        }
-        localStorage.setItem(HISTORY_KEY, JSON.stringify(state.history));
-      }
-
-      function getBalanceChange(apiKey) {
-        const group = state.history[state.activeHistoryId];
-        if (!group || group.snapshots.length < 2) return { text: '首次', class: 'text-slate-400' };
-
-        const cur = group.snapshots[0].results.find(r => r.apiKey === apiKey);
-        const prev = group.snapshots[1].results.find(r => r.apiKey === apiKey);
-        if (!cur || cur.error || !prev || prev.error) return { text: '--', class: 'text-slate-400' };
-
-        const diff = (parseFloat(cur.totalBalance) || 0) - (parseFloat(prev.totalBalance) || 0);
-        if (diff > 0.0001) return { text: `+${formatMoney(diff)}`, class: 'text-green-600 font-medium' };
-        if (diff < -0.0001) return { text: formatMoney(diff), class: 'text-rose-600 font-medium' };
-        return { text: '无变化', class: 'text-slate-500' };
-      }
-
-      function loadFromHistory(id) {
-        const item = state.history[id];
-        if (!item) return;
-        state.results = item.snapshots[0].results;
-        state.activeHistoryId = item.id;
-        DOMElements.errorMessage.textContent = '';
-        updateUI();
-        // Fallback for browsers that don't support scrollIntoView with behavior option
-        if (DOMElements.resultsArea.scrollIntoView) {
-          try {
-            DOMElements.resultsArea.scrollIntoView({ behavior: 'smooth' });
-          } catch (e) {
-            DOMElements.resultsArea.scrollIntoView();
-          }
-        }
-      }
-      
-      function reQueryFromHistory(id) {
-        const item = state.history[id];
-        if (!item) return;
-        DOMElements.apiKeysTextarea.value = item.apiKeys.join('\n');
-        // Fallback for browsers that don't support scrollTo with behavior option
-        if (window.scrollTo) {
-          try {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-          } catch (e) {
-            window.scrollTo(0, 0);
-          }
-        }
-        fetchBalances();
-      }
-
-      function clearHistory() {
-        if (!localStorageSupported) return;
-        
-                // Fallback for browsers that don't support confirm
-                if (window.confirm && confirm('确定清空所有历史记录吗？')) {
-                  state.history = {};
-          state.results = [];
-          state.activeHistoryId = null;
-          localStorage.removeItem(HISTORY_KEY);
-          updateUI();
-          addToast('已清空历史', 'info');
-        }
-      }
-
-      function savePref(key, val) {
-        if (!localStorageSupported) return;
-        
-        const prefs = JSON.parse(localStorage.getItem(PREFS_KEY) || '{}');
-        prefs[key] = val;
-        localStorage.setItem(PREFS_KEY, JSON.stringify(prefs));
-      }
-
-      function loadPrefs() {
-        if (!localStorageSupported) {
-          // Fallback to system preference if localStorage is not supported
-          state.isDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-          return;
-        }
-        
-        const prefs = JSON.parse(localStorage.getItem(PREFS_KEY) || '{}');
-        state.isDark = typeof prefs.darkMode === 'boolean'
-          ? prefs.darkMode
-          : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
-        updateDarkMode();
-      }
-
-      function updateDarkMode(){
-        // Fallback for browsers that don't support classList
-        if (DOMElements.html.classList) {
-          DOMElements.html.classList.toggle('dark', state.isDark);
-        } else {
-          if (state.isDark) {
-            DOMElements.html.className += ' dark';
-          } else {
-            DOMElements.html.className = DOMElements.html.className.replace('dark', '');
-          }
-        }
-        if (DOMElements.sunIcon.classList) {
-          DOMElements.sunIcon.classList.toggle('hidden', state.isDark);
-        } else {
-          if (state.isDark) {
-            DOMElements.sunIcon.className += ' hidden';
-          } else {
-            DOMElements.sunIcon.className = DOMElements.sunIcon.className.replace('hidden', '');
-          }
-        }
-        if (DOMElements.moonIcon.classList) {
-          DOMElements.moonIcon.classList.toggle('hidden', !state.isDark);
-        } else {
-          if (!state.isDark) {
-            DOMElements.moonIcon.className += ' hidden';
-          } else {
-            DOMElements.moonIcon.className = DOMElements.moonIcon.className.replace('hidden', '');
-          }
-        }
-      }
-      
-      // --- EVENT BINDING ---
-      function bindEvents() {
-        DOMElements.darkModeToggle.addEventListener('click', () => {
-          state.isDark = !state.isDark;
-          updateDarkMode();
-          savePref('darkMode', state.isDark);
-        });
-
-        DOMElements.apiKeysTextarea.addEventListener('input', updateUI);
-        DOMElements.queryBtn.addEventListener('click', () => state.loading ? cancelAll() : fetchBalances());
-        DOMElements.clearBtn.addEventListener('click', () => {
-          DOMElements.apiKeysTextarea.value = '';
-          updateUI();
-        });
-        DOMElements.pasteBtn.addEventListener('click', async () => {
-          try {
-            if (navigator.clipboard && window.isSecureContext) {
-              // Use Clipboard API if available
-              const text = await navigator.clipboard.readText();
-              if (text) {
-                DOMElements.apiKeysTextarea.value = text;
-                updateUI();
-                addToast('已从剪贴板粘贴', 'success');
-              }
-            } else {
-              // Fallback for browsers that don't support Clipboard API
-              addToast('请手动粘贴内容到输入框', 'info');
-              // Fallback for browsers that don't support focus()
-              if (DOMElements.apiKeysTextarea.focus) {
-                DOMElements.apiKeysTextarea.focus();
-              }
-            }
-          } catch { addToast('无法访问剪贴板', 'error'); }
-        });
-
-        DOMElements.filterButtons.addEventListener('click', (e) => {
-          // Fallback for browsers that don't support closest
-          const btn = e.target.closest ? e.target.closest('.filter-btn') : (function(el) {
-            while (el && el !== document) {
-              if (el.classList && el.classList.contains('filter-btn')) {
-                return el;
-              }
-              el = el.parentNode;
-            }
-            return null;
-          })(e.target);
-          if (!btn) return;
-          // Fallback for browsers that don't support dataset
-          state.filterStatus = btn.dataset ? btn.dataset.status : btn.getAttribute('data-status');
-          DOMElements.filterButtons.querySelectorAll('.filter-btn').forEach(b => {
-            // Fallback for browsers that don't support classList
-            if (b.classList) {
-              b.classList.remove('bg-blue-600', 'text-white');
-              b.classList.add('bg-white/60', 'dark:bg-slate-800/80', 'hover:bg-white/90', 'dark:hover:bg-slate-700/80');
-            } else {
-              b.className = b.className.replace('bg-blue-600', '').replace('text-white', '');
-              b.className += ' bg-white/60 dark:bg-slate-800/80 hover:bg-white/90 dark:hover:bg-slate-700/80';
-            }
-          });
-          // Fallback for browsers that don't support classList
-          if (btn.classList) {
-            btn.classList.add('bg-blue-600', 'text-white');
-            btn.classList.remove('bg-white/60', 'dark:bg-slate-800/80', 'hover:bg-white/90', 'dark:hover:bg-slate-700/80');
-          } else {
-            btn.className = btn.className.replace('bg-white/60', '').replace('dark:bg-slate-800/80', '').replace('hover:bg-white/90', '').replace('dark:hover:bg-slate-700/80', '');
-            btn.className += ' bg-blue-600 text-white';
-          }
-          renderTable();
-        });
-
-        DOMElements.searchTermInput.addEventListener('input', (e) => {
-          state.searchTerm = e.target.value;
-          renderTable();
-        });
-
-        DOMElements.resultsTableBody.addEventListener('click', (e) => {
-           // Fallback for browsers that don't support closest
-           const btn = e.target.closest ? e.target.closest('.copy-key-btn') : (function(el) {
-             while (el && el !== document) {
-               if (el.classList && el.classList.contains('copy-key-btn')) {
-                 return el;
-               }
-               el = el.parentNode;
-             }
-             return null;
-           })(e.target);
-           // Fallback for browsers that don't support dataset
-           if(btn) copyToClipboard(btn.dataset ? btn.dataset.key : btn.getAttribute('data-key'), btn);
-        });
-
-        DOMElements.historyList.addEventListener('click', (e) => {
-            // Fallback for browsers that don't support closest
-            const item = e.target.closest ? e.target.closest('.history-item') : (function(el) {
-              while (el && el !== document) {
-                if (el.classList && el.classList.contains('history-item')) {
-                  return el;
-                }
-                el = el.parentNode;
-              }
-              return null;
-            })(e.target);
-            const requeryBtn = e.target.closest ? e.target.closest('.history-requery-btn') : (function(el) {
-              while (el && el !== document) {
-                if (el.classList && el.classList.contains('history-requery-btn')) {
-                  return el;
-                }
-                el = el.parentNode;
-              }
-              return null;
-            })(e.target);
-            // Fallback for browsers that don't support dataset
-            if (requeryBtn) {
-                reQueryFromHistory(requeryBtn.dataset ? requeryBtn.dataset.historyId : requeryBtn.getAttribute('data-history-id'));
-            } else if (item) {
-                loadFromHistory(item.dataset ? item.dataset.historyId : item.getAttribute('data-history-id'));
-            }
-        });
-
-        DOMElements.clearHistoryBtn.addEventListener('click', clearHistory);
-        
-        document.querySelectorAll('.summary-card-btn').forEach(btn => {
-           // Fallback for browsers that don't support dataset
-           btn.addEventListener('click', () => openDialog(btn.dataset ? btn.dataset.dialogType : btn.getAttribute('data-dialog-type')));
-        });
-
-        DOMElements.dialogCloseBtn.addEventListener('click', closeDialog);
-        DOMElements.dialog.addEventListener('click', (e) => {
-            if(e.target === DOMElements.dialog) closeDialog();
-        });
-
-        DOMElements.dialogKeysList.addEventListener('click', e => {
-            // Fallback for browsers that don't support closest
-            const btn = e.target.closest ? e.target.closest('.dialog-copy-btn') : (function(el) {
-              while (el && el !== document) {
-                if (el.classList && el.classList.contains('dialog-copy-btn')) {
-                  return el;
-                }
-                el = el.parentNode;
-              }
-              return null;
-            })(e.target);
-            // Fallback for browsers that don't support dataset
-            if(btn) copyToClipboard(btn.dataset ? btn.dataset.key : btn.getAttribute('data-key'), btn);
-        });
-
-        DOMElements.dialogCopyAllBtn.addEventListener('click', e => {
-            // Fallback for browsers that don't support dataset
-            copyToClipboard(e.target.dataset ? e.target.dataset.keys : e.target.getAttribute('data-keys'), e.target);
-        });
-
-        DOMElements.copyVisibleBtn.addEventListener('click', () => {
-            let filtered = state.results.slice();
-             if (state.filterStatus === 'hasBalance') filtered = filtered.filter(r => !r.error && Number(r.totalBalance) > 0);
-            else if (state.filterStatus === 'noBalance') filtered = filtered.filter(r => !r.error && Number(r.totalBalance) === 0);
-            else if (state.filterStatus === 'invalid') filtered = filtered.filter(r => !!r.error);
-            if (state.searchTerm) {
-                const q = state.searchTerm.trim().toLowerCase();
-                filtered = filtered.filter(r => r.apiKey.toLowerCase().includes(q));
-            }
-            if(filtered.length) copyToClipboard(filtered.map(r => r.apiKey).join('\n'));
-        });
-
-        DOMElements.exportCsvBtn.addEventListener('click', () => {
-            if (!state.results.length) return;
-            // Check for Blob and URL API support
-            if (!window.Blob || !window.URL || !window.URL.createObjectURL || !window.URL.revokeObjectURL) {
-                addToast('您的浏览器不支持导出功能，请升级浏览器。', 'error');
-                return;
-            }
-            
-            const headers = ['#','API Key','状态','总余额 (元)','余额变化','赠送 (元)','充值 (元)'];
-            const rows = state.results.map((r, i) => [
-                i + 1, r.apiKey,
-                r.error ? '无效' : (Number(r.totalBalance) > 0 ? '有余额' : '无余额'),
-                r.error ? '' : r.totalBalance,
-                r.error ? '' : getBalanceChange(r.apiKey).text,
-                r.error ? '' : r.giftBalance,
-                r.error ? '' : r.chargeBalance
-            ]);
-            const csv = [headers, ...rows].map(row =>
-                row.map(cell => `"${String(cell ?? '').replace(/"/g, '""')}"`).join(',')
-            ).join('\n');
-            const blob = new Blob([`\uFEFF${csv}`], { type: 'text/csv;charset=utf-8;' });
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = `siliconflow_balances_${new Date().toISOString().slice(0,10)}.csv`;
-            link.click();
-            URL.revokeObjectURL(link.href);
-            addToast('CSV 已导出', 'success');
-        });
-      }
-
-      // --- INITIALIZATION ---
-      function init() {
-        loadPrefs();
-        // Only load history if localStorage is supported
-        if (localStorageSupported) {
-          try {
-            state.history = JSON.parse(localStorage.getItem(HISTORY_KEY) || '{}');
-          } catch {
-            localStorage.removeItem(HISTORY_KEY);
-          }
-        }
-        bindEvents();
-        updateUI();
-      }
-
-      // Run on DOM ready
-      // Check for JSON support
-      if (!window.JSON) {
-        document.addEventListener('DOMContentLoaded', function() {
-          addToast('您的浏览器版本过低，请升级浏览器以获得更好的体验。', 'error');
-          return;
-        });
-      } else if (window.Promise) {
-        document.addEventListener('DOMContentLoaded', init);
-      } else {
-        // Fallback for browsers that don't support Promise
-        document.addEventListener('DOMContentLoaded', function() {
-          addToast('您的浏览器版本过低，请升级浏览器以获得更好的体验。', 'error');
-        });
-      }
-
-    })();
+  /* ---------- 初始化 ---------- */
+  renderHistory();
   </script>
 </body>
 </html>

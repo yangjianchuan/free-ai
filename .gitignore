@@ -1,4 +1,4 @@
 # Ignore VSCode settings
 .vscode/
-*crush*
-*.lnk
+temp/
+QWEN.md
