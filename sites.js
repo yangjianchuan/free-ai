@@ -81,10 +81,11 @@ document.addEventListener('DOMContentLoaded', function() {
         loadingIndicator.classList.add('hidden');
       }
       
-      // 清空容器内容
+      // 移除现有的卡片元素，而不是清空整个容器
       const container = document.querySelector('.container');
       if (container) {
-        container.innerHTML = '';
+        const existingCards = container.querySelectorAll('.card');
+        existingCards.forEach(card => card.remove());
       }
       
       renderCards(sitesData);
