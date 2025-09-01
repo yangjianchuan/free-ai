@@ -1,39 +1,33 @@
-# Project Context for Qwen Code
+# Project Context for Qwen Code Agent
 
 ## Project Overview
 
-This is a simple, static web application project named "Free AI". Its primary purpose is to serve as a navigation page for various free AI-related websites and resources. The project is built using fundamental web technologies: HTML, CSS, and JavaScript, leveraging the Bootstrap 5.3.0-alpha1 framework for responsive design and UI components.
+This is a **static web application** project named "Free AI". Its primary purpose is to serve as a navigation hub or directory for various free AI-related online services and resources. The project is built using standard web technologies: HTML, CSS (with Bootstrap 5.3.0-alpha1), and JavaScript.
 
-The core functionality involves dynamically loading a list of AI websites from a JSON data file (`sitesData.json`) and rendering them as interactive cards on the main page (`index.html`). Users can click the buttons on these cards to visit the respective websites.
+The main page (`index.html`) dynamically renders a list of website cards based on embedded data. Each card represents an AI service, providing its name, description, tags (like 'recommended' or 'official'), and a link to access it. A secondary page (`siliconFlowApiBalanceQuery.html`) is included to check API key balances for the SiliconFlow platform.
 
-Key technologies used:
-- **HTML5**: For the basic structure.
-- **CSS3**: For custom styling, including card layouts, hover effects, and loading indicators. It imports Bootstrap's CSS.
-- **JavaScript (ES6)**: For dynamic content loading and DOM manipulation. It fetches data and renders the site cards.
-- **Bootstrap 5.3.0-alpha1**: Provides a responsive grid system and base styling.
+Key technologies and frameworks used:
+*   **HTML5**: For the basic structure.
+*   **CSS3**: For styling, including custom styles and Bootstrap utility classes.
+*   **Bootstrap 5.3.0-alpha1**: For responsive layout and UI components.
+*   **Vanilla JavaScript**: For dynamic content rendering, data handling, and interactivity (e.g., fetching API balances).
 
 ## Building and Running
 
-This is a client-side static website. There is no build step required for development. You can run it directly in a web browser.
+This is a client-side static website. There is no build process required. The project can be run directly by opening the HTML files in a web browser.
 
-1.  **Local Development/Viewing**:
-    *   Open `index.html` directly in a web browser (e.g., Chrome, Firefox, Edge).
-    *   Alternatively, serve the project directory using a local HTTP server for a more robust development environment. For example, using Python's built-in server:
-        ```bash
-        # Navigate to the project directory first
-        python -m http.server 8000
-        ```
-        Then open `http://localhost:8000` in your browser.
-2.  **Deployment**:
-    *   As a static site, it can be deployed by simply copying all files to any standard web server or a static site hosting service (e.g., GitHub Pages, Netlify, Vercel).
-3.  **Testing**:
-    *   There are currently no automated tests configured for this project. Testing is manual by viewing the page in a browser and ensuring links and functionality work as expected.
+### Key Commands
+
+*   **Run/View**: Open `index.html` in a web browser.
+*   **Run/View SiliconFlow Balance Checker**: Open `siliconFlowApiBalanceQuery.html` in a web browser.
+
+### Deployment
+
+The project can be deployed by simply copying all files to a web server's directory. It does not require a specific runtime environment or server-side processing.
 
 ## Development Conventions
 
-- **File Structure**: Files are organized simply at the root level for easy access, with Bootstrap assets in a dedicated folder and a `dashboard` folder which seems to be currently unused or for future expansion.
-- **Data Management**: Website link data is externalized in `sitesData.json`. This separation allows for easy updates to the list of sites without modifying the core HTML or JavaScript logic.
-- **Styling**: Custom styles are defined in `style.css`. These styles build upon the Bootstrap base, adding specific look and feel for cards, tags, and the loading indicator. CSS classes are used semantically (e.g., `.card`, `.recommend-tag`).
-- **JavaScript**: The `sites.js` file handles the dynamic loading and rendering logic. It uses modern JavaScript features like `fetch` for asynchronous data loading and DOM APIs for manipulation. The code waits for the `DOMContentLoaded` event to ensure the DOM is ready before attempting to modify it.
-- **Responsiveness**: Bootstrap is used to ensure the layout adapts to different screen sizes.
-- **Loading State**: A loading indicator is displayed while the site data is being fetched from `sitesData.json`.
+*   **File Structure**: The main entry point is `index.html`. A dedicated page for the SiliconFlow API balance check exists in `siliconFlowApiBalanceQuery.html`. Bootstrap assets are located in `bootstrap-5.3.0-alpha1-dist/`.
+*   **Styling**: Custom CSS is embedded within `<style>` tags in the HTML files. Bootstrap classes are used for layout and basic component styling.
+*   **Scripting**: JavaScript logic, including data definition and DOM manipulation, is embedded within `<script>` tags in the HTML files.
+*   **Data**: The list of AI websites is defined as a JavaScript array (`sitesData`) directly within `index.html`. The SiliconFlow balance checker handles data through user input and API responses.
