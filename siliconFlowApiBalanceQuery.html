@@ -71,7 +71,7 @@
       </div>
       <table id="resultTable">
         <thead>
-          <tr><th>密钥（掩码）</th><th>状态</th><th>余额</th><th>查询时间</th></tr>
+          <tr><th>密钥（掩码）</th><th>状态</th><th>余额</th><th>充值余额</th><th>查询时间</th></tr>
         </thead>
         <tbody></tbody>
       </table>
@@ -153,7 +153,8 @@
         if (!res.ok) throw new Error(res.status);
         const data = await res.json();
         const balance = parseFloat(data.data.totalBalance || 0);
-        return { key, status: 'valid', balance, time: new Date() };
+        const chargeBalance = parseFloat(data.data.chargeBalance || 0);
+        return { key, status: 'valid', balance, chargeBalance, time: new Date() };
       } catch (e) {
         return { key, status: e.message === '401' ? 'invalid' : 'error', balance: null, time: new Date() };
       } finally {
@@ -193,6 +194,7 @@
         <td>${maskKey(r.key)}</td>
         <td><span class="tag ${r.status}">${r.status === 'valid' ? (r.balance > 0 ? '有余额' : '余额 0') : '无效'}</span></td>
         <td>${r.balance !== null ? r.balance.toFixed(4) : '-'}</td>
+        <td>${r.chargeBalance !== null ? r.chargeBalance.toFixed(4) : '-'}</td>
         <td>${r.time.toLocaleTimeString()}</td>
       `;
       tbody.appendChild(tr);
@@ -208,14 +210,14 @@
       if (filter === 'invalid') return r.status === 'invalid';
     });
     if (!filtered.length) return toast('无数据可复制');
-    const text = filtered.map(r => `${r.key},${r.status},${r.balance ?? ''}`).join('\n');
+    const text = filtered.map(r => r.key).join('\n');
     navigator.clipboard.writeText(text).then(() => toast('已复制'));
   }
 
   function exportCSV() {
     if (!allResults.length) return toast('无数据可导出');
-    const header = 'key,status,balance,time\n';
-    const rows = allResults.map(r => `${r.key},${r.status},${r.balance ?? ''},${r.time.toISOString()}`).join('\n');
+    const header = '密钥,状态,余额,充值余额,时间\n';
+    const rows = allResults.map(r => `${r.key},${r.status},${r.balance ?? ''},${r.chargeBalance ?? ''},${r.time.toISOString()}`).join('\n');
     const blob = new Blob([header + rows], { type: 'text/csv;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
