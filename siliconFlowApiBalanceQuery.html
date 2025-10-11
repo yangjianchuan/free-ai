@@ -2,92 +2,548 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
-  <title>硅基流动余额查询工具</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>硅基流动余额查询工具</title>
+  <link rel="stylesheet" href="bootstrap-5.3.0-alpha1-dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
   <style>
     :root {
-      --bg: #f0f2f5;
-      --card: rgba(255,255,255,.75);
-      --primary: #1677ff;
-      --danger: #ff4d4f;
-      --success: #52c41a;
-      --radius: 12px;
-      --blur: blur(20px);
-      --shadow: 0 8px 32px rgba(0,0,0,.08);
+      /* 颜色系统 */
+      --color-primary: #3685F2;
+      --color-primary-dark: #2d6fd8;
+      --color-primary-light: #e6f0ff;
+      --color-secondary: #6c757d;
+      --color-success: #28a745;
+      --color-success-light: #e6f7e6;
+      --color-danger: #dc3545;
+      --color-danger-light: #f8e6e6;
+      --color-warning: #ffc107;
+      --color-warning-light: #fff8e6;
+      --color-info: #17a2b8;
+      --color-info-light: #e6f7f7;
+      --color-light: #f8f9fa;
+      --color-dark: #343a40;
+      --color-white: #ffffff;
+      --color-gray-100: #f8f9fa;
+      --color-gray-200: #e9ecef;
+      --color-gray-300: #dee2e6;
+      --color-gray-400: #ced4da;
+      --color-gray-500: #adb5bd;
+      --color-gray-600: #6c757d;
+      --color-gray-700: #495057;
+      --color-gray-800: #343a40;
+      --color-gray-900: #212529;
+      
+      /* 间距系统 */
+      --spacing-xs: 0.25rem;  /* 4px */
+      --spacing-sm: 0.5rem;   /* 8px */
+      --spacing-md: 0.75rem;  /* 12px */
+      --spacing-lg: 1rem;     /* 16px */
+      --spacing-xl: 1.5rem;   /* 24px */
+      --spacing-xxl: 2rem;    /* 32px */
+      
+      /* 圆角系统 */
+      --radius-sm: 0.25rem;   /* 4px */
+      --radius-md: 0.5rem;    /* 8px */
+      --radius-lg: 0.75rem;   /* 12px */
+      --radius-xl: 1rem;      /* 16px */
+      
+      /* 阴影系统 */
+      --shadow-sm: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+      --shadow-md: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+      --shadow-lg: 0 1rem 3rem rgba(0, 0, 0, 0.175);
+      --shadow-xl: 0 1.5rem 6rem rgba(0, 0, 0, 0.25);
+      
+      /* 过渡效果 */
+      --transition-fast: 0.15s ease-in-out;
+      --transition-normal: 0.3s ease-in-out;
+      --transition-slow: 0.5s ease-in-out;
+      
+      /* 字体系统 */
+      --font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+      --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      
+      /* 卡片背景 */
+      --card-bg: rgba(255, 255, 255, 0.85);
+      --card-backdrop-blur: blur(20px);
+      --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
     }
-    *{box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif}
-    body{margin:0;background:linear-gradient(135deg,#e0c3fc 0%,#9bb5ff 100%);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
-    .glass-card{background:var(--card);border-radius:var(--radius);padding:24px 32px;backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);box-shadow:var(--shadow);max-width:900px;width:100%}
-    h1{margin:0 0 16px;font-size:24px;font-weight:600}
-    textarea{width:100%;min-height:120px;border:1px solid #d9d9d9;border-radius:var(--radius);padding:8px 12px;font-size:14px;resize:vertical}
-    button{outline:none;border:none;border-radius:var(--radius);padding:8px 16px;font-size:14px;cursor:pointer;transition:.2s}
-    .btn-primary{background:var(--primary);color:#fff}
-    .btn-danger{background:var(--danger);color:#fff}
-    .btn-success{background:var(--success);color:#fff}
-    .btn-outline{background:transparent;border:1px solid #d9d9d9;color:#333}
-    .actions{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
-    .progress-bar{height:4px;background:#e0e0e0;border-radius:2px;margin:12px 0;overflow:hidden}
-    .progress-bar div{height:100%;background:var(--primary);width:0;transition:.3s}
-    table{width:100%;border-collapse:collapse;font-size:13px;margin-top:12px}
-    th,td{padding:8px;text-align:left;border-bottom:1px solid #f0f0f0}
-    th{background:var(--bg)}
-    .tag{padding:2px 6px;border-radius:4px;font-size:12px;color:#fff}
-    .tag.valid{background:var(--success)}
-    .tag.invalid{background:var(--danger)}
-    .toast{position:fixed;top:20px;right:20px;background:#000000cc;color:#fff;padding:8px 12px;border-radius:var(--radius);font-size:14px;opacity:0;transition:.3s}
-    .toast.show{opacity:1}
-    .hidden{display:none}
-    @media(max-width:600px){.glass-card{padding:16px}}
+
+    /* 重置样式 */
+    * {
+      box-sizing: border-box;
+      font-family: var(--font-family-sans-serif);
+    }
+
+    /* 全局样式 */
+    body {
+      margin: 0;
+      padding: 0;
+      background: #ffffff;
+      min-height: 100vh;
+      color: var(--color-gray-800);
+    }
+
+    /* 卡片样式 */
+    .glass-card {
+      background: var(--card-bg);
+      border-radius: 0;
+      padding: var(--spacing-xxl);
+      backdrop-filter: var(--card-backdrop-blur);
+      -webkit-backdrop-filter: var(--card-backdrop-blur);
+      box-shadow: var(--card-shadow);
+      width: 100%;
+      min-height: 100vh;
+      border: none;
+      transition: var(--transition-normal);
+    }
+
+    /* 移除卡片悬停效果，因为现在是全屏显示 */
+
+    /* 标题样式 */
+    .page-title {
+      margin: 0 0 var(--spacing-lg);
+      font-size: 1.75rem;
+      font-weight: 600;
+      color: var(--color-gray-900);
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-sm);
+    }
+
+    .section-title {
+      margin: 0;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--color-gray-800);
+      margin-bottom: var(--spacing-md);
+    }
+
+    /* 表单元素样式 */
+    .form-label {
+      display: block;
+      margin-bottom: var(--spacing-sm);
+      font-weight: 500;
+      color: var(--color-gray-700);
+    }
+
+    .form-textarea {
+      width: 100%;
+      min-height: 120px;
+      border: 1px solid var(--color-gray-300);
+      border-radius: var(--radius-md);
+      padding: var(--spacing-sm) var(--spacing-md);
+      font-size: 0.875rem;
+      resize: vertical;
+      transition: var(--transition-fast);
+      background-color: rgba(255, 255, 255, 0.7);
+    }
+
+    .form-textarea:focus {
+      outline: none;
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 0.2rem rgba(54, 133, 242, 0.25);
+      background-color: var(--color-white);
+    }
+
+    .form-select {
+      border: 1px solid var(--color-gray-300);
+      border-radius: var(--radius-md);
+      padding: var(--spacing-xs) var(--spacing-md);
+      font-size: 0.875rem;
+      background-color: rgba(255, 255, 255, 0.7);
+      transition: var(--transition-fast);
+    }
+
+    .form-select:focus {
+      outline: none;
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 0.2rem rgba(54, 133, 242, 0.25);
+    }
+
+    /* 按钮样式 */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--spacing-xs);
+      outline: none;
+      border: none;
+      border-radius: var(--radius-md);
+      padding: var(--spacing-xs) var(--spacing-md);
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition-fast);
+      text-decoration: none;
+      user-select: none;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-primary {
+      background-color: var(--color-primary);
+      color: var(--color-white);
+    }
+
+    .btn-primary:hover {
+      background-color: var(--color-primary-dark);
+    }
+
+    .btn-danger {
+      background-color: var(--color-danger);
+      color: var(--color-white);
+    }
+
+    .btn-success {
+      background-color: var(--color-success);
+      color: var(--color-white);
+    }
+
+    .btn-outline {
+      background-color: transparent;
+      border: 1px solid var(--color-gray-300);
+      color: var(--color-gray-700);
+    }
+
+    .btn-outline:hover {
+      background-color: var(--color-gray-100);
+    }
+
+    .btn-sm {
+      padding: var(--spacing-xs) var(--spacing-sm);
+      font-size: 0.75rem;
+    }
+
+    /* 操作区域 */
+    .actions {
+      display: flex;
+      gap: var(--spacing-sm);
+      margin-top: var(--spacing-sm);
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .key-count {
+      margin-left: auto;
+      font-size: 0.8125rem;
+      color: var(--color-gray-600);
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-xs);
+    }
+
+    /* 进度条样式 */
+    .progress-bar {
+      height: 4px;
+      background-color: var(--color-gray-200);
+      border-radius: var(--radius-sm);
+      margin: var(--spacing-md) 0;
+      overflow: hidden;
+    }
+
+    .progress-bar__fill {
+      height: 100%;
+      background-color: var(--color-primary);
+      width: 0;
+      transition: width var(--transition-normal);
+    }
+
+    /* 表格样式 */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.8125rem;
+      margin-top: var(--spacing-md);
+      background-color: var(--color-white);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .data-table th,
+    .data-table td {
+      padding: var(--spacing-sm) var(--spacing-md);
+      text-align: left;
+      border-bottom: 1px solid var(--color-gray-200);
+    }
+
+    .data-table th {
+      background-color: var(--color-gray-100);
+      font-weight: 600;
+      color: var(--color-gray-700);
+    }
+
+    .data-table tbody tr:hover {
+      background-color: var(--color-gray-50);
+    }
+
+    /* 标签样式 */
+    .tag {
+      display: inline-block;
+      padding: var(--spacing-xs) var(--spacing-sm);
+      border-radius: var(--radius-sm);
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--color-white);
+      text-align: center;
+    }
+
+    .tag--valid {
+      background-color: var(--color-success);
+    }
+
+    .tag--invalid {
+      background-color: var(--color-danger);
+    }
+
+    .tag--zero {
+      background-color: var(--color-warning);
+      color: var(--color-gray-800);
+    }
+
+    /* Toast 通知样式 */
+    .toast {
+      position: fixed;
+      top: var(--spacing-xl);
+      right: var(--spacing-xl);
+      background-color: rgba(0, 0, 0, 0.8);
+      color: var(--color-white);
+      padding: var(--spacing-sm) var(--spacing-md);
+      border-radius: var(--radius-md);
+      font-size: 0.875rem;
+      opacity: 0;
+      transform: translateY(-20px);
+      transition: var(--transition-normal);
+      z-index: 1000;
+      max-width: 300px;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* 历史记录样式 */
+    .history-list {
+      padding: 0;
+      list-style: none;
+      margin-top: var(--spacing-md);
+    }
+
+    .history-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: var(--spacing-sm) 0;
+      border-bottom: 1px solid var(--color-gray-200);
+      transition: var(--transition-fast);
+    }
+
+    .history-item:hover {
+      background-color: var(--color-gray-50);
+      padding-left: var(--spacing-sm);
+      padding-right: var(--spacing-sm);
+      margin: 0 calc(-1 * var(--spacing-sm));
+      padding-left: var(--spacing-md);
+      padding-right: var(--spacing-md);
+      border-radius: var(--radius-sm);
+    }
+
+    .history-info {
+      font-size: 0.8125rem;
+      color: var(--color-gray-600);
+    }
+
+    /* 工具类 */
+    .hidden {
+      display: none !important;
+    }
+
+    .mt-0 { margin-top: 0 !important; }
+    .mt-1 { margin-top: var(--spacing-xs) !important; }
+    .mt-2 { margin-top: var(--spacing-sm) !important; }
+    .mt-3 { margin-top: var(--spacing-md) !important; }
+    .mt-4 { margin-top: var(--spacing-lg) !important; }
+    .mt-5 { margin-top: var(--spacing-xl) !important; }
+
+    .mb-0 { margin-bottom: 0 !important; }
+    .mb-1 { margin-bottom: var(--spacing-xs) !important; }
+    .mb-2 { margin-bottom: var(--spacing-sm) !important; }
+    .mb-3 { margin-bottom: var(--spacing-md) !important; }
+    .mb-4 { margin-bottom: var(--spacing-lg) !important; }
+    .mb-5 { margin-bottom: var(--spacing-xl) !important; }
+
+    /* 响应式设计 */
+    @media (max-width: 768px) {
+      .glass-card {
+        padding: var(--spacing-lg);
+      }
+      
+      .page-title {
+        font-size: 1.5rem;
+      }
+      
+      .actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      
+      .key-count {
+        margin-left: 0;
+        margin-top: var(--spacing-sm);
+        justify-content: center;
+      }
+      
+      .data-table {
+        font-size: 0.75rem;
+      }
+      
+      .data-table th,
+      .data-table td {
+        padding: var(--spacing-xs);
+      }
+      
+      .toast {
+        top: var(--spacing-lg);
+        right: var(--spacing-lg);
+        left: var(--spacing-lg);
+        max-width: none;
+      }
+    }
+
+    /* 动画效果 */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .fade-in {
+      animation: fadeIn var(--transition-normal) ease-out;
+    }
+
+    /* 加载动画 */
+    .spinner {
+      display: inline-block;
+      width: 1rem;
+      height: 1rem;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: var(--color-white);
+      animation: spin 1s ease-in-out infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* 悬浮效果 */
+    .hover-lift {
+      transition: transform var(--transition-fast);
+    }
+
+    .hover-lift:hover {
+      transform: translateY(-4px);
+    }
   </style>
 </head>
 <body>
-  <div class="glass-card">
-    <h1>硅基流动余额查询工具</h1>
+  <div class="glass-card fade-in">
+    <h1 class="page-title">
+      <i class="bi bi-wallet2"></i>
+      硅基流动余额查询工具
+    </h1>
 
-    <section>
-      <label>API 密钥（换行或逗号分隔）</label>
-      <textarea id="keysInput" placeholder="sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"></textarea>
+    <section class="mb-5">
+      <label for="keysInput" class="form-label">API 密钥（换行或逗号分隔）</label>
+      <textarea id="keysInput" class="form-textarea" placeholder="sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"></textarea>
       <div class="actions">
-        <button class="btn-primary" id="queryBtn">开始查询</button>
-        <button class="btn-outline" id="pasteBtn">粘贴</button>
-        <button class="btn-outline" id="clearBtn">清空</button>
-        <span id="keyCount" style="margin-left:auto;line-height:32px;font-size:13px;color:#666">共 0 个</span>
+        <button class="btn btn-primary" id="queryBtn">
+          <i class="bi bi-search"></i>
+          开始查询
+        </button>
+        <button class="btn btn-outline" id="pasteBtn">
+          <i class="bi bi-clipboard"></i>
+          粘贴
+        </button>
+        <button class="btn btn-outline" id="clearBtn">
+          <i class="bi bi-trash"></i>
+          清空
+        </button>
+        <div class="key-count">
+          <i class="bi bi-key"></i>
+          <span id="keyCount">共 0 个</span>
+        </div>
       </div>
-      <div class="progress-bar hidden"><div></div></div>
+      <div class="progress-bar hidden">
+        <div class="progress-bar__fill"></div>
+      </div>
     </section>
 
-    <section style="margin-top:20px">
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <select id="filterSelect" class="btn-outline">
+    <section class="mb-5">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <select id="filterSelect" class="form-select" style="width: 150px;">
           <option value="all">全部</option>
           <option value="valid">有余额</option>
           <option value="zero">余额为 0</option>
           <option value="invalid">无效密钥</option>
         </select>
-        <div>
-          <button class="btn-outline" id="copyBtn">复制筛选结果</button>
-          <button class="btn-outline" id="exportBtn">导出 CSV</button>
+        <div class="d-flex gap-2">
+          <button class="btn btn-outline btn-sm" id="copyBtn" style="min-width: 120px;">
+            <i class="bi bi-clipboard-check"></i>
+            复制筛选结果
+          </button>
+          <button class="btn btn-outline btn-sm" id="exportBtn" style="min-width: 100px;">
+            <i class="bi bi-download"></i>
+            导出 CSV
+          </button>
         </div>
       </div>
-      <table id="resultTable">
+      <table id="resultTable" class="data-table">
         <thead>
-          <tr><th>密钥（掩码）</th><th>状态</th><th>余额</th><th>充值余额</th><th>查询时间</th></tr>
+          <tr>
+            <th>密钥（掩码）</th>
+            <th>状态</th>
+            <th>余额</th>
+            <th>充值余额</th>
+            <th>查询时间</th>
+          </tr>
         </thead>
         <tbody></tbody>
       </table>
     </section>
 
-    <section style="margin-top:20px">
-      <div style="display:flex;justify-content:space-between">
-        <h2 style="margin:0;font-size:18px">历史记录</h2>
-        <button class="btn-outline" id="clearHistoryBtn">清空</button>
+    <section>
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="section-title">
+          <i class="bi bi-clock-history"></i>
+          历史记录
+        </h2>
+        <button class="btn btn-outline btn-sm" id="clearHistoryBtn">
+          <i class="bi bi-trash"></i>
+          清空
+        </button>
       </div>
-      <ul id="historyList" style="padding:0;list-style:none;font-size:13px;margin-top:8px"></ul>
+      <ul id="historyList" class="history-list"></ul>
     </section>
   </div>
 
   <div id="toast" class="toast"></div>
 
+  <script src="bootstrap-5.3.0-alpha1-dist/js/bootstrap.bundle.min.js"></script>
   <script>
   /* ---------- 常量 ---------- */
   const API = 'https://api.siliconflow.cn/v1/user/info';
@@ -118,13 +574,32 @@
     const keys = parseKeys(e.target.value);
     $('#keyCount').textContent = `共 ${keys.length} 个`;
   });
-  $('#pasteBtn').addEventListener('click', () => navigator.clipboard.readText().then(t => $('#keysInput').value = t.trim()));
-  $('#clearBtn').addEventListener('click', () => $('#keysInput').value = '');
+  $('#pasteBtn').addEventListener('click', () => {
+    navigator.clipboard.readText().then(t => {
+      $('#keysInput').value = t.trim();
+      // 触发input事件以更新密钥计数
+      $('#keysInput').dispatchEvent(new Event('input'));
+      toast('已粘贴API密钥');
+    }).catch(err => {
+      toast('无法访问剪贴板，请手动粘贴');
+    });
+  });
+  $('#clearBtn').addEventListener('click', () => {
+    $('#keysInput').value = '';
+    $('#keysInput').dispatchEvent(new Event('input'));
+    toast('已清空输入框');
+  });
   $('#queryBtn').addEventListener('click', startQuery);
   $('#filterSelect').addEventListener('change', renderTable);
   $('#copyBtn').addEventListener('click', copyFiltered);
   $('#exportBtn').addEventListener('click', exportCSV);
-  $('#clearHistoryBtn').addEventListener('click', () => confirm('确定清空历史记录？') && (saveHistory({}), renderHistory()));
+  $('#clearHistoryBtn').addEventListener('click', () => {
+    if (confirm('确定清空历史记录？')) {
+      saveHistory({});
+      renderHistory();
+      toast('历史记录已清空');
+    }
+  });
 
   /* ---------- 主函数 ---------- */
   function parseKeys(text) {
@@ -134,9 +609,12 @@
   async function startQuery() {
     const keys = parseKeys($('#keysInput').value);
     if (!keys.length) return toast('请输入 API 密钥');
+    
+    // 更新UI状态
     $('#queryBtn').disabled = true;
+    $('#queryBtn').innerHTML = '<span class="spinner"></span> 查询中...';
     $('.progress-bar').classList.remove('hidden');
-    const progress = $('.progress-bar div');
+    const progress = $('.progress-bar__fill');
     allResults = [];
     renderTable();
 
@@ -171,8 +649,13 @@
     }
 
     allResults = await Promise.all(promises);
+    
+    // 恢复UI状态
     $('#queryBtn').disabled = false;
+    $('#queryBtn').innerHTML = '<i class="bi bi-search"></i> 开始查询';
     $('.progress-bar').classList.add('hidden');
+    progress.style.width = '0';
+    
     toast('查询完成');
     renderTable();
     saveSnapshot(keys, allResults);
@@ -182,17 +665,44 @@
     const filter = $('#filterSelect').value;
     const tbody = $('#resultTable tbody');
     tbody.innerHTML = '';
+    
     const filtered = allResults.filter(r => {
       if (filter === 'all') return true;
       if (filter === 'valid') return r.status === 'valid' && r.balance > 0;
       if (filter === 'zero') return r.status === 'valid' && r.balance === 0;
       if (filter === 'invalid') return r.status === 'invalid';
     });
+    
+    if (filtered.length === 0) {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td colspan="5" style="text-align:center;color:var(--color-gray-500);padding:var(--spacing-lg);">暂无数据</td>`;
+      tbody.appendChild(tr);
+      return;
+    }
+    
     filtered.forEach(r => {
       const tr = document.createElement('tr');
+      tr.classList.add('fade-in');
+      
+      let statusClass = '';
+      let statusText = '';
+      
+      if (r.status === 'valid') {
+        if (r.balance > 0) {
+          statusClass = 'tag--valid';
+          statusText = '有余额';
+        } else {
+          statusClass = 'tag--zero';
+          statusText = '余额 0';
+        }
+      } else {
+        statusClass = 'tag--invalid';
+        statusText = '无效';
+      }
+      
       tr.innerHTML = `
         <td>${maskKey(r.key)}</td>
-        <td><span class="tag ${r.status}">${r.status === 'valid' ? (r.balance > 0 ? '有余额' : '余额 0') : '无效'}</span></td>
+        <td><span class="tag ${statusClass}">${statusText}</span></td>
         <td>${r.balance !== null ? r.balance.toFixed(4) : '-'}</td>
         <td>${r.chargeBalance !== null ? r.chargeBalance.toFixed(4) : '-'}</td>
         <td>${r.time.toLocaleTimeString()}</td>
@@ -211,7 +721,7 @@
     });
     if (!filtered.length) return toast('无数据可复制');
     const text = filtered.map(r => r.key).join('\n');
-    navigator.clipboard.writeText(text).then(() => toast('已复制'));
+    navigator.clipboard.writeText(text).then(() => toast('已复制到剪贴板'));
   }
 
   function exportCSV() {
@@ -225,6 +735,7 @@
     a.download = `siliconflow_balance_${Date.now()}.csv`;
     a.click();
     URL.revokeObjectURL(url);
+    toast('CSV文件已导出');
   }
 
   function saveSnapshot(keys, results) {
@@ -247,24 +758,70 @@
     const history = loadHistory();
     const ul = $('#historyList');
     ul.innerHTML = '';
+    
+    if (Object.keys(history).length === 0) {
+      const li = document.createElement('li');
+      li.className = 'history-item';
+      li.innerHTML = `<span class="history-info">暂无历史记录</span>`;
+      ul.appendChild(li);
+      return;
+    }
+    
     Object.values(history).reverse().forEach(item => {
       const li = document.createElement('li');
-      li.style.display = 'flex'; li.style.justifyContent = 'space-between'; li.style.padding = '6px 0'; li.style.borderBottom = '1px solid #eee';
+      li.className = 'history-item fade-in';
+      
       const last = item.snapshots[item.snapshots.length - 1];
       li.innerHTML = `
-        <span>${item.apiKeys.length} 个密钥 · 总余额 ${last.totalBalance.toFixed(4)} · ${new Date(last.date).toLocaleString()}</span>
-        <button class="btn-outline" style="font-size:12px;padding:2px 8px">重新查询</button>
+        <span class="history-info">
+          <i class="bi bi-key"></i> ${item.apiKeys.length} 个密钥 · 
+          <i class="bi bi-wallet2"></i> 总余额 ${last.totalBalance.toFixed(4)} · 
+          <i class="bi bi-clock"></i> ${new Date(last.date).toLocaleString()}
+        </span>
+        <button class="btn btn-outline btn-sm">
+          <i class="bi bi-arrow-clockwise"></i> 重新查询
+        </button>
       `;
+      
       li.querySelector('button').onclick = () => {
         $('#keysInput').value = item.apiKeys.join('\n');
+        $('#keysInput').dispatchEvent(new Event('input'));
         startQuery();
       };
+      
       ul.appendChild(li);
     });
   }
 
   /* ---------- 初始化 ---------- */
-  renderHistory();
+  document.addEventListener('DOMContentLoaded', () => {
+    renderHistory();
+    
+    // 添加键盘快捷键
+    document.addEventListener('keydown', (e) => {
+      // Ctrl/Cmd + Enter 开始查询
+      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+        e.preventDefault();
+        if (!$('#queryBtn').disabled) {
+          startQuery();
+        }
+      }
+      // Ctrl/Cmd + V 粘贴（当输入框未聚焦时）
+      if ((e.ctrlKey || e.metaKey) && e.key === 'v' && document.activeElement !== $('#keysInput')) {
+        e.preventDefault();
+        $('#pasteBtn').click();
+      }
+    });
+    
+    // 添加页面可见性变化监听，优化性能
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        // 页面隐藏时可以暂停一些操作
+      } else {
+        // 页面显示时恢复操作
+      }
+    });
+  });
   </script>
 </body>
 </html>
