@@ -1,5 +1,7 @@
 # Ignore VSCode settings
 .vscode/
+.claude/
 temp/
 QWEN.md
 IFLOW.md
+CLAUDE.md
