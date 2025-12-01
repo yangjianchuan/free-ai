@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>在线 HTML 预览工具</title>
+    <link href="bootstrap-5.3.0-alpha1-dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --color-primary: #3685f2;
+            --color-secondary: #6c757d;
+            --bg-body: #f8f9fa;
+        }
+        body {
+            background-color: var(--bg-body);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container-fluid {
+            padding: 16px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            box-sizing: border-box;
+        }
+        .card {
+            border: none;
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+            flex-shrink: 0;
+        }
+        .card-body {
+            padding: 16px;
+            box-sizing: border-box;
+        }
+        .toolbar {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        .btn {
+            flex: 1;
+            font-weight: 500;
+            padding: 8px 16px;
+        }
+        .btn-primary {
+            background-color: var(--color-primary);
+            border-color: var(--color-primary);
+        }
+        .btn-outline-secondary {
+            border-color: var(--color-secondary);
+            color: var(--color-secondary);
+        }
+        .btn-outline-secondary:hover {
+            background-color: var(--color-secondary);
+            border-color: var(--color-secondary);
+        }
+        h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #333;
+            text-align: center;
+        }
+        textarea {
+            width: 100%;
+            height: 40vh;
+            min-height: 200px;
+            max-height: 400px;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            resize: none;
+            border: 1px solid #dee2e6;
+            border-radius: 0.375rem;
+            padding: 12px;
+            overflow-y: auto;
+            box-sizing: border-box;
+        }
+        textarea:focus {
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 0.25rem rgba(54, 133, 242, 0.25);
+            outline: 0;
+        }
+        @media (max-width: 576px) {
+            .container-fluid {
+                padding: 12px;
+            }
+            .card-body {
+                padding: 12px;
+            }
+            h1 {
+                font-size: 1.25rem;
+                margin-bottom: 12px;
+            }
+            .toolbar {
+                flex-direction: column;
+                gap: 12px;
+                margin-bottom: 12px;
+            }
+            .btn {
+                width: 100%;
+            }
+            textarea {
+                height: 50vh;
+                min-height: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-body">
+                <h1>在线 HTML 预览工具</h1>
+
+                <div class="toolbar">
+                    <button id="previewNewBtn" class="btn btn-primary">新窗口预览</button>
+                    <button id="previewCurrentBtn" class="btn btn-success">当前页面预览</button>
+                    <button id="clearBtn" class="btn btn-outline-secondary">清空</button>
+                </div>
+
+                <textarea id="codeInput" placeholder="在这里输入或粘贴 HTML 代码..."></textarea>
+            </div>
+        </div>
+
+        <!-- 预览区域 -->
+        <div id="previewContainer" class="card" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 9999; cursor: pointer;">
+            <iframe id="previewFrame" style="width: 100%; height: 100%; border: none;"></iframe>
+        </div>
+    </div>
+
+    <script src="bootstrap-5.3.0-alpha1-dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const codeInput = document.getElementById('codeInput');
+        const previewNewBtn = document.getElementById('previewNewBtn');
+        const previewCurrentBtn = document.getElementById('previewCurrentBtn');
+        const clearBtn = document.getElementById('clearBtn');
+        const editorContainer = document.querySelector('.card');
+        const previewContainer = document.getElementById('previewContainer');
+        const previewFrame = document.getElementById('previewFrame');
+
+        // 新窗口预览按钮：在新窗口中打开并写入当前 HTML 代码
+        previewNewBtn.addEventListener('click', function () {
+            const code = codeInput.value || '';
+            const win = window.open('', '_blank');
+            if (!win) {
+                alert('浏览器阻止了弹出窗口，请允许弹出窗口后重试。');
+                return;
+            }
+            win.document.open();
+            win.document.write(code);
+            win.document.close();
+        });
+
+        // 当前页面预览按钮：在当前页面中显示预览
+        previewCurrentBtn.addEventListener('click', function () {
+            const code = codeInput.value || '';
+            if (!code.trim()) {
+                alert('请先输入 HTML 代码');
+                return;
+            }
+
+            // 隐藏编辑器，显示预览区域
+            editorContainer.style.display = 'none';
+            previewContainer.style.display = 'block';
+
+            // 将 HTML 代码写入 iframe
+            const iframeDoc = previewFrame.contentDocument || previewFrame.contentWindow.document;
+            iframeDoc.open();
+            iframeDoc.write(code);
+            iframeDoc.close();
+        });
+
+        // 点击预览容器返回编辑器
+        previewContainer.addEventListener('click', function (e) {
+            // 如果点击的是 iframe，不返回（防止误触）
+            if (e.target === previewFrame) {
+                return;
+            }
+
+            previewContainer.style.display = 'none';
+            editorContainer.style.display = 'block';
+        });
+
+        // 清空按钮：清空文本框内容
+        clearBtn.addEventListener('click', function () {
+            codeInput.value = '';
+            codeInput.focus();
+        });
+
+        // 自动聚焦到输入框
+        window.addEventListener('load', function() {
+            codeInput.focus();
+        });
+    </script>
+</body>
+</html>
