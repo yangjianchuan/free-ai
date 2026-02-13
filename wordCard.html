@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>单词卡生成器</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #4a90d9;
+            --primary-hover: #357abd;
+            --bg-color: #f5f7fa;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+            --border-color: #e0e0e0;
+            --shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 输入区域 */
+        .input-section {
+            background: var(--card-bg);
+            padding: 20px;
+            box-shadow: var(--shadow);
+            z-index: 10;
+        }
+
+        .input-section h1 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+            text-align: center;
+        }
+
+        .input-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .input-area {
+            width: 100%;
+            min-height: 100px;
+            padding: 12px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 1rem;
+            resize: vertical;
+            transition: border-color 0.3s;
+        }
+
+        .input-area:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .input-hint {
+            font-size: 0.85rem;
+            color: #888;
+            margin: 0;
+        }
+
+        .controls-row {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 20px;
+            margin-top: 12px;
+            flex-wrap: nowrap;
+        }
+
+        .prefix-input {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 0;
+            flex-shrink: 0;
+        }
+
+        .prefix-input label {
+            font-size: 0.9rem;
+            color: var(--text-color);
+            white-space: nowrap;
+        }
+
+        .prefix-input input {
+            padding: 8px 12px;
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 0.95rem;
+            width: 150px;
+            transition: border-color 0.3s;
+        }
+
+        .prefix-input input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin: 0;
+            justify-content: flex-end;
+            flex-wrap: nowrap;
+            flex-shrink: 0;
+        }
+
+        .btn {
+            padding: 10px 25px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* 卡片展示区域 */
+        .cards-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        .cards-container {
+            flex: 1;
+            display: none;
+            flex-direction: column;
+        }
+
+        .cards-container.active {
+            display: flex;
+        }
+
+        .cards-grid {
+            flex: 1;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 15px;
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .word-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: default;
+            min-height: 0;
+        }
+
+        .word-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .word-card .word {
+            font-size: clamp(1rem, 3vw, 1.8rem);
+            font-weight: 600;
+            color: var(--text-color);
+            text-align: center;
+            word-break: break-word;
+            line-height: 1.3;
+            font-family: 'Comic Sans MS', 'Comic Sans', cursive;
+        }
+
+        .card-number {
+            position: absolute;
+            top: 8px;
+            left: 10px;
+            font-size: 0.75rem;
+            color: #aaa;
+        }
+
+        .word-card {
+            position: relative;
+        }
+
+        /* 分页控制 */
+        .pagination {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            padding: 15px 0;
+            flex-shrink: 0;
+        }
+
+        .pagination button {
+            padding: 8px 20px;
+            font-size: 0.95rem;
+        }
+
+        .page-info {
+            font-size: 1rem;
+            color: var(--text-color);
+        }
+
+        .page-info span {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        /* 导出状态 */
+        .export-status {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 20px 40px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            z-index: 1000;
+            display: none;
+        }
+
+        /* 打印样式 */
+        @media print {
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            html, body {
+                background: white !important;
+                height: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+
+            .input-section {
+                display: none !important;
+            }
+
+            .cards-section {
+                padding: 0 !important;
+                overflow: visible !important;
+                height: auto !important;
+                display: block !important;
+            }
+
+            .cards-container {
+                display: grid !important;
+                page-break-after: always;
+                page-break-inside: avoid;
+                width: 277mm;
+                height: 190mm;
+                padding: 0 !important;
+                box-sizing: border-box;
+                place-items: stretch;
+            }
+
+            .cards-container:last-child {
+                page-break-after: auto;
+            }
+
+            .cards-grid {
+                display: grid !important;
+                width: 100%;
+                height: 100%;
+                gap: 5mm;
+                max-width: none;
+                grid-template-columns: repeat(4, 1fr);
+                grid-template-rows: repeat(3, 1fr);
+                padding: 12mm 0 0 12mm !important;
+                margin: 0 !important;
+                box-sizing: border-box !important;
+            }
+
+            .word-card {
+                background: white !important;
+                box-shadow: none !important;
+                border: 2px solid #333 !important;
+                border-radius: 6px !important;
+                transform: none !important;
+                padding: 5mm !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                margin: 0 !important;
+            }
+
+            .word-card .word {
+                color: #000000 !important;
+                font-size: 42pt !important;
+                font-weight: 700 !important;
+                line-height: 1.2 !important;
+                font-family: 'Comic Sans MS', 'Comic Sans', cursive !important;
+            }
+
+            .card-number {
+                font-size: 11pt !important;
+                color: #666 !important;
+                top: 3mm !important;
+                left: 4mm !important;
+            }
+
+            .pagination {
+                display: none !important;
+            }
+
+            .empty-state {
+                display: none !important;
+            }
+
+            .export-status {
+                display: none !important;
+            }
+
+            @page {
+                size: A4 landscape;
+                margin: 10mm;
+            }
+        }
+
+        /* 空状态 */
+        .empty-state {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+        }
+
+        .empty-state svg {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .empty-state p {
+            font-size: 1.1rem;
+        }
+
+        /* 响应式 */
+        @media (max-width: 900px) {
+            .cards-grid {
+                grid-template-columns: repeat(3, 1fr);
+                grid-template-rows: repeat(4, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .cards-grid {
+                grid-template-columns: repeat(2, 1fr);
+                grid-template-rows: repeat(6, 1fr);
+                gap: 10px;
+            }
+
+            .input-section {
+                padding: 15px;
+            }
+
+            .cards-section {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 输入区域 -->
+    <section class="input-section">
+        <h1>单词卡生成器</h1>
+        <div class="input-wrapper">
+            <textarea
+                class="input-area"
+                id="wordInput"
+                placeholder="请输入单词，支持换行、空格、英文逗号、英文分号分隔&#10;例如：apple, banana, orange, grape&#10;或每行一个单词"
+            ></textarea>
+            <div class="controls-row">
+                <div class="prefix-input">
+                    <label for="prefixInput">序号前缀：</label>
+                    <input type="text" id="prefixInput" placeholder="例如：24" maxlength="20" value="Lesson1">
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-primary" id="generateBtn">生成单词卡</button>
+                    <button class="btn btn-secondary" id="exportBtn" disabled>导出PDF</button>
+                    <button class="btn btn-secondary" id="clearBtn">清空</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 卡片展示区域 -->
+    <section class="cards-section">
+        <!-- 空状态 -->
+        <div class="empty-state" id="emptyState">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2z"/>
+                <path d="M12 8v8"/>
+                <path d="M8 12h8"/>
+            </svg>
+            <p>输入单词后点击"生成单词卡"</p>
+        </div>
+
+        <!-- 卡片容器将通过JS动态生成 -->
+    </section>
+
+    <!-- 导出状态提示 -->
+    <div class="export-status" id="exportStatus">正在生成PDF...</div>
+
+    <script>
+        // 配置
+        const CARDS_PER_PAGE = 12;
+        const CARDS_PER_ROW = 4;
+
+        // 状态
+        let allWords = [];
+        let currentPage = 1;
+        let totalPages = 0;
+
+        // DOM元素
+        const wordInput = document.getElementById('wordInput');
+        const prefixInput = document.getElementById('prefixInput');
+        const generateBtn = document.getElementById('generateBtn');
+        const exportBtn = document.getElementById('exportBtn');
+        const clearBtn = document.getElementById('clearBtn');
+        const cardsSection = document.querySelector('.cards-section');
+        const emptyState = document.getElementById('emptyState');
+        const exportStatus = document.getElementById('exportStatus');
+
+        // 解析输入的单词
+        function parseWords(input) {
+            // 使用正则表达式按换行、空格、逗号、分号分割
+            const words = input
+                .split(/[\n\s,;]+/)
+                .map(word => word.trim())
+                .filter(word => word.length > 0);
+
+            // 去重
+            return [...new Set(words)];
+        }
+
+        // 创建卡片页面
+        function createCardsContainer(pageIndex, words, prefix) {
+            const container = document.createElement('div');
+            container.className = 'cards-container';
+            container.dataset.page = pageIndex;
+
+            const grid = document.createElement('div');
+            grid.className = 'cards-grid';
+
+            words.forEach((word, index) => {
+                const card = document.createElement('div');
+                card.className = 'word-card';
+
+                const cardIndex = (pageIndex - 1) * CARDS_PER_PAGE + index + 1;
+                const number = document.createElement('span');
+                number.className = 'card-number';
+                number.textContent = prefix ? `${prefix}-${cardIndex}` : cardIndex;
+
+                const wordSpan = document.createElement('span');
+                wordSpan.className = 'word';
+                wordSpan.textContent = word;
+
+                card.appendChild(number);
+                card.appendChild(wordSpan);
+                grid.appendChild(card);
+            });
+
+            container.appendChild(grid);
+
+            // 添加分页控制（只在最后一页添加可见的分页）
+            if (totalPages > 1) {
+                const pagination = document.createElement('div');
+                pagination.className = 'pagination';
+
+                pagination.innerHTML = `
+                    <button class="btn btn-secondary" id="prevBtn" ${pageIndex === 1 ? 'disabled' : ''}>上一页</button>
+                    <span class="page-info">第 <span id="currentPageNum">${pageIndex}</span> 页 / 共 <span id="totalPageNum">${totalPages}</span> 页</span>
+                    <button class="btn btn-secondary" id="nextBtn" ${pageIndex === totalPages ? 'disabled' : ''}>下一页</button>
+                `;
+
+                container.appendChild(pagination);
+            }
+
+            return container;
+        }
+
+        // 生成单词卡
+        function generateCards() {
+            const input = wordInput.value.trim();
+            if (!input) {
+                alert('请输入单词！');
+                return;
+            }
+
+            allWords = parseWords(input);
+
+            if (allWords.length === 0) {
+                alert('未识别到有效单词！');
+                return;
+            }
+
+            // 获取序号前缀
+            const prefix = prefixInput.value.trim();
+
+            // 清空现有卡片
+            const existingContainers = cardsSection.querySelectorAll('.cards-container');
+            existingContainers.forEach(container => container.remove());
+
+            // 计算总页数
+            totalPages = Math.ceil(allWords.length / CARDS_PER_PAGE);
+            currentPage = 1;
+
+            // 为每页创建容器
+            for (let i = 0; i < totalPages; i++) {
+                const startIndex = i * CARDS_PER_PAGE;
+                const endIndex = startIndex + CARDS_PER_PAGE;
+                const pageWords = allWords.slice(startIndex, endIndex);
+
+                const container = createCardsContainer(i + 1, pageWords, prefix);
+
+                // 只有第一页默认显示
+                if (i === 0) {
+                    container.classList.add('active');
+                }
+
+                cardsSection.appendChild(container);
+            }
+
+            // 绑定分页事件
+            bindPaginationEvents();
+
+            // 隐藏空状态，显示卡片
+            emptyState.style.display = 'none';
+
+            // 启用导出按钮
+            exportBtn.disabled = false;
+        }
+
+        // 绑定分页事件
+        function bindPaginationEvents() {
+            document.querySelectorAll('.pagination').forEach(pagination => {
+                const prevBtn = pagination.querySelector('#prevBtn');
+                const nextBtn = pagination.querySelector('#nextBtn');
+
+                if (prevBtn) {
+                    prevBtn.addEventListener('click', () => goToPage(currentPage - 1));
+                }
+                if (nextBtn) {
+                    nextBtn.addEventListener('click', () => goToPage(currentPage + 1));
+                }
+            });
+        }
+
+        // 切换页面
+        function goToPage(page) {
+            if (page < 1 || page > totalPages) return;
+
+            currentPage = page;
+
+            // 更新容器显示
+            document.querySelectorAll('.cards-container').forEach(container => {
+                const containerPage = parseInt(container.dataset.page);
+                if (containerPage === page) {
+                    container.classList.add('active');
+                } else {
+                    container.classList.remove('active');
+                }
+            });
+        }
+
+        // 清空
+        function clearAll() {
+            wordInput.value = '';
+            allWords = [];
+            currentPage = 1;
+            totalPages = 0;
+
+            const existingContainers = cardsSection.querySelectorAll('.cards-container');
+            existingContainers.forEach(container => container.remove());
+
+            emptyState.style.display = 'flex';
+            exportBtn.disabled = true;
+        }
+
+        // 导出PDF
+        async function exportPDF() {
+            if (totalPages === 0) return;
+
+            exportStatus.style.display = 'block';
+            exportStatus.textContent = '正在准备打印...';
+
+            // 临时存储当前页
+            const originalPage = currentPage;
+
+            // 显示所有页面用于打印
+            document.querySelectorAll('.cards-container').forEach(container => {
+                container.classList.add('active');
+            });
+
+            // 隐藏不需要打印的元素
+            document.querySelectorAll('.pagination').forEach(p => {
+                p.style.display = 'none';
+            });
+
+            exportStatus.textContent = '请在打印对话框中选择"另存为PDF"';
+
+            setTimeout(() => {
+                window.print();
+
+                // 打印完成后恢复
+                setTimeout(() => {
+                    document.querySelectorAll('.cards-container').forEach(container => {
+                        container.classList.remove('active');
+                    });
+                    document.querySelectorAll('.pagination').forEach(p => {
+                        p.style.display = 'flex';
+                    });
+                    goToPage(originalPage);
+                    exportStatus.style.display = 'none';
+                }, 100);
+            }, 300);
+        }
+
+        // 事件绑定
+        generateBtn.addEventListener('click', generateCards);
+        exportBtn.addEventListener('click', exportPDF);
+        clearBtn.addEventListener('click', clearAll);
+
+        // 快捷键支持
+        wordInput.addEventListener('keydown', (e) => {
+            if (e.ctrlKey && e.key === 'Enter') {
+                generateCards();
+            }
+        });
+
+        // 键盘导航
+        document.addEventListener('keydown', (e) => {
+            if (document.activeElement === wordInput) return;
+
+            if (e.key === 'ArrowLeft' && currentPage > 1) {
+                goToPage(currentPage - 1);
+            } else if (e.key === 'ArrowRight' && currentPage < totalPages) {
+                goToPage(currentPage + 1);
+            }
+        });
+
+        // 阻止打印预览时的某些行为
+        window.addEventListener('beforeprint', () => {
+            document.querySelectorAll('.cards-container').forEach(container => {
+                container.classList.add('active');
+            });
+            document.querySelectorAll('.pagination').forEach(p => {
+                p.style.display = 'none';
+            });
+        });
+
+        window.addEventListener('afterprint', () => {
+            document.querySelectorAll('.cards-container').forEach(container => {
+                container.classList.remove('active');
+            });
+            document.querySelectorAll('.pagination').forEach(p => {
+                p.style.display = 'flex';
+            });
+            goToPage(currentPage);
+        });
+    </script>
+</body>
+</html>
