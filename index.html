@@ -44,22 +44,24 @@
     }
 
     .container {
-      display: flex;
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(clamp(240px, 18vw, 320px), clamp(240px, 18vw, 320px)));
       justify-content: center;
       gap: 20px;
       padding: 20px;
       flex-grow: 1;
-      align-items: center;
+      align-content: start;
       margin-top: 20px;
+      width: 100%;
+      max-width: 100% !important;
     }
 
     .card {
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
       transition: all 0.3s ease;
-      width: 300px;
+      width: 100%;
       border-radius: 0.5rem;
-      margin-bottom: 20px;
+      margin-bottom: 0;
       background-color: #ffffff;
       display: flex;
       flex-direction: column;
@@ -247,14 +249,14 @@
       },
       {
         "title": "DeepSeek",
-        "tags": ["recommend", "official"],
+        "tags": ["official"],
         "description": "DeepSeek-V3.2，使用手机号或者邮箱登录，支持联网",
         "link": "https://chat.deepseek.com/",
         "buttonText": "点击查看"
       },
       {
         "title": "QwenChat",
-        "tags": ["recommend", "official"],
+        "tags": ["official"],
         "description": "免登录，也可使用非实名邮箱注册。有Qwen3.5-Plus等模型，支持深度思考、联网功能、图片生成",
         "link": "https://chat.qwen.ai/",
         "buttonText": "免登录聊天"
@@ -282,7 +284,7 @@
       },
       {
         "title": "秘塔AI搜索",
-        "tags": ["recommend"],
+        "tags": ["official"],
         "description": "免登录，多种搜索模式（简洁、深入、研究），搜索结果除了文字以为还有思维导图、大纲、参考来源",
         "link": "https://metaso.cn/",
         "buttonText": "免登录聊天"

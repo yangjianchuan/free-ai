@@ -7,127 +7,288 @@
     <link href="bootstrap-5.3.0-alpha1-dist/css/bootstrap.min.css" rel="stylesheet" />
     <style>
         :root {
-            --color-primary: #3685f2;
-            --color-secondary: #6c757d;
-            --bg-body: #f8f9fa;
+            --bg: #f4f7ff;
+            --bg-soft: #eef3ff;
+            --panel: rgba(255, 255, 255, 0.9);
+            --line: rgba(86, 117, 214, 0.22);
+            --text-main: #22305f;
+            --text-soft: #5f6f9f;
+            --accent: #4f8dff;
+            --accent-strong: #3b78ea;
+            --success: #24b780;
+            --shadow-lg: 0 22px 56px rgba(58, 87, 167, 0.16);
+            --shadow-md: 0 10px 24px rgba(48, 74, 148, 0.14);
         }
+
+        * {
+            box-sizing: border-box;
+        }
+
         body {
-            background-color: var(--bg-body);
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-        .container-fluid {
-            padding: 16px;
             min-height: 100vh;
+            margin: 0;
+            color: var(--text-main);
+            font-family: "Noto Sans SC", "Microsoft YaHei", sans-serif;
+            background:
+                radial-gradient(900px 500px at 12% -10%, rgba(79, 141, 255, 0.18), transparent 45%),
+                radial-gradient(900px 560px at 95% 2%, rgba(58, 218, 173, 0.12), transparent 46%),
+                linear-gradient(145deg, #f8faff, var(--bg) 45%, var(--bg-soft));
+            background-attachment: fixed;
+        }
+
+        .container-fluid {
+            min-height: 100vh;
+            padding: 24px;
             display: flex;
-            flex-direction: column;
-            box-sizing: border-box;
+            justify-content: center;
+            align-items: flex-start;
         }
-        .card {
-            border: none;
-            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-            flex-shrink: 0;
+
+        .editor-shell {
+            width: min(980px, 100%);
+            border: 1px solid var(--line);
+            border-radius: 22px;
+            background: var(--panel);
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+            backdrop-filter: blur(8px);
         }
-        .card-body {
-            padding: 16px;
-            box-sizing: border-box;
+
+        .editor-head {
+            padding: 22px 24px 10px;
+            background: linear-gradient(180deg, rgba(79, 141, 255, 0.08), rgba(79, 141, 255, 0.01));
         }
-        .toolbar {
-            display: flex;
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
             gap: 8px;
-            margin-bottom: 16px;
+            margin-bottom: 10px;
+            padding: 6px 10px;
+            border-radius: 999px;
+            font-size: 12px;
+            color: #3553a8;
+            background: rgba(79, 141, 255, 0.12);
+            border: 1px solid rgba(79, 141, 255, 0.28);
+            letter-spacing: 0.04em;
         }
-        .btn {
-            flex: 1;
-            font-weight: 500;
-            padding: 8px 16px;
-        }
-        .btn-primary {
-            background-color: var(--color-primary);
-            border-color: var(--color-primary);
-        }
-        .btn-outline-secondary {
-            border-color: var(--color-secondary);
-            color: var(--color-secondary);
-        }
-        .btn-outline-secondary:hover {
-            background-color: var(--color-secondary);
-            border-color: var(--color-secondary);
-        }
+
         h1 {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 16px;
-            color: #333;
-            text-align: center;
+            margin: 0;
+            font-size: clamp(1.4rem, 2vw, 2rem);
+            font-family: "Source Han Serif SC", "STSong", serif;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+            color: #20316a;
         }
+
+        .subtitle {
+            margin-top: 8px;
+            margin-bottom: 0;
+            color: var(--text-soft);
+            font-size: 0.95rem;
+        }
+
+        .card-body {
+            padding: 14px 24px 24px;
+        }
+
+        .toolbar {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+
+        .btn {
+            border-radius: 12px;
+            padding: 10px 12px;
+            font-weight: 600;
+            transition: transform 0.18s ease, box-shadow 0.18s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-primary {
+            border-color: var(--accent-strong);
+            background: linear-gradient(135deg, #6ba7ff, #3f85f6);
+            box-shadow: 0 10px 18px rgba(63, 133, 246, 0.24);
+        }
+
+        .btn-success {
+            border-color: #1fa974;
+            background: linear-gradient(135deg, #33d29a, #1fb67f);
+            box-shadow: 0 10px 18px rgba(31, 182, 127, 0.22);
+        }
+
+        .btn-outline-secondary {
+            color: #4960a6;
+            border-color: rgba(73, 96, 166, 0.34);
+            background: rgba(255, 255, 255, 0.72);
+        }
+
+        .btn-outline-secondary:hover {
+            background: #f1f5ff;
+            border-color: rgba(73, 96, 166, 0.44);
+            color: #2f468d;
+        }
+
         textarea {
             width: 100%;
-            height: 40vh;
-            min-height: 200px;
-            max-height: 400px;
-            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
-            font-size: 14px;
-            line-height: 1.5;
+            height: 52vh;
+            min-height: 240px;
+            max-height: 620px;
             resize: none;
-            border: 1px solid #dee2e6;
-            border-radius: 0.375rem;
-            padding: 12px;
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            padding: 16px;
+            color: #1f2e5f;
+            font-size: 14px;
+            line-height: 1.6;
+            font-family: "JetBrains Mono", "Consolas", "Courier New", monospace;
+            background:
+                linear-gradient(rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.95)),
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 27px,
+                    rgba(138, 161, 233, 0.12) 27px,
+                    rgba(138, 161, 233, 0.12) 28px
+                );
             overflow-y: auto;
-            box-sizing: border-box;
         }
+
+        textarea::placeholder {
+            color: #8090bd;
+        }
+
         textarea:focus {
-            border-color: var(--color-primary);
-            box-shadow: 0 0 0 0.25rem rgba(54, 133, 242, 0.25);
+            border-color: var(--accent);
             outline: 0;
+            box-shadow: 0 0 0 0.25rem rgba(79, 141, 255, 0.18);
         }
-        @media (max-width: 576px) {
+
+        .hint {
+            margin-top: 10px;
+            font-size: 12px;
+            color: #6d7eaf;
+            text-align: right;
+        }
+
+        .preview-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            display: none;
+            background: rgba(239, 244, 255, 0.92);
+            backdrop-filter: blur(3px);
+        }
+
+        .preview-overlay.is-visible {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .preview-toolbar {
+            height: 56px;
+            padding: 10px 16px;
+            border-bottom: 1px solid rgba(79, 141, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: #314a92;
+            background: rgba(255, 255, 255, 0.86);
+        }
+
+        .preview-title {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        #closePreviewBtn {
+            border: 1px solid rgba(49, 74, 146, 0.3);
+            background: rgba(255, 255, 255, 0.88);
+            color: #294084;
+            border-radius: 10px;
+            padding: 6px 12px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        #closePreviewBtn:hover {
+            background: #f0f4ff;
+        }
+
+        #previewFrame {
+            width: 100%;
+            height: calc(100vh - 56px);
+            border: 0;
+            background: #fff;
+        }
+
+        @media (max-width: 768px) {
             .container-fluid {
-                padding: 12px;
+                padding: 14px;
             }
+
+            .editor-head {
+                padding: 18px 16px 10px;
+            }
+
             .card-body {
-                padding: 12px;
+                padding: 10px 16px 16px;
             }
-            h1 {
-                font-size: 1.25rem;
-                margin-bottom: 12px;
-            }
+
             .toolbar {
-                flex-direction: column;
-                gap: 12px;
-                margin-bottom: 12px;
+                grid-template-columns: 1fr;
             }
-            .btn {
-                width: 100%;
-            }
+
             textarea {
                 height: 50vh;
-                min-height: 150px;
+                min-height: 200px;
+            }
+
+            .hint {
+                text-align: left;
             }
         }
     </style>
 </head>
 <body>
     <div class="container-fluid">
-        <div class="card">
-            <div class="card-body">
+        <div class="editor-shell" id="editorShell">
+            <div class="editor-head">
+                <span class="eyebrow">Live • HTML Sandbox</span>
                 <h1>在线 HTML 预览工具</h1>
+                <p class="subtitle">输入或粘贴 HTML，支持新窗口与全屏预览。</p>
+            </div>
 
+            <div class="card-body">
                 <div class="toolbar">
                     <button id="previewNewBtn" class="btn btn-primary">新窗口预览</button>
                     <button id="previewCurrentBtn" class="btn btn-success">当前页面预览</button>
-                    <button id="clearBtn" class="btn btn-outline-secondary">清空</button>
+                    <button id="clearBtn" class="btn btn-outline-secondary">清空内容</button>
                 </div>
 
                 <textarea id="codeInput" placeholder="在这里输入或粘贴 HTML 代码..."></textarea>
+                <div class="hint">提示：按 Esc 可退出当前页面预览</div>
             </div>
         </div>
+    </div>
 
-        <!-- 预览区域 -->
-        <div id="previewContainer" class="card" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 9999; cursor: pointer;">
-            <iframe id="previewFrame" style="width: 100%; height: 100%; border: none;"></iframe>
+    <div id="previewContainer" class="preview-overlay" aria-hidden="true">
+        <div class="preview-toolbar">
+            <span class="preview-title">当前页面预览模式</span>
+            <button id="closePreviewBtn" type="button">返回编辑器</button>
         </div>
+        <iframe id="previewFrame" title="HTML 预览"></iframe>
     </div>
 
     <script src="bootstrap-5.3.0-alpha1-dist/js/bootstrap.bundle.min.js"></script>
@@ -136,11 +297,29 @@
         const previewNewBtn = document.getElementById('previewNewBtn');
         const previewCurrentBtn = document.getElementById('previewCurrentBtn');
         const clearBtn = document.getElementById('clearBtn');
-        const editorContainer = document.querySelector('.card');
+        const closePreviewBtn = document.getElementById('closePreviewBtn');
+        const editorShell = document.getElementById('editorShell');
         const previewContainer = document.getElementById('previewContainer');
         const previewFrame = document.getElementById('previewFrame');
 
-        // 新窗口预览按钮：在新窗口中打开并写入当前 HTML 代码
+        function writeHtmlToDocument(doc, code) {
+            doc.open();
+            doc.write(code);
+            doc.close();
+        }
+
+        function showCurrentPreview() {
+            editorShell.style.display = 'none';
+            previewContainer.classList.add('is-visible');
+            previewContainer.setAttribute('aria-hidden', 'false');
+        }
+
+        function hideCurrentPreview() {
+            previewContainer.classList.remove('is-visible');
+            previewContainer.setAttribute('aria-hidden', 'true');
+            editorShell.style.display = 'block';
+        }
+
         previewNewBtn.addEventListener('click', function () {
             const code = codeInput.value || '';
             const win = window.open('', '_blank');
@@ -148,12 +327,9 @@
                 alert('浏览器阻止了弹出窗口，请允许弹出窗口后重试。');
                 return;
             }
-            win.document.open();
-            win.document.write(code);
-            win.document.close();
+            writeHtmlToDocument(win.document, code);
         });
 
-        // 当前页面预览按钮：在当前页面中显示预览
         previewCurrentBtn.addEventListener('click', function () {
             const code = codeInput.value || '';
             if (!code.trim()) {
@@ -161,36 +337,25 @@
                 return;
             }
 
-            // 隐藏编辑器，显示预览区域
-            editorContainer.style.display = 'none';
-            previewContainer.style.display = 'block';
-
-            // 将 HTML 代码写入 iframe
+            showCurrentPreview();
             const iframeDoc = previewFrame.contentDocument || previewFrame.contentWindow.document;
-            iframeDoc.open();
-            iframeDoc.write(code);
-            iframeDoc.close();
+            writeHtmlToDocument(iframeDoc, code);
         });
 
-        // 点击预览容器返回编辑器
-        previewContainer.addEventListener('click', function (e) {
-            // 如果点击的是 iframe，不返回（防止误触）
-            if (e.target === previewFrame) {
-                return;
+        closePreviewBtn.addEventListener('click', hideCurrentPreview);
+
+        window.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape' && previewContainer.classList.contains('is-visible')) {
+                hideCurrentPreview();
             }
-
-            previewContainer.style.display = 'none';
-            editorContainer.style.display = 'block';
         });
 
-        // 清空按钮：清空文本框内容
         clearBtn.addEventListener('click', function () {
             codeInput.value = '';
             codeInput.focus();
         });
 
-        // 自动聚焦到输入框
-        window.addEventListener('load', function() {
+        window.addEventListener('load', function () {
             codeInput.focus();
         });
     </script>
