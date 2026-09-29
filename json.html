@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JSON 格式化</title>
+<link href="bootstrap-5.3.0-alpha1-dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+<style>
+:root{--primary:#3685F2;--primary-hover:#2f73d9;--green:#20a779;--border:#dbe3ee;--muted:#64748b;--text:#1e293b;--bg:#f5f7fb}*{box-sizing:border-box}body{min-height:100vh;margin:0;background:var(--bg);color:var(--text);font-family:"Segoe UI","Microsoft YaHei",Arial,sans-serif}.page{width:min(1320px,calc(100% - 32px));margin:0 auto;padding:28px 0 42px}.hero{margin-bottom:18px}.hero h1{margin:0 0 7px;font-size:clamp(26px,4vw,34px);font-weight:700;letter-spacing:-.02em}.hero p{margin:0;color:var(--muted);font-size:15px}.tool-card{background:#fff;border:1px solid var(--border);border-radius:16px;box-shadow:0 10px 30px rgba(15,23,42,.06);overflow:hidden}.toolbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:12px 14px;border-bottom:1px solid var(--border);background:#fbfcfe}.toolbar-group{display:flex;align-items:center;gap:6px}.toolbar-label{color:var(--muted);font-size:14px}.select{height:36px;border:1px solid var(--border);border-radius:8px;background:#fff;color:var(--text);padding:0 30px 0 10px;font-size:14px;outline:none}.btn-tool{height:36px;padding:0 12px;border:1px solid #67c9a7;border-radius:8px;background:#fff;color:var(--green);font-size:14px;cursor:pointer;transition:.2s}.btn-tool:hover{background:#eefbf6}.btn-primary{background:var(--primary);border-color:var(--primary);color:#fff}.btn-primary:hover{background:var(--primary-hover);border-color:var(--primary-hover)}.toolbar-spacer{flex:1}.editor-wrap{padding:10px 14px 14px}.editor{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--border);border-radius:10px;overflow:hidden;min-height:560px}.editor-panel{position:relative;min-width:0}.editor-panel+.editor-panel{border-left:1px solid var(--border)}.panel-head{height:38px;display:flex;align-items:center;justify-content:space-between;padding:0 12px;background:#fafcff;border-bottom:1px solid var(--border);font-size:13px;font-weight:600;color:#475569}.counter{font-weight:400;color:#94a3b8;font-size:12px}textarea{display:block;width:100%;height:520px;border:0;outline:0;resize:none;padding:12px 14px;background:#fff;color:#0f172a;font:13px/1.7 Consolas,"Cascadia Code","Microsoft YaHei",monospace;tab-size:2}textarea:focus{background:#fcfdff}textarea::placeholder{color:#a8b3c2}.status{min-height:22px;padding:0 14px 8px;text-align:left;font-size:13px;color:var(--muted)}.status.success{color:#059669}.status.error{color:#dc2626}.tips{display:flex;gap:8px 20px;flex-wrap:wrap;padding:12px 14px;border-top:1px solid var(--border);background:#fafcff;color:#64748b;font-size:12px}.file-input{display:none}
+@media(max-width:900px){.page{width:min(100% - 20px,700px);padding-top:22px}.editor{grid-template-columns:1fr;min-height:0}.editor-panel+.editor-panel{border-left:0;border-top:1px solid var(--border)}textarea{height:300px}.toolbar-spacer{display:none}}
+</style></head>
+<body><main class="page" id="toolCard"><header class="hero"><h1>JSON 格式化</h1><p>在线进行 JSON 格式化、校验、排序和压缩，数据仅在浏览器本地处理。</p></header><section class="tool-card"><div class="toolbar">
+<div class="toolbar-group"><span class="toolbar-label">缩进</span><select class="select" id="indent"><option value="2">2 个空格缩进</option><option value="4">4 个空格缩进</option><option value="tab">Tab 缩进</option><option value="0">不缩进</option></select></div>
+<div class="toolbar-group"><span class="toolbar-label">选择</span><button class="btn-tool" id="sampleBtn" type="button">示例⌄</button><button class="btn-tool" id="fileBtn" type="button">本地文件</button><input class="file-input" id="fileInput" type="file" accept=".json,application/json,text/plain"></div><div class="toolbar-spacer"></div>
+<button class="btn-tool btn-primary" id="formatBtn" type="button">格式化</button><button class="btn-tool" id="validateBtn" type="button">校验</button><button class="btn-tool" id="compressBtn" type="button">压缩</button><button class="btn-tool" id="sortAscBtn" type="button">键升序</button><button class="btn-tool" id="sortDescBtn" type="button">键降序</button><button class="btn-tool" id="escapeBtn" type="button">添加转义</button><button class="btn-tool" id="unescapeBtn" type="button">移除转义</button><button class="btn-tool" id="copyBtn" type="button">复制</button><button class="btn-tool" id="downloadBtn" type="button">下载</button><button class="btn-tool" id="clearBtn" type="button">清空</button>
+</div><div class="editor-wrap"><div class="editor"><section class="editor-panel"><div class="panel-head"><span>输入 JSON</span><span class="counter" id="inputCount">0 字符</span></div><textarea id="inputText" spellcheck="false" placeholder="请输入 JSON 文本，或点击“示例”加载内容"></textarea></section><section class="editor-panel"><div class="panel-head"><span>格式化结果</span><span class="counter" id="outputCount">0 字符</span></div><textarea id="outputText" spellcheck="false" readonly placeholder="格式化结果将显示在这里"></textarea></section></div></div><div class="status" id="status" aria-live="polite"></div><div class="tips"><span>✓ 支持 JSON 格式化与压缩</span><span>✓ 支持 JSON 校验</span><span>✓ 支持键名升序与降序排序</span><span>✓ 所有处理均在浏览器本地完成</span></div></section></main>
+<script>
+const inputText=document.getElementById('inputText'),outputText=document.getElementById('outputText'),status=document.getElementById('status'),indent=document.getElementById('indent'),toolCard=document.getElementById('toolCard'),inputCount=document.getElementById('inputCount'),outputCount=document.getElementById('outputCount');
+const sample={id:234567890,name:"Tony Stark",age:35,active:true,skills:["JavaScript","Python","SQL"],address:{city:"New York",street:"123 Main St",zip:"10001"},projects:[{name:"Iron Man",year:2008},{name:"Avengers",year:2012}]};
+function setStatus(m,t=''){status.textContent=m;status.className='status'+(t?' '+t:'')}function updateCounts(){inputCount.textContent=inputText.value.length+' 字符';outputCount.textContent=outputText.value.length+' 字符'}function spacing(){return indent.value==='tab'?"\t":Number(indent.value)}function parseJson(){
+  const source=inputText.value.replace(/^\uFEFF/,'');
+  try{return JSON.parse(source)}catch(firstError){
+    let candidate=source;
+    for(let i=0;i<10;i++){
+      const next=candidate.replace(/\\\\/g,'\\').replace(/\\"/g,'"');
+      if(next===candidate)break;
+      candidate=next;
+      try{return JSON.parse(candidate)}catch(e){}
+    }
+    throw firstError;
+  }
+}function write(v,sp=spacing()){outputText.value=JSON.stringify(v,null,sp);updateCounts()}
+function format(){try{write(parseJson());setStatus('JSON 格式有效，格式化完成','success')}catch(e){setStatus('JSON 格式错误：'+e.message,'error')}}function validate(){try{parseJson();setStatus('JSON 格式校验通过','success')}catch(e){setStatus('JSON 格式错误：'+e.message,'error')}}
+function compress(){try{write(parseJson(),0);setStatus('压缩完成','success')}catch(e){setStatus('JSON 格式错误：'+e.message,'error')}}function sortJson(desc=false){try{const sortValue=v=>{if(Array.isArray(v))return v.map(sortValue);if(v&&typeof v==='object')return Object.keys(v).sort((a,b)=>desc?b.localeCompare(a):a.localeCompare(b)).reduce((o,k)=>(o[k]=sortValue(v[k]),o),{});return v};write(sortValue(parseJson()));setStatus(desc?'已按键名降序排序':'已按键名升序排序','success')}catch(e){setStatus('JSON 格式错误：'+e.message,'error')}}
+function addEscape(){
+  const source=inputText.value;
+  let result='';
+  for(let i=0;i<source.length;i++){
+    const char=source[i];
+    if(char==='\\' && i+1<source.length){result+=char+source[++i];continue}
+    result+=char==='"'?'\\"':char;
+  }
+  outputText.value=result;
+  updateCounts();
+  setStatus('已添加转义，已有转义不会重复处理','success');
+}
+function removeEscape(){
+  let result=inputText.value;
+  let previous;
+  do{
+    previous=result;
+    result=result.replace(/\\\\/g,'\\').replace(/\\"/g,'"');
+  }while(result!==previous);
+  outputText.value=result;
+  updateCounts();
+  setStatus('已彻底移除转义，保持原格式','success');
+}async function copyResult(){if(!outputText.value){setStatus('没有可复制的结果');return}try{await navigator.clipboard.writeText(outputText.value);setStatus('已复制结果','success')}catch(e){outputText.select();document.execCommand('copy');setStatus('已复制结果','success')}}function download(){if(!outputText.value){setStatus('没有可下载的结果');return}const b=new Blob([outputText.value],{type:'application/json;charset=utf-8'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='formatted.json';a.click();URL.revokeObjectURL(a.href);setStatus('已下载 formatted.json','success')}
+document.getElementById('formatBtn').onclick=format;document.getElementById('validateBtn').onclick=validate;document.getElementById('compressBtn').onclick=compress;document.getElementById('sortAscBtn').onclick=()=>sortJson(false);document.getElementById('sortDescBtn').onclick=()=>sortJson(true);document.getElementById('escapeBtn').onclick=addEscape;document.getElementById('unescapeBtn').onclick=removeEscape;document.getElementById('copyBtn').onclick=copyResult;document.getElementById('downloadBtn').onclick=download;document.getElementById('sampleBtn').onclick=()=>{inputText.value=JSON.stringify(sample);updateCounts();setStatus('已加载示例','success');inputText.focus()};document.getElementById('fileBtn').onclick=()=>document.getElementById('fileInput').click();document.getElementById('fileInput').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{inputText.value=r.result;updateCounts();setStatus('已读取本地文件','success')};r.readAsText(f,'utf-8');e.target.value=''};document.getElementById('clearBtn').onclick=()=>{inputText.value='';outputText.value='';setStatus('');updateCounts();inputText.focus()};indent.onchange=()=>{if(outputText.value){try{outputText.value=JSON.stringify(JSON.parse(outputText.value),null,spacing());updateCounts()}catch(e){}}};inputText.addEventListener('input',updateCounts);inputText.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key==='Enter'){e.preventDefault();format()}});updateCounts();
+</script></body></html>

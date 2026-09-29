@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Base64 编码/解码</title>
+  <link href="bootstrap-5.3.0-alpha1-dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-light: #eff6ff;
+      --border: #dbe3ee;
+      --muted: #64748b;
+      --text: #1e293b;
+      --bg: #f5f7fb;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Segoe UI", "Microsoft YaHei", Arial, sans-serif;
+    }
+
+    .page {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 34px 0 48px;
+    }
+
+    .hero {
+      margin-bottom: 22px;
+    }
+
+    .hero h1 {
+      margin: 0 0 8px;
+      font-size: clamp(26px, 4vw, 34px);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .hero p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .tool-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, .06);
+      overflow: hidden;
+    }
+
+    .toolbar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--border);
+      background: #fbfcfe;
+    }
+
+    .toolbar-label {
+      color: var(--muted);
+      font-size: 14px;
+      margin-right: 2px;
+    }
+
+    .form-select {
+      width: auto;
+      min-width: 150px;
+      border-color: var(--border);
+      color: var(--text);
+      box-shadow: none !important;
+    }
+
+    .form-check {
+      margin-left: auto;
+      color: #475569;
+      font-size: 14px;
+    }
+
+    .workspace {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 54px minmax(0, 1fr);
+      gap: 16px;
+      padding: 18px;
+    }
+
+    .panel {
+      min-width: 0;
+    }
+
+    .panel-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 9px;
+    }
+
+    .panel-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #334155;
+    }
+
+    .counter {
+      color: #94a3b8;
+      font-size: 12px;
+    }
+
+    textarea {
+      display: block;
+      width: 100%;
+      min-height: 390px;
+      resize: vertical;
+      padding: 15px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      outline: none;
+      background: #fff;
+      color: #0f172a;
+      font: 14px/1.65 Consolas, "Cascadia Code", "Microsoft YaHei", monospace;
+      transition: border-color .2s, box-shadow .2s;
+    }
+
+    textarea:focus {
+      border-color: #93c5fd;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, .09);
+    }
+
+    textarea::placeholder { color: #a8b3c2; }
+
+    .middle-actions {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .icon-btn {
+      width: 44px;
+      height: 44px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: #fff;
+      color: #475569;
+      font-size: 18px;
+      cursor: pointer;
+      transition: all .2s;
+    }
+
+    .icon-btn:hover {
+      color: var(--primary);
+      border-color: #93c5fd;
+      background: var(--primary-light);
+    }
+
+    .action-bar {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      padding: 0 18px 18px;
+    }
+
+    .btn {
+      border-radius: 9px;
+      padding: 9px 18px;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .btn-primary {
+      background: #3685F2;
+      border-color: #3685F2;
+    }
+
+    .btn-primary:hover {
+      background: #2f73d9;
+      border-color: #2f73d9;
+    }
+
+    .btn-light-border {
+      border: 1px solid var(--border);
+      background: #fff;
+      color: #475569;
+    }
+
+    .btn-light-border:hover {
+      border-color: #93c5fd;
+      color: var(--primary);
+      background: var(--primary-light);
+    }
+
+    .tips {
+      display: flex;
+      gap: 8px 18px;
+      flex-wrap: wrap;
+      padding: 14px 18px;
+      border-top: 1px solid var(--border);
+      background: #fafcff;
+      color: #64748b;
+      font-size: 12px;
+    }
+
+    .status {
+      min-height: 20px;
+      margin: 0 18px 14px;
+      color: #64748b;
+      text-align: center;
+      font-size: 13px;
+    }
+
+    .status.error { color: #dc2626; }
+    .status.success { color: #059669; }
+
+    @media (max-width: 800px) {
+      .page { width: min(100% - 20px, 680px); padding-top: 22px; }
+      .workspace { grid-template-columns: 1fr; }
+      .middle-actions { flex-direction: row; }
+      .icon-btn { width: 42px; height: 42px; }
+      .form-check { margin-left: 0; width: 100%; }
+      textarea { min-height: 240px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="hero">
+      <h1>Base64 编码 / 解码</h1>
+      <p>在浏览器本地完成文本 Base64 编码与解码，支持 UTF-8、UTF-16LE、UTF-16BE 等字符编码。</p>
+    </header>
+
+    <section class="tool-card">
+      <div class="toolbar">
+        <span class="toolbar-label">字符编码</span>
+        <select id="encoding" class="form-select form-select-sm" aria-label="字符编码">
+          <option value="utf-8">UTF-8</option>
+          <option value="utf-16le">UTF-16LE</option>
+          <option value="utf-16be">UTF-16BE</option>
+        </select>
+        <div class="form-check form-switch">
+          <input class="form-check-input" type="checkbox" id="ignoreInvalid" checked>
+          <label class="form-check-label" for="ignoreInvalid">解码时忽略非 Base64 字符</label>
+        </div>
+      </div>
+
+      <div class="workspace">
+        <section class="panel">
+          <div class="panel-head">
+            <span class="panel-title">输入内容</span>
+            <span class="counter" id="inputCount">0 字符</span>
+          </div>
+          <textarea id="inputText" spellcheck="false" placeholder="请输入需要编码或解码的文本"></textarea>
+        </section>
+
+        <div class="middle-actions" aria-label="内容交换">
+          <button class="icon-btn" id="swapBtn" type="button" title="交换输入和结果" aria-label="交换输入和结果">⇄</button>
+        </div>
+
+        <section class="panel">
+          <div class="panel-head">
+            <span class="panel-title">处理结果</span>
+            <span class="counter" id="outputCount">0 字符</span>
+          </div>
+          <textarea id="outputText" spellcheck="false" readonly placeholder="处理结果将显示在这里"></textarea>
+        </section>
+      </div>
+
+      <div class="action-bar">
+        <button class="btn btn-primary" id="encodeBtn" type="button">Base64 编码</button>
+        <button class="btn btn-primary" id="decodeBtn" type="button">Base64 解码</button>
+        <button class="btn btn-light-border" id="copyBtn" type="button">复制结果</button>
+        <button class="btn btn-light-border" id="clearBtn" type="button">清空</button>
+      </div>
+
+      <div class="status" id="status" aria-live="polite"></div>
+      <div class="tips">
+        <span>✓ 所有处理均在浏览器本地完成</span>
+        <span>✓ 支持中文及多语言文本</span>
+        <span>✓ 不会上传输入内容</span>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const inputText = document.getElementById('inputText');
+    const outputText = document.getElementById('outputText');
+    const encoding = document.getElementById('encoding');
+    const ignoreInvalid = document.getElementById('ignoreInvalid');
+    const status = document.getElementById('status');
+    const inputCount = document.getElementById('inputCount');
+    const outputCount = document.getElementById('outputCount');
+
+    function setStatus(message, type = '') {
+      status.textContent = message;
+      status.className = 'status' + (type ? ' ' + type : '');
+    }
+
+    function updateCounts() {
+      inputCount.textContent = `${inputText.value.length} 字符`;
+      outputCount.textContent = `${outputText.value.length} 字符`;
+    }
+
+    function encodeUtf16(text, littleEndian) {
+      const buffer = new ArrayBuffer(text.length * 2);
+      const view = new DataView(buffer);
+      for (let i = 0; i < text.length; i++) {
+        view.setUint16(i * 2, text.charCodeAt(i), littleEndian);
+      }
+      return new Uint8Array(buffer);
+    }
+
+    function bytesFromText(text, charset) {
+      if (charset === 'utf-16le') return encodeUtf16(text, true);
+      if (charset === 'utf-16be') return encodeUtf16(text, false);
+      return new TextEncoder().encode(text);
+    }
+
+    function textFromBytes(bytes, charset) {
+      if (charset === 'utf-16be') {
+        const copy = new Uint8Array(bytes);
+        if (copy.length % 2 !== 0) throw new Error('UTF-16BE 数据长度必须为偶数。');
+        for (let i = 0; i < copy.length; i += 2) {
+          const value = copy[i];
+          copy[i] = copy[i + 1];
+          copy[i + 1] = value;
+        }
+        return new TextDecoder('utf-16le', { fatal: true }).decode(copy);
+      }
+      return new TextDecoder(charset, { fatal: true }).decode(bytes);
+    }
+
+    function bytesToBase64(bytes) {
+      let binary = '';
+      const chunkSize = 0x8000;
+      for (let i = 0; i < bytes.length; i += chunkSize) {
+        binary += String.fromCharCode(...bytes.subarray(i, i + chunkSize));
+      }
+      return btoa(binary);
+    }
+
+    function base64ToBytes(value) {
+      let normalized = value.trim();
+      if (ignoreInvalid.checked) {
+        normalized = normalized.replace(/[^A-Za-z0-9+/=_-]/g, '');
+        normalized = normalized.replace(/-/g, '+').replace(/_/g, '/');
+      }
+      normalized = normalized.replace(/\s/g, '');
+      if (!normalized) return new Uint8Array();
+      if (!/^[A-Za-z0-9+/]*={0,2}$/.test(normalized)) {
+        throw new Error('输入不是有效的 Base64 内容。');
+      }
+      if (normalized.length % 4 === 1) {
+        throw new Error('Base64 内容长度无效。');
+      }
+      normalized += '='.repeat((4 - normalized.length % 4) % 4);
+      const binary = atob(normalized);
+      const bytes = new Uint8Array(binary.length);
+      for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+      return bytes;
+    }
+
+    function encode() {
+      try {
+        outputText.value = bytesToBase64(bytesFromText(inputText.value, encoding.value));
+        setStatus('编码完成', 'success');
+        updateCounts();
+      } catch (error) {
+        setStatus(error.message, 'error');
+      }
+    }
+
+    function decode() {
+      try {
+        outputText.value = textFromBytes(base64ToBytes(inputText.value), encoding.value);
+        setStatus('解码完成', 'success');
+        updateCounts();
+      } catch (error) {
+        setStatus(error.message, 'error');
+      }
+    }
+
+    async function copyResult() {
+      if (!outputText.value) {
+        setStatus('没有可复制的结果');
+        return;
+      }
+      try {
+        await navigator.clipboard.writeText(outputText.value);
+        setStatus('已复制结果', 'success');
+      } catch (error) {
+        outputText.select();
+        document.execCommand('copy');
+        setStatus('已复制结果', 'success');
+      }
+    }
+
+    document.getElementById('encodeBtn').addEventListener('click', encode);
+    document.getElementById('decodeBtn').addEventListener('click', decode);
+    document.getElementById('copyBtn').addEventListener('click', copyResult);
+    document.getElementById('clearBtn').addEventListener('click', () => {
+      inputText.value = '';
+      outputText.value = '';
+      setStatus('');
+      updateCounts();
+      inputText.focus();
+    });
+    document.getElementById('swapBtn').addEventListener('click', () => {
+      const value = inputText.value;
+      inputText.value = outputText.value;
+      outputText.value = value;
+      setStatus('已交换输入和结果');
+      updateCounts();
+    });
+    inputText.addEventListener('input', updateCounts);
+    outputText.addEventListener('input', updateCounts);
+    inputText.addEventListener('keydown', event => {
+      if ((event.ctrlKey || event.metaKey) && event.key === 'Enter') {
+        event.preventDefault();
+        encode();
+      }
+    });
+    updateCounts();
+  </script>
+</body>
+</html>

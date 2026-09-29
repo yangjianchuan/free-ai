@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GUID / UUID 生成器</title>
+  <style>
+    :root{--primary:#3685F2;--primary-hover:#2f73d9;--border:#dee2e6;--text:#212529;--muted:#6c757d;--success:#20a779;--danger:#dc3545;--bg:#f7f9fc}
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",sans-serif}
+    .page{width:min(1180px,calc(100% - 32px));margin:28px auto 40px}
+    .hero{margin-bottom:18px}
+    h1{margin:0 0 8px;font-size:28px;font-weight:600}
+    .hero p{margin:0;color:var(--muted);font-size:14px}
+    .tool-card{background:#fff;border:1px solid var(--border);border-radius:10px;padding:20px;box-shadow:0 2px 10px rgba(0,0,0,.03)}
+    .options{display:flex;flex-wrap:wrap;align-items:center;gap:18px;margin-bottom:16px}
+    .check{display:inline-flex;align-items:center;gap:7px;color:#495057;font-size:14px;cursor:pointer;user-select:none}
+    .check input{width:16px;height:16px;accent-color:var(--primary);margin:0}
+    .field-row{display:grid;grid-template-columns:150px 1fr;gap:12px;align-items:center;margin-bottom:16px}
+    .field-label{font-size:14px;color:#495057}
+    .number-input{width:100%;height:38px;border:1px solid var(--border);border-radius:6px;padding:0 12px;font-size:14px;outline:none;transition:border-color .15s,box-shadow .15s}
+    .number-input:focus{border-color:#86b7fe;box-shadow:0 0 0 .2rem rgba(13,110,253,.1)}
+    .actions{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:16px}
+    button{height:36px;padding:0 15px;border:1px solid var(--border);border-radius:6px;background:#fff;color:#495057;font-size:14px;cursor:pointer;transition:.15s}
+    button:hover{background:#f8f9fa}
+    .primary{background:var(--primary);border-color:var(--primary);color:#fff}
+    .primary:hover{background:var(--primary-hover);border-color:var(--primary-hover)}
+    .success{border-color:var(--success);color:var(--success)}
+    .success:hover{background:#eefbf6}
+    .danger{border-color:var(--danger);color:var(--danger)}
+    .danger:hover{background:#fff3f3}
+    .output-wrap{position:relative}
+    textarea{width:100%;min-height:320px;resize:vertical;border:1px solid var(--border);border-radius:8px;padding:14px;line-height:1.65;font:14px/1.65 Consolas,"Cascadia Mono","Microsoft YaHei",monospace;color:#334155;background:#fff;outline:none}
+    textarea:focus{border-color:#86b7fe;box-shadow:0 0 0 .2rem rgba(13,110,253,.08)}
+    .meta{display:flex;justify-content:space-between;gap:12px;margin-top:7px;color:#8a929a;font-size:12px}
+    .status{min-height:20px;margin-top:12px;font-size:13px;color:var(--muted)}
+    .status.success-text{color:var(--success)}
+    .status.error-text{color:var(--danger)}
+    .tips{margin-top:20px;padding-top:18px;border-top:1px solid #edf0f2}
+    .tips h2{margin:0 0 10px;font-size:16px}
+    .tips ul{margin:0;padding-left:20px;color:#667085;font-size:13px;line-height:1.9}
+    @media(max-width:600px){.page{width:calc(100% - 20px);margin-top:16px}.tool-card{padding:15px}.field-row{grid-template-columns:1fr;gap:7px}.options{gap:12px}.actions button{flex:1 1 calc(50% - 9px)}textarea{min-height:260px}}
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="hero">
+      <h1>GUID / UUID 生成器</h1>
+      <p>批量生成 GUID 或 UUID（UUID v4），数据仅在浏览器本地处理。</p>
+    </header>
+
+    <section class="tool-card">
+      <div class="options">
+        <label class="check"><input type="checkbox" id="uppercase"> 十六进制大写</label>
+        <label class="check"><input type="checkbox" id="hyphens" checked> 带连字符</label>
+      </div>
+
+      <div class="field-row">
+        <label class="field-label" for="count">GUID / UUID 数量</label>
+        <input class="number-input" id="count" type="number" min="1" max="1000" value="5" inputmode="numeric">
+      </div>
+
+      <div class="actions">
+        <button class="primary" id="generateBtn">生成 GUID / UUID</button>
+        <button class="success" id="copyBtn">复制结果</button>
+        <button class="success" id="randomCopyBtn">随机复制一个</button>
+        <button class="success" id="downloadBtn">下载结果</button>
+        <button class="danger" id="resetBtn">重置</button>
+      </div>
+
+      <div class="output-wrap">
+        <textarea id="output" spellcheck="false" placeholder="点击“生成 GUID / UUID”开始"></textarea>
+        <div class="meta"><span id="status">等待生成</span><span id="charCount">0 个字符</span></div>
+      </div>
+
+      <div class="tips">
+        <h2>说明</h2>
+        <ul>
+          <li>GUID 和 UUID 均为 128 位标识符，本工具统一按 UUID v4 随机规则生成。</li>
+          <li>GUID 是 Windows 等环境中常用的名称，UUID 是更通用的标准名称，两种名称在本工具中生成的结果相同。</li>
+          <li>默认使用小写十六进制并保留连字符，可按需切换大写和无连字符格式。</li>
+          <li>支持一次生成 1～1000 个标识符，可复制全部、随机复制一个或下载 TXT 文件。</li>
+          <li>所有生成和处理均在浏览器本地完成，不会上传数据。</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const countInput = document.getElementById('count');
+    const uppercase = document.getElementById('uppercase');
+    const hyphens = document.getElementById('hyphens');
+    const output = document.getElementById('output');
+    const status = document.getElementById('status');
+    const charCount = document.getElementById('charCount');
+
+    function createUuid() {
+      if (window.crypto && typeof crypto.randomUUID === 'function') {
+        return crypto.randomUUID();
+      }
+      const bytes = new Uint8Array(16);
+      crypto.getRandomValues(bytes);
+      bytes[6] = (bytes[6] & 0x0f) | 0x40;
+      bytes[8] = (bytes[8] & 0x3f) | 0x80;
+      const hex = [...bytes].map(b => b.toString(16).padStart(2, '0')).join('');
+      return `${hex.slice(0,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}-${hex.slice(16,20)}-${hex.slice(20)}`;
+    }
+
+    function formatIdentifier(identifier) {
+      let result = hyphens.checked ? identifier : identifier.replaceAll('-', '');
+      if (uppercase.checked) result = result.toUpperCase();
+      return result;
+    }
+
+    function updateCount() {
+      charCount.textContent = `${output.value.length} 个字符`;
+    }
+
+    function setStatus(message, type = '') {
+      status.textContent = message;
+      status.className = type ? `status ${type}-text` : 'status';
+    }
+
+    function generate() {
+      let count = Number.parseInt(countInput.value, 10);
+      if (!Number.isFinite(count)) count = 5;
+      count = Math.min(1000, Math.max(1, count));
+      countInput.value = count;
+      output.value = Array.from({length: count}, () => formatIdentifier(createUuid())).join('\n');
+      updateCount();
+      setStatus(`已生成 ${count} 个 GUID / UUID`, 'success');
+    }
+
+    async function copyText(text, successMessage) {
+      try {
+        await navigator.clipboard.writeText(text);
+      } catch {
+        const helper = document.createElement('textarea');
+        helper.value = text;
+        helper.style.position = 'fixed';
+        helper.style.opacity = '0';
+        document.body.appendChild(helper);
+        helper.select();
+        document.execCommand('copy');
+        helper.remove();
+      }
+      setStatus(successMessage, 'success');
+    }
+
+    async function copyResult() {
+      if (!output.value) {
+        setStatus('没有可复制的内容', 'error');
+        return;
+      }
+      await copyText(output.value, '已复制全部结果');
+    }
+
+    async function randomCopy() {
+      const values = output.value.split(/\r?\n/).map(value => value.trim()).filter(Boolean);
+      if (!values.length) {
+        setStatus('没有可复制的内容', 'error');
+        return;
+      }
+      const value = values[Math.floor(Math.random() * values.length)];
+      await copyText(value, `已随机复制：${value}`);
+    }
+
+    function downloadResult() {
+      if (!output.value) {
+        setStatus('没有可下载的内容', 'error');
+        return;
+      }
+      const blob = new Blob([output.value + '\n'], {type: 'text/plain;charset=utf-8'});
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `guid-uuid-${new Date().toISOString().slice(0,10)}.txt`;
+      link.click();
+      URL.revokeObjectURL(url);
+      setStatus('已下载 GUID / UUID 结果', 'success');
+    }
+
+    function reset() {
+      countInput.value = 5;
+      uppercase.checked = false;
+      hyphens.checked = true;
+      output.value = '';
+      updateCount();
+      setStatus('已重置');
+    }
+
+    document.getElementById('generateBtn').addEventListener('click', generate);
+    document.getElementById('copyBtn').addEventListener('click', copyResult);
+    document.getElementById('randomCopyBtn').addEventListener('click', randomCopy);
+    document.getElementById('downloadBtn').addEventListener('click', downloadResult);
+    document.getElementById('resetBtn').addEventListener('click', reset);
+    output.addEventListener('input', updateCount);
+
+    [uppercase, hyphens].forEach(el => el.addEventListener('change', () => {
+      if (!output.value) return;
+      output.value = output.value.split(/\r?\n/).filter(Boolean).map(value => {
+        const normalized = value.replaceAll('-', '').toLowerCase().padStart(32, '0');
+        const raw = `${normalized.slice(0,8)}-${normalized.slice(8,12)}-${normalized.slice(12,16)}-${normalized.slice(16,20)}-${normalized.slice(20)}`;
+        return formatIdentifier(raw);
+      }).join('\n');
+      updateCount();
+    }));
+
+    updateCount();
+    generate();
+  </script>
+</body>
+</html>
