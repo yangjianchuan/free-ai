@@ -1,0 +1,90 @@
+/* Shared navigation and explanatory content; tool layouts stay independent. */
+.breadcrumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 16px;
+  color: #475569;
+  font-size: 14px;
+  line-height: 1.6;
+  flex-shrink: 0;
+}
+
+.breadcrumbs a,
+.tool-resources a {
+  color: #1d4ed8;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.breadcrumbs a:hover,
+.tool-resources a:hover {
+  color: #1e3a8a;
+}
+
+.breadcrumbs a:focus-visible,
+.tool-resources a:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.tool-resources {
+  box-sizing: border-box;
+  width: min(1180px, calc(100% - 32px));
+  margin: 0 auto 36px;
+  color: #475569;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.tool-resources h2 {
+  margin: 0 0 10px;
+  color: #1e293b;
+  font-size: 18px;
+  line-height: 1.5;
+  font-weight: 600;
+}
+
+.tool-guide,
+.related-tools {
+  padding: 20px 0 0;
+  border-top: 1px solid #dbe3ee;
+}
+
+.tool-guide {
+  margin-bottom: 24px;
+}
+
+.tool-guide p {
+  max-width: 75ch;
+  margin: 0 0 10px;
+  overflow-wrap: anywhere;
+}
+
+.related-tools ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 24px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.related-tools a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+
+@media (max-width: 700px) {
+  .tool-resources {
+    width: calc(100% - 20px);
+    margin-bottom: 24px;
+  }
+
+  .related-tools ul {
+    gap: 4px 18px;
+  }
+}

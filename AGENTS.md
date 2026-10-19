@@ -51,11 +51,13 @@ npx http-server -p 8080
 
 ## Important Implementation Details
 
-### AI Service Data Structure
-Services are embedded directly in `index.html` as JavaScript objects with:
-- `title`, `tags`, `description`, `link`, `buttonText` properties
-- Tags: `"recommend"` (👍推荐) and `"official"` (官网)
-- Dynamic card rendering based on this data
+### 首页卡片与结构化数据维护
+- 首页服务直接写在 `index.html` 的 `<main class="container">` 内，使用静态 `article.card`、`h2.card-title`、`p.card-text` 和按钮链接；不使用 JavaScript 动态渲染或单独维护卡片数据数组。
+- 推荐和官网标签分别使用 `recommend-tag` 与 `official-tag`；修改卡片时同步维护标题、描述、标签、链接和按钮文字。
+- 卡片链接保留 `target="_blank"` 与 `rel="noopener noreferrer"`，`aria-label` 同时包含站点名称和按钮文字。
+- 首页静态 JSON-LD 包含 `WebSite`、`CollectionPage` 及其 `mainEntity` 下的 `ItemList`；增删或调整卡片时，同步条目名称、绝对 URL、顺序、`position` 与 `numberOfItems`，保持与可见卡片一致。
+- 线上首页为 `https://bin9.top/`，站内结构化数据链接使用该域名下的绝对 URL；新增本地工具页时同步 `sitemap.xml`。
+- 首页保留唯一可见 h1、SEO 元信息和共享 `seo.css` 引用；无需 Bootstrap bundle 或其他运行时卡片渲染脚本。
 
 ### Local Utility Tools
 - **Base64 (`base64.html`)**: Text Base64 encoding/decoding with UTF-8, UTF-16LE, and UTF-16BE support. Processing stays in the browser.

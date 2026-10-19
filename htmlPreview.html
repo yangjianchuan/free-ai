@@ -3,7 +3,58 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>在线 HTML 预览工具</title>
+    <title>HTML 在线预览工具 - 网页代码预览与调试 | bin9导航</title>
+    <meta name="description" content="输入或粘贴 HTML 代码，点击按钮在新窗口或当前页面预览，支持内嵌 CSS 和 JavaScript，按 Esc 可退出当前页面预览。请仅预览可信代码，外链资源可能联网。">
+    <meta name="robots" content="index,follow">
+    <link rel="canonical" href="https://bin9.top/htmlPreview.html">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="zh_CN">
+    <meta property="og:site_name" content="bin9导航">
+    <meta property="og:title" content="HTML 在线预览工具 - 网页代码预览与调试 | bin9导航">
+    <meta property="og:description" content="输入或粘贴 HTML 代码，点击按钮在新窗口或当前页面预览，支持内嵌 CSS 和 JavaScript，按 Esc 可退出当前页面预览。请仅预览可信代码，外链资源可能联网。">
+    <meta property="og:url" content="https://bin9.top/htmlPreview.html">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="HTML 在线预览工具 - 网页代码预览与调试 | bin9导航">
+    <meta name="twitter:description" content="输入或粘贴 HTML 代码，点击按钮在新窗口或当前页面预览，支持内嵌 CSS 和 JavaScript，按 Esc 可退出当前页面预览。请仅预览可信代码，外链资源可能联网。">
+    <link rel="stylesheet" href="seo.css">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebPage",
+          "@id": "https://bin9.top/htmlPreview.html#webpage",
+          "url": "https://bin9.top/htmlPreview.html",
+          "name": "HTML 在线预览工具 - 网页代码预览与调试 | bin9导航",
+          "description": "输入或粘贴 HTML 代码，点击按钮在新窗口或当前页面预览，支持内嵌 CSS 和 JavaScript，按 Esc 可退出当前页面预览。请仅预览可信代码，外链资源可能联网。",
+          "inLanguage": "zh-CN",
+          "isPartOf": { "@id": "https://bin9.top/#website" },
+          "breadcrumb": { "@id": "https://bin9.top/htmlPreview.html#breadcrumb" },
+          "mainEntity": { "@id": "https://bin9.top/htmlPreview.html#application" }
+        },
+        {
+          "@type": "BreadcrumbList",
+          "@id": "https://bin9.top/htmlPreview.html#breadcrumb",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "bin9导航", "item": "https://bin9.top/" },
+            { "@type": "ListItem", "position": 2, "name": "在线 HTML 预览工具", "item": "https://bin9.top/htmlPreview.html" }
+          ]
+        },
+        {
+          "@type": "WebApplication",
+          "@id": "https://bin9.top/htmlPreview.html#application",
+          "name": "在线 HTML 预览工具",
+          "description": "输入或粘贴 HTML 代码，点击按钮在新窗口或当前页面预览，支持内嵌 CSS 和 JavaScript，按 Esc 可退出当前页面预览。请仅预览可信代码，外链资源可能联网。",
+          "url": "https://bin9.top/htmlPreview.html",
+          "applicationCategory": "DeveloperApplication",
+          "operatingSystem": "Any",
+          "browserRequirements": "Requires JavaScript",
+          "inLanguage": "zh-CN",
+          "isAccessibleForFree": true
+        }
+      ]
+    }
+    </script>
     <link href="bootstrap-5.3.0-alpha1-dist/css/bootstrap.min.css" rel="stylesheet" />
     <style>
         :root {
@@ -262,13 +313,19 @@
     </style>
 </head>
 <body>
-    <div class="container-fluid">
+    <main class="container-fluid">
         <div class="editor-shell" id="editorShell">
             <div class="editor-head">
-                <span class="eyebrow">Live • HTML Sandbox</span>
+                <nav class="breadcrumbs" aria-label="面包屑">
+                    <a href="/">bin9导航</a>
+                    <span aria-hidden="true">/</span>
+                    <span aria-current="page">在线 HTML 预览工具</span>
+                </nav>
+                <span class="eyebrow">HTML 代码预览</span>
                 <h1>在线 HTML 预览工具</h1>
                 <p class="subtitle">输入或粘贴 HTML，支持新窗口与全屏预览。</p>
             </div>
+            <noscript><p>此工具需要 JavaScript 才能渲染 HTML 预览，请启用 JavaScript 后使用。</p></noscript>
 
             <div class="card-body">
                 <div class="toolbar">
@@ -277,10 +334,28 @@
                     <button id="clearBtn" class="btn btn-outline-secondary">清空内容</button>
                 </div>
 
-                <textarea id="codeInput" placeholder="在这里输入或粘贴 HTML 代码..."></textarea>
+                <textarea id="codeInput" aria-label="HTML 代码" placeholder="在这里输入或粘贴 HTML 代码..."></textarea>
                 <div class="hint">提示：按 Esc 可退出当前页面预览</div>
             </div>
         </div>
+    </main>
+    <div class="tool-resources">
+        <section class="tool-guide">
+            <h2>使用说明</h2>
+            <p>输入或粘贴 HTML 代码，可包含内嵌 CSS 和 JavaScript。点击“新窗口预览”或“当前页面预览”后才会渲染；修改代码后需要再次点击预览按钮，不会自动刷新。</p>
+            <p>请仅预览可信代码，预览中的脚本可以执行，外链样式、脚本、图片等资源可能发起网络请求。当前页面预览可点击“返回编辑器”退出，也可尝试按 Esc 返回；新窗口预览需要浏览器允许弹出窗口。</p>
+        </section>
+        <nav class="related-tools" aria-label="相关在线工具">
+            <h2>相关在线工具</h2>
+            <ul>
+                <li><a href="/">bin9导航首页</a></li>
+                <li><a href="./base64.html">Base64 在线编码解码</a></li>
+                <li><a href="./url.html">URL 在线编码解码</a></li>
+                <li><a href="./json.html">JSON 格式化、校验与压缩</a></li>
+                <li><a href="./guid.html">GUID / UUID v4 批量生成器</a></li>
+                <li><a href="./password.html">随机密码生成器</a></li>
+            </ul>
+        </nav>
     </div>
 
     <div id="previewContainer" class="preview-overlay" aria-hidden="true">

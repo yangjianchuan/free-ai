@@ -2,18 +2,96 @@
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>JSON 格式化</title>
+<title>JSON 在线格式化工具 - 校验、压缩与排序 | bin9导航</title>
+<meta name="description" content="在浏览器本地进行 JSON 格式化、校验、压缩与递归键名排序，支持选择缩进、读取本地文件、添加或移除转义、复制结果和下载 JSON 文件。">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://bin9.top/json.html">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:site_name" content="bin9导航">
+<meta property="og:title" content="JSON 在线格式化工具 - 校验、压缩与排序 | bin9导航">
+<meta property="og:description" content="在浏览器本地进行 JSON 格式化、校验、压缩与递归键名排序，支持选择缩进、读取本地文件、添加或移除转义、复制结果和下载 JSON 文件。">
+<meta property="og:url" content="https://bin9.top/json.html">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JSON 在线格式化工具 - 校验、压缩与排序 | bin9导航">
+<meta name="twitter:description" content="在浏览器本地进行 JSON 格式化、校验、压缩与递归键名排序，支持选择缩进、读取本地文件、添加或移除转义、复制结果和下载 JSON 文件。">
+<link rel="stylesheet" href="seo.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "https://bin9.top/json.html#webpage",
+      "url": "https://bin9.top/json.html",
+      "name": "JSON 在线格式化工具 - 校验、压缩与排序 | bin9导航",
+      "description": "在浏览器本地进行 JSON 格式化、校验、压缩与递归键名排序，支持选择缩进、读取本地文件、添加或移除转义、复制结果和下载 JSON 文件。",
+      "inLanguage": "zh-CN",
+      "isPartOf": { "@id": "https://bin9.top/#website" },
+      "breadcrumb": { "@id": "https://bin9.top/json.html#breadcrumb" },
+      "mainEntity": { "@id": "https://bin9.top/json.html#application" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://bin9.top/json.html#breadcrumb",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "bin9导航", "item": "https://bin9.top/" },
+        { "@type": "ListItem", "position": 2, "name": "JSON 格式化", "item": "https://bin9.top/json.html" }
+      ]
+    },
+    {
+      "@type": "WebApplication",
+      "@id": "https://bin9.top/json.html#application",
+      "name": "JSON 格式化",
+      "description": "在浏览器本地进行 JSON 格式化、校验、压缩与递归键名排序，支持选择缩进、读取本地文件、添加或移除转义、复制结果和下载 JSON 文件。",
+      "url": "https://bin9.top/json.html",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Any",
+      "browserRequirements": "Requires JavaScript",
+      "inLanguage": "zh-CN",
+      "isAccessibleForFree": true
+    }
+  ]
+}
+</script>
 <link href="bootstrap-5.3.0-alpha1-dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <style>
 :root{--primary:#3685F2;--primary-hover:#2f73d9;--green:#20a779;--border:#dbe3ee;--muted:#64748b;--text:#1e293b;--bg:#f5f7fb}*{box-sizing:border-box}body{min-height:100vh;margin:0;background:var(--bg);color:var(--text);font-family:"Segoe UI","Microsoft YaHei",Arial,sans-serif}.page{width:min(1320px,calc(100% - 32px));margin:0 auto;padding:28px 0 42px}.hero{margin-bottom:18px}.hero h1{margin:0 0 7px;font-size:clamp(26px,4vw,34px);font-weight:700;letter-spacing:-.02em}.hero p{margin:0;color:var(--muted);font-size:15px}.tool-card{background:#fff;border:1px solid var(--border);border-radius:16px;box-shadow:0 10px 30px rgba(15,23,42,.06);overflow:hidden}.toolbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:12px 14px;border-bottom:1px solid var(--border);background:#fbfcfe}.toolbar-group{display:flex;align-items:center;gap:6px}.toolbar-label{color:var(--muted);font-size:14px}.select{height:36px;border:1px solid var(--border);border-radius:8px;background:#fff;color:var(--text);padding:0 30px 0 10px;font-size:14px;outline:none}.btn-tool{height:36px;padding:0 12px;border:1px solid #67c9a7;border-radius:8px;background:#fff;color:var(--green);font-size:14px;cursor:pointer;transition:.2s}.btn-tool:hover{background:#eefbf6}.btn-primary{background:var(--primary);border-color:var(--primary);color:#fff}.btn-primary:hover{background:var(--primary-hover);border-color:var(--primary-hover)}.toolbar-spacer{flex:1}.editor-wrap{padding:10px 14px 14px}.editor{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--border);border-radius:10px;overflow:hidden;min-height:560px}.editor-panel{position:relative;min-width:0}.editor-panel+.editor-panel{border-left:1px solid var(--border)}.panel-head{height:38px;display:flex;align-items:center;justify-content:space-between;padding:0 12px;background:#fafcff;border-bottom:1px solid var(--border);font-size:13px;font-weight:600;color:#475569}.counter{font-weight:400;color:#94a3b8;font-size:12px}textarea{display:block;width:100%;height:520px;border:0;outline:0;resize:none;padding:12px 14px;background:#fff;color:#0f172a;font:13px/1.7 Consolas,"Cascadia Code","Microsoft YaHei",monospace;tab-size:2}textarea:focus{background:#fcfdff}textarea::placeholder{color:#a8b3c2}.status{min-height:22px;padding:0 14px 8px;text-align:left;font-size:13px;color:var(--muted)}.status.success{color:#059669}.status.error{color:#dc2626}.tips{display:flex;gap:8px 20px;flex-wrap:wrap;padding:12px 14px;border-top:1px solid var(--border);background:#fafcff;color:#64748b;font-size:12px}.file-input{display:none}
 @media(max-width:900px){.page{width:min(100% - 20px,700px);padding-top:22px}.editor{grid-template-columns:1fr;min-height:0}.editor-panel+.editor-panel{border-left:0;border-top:1px solid var(--border)}textarea{height:300px}.toolbar-spacer{display:none}}
 </style>
 </head>
-<body><main class="page" id="toolCard"><header class="hero"><h1>JSON 格式化</h1><p>在线进行 JSON 格式化、校验、排序和压缩，数据仅在浏览器本地处理。</p></header><section class="tool-card"><div class="toolbar">
+<body><main class="page" id="toolCard">
+<nav class="breadcrumbs" aria-label="面包屑">
+  <a href="/">bin9导航</a>
+  <span aria-hidden="true">/</span>
+  <span aria-current="page">JSON 格式化</span>
+</nav>
+<header class="hero"><h1>JSON 格式化</h1><p>在线进行 JSON 格式化、校验、排序和压缩，数据仅在浏览器本地处理。</p></header>
+<noscript><p>此工具需要 JavaScript 才能格式化、校验、压缩和排序 JSON，请启用 JavaScript 后使用。</p></noscript>
+<section class="tool-card"><div class="toolbar">
 <div class="toolbar-group"><span class="toolbar-label">缩进</span><select class="select" id="indent"><option value="2">2 个空格缩进</option><option value="4">4 个空格缩进</option><option value="tab">Tab 缩进</option><option value="0">不缩进</option></select></div>
 <div class="toolbar-group"><span class="toolbar-label">选择</span><button class="btn-tool" id="sampleBtn" type="button">示例⌄</button><button class="btn-tool" id="fileBtn" type="button">本地文件</button><input class="file-input" id="fileInput" type="file" accept=".json,application/json,text/plain"></div><div class="toolbar-spacer"></div>
 <button class="btn-tool btn-primary" id="formatBtn" type="button">格式化</button><button class="btn-tool" id="validateBtn" type="button">校验</button><button class="btn-tool" id="compressBtn" type="button">压缩</button><button class="btn-tool" id="sortAscBtn" type="button">键升序</button><button class="btn-tool" id="sortDescBtn" type="button">键降序</button><button class="btn-tool" id="escapeBtn" type="button">添加转义</button><button class="btn-tool" id="unescapeBtn" type="button">移除转义</button><button class="btn-tool" id="copyBtn" type="button">复制</button><button class="btn-tool" id="downloadBtn" type="button">下载</button><button class="btn-tool" id="clearBtn" type="button">清空</button>
-</div><div class="editor-wrap"><div class="editor"><section class="editor-panel"><div class="panel-head"><span>输入 JSON</span><span class="counter" id="inputCount">0 字符</span></div><textarea id="inputText" spellcheck="false" placeholder="请输入 JSON 文本，或点击“示例”加载内容"></textarea></section><section class="editor-panel"><div class="panel-head"><span>格式化结果</span><span class="counter" id="outputCount">0 字符</span></div><textarea id="outputText" spellcheck="false" readonly placeholder="格式化结果将显示在这里"></textarea></section></div></div><div class="status" id="status" aria-live="polite"></div><div class="tips"><span>✓ 支持 JSON 格式化与压缩</span><span>✓ 支持 JSON 校验</span><span>✓ 支持键名升序与降序排序</span><span>✓ 所有处理均在浏览器本地完成</span></div></section></main>
+</div><div class="editor-wrap"><div class="editor"><section class="editor-panel"><div class="panel-head"><span>输入 JSON</span><span class="counter" id="inputCount">0 字符</span></div><textarea id="inputText" aria-label="输入 JSON" spellcheck="false" placeholder="请输入 JSON 文本，或点击“示例”加载内容"></textarea></section><section class="editor-panel"><div class="panel-head"><span>格式化结果</span><span class="counter" id="outputCount">0 字符</span></div><textarea id="outputText" aria-label="格式化结果" spellcheck="false" readonly placeholder="格式化结果将显示在这里"></textarea></section></div></div><div class="status" id="status" aria-live="polite"></div><div class="tips"><span>✓ 支持 JSON 格式化与压缩</span><span>✓ 支持 JSON 校验</span><span>✓ 支持键名升序与降序排序</span><span>✓ 所有处理均在浏览器本地完成</span></div></section></main>
+<div class="tool-resources">
+  <section class="tool-guide">
+    <h2>使用说明</h2>
+    <p>粘贴 JSON 或点击“本地文件”读取文件内容，选择缩进后进行格式化，也可校验语法、压缩内容、复制结果或下载 JSON 文件。文件内容在浏览器本地处理。</p>
+    <p>键升序和键降序会递归处理对象的键名，包括数组内对象的键名，但不会改变数组元素的顺序。</p>
+    <p>工具使用 JavaScript Number 解析数值，超过安全整数范围的大整数可能丢失精度。需要精确保留的长编号应在原始 JSON 中使用字符串表示。</p>
+  </section>
+  <nav class="related-tools" aria-label="相关在线工具">
+    <h2>相关在线工具</h2>
+    <ul>
+      <li><a href="/">bin9导航首页</a></li>
+      <li><a href="./base64.html">Base64 在线编码解码</a></li>
+      <li><a href="./url.html">URL 在线编码解码</a></li>
+      <li><a href="./guid.html">GUID / UUID v4 批量生成器</a></li>
+      <li><a href="./password.html">随机密码生成器</a></li>
+      <li><a href="./htmlPreview.html">HTML 在线预览工具</a></li>
+    </ul>
+  </nav>
+</div>
 <script>
 const inputText=document.getElementById('inputText'),outputText=document.getElementById('outputText'),status=document.getElementById('status'),indent=document.getElementById('indent'),toolCard=document.getElementById('toolCard'),inputCount=document.getElementById('inputCount'),outputCount=document.getElementById('outputCount');
 const sample={id:234567890,name:"Tony Stark",age:35,active:true,skills:["JavaScript","Python","SQL"],address:{city:"New York",street:"123 Main St",zip:"10001"},projects:[{name:"Iron Man",year:2008},{name:"Avengers",year:2012}]};

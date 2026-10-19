@@ -4,9 +4,117 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>免费在线工具与 AI 导航 - Base64、JSON、URL、密码生成器 | bin9</title>
+  <meta name="description" content="免费在线开发工具与 AI 导航，提供 Base64、JSON、URL 编码解码，UUID 生成、随机密码生成和 HTML 在线预览。工具在浏览器本地运行，无需上传数据。">
+  <meta name="robots" content="index,follow">
+  <link rel="canonical" href="https://bin9.top/">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:site_name" content="bin9导航">
+  <meta property="og:title" content="免费在线工具与 AI 导航 - Base64、JSON、URL、密码生成器 | bin9">
+  <meta property="og:description" content="免费在线开发工具与 AI 导航，提供 Base64、JSON、URL 编码解码，UUID 生成、随机密码生成和 HTML 在线预览。工具在浏览器本地运行，无需上传数据。">
+  <meta property="og:url" content="https://bin9.top/">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="免费在线工具与 AI 导航 - Base64、JSON、URL、密码生成器 | bin9">
+  <meta name="twitter:description" content="免费在线开发工具与 AI 导航，提供 Base64、JSON、URL 编码解码，UUID 生成、随机密码生成和 HTML 在线预览。工具在浏览器本地运行，无需上传数据。">
   <link href="bootstrap-5.3.0-alpha1-dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-  <title>bin9导航</title>
-  <script src="bootstrap-5.3.0-alpha1-dist/js/bootstrap.bundle.min.js" defer crossorigin="anonymous"></script>
+  <link href="seo.css" rel="stylesheet">
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "@id": "https://bin9.top/#website",
+          "name": "bin9导航",
+          "url": "https://bin9.top/",
+          "inLanguage": "zh-CN"
+        },
+        {
+          "@type": "CollectionPage",
+          "@id": "https://bin9.top/#webpage",
+          "name": "免费在线工具与 AI 导航 - Base64、JSON、URL、密码生成器 | bin9",
+          "description": "免费在线开发工具与 AI 导航，提供 Base64、JSON、URL 编码解码，UUID 生成、随机密码生成和 HTML 在线预览。工具在浏览器本地运行，无需上传数据。",
+          "url": "https://bin9.top/",
+          "isPartOf": {
+            "@id": "https://bin9.top/#website"
+          },
+          "mainEntity": {
+            "@type": "ItemList",
+            "numberOfItems": 11,
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "豆包",
+                "url": "https://www.doubao.com/chat"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "DeepSeek",
+                "url": "https://chat.deepseek.com/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "QwenChat",
+                "url": "https://chat.qwen.ai/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 4,
+                "name": "智谱Z.AI",
+                "url": "https://chat.z.ai/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 5,
+                "name": "LMArena",
+                "url": "https://lmarena.ai/?mode=side-by-side"
+              },
+              {
+                "@type": "ListItem",
+                "position": 6,
+                "name": "在线HTML预览工具",
+                "url": "https://bin9.top/htmlPreview.html"
+              },
+              {
+                "@type": "ListItem",
+                "position": 7,
+                "name": "Base64 编码/解码",
+                "url": "https://bin9.top/base64.html"
+              },
+              {
+                "@type": "ListItem",
+                "position": 8,
+                "name": "JSON 格式化",
+                "url": "https://bin9.top/json.html"
+              },
+              {
+                "@type": "ListItem",
+                "position": 9,
+                "name": "GUID / UUID 生成器",
+                "url": "https://bin9.top/guid.html"
+              },
+              {
+                "@type": "ListItem",
+                "position": 10,
+                "name": "密码生成器",
+                "url": "https://bin9.top/password.html"
+              },
+              {
+                "@type": "ListItem",
+                "position": 11,
+                "name": "URL 编码/解码",
+                "url": "https://bin9.top/url.html"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  </script>
   <style>
     html {
       height: 100%;
@@ -33,14 +141,16 @@
       gap: 1px;
     }
 
-    .header t {
+    .header h1 {
       font-size: 28px;
       text-align: center;
+      margin: 0 0 8px;
     }
 
-    .header d {
+    .header-note {
       font-size: 16px;
       text-align: center;
+      margin: 0;
     }
 
     .container {
@@ -70,6 +180,16 @@
     .card:hover {
       box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
       transform: translateY(-5px);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .card {
+        transition: none;
+      }
+
+      .card:hover {
+        transform: none;
+      }
     }
 
     .card-img-top {
@@ -165,165 +285,89 @@
 
 <body>
   <header class="header">
-    <d>使用前请阅读各网站用户服务协议 | 我是<a href="https://space.bilibili.com/23375741" target="_blank" style="color: white;">冻死企鹅</a>
-    </d>
-    <d>如需更多AI资源，推荐访问<a href="https://www.laogou717.com/" target="_blank" style="color: white;">神烦老狗网站</a></d>
+    <h1>bin9导航：AI 服务与在线开发工具</h1>
+    <p class="header-note">精选 AI 服务与实用在线开发工具。</p>
   </header>
 
-
-  <div class="container">
-    <!-- 卡片将在这里渲染 -->
-  </div>
-
-  <script>
-    // 渲染卡片的函数
-    function renderCards(sitesData) {
-      const container = document.querySelector('.container');
-      if (!container) {
-        console.error('未找到容器元素 .container');
-        return;
-      }
-
-      // 清空容器内容（除了可能存在的其他元素，这里我们只处理卡片）
-      // 为了安全起见，我们只移除具有特定类名的卡片
-      const existingCards = container.querySelectorAll('.card');
-      existingCards.forEach(card => card.remove());
-
-      // 遍历网站数据并生成卡片
-      sitesData.forEach(site => {
-        const card = document.createElement('div');
-        card.className = 'card';
-
-        const cardBody = document.createElement('div');
-        cardBody.className = 'card-body';
-
-        const cardTitle = document.createElement('h5');
-        cardTitle.className = 'card-title';
-
-        // 处理标签
-        if (site.tags.includes('recommend')) {
-          const recommendTag = document.createElement('span');
-          recommendTag.className = 'recommend-tag';
-          recommendTag.textContent = '👍';
-          cardTitle.appendChild(recommendTag);
-        }
-
-        if (site.tags.includes('official')) {
-          const officialTag = document.createElement('span');
-          officialTag.className = 'official-tag';
-          officialTag.textContent = '官网';
-          cardTitle.appendChild(officialTag);
-        }
-
-        // 添加网站标题
-        const titleText = document.createTextNode(site.title);
-        cardTitle.appendChild(titleText);
-
-        const cardText = document.createElement('p');
-        cardText.className = 'card-text';
-        cardText.textContent = site.description;
-
-        const cardLink = document.createElement('a');
-        cardLink.href = site.link;
-        cardLink.target = '_blank';
-        cardLink.className = 'btn';
-        cardLink.textContent = site.buttonText;
-
-        cardBody.appendChild(cardTitle);
-        cardBody.appendChild(cardText);
-        cardBody.appendChild(cardLink);
-
-        card.appendChild(cardBody);
-        container.appendChild(card);
-      });
-    }
-
-    // 内嵌的网站数据
-    const sitesData = [
-      {
-        "title": "豆包",
-        "tags": ["recommend", "official"],
-        "description": "字节跳动推出的 AI 助手，支持对话问答、信息检索、数据分析、写代码、处理 Excel、生成 PPT 和整理文档，并提供图片、视频等内容创作能力。",
-        "link": "https://www.doubao.com/chat",
-        "buttonText": "免登录聊天"
-      },
-      {
-        "title": "DeepSeek",
-        "tags": ["official"],
-        "description": "DeepSeek 官方 AI 助手，当前模型为 DeepSeek-V4.1 Flash，支持原生多模态视觉理解。",
-        "link": "https://chat.deepseek.com/",
-        "buttonText": "点击查看"
-      },
-      {
-        "title": "QwenChat",
-        "tags": ["official"],
-        "description": "Qwen Studio 官方 AI 助手，支持深度思考、联网搜索、文件分析与总结、多模态理解、图片和视频生成，以及可实时预览的 HTML/SVG Artifacts。",
-        "link": "https://chat.qwen.ai/",
-        "buttonText": "免登录聊天"
-      },
-      {
-        "title": "智谱Z.AI",
-        "tags": ["official"],
-        "description": "智谱 Z.AI 官方 AI 助手，当前旗舰模型为 GLM-5.3，主打复杂编程、长程 Agent 任务，并支持多档思考强度。",
-        "link": "https://chat.z.ai/",
-        "buttonText": "免登录聊天"
-      },
-      {
-        "title": "LMArena",
-        "tags": ["recommend"],
-        "description": "AI 模型竞技与评测平台，可进行模型对比和人工偏好投票，覆盖文本、代码、图像生成、视频等多个 Arena，持续更新模型与排行榜。",
-        "link": "https://lmarena.ai/?mode=side-by-side",
-        "buttonText": "免登录聊天"
-      },
-      {
-        "title": "在线HTML预览工具",
-        "tags": [],
-        "description": "无需登录即可在线编写、预览和调试 HTML，支持新窗口预览和当前页面全屏预览，适合快速验证网页代码效果。",
-        "link": "./htmlPreview.html",
-        "buttonText": "点击预览"
-      },
-      {
-        "title": "Base64 编码/解码",
-        "tags": [],
-        "description": "在线进行文本 Base64 编码与解码，支持 UTF-8、UTF-16LE、UTF-16BE 等字符编码，数据仅在浏览器本地处理。",
-        "link": "./base64.html",
-        "buttonText": "点击使用"
-      },
-      {
-        "title": "JSON 格式化",
-        "tags": [],
-        "description": "在线进行 JSON 格式化、校验、排序和压缩，支持本地文件处理，数据仅在浏览器本地处理。",
-        "link": "./json.html",
-        "buttonText": "点击使用"
-      },
-      {
-        "title": "GUID / UUID 生成器",
-        "tags": [],
-        "description": "批量生成 GUID / UUID（UUID v4），支持大小写、连字符、全部复制、随机复制和下载，数据仅在浏览器本地处理。",
-        "link": "./guid.html",
-        "buttonText": "点击使用"
-      },
-      {
-        "title": "密码生成器",
-        "tags": [],
-        "description": "生成随机安全密码，支持自定义数量、长度和字符集，支持复制、随机复制和下载，数据仅在浏览器本地处理。",
-        "link": "./password.html",
-        "buttonText": "点击使用"
-      },
-      {
-        "title": "URL 编码/解码",
-        "tags": [],
-        "description": "原生 URL 编码解码，支持 URL 与 URL 组件处理，数据仅在浏览器本地处理。",
-        "link": "./url.html",
-        "buttonText": "点击使用"
-      },
-    ];
-
-    // 页面加载完成后自动渲染
-    window.addEventListener('load', function () {
-      renderCards(sitesData);
-    });
-  </script>
+  <main class="container" aria-label="AI 服务与在线开发工具导航">
+    <article class="card">
+      <div class="card-body">
+        <h2 class="card-title"><span class="recommend-tag">👍</span><span class="official-tag">官网</span>豆包</h2>
+        <p class="card-text">字节跳动推出的 AI 助手，支持对话问答、信息检索、数据分析、写代码、处理 Excel、生成 PPT 和整理文档，并提供图片、视频等内容创作能力。</p>
+        <a href="https://www.doubao.com/chat" target="_blank" rel="noopener noreferrer" class="btn" aria-label="豆包：免登录聊天">免登录聊天</a>
+      </div>
+    </article>
+    <article class="card">
+      <div class="card-body">
+        <h2 class="card-title"><span class="official-tag">官网</span>DeepSeek</h2>
+        <p class="card-text">DeepSeek 官方 AI 助手，当前模型为 DeepSeek-V4.1 Flash，支持原生多模态视觉理解。</p>
+        <a href="https://chat.deepseek.com/" target="_blank" rel="noopener noreferrer" class="btn" aria-label="DeepSeek：点击查看">点击查看</a>
+      </div>
+    </article>
+    <article class="card">
+      <div class="card-body">
+        <h2 class="card-title"><span class="official-tag">官网</span>QwenChat</h2>
+        <p class="card-text">Qwen Studio 官方 AI 助手，支持深度思考、联网搜索、文件分析与总结、多模态理解、图片和视频生成，以及可实时预览的 HTML/SVG Artifacts。</p>
+        <a href="https://chat.qwen.ai/" target="_blank" rel="noopener noreferrer" class="btn" aria-label="QwenChat：免登录聊天">免登录聊天</a>
+      </div>
+    </article>
+    <article class="card">
+      <div class="card-body">
+        <h2 class="card-title"><span class="official-tag">官网</span>智谱Z.AI</h2>
+        <p class="card-text">智谱 Z.AI 官方 AI 助手，当前旗舰模型为 GLM-5.3，主打复杂编程、长程 Agent 任务，并支持多档思考强度。</p>
+        <a href="https://chat.z.ai/" target="_blank" rel="noopener noreferrer" class="btn" aria-label="智谱Z.AI：免登录聊天">免登录聊天</a>
+      </div>
+    </article>
+    <article class="card">
+      <div class="card-body">
+        <h2 class="card-title"><span class="recommend-tag">👍</span>LMArena</h2>
+        <p class="card-text">AI 模型竞技与评测平台，可进行模型对比和人工偏好投票，覆盖文本、代码、图像生成、视频等多个 Arena，持续更新模型与排行榜。</p>
+        <a href="https://lmarena.ai/?mode=side-by-side" target="_blank" rel="noopener noreferrer" class="btn" aria-label="LMArena：免登录聊天">免登录聊天</a>
+      </div>
+    </article>
+    <article class="card">
+      <div class="card-body">
+        <h2 class="card-title">在线HTML预览工具</h2>
+        <p class="card-text">无需登录即可在线编写、预览和调试 HTML，支持新窗口预览和当前页面全屏预览，适合快速验证网页代码效果。</p>
+        <a href="./htmlPreview.html" target="_blank" rel="noopener noreferrer" class="btn" aria-label="在线HTML预览工具：点击预览">点击预览</a>
+      </div>
+    </article>
+    <article class="card">
+      <div class="card-body">
+        <h2 class="card-title">Base64 编码/解码</h2>
+        <p class="card-text">在线进行文本 Base64 编码与解码，支持 UTF-8、UTF-16LE、UTF-16BE 等字符编码，数据仅在浏览器本地处理。</p>
+        <a href="./base64.html" target="_blank" rel="noopener noreferrer" class="btn" aria-label="Base64 编码/解码：点击使用">点击使用</a>
+      </div>
+    </article>
+    <article class="card">
+      <div class="card-body">
+        <h2 class="card-title">JSON 格式化</h2>
+        <p class="card-text">在线进行 JSON 格式化、校验、排序和压缩，支持本地文件处理，数据仅在浏览器本地处理。</p>
+        <a href="./json.html" target="_blank" rel="noopener noreferrer" class="btn" aria-label="JSON 格式化：点击使用">点击使用</a>
+      </div>
+    </article>
+    <article class="card">
+      <div class="card-body">
+        <h2 class="card-title">GUID / UUID 生成器</h2>
+        <p class="card-text">批量生成 GUID / UUID（UUID v4），支持大小写、连字符、全部复制、随机复制和下载，数据仅在浏览器本地处理。</p>
+        <a href="./guid.html" target="_blank" rel="noopener noreferrer" class="btn" aria-label="GUID / UUID 生成器：点击使用">点击使用</a>
+      </div>
+    </article>
+    <article class="card">
+      <div class="card-body">
+        <h2 class="card-title">密码生成器</h2>
+        <p class="card-text">生成随机安全密码，支持自定义数量、长度和字符集，支持复制、随机复制和下载，数据仅在浏览器本地处理。</p>
+        <a href="./password.html" target="_blank" rel="noopener noreferrer" class="btn" aria-label="密码生成器：点击使用">点击使用</a>
+      </div>
+    </article>
+    <article class="card">
+      <div class="card-body">
+        <h2 class="card-title">URL 编码/解码</h2>
+        <p class="card-text">原生 URL 编码解码，支持 URL 与 URL 组件处理，数据仅在浏览器本地处理。</p>
+        <a href="./url.html" target="_blank" rel="noopener noreferrer" class="btn" aria-label="URL 编码/解码：点击使用">点击使用</a>
+      </div>
+    </article>
+  </main>
 </body>
 
 </html>

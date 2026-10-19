@@ -3,7 +3,58 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>URL 编码 / 解码</title>
+  <title>URL 在线编码解码 - URL 与参数转换 | bin9导航</title>
+  <meta name="description" content="在线处理完整 URL、查询参数和 URL 组件，提供 encodeURI、decodeURI、encodeURIComponent 和 decodeURIComponent 四种原生转换，支持交换内容与复制结果。">
+  <meta name="robots" content="index,follow">
+  <link rel="canonical" href="https://bin9.top/url.html">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:site_name" content="bin9导航">
+  <meta property="og:title" content="URL 在线编码解码 - URL 与参数转换 | bin9导航">
+  <meta property="og:description" content="在线处理完整 URL、查询参数和 URL 组件，提供 encodeURI、decodeURI、encodeURIComponent 和 decodeURIComponent 四种原生转换，支持交换内容与复制结果。">
+  <meta property="og:url" content="https://bin9.top/url.html">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="URL 在线编码解码 - URL 与参数转换 | bin9导航">
+  <meta name="twitter:description" content="在线处理完整 URL、查询参数和 URL 组件，提供 encodeURI、decodeURI、encodeURIComponent 和 decodeURIComponent 四种原生转换，支持交换内容与复制结果。">
+  <link rel="stylesheet" href="seo.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": "https://bin9.top/url.html#webpage",
+        "url": "https://bin9.top/url.html",
+        "name": "URL 在线编码解码 - URL 与参数转换 | bin9导航",
+        "description": "在线处理完整 URL、查询参数和 URL 组件，提供 encodeURI、decodeURI、encodeURIComponent 和 decodeURIComponent 四种原生转换，支持交换内容与复制结果。",
+        "inLanguage": "zh-CN",
+        "isPartOf": { "@id": "https://bin9.top/#website" },
+        "breadcrumb": { "@id": "https://bin9.top/url.html#breadcrumb" },
+        "mainEntity": { "@id": "https://bin9.top/url.html#application" }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://bin9.top/url.html#breadcrumb",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "bin9导航", "item": "https://bin9.top/" },
+          { "@type": "ListItem", "position": 2, "name": "URL 编码 / 解码", "item": "https://bin9.top/url.html" }
+        ]
+      },
+      {
+        "@type": "WebApplication",
+        "@id": "https://bin9.top/url.html#application",
+        "name": "URL 编码 / 解码",
+        "description": "在线处理完整 URL、查询参数和 URL 组件，提供 encodeURI、decodeURI、encodeURIComponent 和 decodeURIComponent 四种原生转换，支持交换内容与复制结果。",
+        "url": "https://bin9.top/url.html",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Any",
+        "browserRequirements": "Requires JavaScript",
+        "inLanguage": "zh-CN",
+        "isAccessibleForFree": true
+      }
+    ]
+  }
+  </script>
   <link href="bootstrap-5.3.0-alpha1-dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
   <style>
     :root{--primary:#2563eb;--primary-light:#eff6ff;--border:#dbe3ee;--muted:#64748b;--text:#1e293b;--bg:#f5f7fb}
@@ -20,10 +71,16 @@
 </head>
 <body>
   <main class="page">
+    <nav class="breadcrumbs" aria-label="面包屑">
+      <a href="/">bin9导航</a>
+      <span aria-hidden="true">/</span>
+      <span aria-current="page">URL 编码 / 解码</span>
+    </nav>
     <header class="hero">
       <h1>URL 编码 / 解码</h1>
       <p>在浏览器本地完成 URL 编码与解码，支持完整 URL、查询参数和 URL 组件的快速处理。</p>
     </header>
+    <noscript><p>此工具需要 JavaScript 才能进行 URL 编码与解码，请启用 JavaScript 后使用。</p></noscript>
     <section class="tool-card">
       <div class="toolbar">
         <span class="toolbar-label">JavaScript URL 方法</span>
@@ -32,12 +89,12 @@
       <div class="workspace">
         <section class="panel">
           <div class="panel-head"><span class="panel-title">输入内容</span><span class="counter" id="inputCount">0 字符</span></div>
-          <textarea id="inputText" spellcheck="false" placeholder="请输入需要编码或解码的 URL、参数或文本"></textarea>
+          <textarea id="inputText" aria-label="输入内容" spellcheck="false" placeholder="请输入需要编码或解码的 URL、参数或文本"></textarea>
         </section>
         <div class="middle-actions"><button class="icon-btn" id="swapBtn" type="button" title="交换输入和结果" aria-label="交换输入和结果">⇄</button></div>
         <section class="panel">
           <div class="panel-head"><span class="panel-title">处理结果</span><span class="counter" id="outputCount">0 字符</span></div>
-          <textarea id="outputText" spellcheck="false" readonly placeholder="处理结果将显示在这里"></textarea>
+          <textarea id="outputText" aria-label="处理结果" spellcheck="false" readonly placeholder="处理结果将显示在这里"></textarea>
         </section>
       </div>
       <div class="action-bar">
@@ -52,6 +109,24 @@
       <div class="tips"><span>✓ 所有处理均在浏览器本地完成</span><span>✓ 支持中文及多语言文本</span><span>✓ 不会上传输入内容</span></div>
     </section>
   </main>
+  <div class="tool-resources">
+    <section class="tool-guide">
+      <h2>使用说明</h2>
+      <p>处理完整 URL 时可选择 encodeURI，它保留冒号、斜杠、问号等 URL 结构字符；处理单个查询参数值或 URL 组件时选择 encodeURIComponent，它会编码这些分隔符，避免参数内容改变 URL 结构。</p>
+      <p>解码按钮分别对应 decodeURI 和 decodeURIComponent。工具不会自动把加号（+）解码为空格，处理表单编码内容时请留意这一差异。</p>
+    </section>
+    <nav class="related-tools" aria-label="相关在线工具">
+      <h2>相关在线工具</h2>
+      <ul>
+        <li><a href="/">bin9导航首页</a></li>
+        <li><a href="./base64.html">Base64 在线编码解码</a></li>
+        <li><a href="./json.html">JSON 格式化、校验与压缩</a></li>
+        <li><a href="./guid.html">GUID / UUID v4 批量生成器</a></li>
+        <li><a href="./password.html">随机密码生成器</a></li>
+        <li><a href="./htmlPreview.html">HTML 在线预览工具</a></li>
+      </ul>
+    </nav>
+  </div>
   <script>
     const inputText=document.getElementById('inputText');
     const outputText=document.getElementById('outputText');

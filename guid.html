@@ -3,7 +3,58 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GUID / UUID 生成器</title>
+  <title>GUID / UUID 在线生成器 - 批量生成 UUID v4 | bin9导航</title>
+  <meta name="description" content="在浏览器本地批量生成 1～1000 个 UUID v4 标识符，支持切换十六进制大小写和连字符格式，可复制全部、随机复制一个或下载 TXT 文件。">
+  <meta name="robots" content="index,follow">
+  <link rel="canonical" href="https://bin9.top/guid.html">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:site_name" content="bin9导航">
+  <meta property="og:title" content="GUID / UUID 在线生成器 - 批量生成 UUID v4 | bin9导航">
+  <meta property="og:description" content="在浏览器本地批量生成 1～1000 个 UUID v4 标识符，支持切换十六进制大小写和连字符格式，可复制全部、随机复制一个或下载 TXT 文件。">
+  <meta property="og:url" content="https://bin9.top/guid.html">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="GUID / UUID 在线生成器 - 批量生成 UUID v4 | bin9导航">
+  <meta name="twitter:description" content="在浏览器本地批量生成 1～1000 个 UUID v4 标识符，支持切换十六进制大小写和连字符格式，可复制全部、随机复制一个或下载 TXT 文件。">
+  <link rel="stylesheet" href="seo.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": "https://bin9.top/guid.html#webpage",
+        "url": "https://bin9.top/guid.html",
+        "name": "GUID / UUID 在线生成器 - 批量生成 UUID v4 | bin9导航",
+        "description": "在浏览器本地批量生成 1～1000 个 UUID v4 标识符，支持切换十六进制大小写和连字符格式，可复制全部、随机复制一个或下载 TXT 文件。",
+        "inLanguage": "zh-CN",
+        "isPartOf": { "@id": "https://bin9.top/#website" },
+        "breadcrumb": { "@id": "https://bin9.top/guid.html#breadcrumb" },
+        "mainEntity": { "@id": "https://bin9.top/guid.html#application" }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://bin9.top/guid.html#breadcrumb",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "bin9导航", "item": "https://bin9.top/" },
+          { "@type": "ListItem", "position": 2, "name": "GUID / UUID 生成器", "item": "https://bin9.top/guid.html" }
+        ]
+      },
+      {
+        "@type": "WebApplication",
+        "@id": "https://bin9.top/guid.html#application",
+        "name": "GUID / UUID 生成器",
+        "description": "在浏览器本地批量生成 1～1000 个 UUID v4 标识符，支持切换十六进制大小写和连字符格式，可复制全部、随机复制一个或下载 TXT 文件。",
+        "url": "https://bin9.top/guid.html",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Any",
+        "browserRequirements": "Requires JavaScript",
+        "inLanguage": "zh-CN",
+        "isAccessibleForFree": true
+      }
+    ]
+  }
+  </script>
   <style>
     :root{--primary:#3685F2;--primary-hover:#2f73d9;--border:#dee2e6;--text:#212529;--muted:#6c757d;--success:#20a779;--danger:#dc3545;--bg:#f7f9fc}
     *{box-sizing:border-box}
@@ -44,11 +95,17 @@
 </head>
 <body>
   <main class="page">
+    <nav class="breadcrumbs" aria-label="面包屑">
+      <a href="/">bin9导航</a>
+      <span aria-hidden="true">/</span>
+      <span aria-current="page">GUID / UUID 生成器</span>
+    </nav>
     <header class="hero">
       <h1>GUID / UUID 生成器</h1>
       <p>批量生成 GUID 或 UUID（UUID v4），数据仅在浏览器本地处理。</p>
     </header>
 
+    <noscript><p>此工具需要 JavaScript 才能生成 GUID / UUID，请启用 JavaScript 后使用。</p></noscript>
     <section class="tool-card">
       <div class="options">
         <label class="check"><input type="checkbox" id="uppercase"> 十六进制大写</label>
@@ -69,7 +126,7 @@
       </div>
 
       <div class="output-wrap">
-        <textarea id="output" spellcheck="false" placeholder="点击“生成 GUID / UUID”开始"></textarea>
+        <textarea id="output" aria-label="GUID / UUID 生成结果" spellcheck="false" placeholder="点击“生成 GUID / UUID”开始"></textarea>
         <div class="meta"><span id="status">等待生成</span><span id="charCount">0 个字符</span></div>
       </div>
 
@@ -85,6 +142,19 @@
       </div>
     </section>
   </main>
+  <div class="tool-resources">
+    <nav class="related-tools" aria-label="相关在线工具">
+      <h2>相关在线工具</h2>
+      <ul>
+        <li><a href="/">bin9导航首页</a></li>
+        <li><a href="./base64.html">Base64 在线编码解码</a></li>
+        <li><a href="./url.html">URL 在线编码解码</a></li>
+        <li><a href="./json.html">JSON 格式化、校验与压缩</a></li>
+        <li><a href="./password.html">随机密码生成器</a></li>
+        <li><a href="./htmlPreview.html">HTML 在线预览工具</a></li>
+      </ul>
+    </nav>
+  </div>
 
   <script>
     const countInput = document.getElementById('count');

@@ -3,7 +3,58 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Base64 编码/解码</title>
+  <title>Base64 在线编码解码 - UTF-8/UTF-16 | bin9导航</title>
+  <meta name="description" content="在浏览器中进行文本 Base64 编码与解码，支持 UTF-8、UTF-16LE 和 UTF-16BE 字符编码，可交换输入与结果、复制结果，并选择解码时忽略非 Base64 字符。">
+  <meta name="robots" content="index,follow">
+  <link rel="canonical" href="https://bin9.top/base64.html">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:site_name" content="bin9导航">
+  <meta property="og:title" content="Base64 在线编码解码 - UTF-8/UTF-16 | bin9导航">
+  <meta property="og:description" content="在浏览器中进行文本 Base64 编码与解码，支持 UTF-8、UTF-16LE 和 UTF-16BE 字符编码，可交换输入与结果、复制结果，并选择解码时忽略非 Base64 字符。">
+  <meta property="og:url" content="https://bin9.top/base64.html">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Base64 在线编码解码 - UTF-8/UTF-16 | bin9导航">
+  <meta name="twitter:description" content="在浏览器中进行文本 Base64 编码与解码，支持 UTF-8、UTF-16LE 和 UTF-16BE 字符编码，可交换输入与结果、复制结果，并选择解码时忽略非 Base64 字符。">
+  <link rel="stylesheet" href="seo.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": "https://bin9.top/base64.html#webpage",
+        "url": "https://bin9.top/base64.html",
+        "name": "Base64 在线编码解码 - UTF-8/UTF-16 | bin9导航",
+        "description": "在浏览器中进行文本 Base64 编码与解码，支持 UTF-8、UTF-16LE 和 UTF-16BE 字符编码，可交换输入与结果、复制结果，并选择解码时忽略非 Base64 字符。",
+        "inLanguage": "zh-CN",
+        "isPartOf": { "@id": "https://bin9.top/#website" },
+        "breadcrumb": { "@id": "https://bin9.top/base64.html#breadcrumb" },
+        "mainEntity": { "@id": "https://bin9.top/base64.html#application" }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://bin9.top/base64.html#breadcrumb",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "bin9导航", "item": "https://bin9.top/" },
+          { "@type": "ListItem", "position": 2, "name": "Base64 编码 / 解码", "item": "https://bin9.top/base64.html" }
+        ]
+      },
+      {
+        "@type": "WebApplication",
+        "@id": "https://bin9.top/base64.html#application",
+        "name": "Base64 编码 / 解码",
+        "description": "在浏览器中进行文本 Base64 编码与解码，支持 UTF-8、UTF-16LE 和 UTF-16BE 字符编码，可交换输入与结果、复制结果，并选择解码时忽略非 Base64 字符。",
+        "url": "https://bin9.top/base64.html",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Any",
+        "browserRequirements": "Requires JavaScript",
+        "inLanguage": "zh-CN",
+        "isAccessibleForFree": true
+      }
+    ]
+  }
+  </script>
   <link href="bootstrap-5.3.0-alpha1-dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
   <style>
     :root {
@@ -235,11 +286,17 @@
 </head>
 <body>
   <main class="page">
+    <nav class="breadcrumbs" aria-label="面包屑">
+      <a href="/">bin9导航</a>
+      <span aria-hidden="true">/</span>
+      <span aria-current="page">Base64 编码 / 解码</span>
+    </nav>
     <header class="hero">
       <h1>Base64 编码 / 解码</h1>
       <p>在浏览器本地完成文本 Base64 编码与解码，支持 UTF-8、UTF-16LE、UTF-16BE 等字符编码。</p>
     </header>
 
+    <noscript><p>此工具需要 JavaScript 才能进行 Base64 编码与解码，请启用 JavaScript 后使用。</p></noscript>
     <section class="tool-card">
       <div class="toolbar">
         <span class="toolbar-label">字符编码</span>
@@ -260,7 +317,7 @@
             <span class="panel-title">输入内容</span>
             <span class="counter" id="inputCount">0 字符</span>
           </div>
-          <textarea id="inputText" spellcheck="false" placeholder="请输入需要编码或解码的文本"></textarea>
+          <textarea id="inputText" aria-label="输入内容" spellcheck="false" placeholder="请输入需要编码或解码的文本"></textarea>
         </section>
 
         <div class="middle-actions" aria-label="内容交换">
@@ -272,7 +329,7 @@
             <span class="panel-title">处理结果</span>
             <span class="counter" id="outputCount">0 字符</span>
           </div>
-          <textarea id="outputText" spellcheck="false" readonly placeholder="处理结果将显示在这里"></textarea>
+          <textarea id="outputText" aria-label="处理结果" spellcheck="false" readonly placeholder="处理结果将显示在这里"></textarea>
         </section>
       </div>
 
@@ -291,6 +348,24 @@
       </div>
     </section>
   </main>
+  <div class="tool-resources">
+    <section class="tool-guide">
+      <h2>使用说明</h2>
+      <p>粘贴文本后选择字符编码，再点击编码或解码。解码时应选择与原始文本一致的 UTF-8、UTF-16LE 或 UTF-16BE，否则可能出现乱码或解码错误。</p>
+      <p>Base64 是字节数据的编码表示，不是加密，不能用来保护密码或其他敏感信息。可使用交换按钮继续处理结果，或复制结果用于其他场景。</p>
+    </section>
+    <nav class="related-tools" aria-label="相关在线工具">
+      <h2>相关在线工具</h2>
+      <ul>
+        <li><a href="/">bin9导航首页</a></li>
+        <li><a href="./url.html">URL 在线编码解码</a></li>
+        <li><a href="./json.html">JSON 格式化、校验与压缩</a></li>
+        <li><a href="./guid.html">GUID / UUID v4 批量生成器</a></li>
+        <li><a href="./password.html">随机密码生成器</a></li>
+        <li><a href="./htmlPreview.html">HTML 在线预览工具</a></li>
+      </ul>
+    </nav>
+  </div>
 
   <script>
     const inputText = document.getElementById('inputText');

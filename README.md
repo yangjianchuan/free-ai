@@ -7,8 +7,9 @@
 ### 主页面 (index.html)
 - 响应式布局
 - 使用 Bootstrap 5.3.0-alpha1 构建
-- 动态渲染网站卡片（内嵌 JavaScript）
-- 自定义样式（内嵌 CSS）
+- 静态 HTML 网站卡片（`article.card` 与 `h2.card-title`），无需 JavaScript 即可查看
+- 自定义样式（内嵌 CSS）与共享 `seo.css`
+- 首页 SEO 元信息及静态 JSON-LD（`WebSite`、`CollectionPage`、`ItemList`）
 
 ### AI 服务导航
 - 分类展示（推荐标签、官网标签）
@@ -109,17 +110,19 @@ free-ai/
 ### 自定义开发
 
 #### 添加新的 AI 服务
-在 `index.html` 的 `sitesData` 数组中添加新的服务对象：
+在 `index.html` 的 `<main class="container">` 内添加静态卡片，按需保留推荐（`recommend-tag`）或官网（`official-tag`）标签：
 
-```javascript
-{
-  "title": "服务商名称",
-  "tags": ["recommend", "official"],
-  "description": "服务描述",
-  "link": "https://example.com",
-  "buttonText": "点击访问"
-}
+```html
+<article class="card">
+  <div class="card-body">
+    <h2 class="card-title"><span class="official-tag">官网</span>服务商名称</h2>
+    <p class="card-text">服务描述</p>
+    <a href="https://example.com" target="_blank" rel="noopener noreferrer" class="btn" aria-label="服务商名称：点击访问">点击访问</a>
+  </div>
+</article>
 ```
+
+同时更新首页静态 JSON-LD 中 `CollectionPage.mainEntity` 的 `ItemList`：保持条目名称、链接和顺序与可见卡片一致，更新 `numberOfItems` 及各条目的 `position`，站内链接使用 `https://bin9.top/` 下的绝对 URL。不再维护单独的 JavaScript 卡片数据源。新增本地工具页时，还需同步 `sitemap.xml`。
 
 #### 修改样式
 - 内嵌 CSS 样式位于 `index.html` 的 `<style>` 标签中
